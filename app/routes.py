@@ -5,6 +5,10 @@ from flask import render_template
 def index():
     return "Hello World!"
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    return render_template('login.html')
+
 # wait till pages to be ready to add more routes
 # @app.route('/signup', methods=['GET', 'POST'])
 # def signup():
