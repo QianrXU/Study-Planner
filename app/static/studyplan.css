@@ -1,0 +1,52 @@
+.step1 {
+  background-color: #F2F2F2;
+  width: 805px;
+}
+
+.progress {
+  border-radius: 0rem !important;
+  background-color: #003087 !important;
+}
+
+.progress-bar {
+  background-color: #CDDBF4 !important;
+}
+
+.step1content {
+  padding: 60px !important;
+}
+
+#selectcourse,
+#selectmajor,
+#selectbeginning {
+  width: 100% !important;
+  background-color: #E7E7E7;
+  border: 1px solid #C9C9C9;
+  color: #000000;
+  border-radius: 0;
+}
+
+/* Dropdown arrow float right */
+.dropdown-toggle::after {
+  margin-top: 10px;
+  float: right;
+}
+
+/* Affects all divs that are children of the div with class dropdowngroup */
+.dropdowngroup > div {
+  margin-bottom: 5px;
+}
+
+/* Dropdowns text */
+.selectcourse a {
+  font-family: TTNorms;
+  font-size: 14px;
+}
+
+#selectcourse,
+#selectmajor,
+#selectbeginning {
+  text-align: left;
+  font-family: TTNorms;
+  font-size: 14px;
+}
