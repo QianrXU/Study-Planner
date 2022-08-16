@@ -12,3 +12,11 @@ def index():
 
 if __name__ == '__main__':
    app.run(debug = True)
+# Login Page
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+ 
+        
+
+    return render_template('login.html', title="Log In")
+
