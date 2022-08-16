@@ -58,6 +58,27 @@
   font-size: 14px;
 }
 
+.unit-heading {
+  font-family: TTNorms;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.unit-heading:first-child {
+  margin-top: 20px;
+}
+
+.unit-draggables {
+  cursor: grab;
+}
+
+/* Colors need to be determined by availability. Will need to set one of these up for each unit header. */
+#conversionunits li::before {
+  content: '🟡';
+  margin-left: -32px;
+  padding-right: 10px;
+}
 
 /* //////////////////////// */
 
@@ -76,7 +97,10 @@
 
 /* This needs to be updated to reflect the different colors of different unit availability */
 #units-content ul {
-  list-style: circle;
+  list-style: none;
+  font-family: TTNorms;
+  font-size: 14px;
+  margin-bottom: 5px;
 }
 
 #units-bottom {
@@ -150,6 +174,7 @@
   border: 1px solid #C9C9C9;
   text-align: center;
   padding: 20px;
+  list-style: none;
 }
 
 .semester-paragraph {

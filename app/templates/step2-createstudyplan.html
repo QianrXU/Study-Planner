@@ -9,24 +9,24 @@
         <div id="units-content">
           <h2 id="select-units-title">Select units</h2>
 
-            <div id="conversionunits"> <!-- If there exists conversion units for this course, they will appear here otherwise this will be hidden. Need to pull this. -->
-              <p id="conversion">Conversion units (select xx units)</p>
+            <div class="unit-draggables" id="conversionunits" ondrop="drop(event)" ondragover="allowDrop(event)"> <!-- If there exists conversion units for this course, they will appear here otherwise this will be hidden. Need to pull this. -->
+              <p class="unit-heading" id="conversion">Conversion units (select xx units)</p>
               <ul>
-                <li>CITS1001 Software Engineering with Java</li>
+                <li draggable="true" ondragstart="drag(event)" id="drag1">CITS1001 Software Engineering with Java</li>
                 <li>CITS1003 Introduction to Cybersecurity</li>
               </ul>
             </div>
 
-            <div id="coreunits"> <!-- If there exists core units for this course, they will appear here otherwise this will be hidden. Need to pull this. -->
-              <p id="core">Core units (select xx units)</p>
+            <div class="unit-draggables" id="coreunits"> <!-- If there exists core units for this course, they will appear here otherwise this will be hidden. Need to pull this. -->
+              <p class="unit-heading" id="core">Core units (select xx units)</p>
               <ul>
                 <li>CITS4401 Software Requirements and Design</li>
                 <li>CITS4407 Open Source Tools and Scripting</li>
               </ul>
             </div>
 
-            <div id="optionalunits"> <!-- If there exists optional units for this course, they will appear here otherwise this will be hidden. Need to pull this. -->
-              <p id="optional">Optional units (select xx units)</p>
+            <div class="unit-draggables" id="optionalunits"> <!-- If there exists optional units for this course, they will appear here otherwise this will be hidden. Need to pull this. -->
+              <p class="unit-heading" id="optional">Optional units (select xx units)</p>
               <ul>
                 <li>AUTO4508 Mobile Robots</li>
                 <li>CITS4009 Computational Data Analysis</li>
@@ -58,68 +58,40 @@
           <div class="container" id="gridcontainer">
 
             <div class="row" id="row1"> <!--  Add/delete row button to add/delete. -->
-              <p class="semester-paragraph" id="semester1">Semester 1</p>
+              <p class="semester-paragraph" id="year1semester1">Semester 1, 2023</p> <!--  Semester/year determined by what user selects in dropdown in previous window -->
               <div class="unit-on-grid col-sm">
-                +
+                <p class="unit-on-grid-content" id="year1sem1_1" ondrop="drop(event)" ondragover="allowDrop(event)">+</p>
               </div>
               <div class="unit-on-grid col-sm">
-                +
+                <p class="unit-on-grid-content" id="year1sem1_2" ondrop="drop(event)" ondragover="allowDrop(event)">+</p>
               </div>
               <div class="unit-on-grid col-sm">
-                +
+                <p class="unit-on-grid-content" id="year1sem1_3" ondrop="drop(event)" ondragover="allowDrop(event)">+</p>
               </div>
               <div class="unit-on-grid col-sm">
-                +
+                <p class="unit-on-grid-content" id="year1sem1_4" ondrop="drop(event)" ondragover="allowDrop(event)">+</p>
               </div>
             </div>
 
             <div class="row" id="row2"> <!--  Add/delete row button to add/delete. -->
-              <p class="semester-paragraph" id="semester2">Semester 2</p>
+              <p class="semester-paragraph" id="year1semester2">Semester 2, 2023</p> <!--  Semester/year determined by adding to what the above is -->
               <div class="unit-on-grid col-sm">
-                +
+                <p class="unit-on-grid-content" id="year1sem2_1" ondrop="drop(event)" ondragover="allowDrop(event)">+</p>
               </div>
               <div class="unit-on-grid col-sm">
-                +
+                <p class="unit-on-grid-content" id="year1sem2_2" ondrop="drop(event)" ondragover="allowDrop(event)">+</p>
               </div>
               <div class="unit-on-grid col-sm">
-                +
+                <p class="unit-on-grid-content" id="year1sem2_3" ondrop="drop(event)" ondragover="allowDrop(event)">+</p>
               </div>
               <div class="unit-on-grid col-sm">
-                +
-              </div>
-            </div>
-            
-            <div class="row" id="row3"> <!--  Add/delete row button to add/delete. -->
-              <p class="semester-paragraph" id="semester3">Semester 3</p>
-              <div class="unit-on-grid col-sm">
-                +
-              </div>
-              <div class="unit-on-grid col-sm">
-                +
-              </div>
-              <div class="unit-on-grid col-sm">
-                +
-              </div>
-              <div class="unit-on-grid col-sm">
-                +
+                <p class="unit-on-grid-content" id="year1sem2_4" ondrop="drop(event)" ondragover="allowDrop(event)">+</p>
               </div>
             </div>
-            
-            <div class="row" id="row4"> <!--  Add/delete row button to add/delete. -->
-              <p class="semester-paragraph" id="semester4">Semester 4</p>
-              <div class="unit-on-grid col-sm">
-                +
-              </div>
-              <div class="unit-on-grid col-sm">
-                +
-              </div>
-              <div class="unit-on-grid col-sm">
-                +
-              </div>
-              <div class="unit-on-grid col-sm">
-                +
-              </div>
-            </div>
+
+
+
+
 
           </div>
 
@@ -130,5 +102,21 @@
 
   </div>
 </div>
+
+<script>
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+  
+  function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+  }
+  
+  function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+  }
+  </script>
 
 {% endblock %}
