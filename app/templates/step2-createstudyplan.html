@@ -1,8 +1,134 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div>
-    <h1>Testing testing.</h1>
+<div class="container" style="margin-top: 40px; margin-bottom: 40px;">
+  <div class="gridsystem row">
+    
+    <div class="units col-12 col-md-auto" id="units">
+      <div class="progress" id="units-progress"><div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div>
+        <div id="units-content">
+          <h2 id="select-units-title">Select units</h2>
+
+            <div id="conversionunits"> <!-- If there exists conversion units for this course, they will appear here otherwise this will be hidden. Need to pull this. -->
+              <p id="conversion">Conversion units (select xx units)</p>
+              <ul>
+                <li>CITS1001 Software Engineering with Java</li>
+                <li>CITS1003 Introduction to Cybersecurity</li>
+              </ul>
+            </div>
+
+            <div id="coreunits"> <!-- If there exists core units for this course, they will appear here otherwise this will be hidden. Need to pull this. -->
+              <p id="core">Core units (select xx units)</p>
+              <ul>
+                <li>CITS4401 Software Requirements and Design</li>
+                <li>CITS4407 Open Source Tools and Scripting</li>
+              </ul>
+            </div>
+
+            <div id="optionalunits"> <!-- If there exists optional units for this course, they will appear here otherwise this will be hidden. Need to pull this. -->
+              <p id="optional">Optional units (select xx units)</p>
+              <ul>
+                <li>AUTO4508 Mobile Robots</li>
+                <li>CITS4009 Computational Data Analysis</li>
+                <li>AUTO4508 Mobile Robots</li>
+                <li>CITS4009 Computational Data Analysis</li>
+                <li>AUTO4508 Mobile Robots</li>
+                <li>CITS4009 Computational Data Analysis</li>
+                <li>AUTO4508 Mobile Robots</li>
+                <li>CITS4009 Computational Data Analysis</li>
+              </ul>
+            </div>
+
+        </div>
+        <div id="units-bottom">Availability keys</div>
+    </div>
+
+    <div class="col-12 col-md" id="grid">
+      <div class="progress" id="units-progress-grid"><div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div>
+        <div id="grid-content">
+          <div id="course-information">
+            <p id="course-title">Master of Information Technology (Coursework)</p> <!--  Need to pull this. -->
+            <p id="administration">Administered by: Physics, Mathematics and Computing</p>  <!--  Need to pull this. -->
+            <p id="course-code">Course code: 62510</p>  <!--  Need to pull this. -->
+          </div>
+
+          <hr style="border-top: 1px solid #C9C9C9;">
+
+          <!--  Grid system. -->
+          <div class="container" id="gridcontainer">
+
+            <div class="row" id="row1"> <!--  Add/delete row button to add/delete. -->
+              <p class="semester-paragraph" id="semester1">Semester 1</p>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+            </div>
+
+            <div class="row" id="row2"> <!--  Add/delete row button to add/delete. -->
+              <p class="semester-paragraph" id="semester2">Semester 2</p>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+            </div>
+            
+            <div class="row" id="row3"> <!--  Add/delete row button to add/delete. -->
+              <p class="semester-paragraph" id="semester3">Semester 3</p>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+            </div>
+            
+            <div class="row" id="row4"> <!--  Add/delete row button to add/delete. -->
+              <p class="semester-paragraph" id="semester4">Semester 4</p>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+              <div class="unit-on-grid col-sm">
+                +
+              </div>
+            </div>
+
+          </div>
+
+      </div>
+      
+      <button type="button" class="btn btn-warning" style="margin-left: 30px;"><a href="">Download</a></button>
+    </div>
+
+  </div>
 </div>
 
 {% endblock %}

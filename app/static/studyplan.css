@@ -1,7 +1,4 @@
-.step1 {
-  background-color: #F2F2F2;
-  width: 805px;
-}
+/* Step 1 & 2 CSS */
 
 .progress {
   border-radius: 0rem !important;
@@ -12,6 +9,14 @@
   background-color: #CDDBF4 !important;
 }
 
+.vertical {
+  background-color: #F2F2F2;
+  width: 805px;
+}
+
+/* //////////////////////// */
+
+/* Step 1 CSS */
 .step1content {
   padding: 60px !important;
 }
@@ -38,7 +43,9 @@
 }
 
 /* Dropdowns text */
-.selectcourse a {
+#selectcourse a,
+#selectmajor a,
+#selectbeginning a {
   font-family: TTNorms;
   font-size: 14px;
 }
@@ -49,4 +56,110 @@
   text-align: left;
   font-family: TTNorms;
   font-size: 14px;
+}
+
+
+/* //////////////////////// */
+
+/* Step 2 CSS */
+#units,
+#grid {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#units-content {
+  background: #F2F2F2;
+  width: 300px;
+  padding: 30px;
+}
+
+/* This needs to be updated to reflect the different colors of different unit availability */
+#units-content ul {
+  list-style: circle;
+}
+
+#units-bottom {
+  width: 300px;
+}
+
+@media only screen and (max-width: 800px) {
+  #units {
+    padding-bottom: 20px;
+    margin-left: -20px !important;
+  }}
+
+@media only screen and (max-width: 800px) {
+  #gridsystem, #units, #units-progress, #units-content, #units-bottom, #grid {
+    width: 100% !important;
+    margin: 0px !important;
+  }}
+
+@media only screen and (max-width: 800px) {
+  .units {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    padding-bottom: 20px;
+  }}
+
+#units-progress {
+  width: 300px;
+}
+
+#units-progress-grid {
+  margin-left: -20px !important;
+  margin-right: -20px !important;
+}
+
+#units-bottom {
+  padding: 30px;
+  background-color: #E7E7E7;
+}
+
+#grid {
+  background: #F2F2F2;
+}
+
+#grid-content {
+  padding: 30px;
+}
+
+#course-title {
+  margin-top: 10px;
+  font-family: TTNorms;
+  letter-spacing: 0.05em;
+  font-size: 16px;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+#course-information > p {
+  margin-bottom: 0px !important;
+  line-height: 1.8em;
+}
+
+/* Grid container */
+#gridcontainer {
+  padding: 0px;
+}
+
+.unit-on-grid {
+  background-color: #E7E7E7;
+  margin: 10px;
+  border: 1px solid #C9C9C9;
+  text-align: center;
+  padding: 20px;
+}
+
+.semester-paragraph {
+  font-family: TTNorms;
+  letter-spacing: 0.05em;
+  font-size: 20px;
+  margin-bottom: 0.5rem;
+  padding-top: 25px;
+}
+
+.semester-paragraph:first-child {
+  padding-top: 15px;
 }
