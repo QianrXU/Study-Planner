@@ -1,9 +1,10 @@
+""" 
+
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length
 
-""" 
 THE BELOW NEEDS TO BE REVISED BUT I THINK THIS IS A 
 GOOD STARTING PLACE FOR DEVELLOPING THE LOGIN AND 
 REGISTRATION FORMS ////CHRISTINE
@@ -31,6 +32,5 @@ class RegistrationForm(FlaskForm):
     user = User.query.filter_by(email=email.data).first()
     if user is not None:
       raise ValidationError('Please use a different email address.')
-
-
- """
+      
+""" 
