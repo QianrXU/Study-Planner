@@ -24,3 +24,26 @@ Project management is spread out across multiple spots. The team will normally t
 The following two documents cover a little bit from all three points above. 
 + **Working document**. In the file called 'Working document' on SharePoint the team has kept all agendas and notes from meetings with the clients as well as for internal team meetings. https://uniwa.sharepoint.com/:w:/r/teams/CITS5206SEM-22022-StudyPlannerTeam1/Shared%20Documents/Study%20Planner%20Team%201/Working%20document.docx?d=wf5ff12af43e04210a082c5898790e510&csf=1&web=1&e=Z4mlaV
 + **Requirements**. In addition to the agenda notes, the team have summarised requirements in an Excel file that can be reached on the following link (also on the team's SharePoint channel): https://uniwa.sharepoint.com/:x:/r/teams/CITS5206SEM-22022-StudyPlannerTeam1/Shared%20Documents/Study%20Planner%20Team%201/Requirements.xlsx?d=w45b8ff9bbd3040dcb452f1f2b446fd69&csf=1&web=1&e=i3T6C0
+
+___
+
+## How to run the project
+1. Create a virtual environment: `$ python3 -m venv venv`
+2. Activate the python virtual environment: `$ source venv/bin/activate`
+3. Please see prerequisites below.
+4. To run the app: `$ flask run` - This should start the app running on localhost at port 5000, i.e.  http://localhost:5000/index
+5. To stop the app: `$ ^C`
+6. To exit the environment: `$ deactivate`
+
+## Prerequisites
+Requires python3, flask, venv.
+Use `$ pip3 install -r requirements.txt` to install the environment required.
+
+### Installing the prerequisites
+**Installing venv**
+* Set up a virtual environment:
+  - use pip or another package manager to install virtualenv package: `$ sudo apt-get install python3-venv`
+  - start the provided virtual environment: `$ source venv/bin/activate`
+
+## Deployment
+Deployment on localhost at port 5000.
