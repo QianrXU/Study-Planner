@@ -1,5 +1,5 @@
 from flask import Flask
-##from flaskext.mysql import MySQL
+# from flaskext.mysql import MySQL
 from flask_migrate import Migrate
 
 app = Flask(__name__)
@@ -17,4 +17,4 @@ app.config['MYSQL_DB'] = 'flask'
 from app import routes
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
