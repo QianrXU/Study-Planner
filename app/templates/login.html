@@ -1,17 +1,62 @@
-{% extends "login_register_base.html" %}
-
-{% block CSSLoad %}
-<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
-<link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
-{% endblock %}
-
+{% extends "base.html" %}
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+
+<div class="colm-heading">
+    <h1 >Log in to study planner tool</h1>
+</div>
+<div >
+    <div style="height: 70px; background-color: #e5e5e5; width: 45%; margin-top: 10%; margin-left: 30%;">
+        <h3 style="padding: 25px;">Login</h3>
+        </div>
+    <div class="form-container">
+            
+        <form>
+        <div class="row">
+            <div class="column-left" style="padding: 25px;">
+                <label for="email" >Email: </label>
+            </div>
+
+            <div >
+
+                <div style="height: 70px; background-color: #EBEBEB; width: 45%; margin-top: 10%;margin-left: 30%;">
+                    <h3 style="padding: 25px;">Login</h3>
+                    </div>
+                <div class="form-container">
+                        
+                 <form>
+                    <div class="row">
+                        <div class="column-left" style="padding: 25px;">
+                            <label for="email" >Email: </label>
+                        </div>
+                        <div class="column" style="margin-left: 10%;">
+                            <input type="text" placeholder="">
+                        </div>
+                    </div>
+                    
+
+            <div class="column" style="margin-left: 10%;">
+                <input type="text" placeholder="">
+            </div>
+        </div>
+        
 
 
+        <div class="row">
+            <div class="column-left" style="padding: 25px;">
+                <label for="password"> Password: </label>
+            </div>
+            <div class="column" style="margin-left: 10%;border: 1ch;">
+                <input type="password" placeholder="">
+            </div>
+        </div>
+            
 
-
-
-
+        </form>
+            
+        <button class="btn-login">Login</button> 
+    </div>
+</div>
+        
+            
 
 {% endblock %}

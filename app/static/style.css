@@ -1,0 +1,74 @@
+/* Fonts and body text */
+
+@font-face {font-family: uwafont; src: url('fonts/uwa-slab-regular.otf');}
+@font-face {font-family: SourceSansPro; src: url('fonts/SourceSansPro-Regular.ttf');}
+@font-face {font-family: SourceSansPro; src: url('fonts/SourceSansPro-Italic.ttf'); font-style: italic;}
+@font-face {font-family: SourceSansPro; src: url('fonts/SourceSansPro-Bold.ttf'); font-weight: bold;} /* If you want bold text use font-weight bold */
+@font-face {font-family: SourceSansPro; src: url('fonts/SourceSansPro-Semibold.ttf'); font-weight: 500;} /* If you want semibold text use font-weight semibold */
+@font-face {font-family: SourceSansPro; src: url('fonts/SourceSansPro-SemiboldItalic.ttf'); font-weight: bold; font-style: italic;}
+@font-face {font-family: TTNorms; src: url('fonts/TT-Norms-Pro-Regular.otf');}
+@font-face {font-family: TTNorms; src: url('fonts/TT-Norms-Pro-Bold.otf'); font-weight: bold;}
+
+h1, h2, h3, h4, h5 {
+  font-family: TTNorms;
+  font-weight: bold !important;
+  color: black;
+}
+
+p {
+  font-family: SourceSansPro;
+  color: black;
+}
+
+/* H1 class for the headings within divs */
+.divheading {
+  margin-bottom: 30px;
+}
+
+/* Paragraph class for 'Gain an experience rich education' */
+.gainanexperiencerich {
+  font-family: TTNorms;
+  letter-spacing: 0.1em;
+  font-size: 13px;
+  margin-bottom: 0.5rem;
+}
+
+/* Dealing with centering */
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.footer {
+  background-color: #e7dcdc;
+  margin-top: auto;
+}
+
+/* Temporary navigation */
+ul.nav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333333;
+}
+
+ul.nav a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+
+/* Vertical center div - FEEL FREE TO REUSE*/
+.vertical-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+@media only screen and (max-width: 850px) {.vertical-center {width: 90% !important;}}
