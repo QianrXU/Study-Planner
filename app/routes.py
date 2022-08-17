@@ -7,12 +7,12 @@ def index():
     #return "Hello world"
     return render_template('index.html', title='Home')
 
-""" 
-wait till pages to be ready to add more routes
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    return render_template('signup.html')
-""" 
+
+
+@app.route('/signUp', methods=['GET', 'POST'])
+def signUp():
+    return render_template('signUp.html')
+
 # Login Page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -32,11 +32,17 @@ def createstudyplanstep1():
     return render_template('step1-createstudyplan.html', title="Create study plan")
 
 # Studyplanner step 2
-@app.route('/createstudyplan-units', methods=['GET', 'POST'])
-def createstudyplanstep2():
-    return render_template('step2-createstudyplan.html', title="Create study plan")
+@app.route('/home', methods=['GET', 'POST'])
+def home():
+    return render_template('home.html', title="home")
+
+#faq
+@app.route('/faq', methods=['GET', 'POST'])
+def faq():
+    return render_template('faq.html', title="FAQ")
+
 
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404
+    return render_template('signUp.html'), 404

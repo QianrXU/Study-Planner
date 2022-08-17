@@ -7,9 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Load internal CSS -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='cssreset.css') }}">  <!-- Has to be loaded first!!! -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='cssreset.css') }}">   
+ <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
+
 
   <!-- Fonteawesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -44,6 +44,9 @@
         <li><a href="{{ url_for('index') }}">Home</a></li>
         <li><a href="{{ url_for('login') }}">Login</a></li>
         <li><a href="{{ url_for('createstudyplanstep1') }}">Create study plan</a></li>
+        <li><a href="{{ url_for('signUp') }}">sign up</a></li>
+        <li><a href="{{ url_for('faq') }}">faq</a></li>
+        <li><a href="{{ url_for('home') }}">home</a></li>
       </ul>
       <!-- TOP BAR -->
     </nav>

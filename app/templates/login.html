@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 {% block content %}
 
@@ -5,58 +6,32 @@
     <h1 >Log in to study planner tool</h1>
 </div>
 <div >
-    <div style="height: 70px; background-color: #e5e5e5; width: 45%; margin-top: 10%; margin-left: 30%;">
-        <h3 style="padding: 25px;">Login</h3>
+        <div style="height: 70px; background-color: #EBEBEB; width: 45%; margin-top: 10%;margin-left: 30%;">
+            <h3 style="padding: 25px;">Login</h3>
         </div>
     <div class="form-container">
             
         <form>
-        <div class="row">
-            <div class="column-left" style="padding: 25px;">
-                <label for="email" >Email: </label>
-            </div>
+            <table style="width:100%">
+              
+                <tr>
+                  <td> <label for="email" >Email: </label></td>
+                  <td> <input type="text" placeholder="" style="margin-top: 20px;"></td>
+                 
+                </tr>
+                <tr>
+                  <td><label for="password"> Password: </label></td>
+                  <td><input type="password" placeholder="" style="margin-top: 0px;"></td>
+                 
+                </tr>
+              </table>
 
-            <div >
-
-                <div style="height: 70px; background-color: #EBEBEB; width: 45%; margin-top: 10%;margin-left: 30%;">
-                    <h3 style="padding: 25px;">Login</h3>
-                    </div>
-                <div class="form-container">
-                        
-                 <form>
-                    <div class="row">
-                        <div class="column-left" style="padding: 25px;">
-                            <label for="email" >Email: </label>
-                        </div>
-                        <div class="column" style="margin-left: 10%;">
-                            <input type="text" placeholder="">
-                        </div>
-                    </div>
-                    
-
-            <div class="column" style="margin-left: 10%;">
-                <input type="text" placeholder="">
-            </div>
-        </div>
-        
-
-
-        <div class="row">
-            <div class="column-left" style="padding: 25px;">
-                <label for="password"> Password: </label>
-            </div>
-            <div class="column" style="margin-left: 10%;border: 1ch;">
-                <input type="password" placeholder="">
-            </div>
-        </div>
+     </form>
             
-
-        </form>
-            
-        <button class="btn-login">Login</button> 
+        <button class="btn-login" style="margin-top: 45px; margin-left: 250px;">Login</button> 
     </div>
 </div>
-        
-            
+
+
 
 {% endblock %}

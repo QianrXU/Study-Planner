@@ -7,27 +7,6 @@
 @font-face {font-family: SourceSansPro; src: url('fonts/SourceSansPro-Semibold.ttf'); font-weight: 500;} /* If you want semibold text use font-weight semibold */
 @font-face {font-family: SourceSansPro; src: url('fonts/SourceSansPro-SemiboldItalic.ttf'); font-weight: bold; font-style: italic;}
   
-h1, h2, h3, h4, h5 {
-  font-family: uwafont; 
-  color: black;
-}
-
-p {
-  font-family: SourceSansPro;
-  color: black;
-}
-
-/* Dealing with centering */
-.main {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.footer {
-  background-color: #e7dcdc;
-  margin-top: auto;
-}
 
 /* Temporary navigation */
 ul.nav {
@@ -44,5 +23,245 @@ ul.nav a {
   text-align: center;
   padding: 16px;
   text-decoration: none;
+}
+
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+         
+body {
+  font-family: uwafont;
+  background-color:white;
+  color: #1c1e21;
+}
+
+main {
+  height: 90vh;
+  width: 100vw;
+  position: relative;
+  margin: 0 auto;
+}
+
+footer {
+  height: 10vh;
+  background-color: #EBEBEB;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float:inline-end;
+  width: 30%;
+  padding: 10px;
+  font-family: 'Source Sans Pro Regular';
+}
+.column-left{
+  float:left;
+  width: 20%;
+}
+.form-container {
+  font-family: SourceSansPro;
+  background-color:  #F2F2F2;;
+  border: none;
+  margin-top: 0%;
+  margin-left: 30%;
+  width: 45%;
+  height: 310px;
+  padding: 10px;
+  top: 50%;
+  
+  /*margin-bottom: 30px;
+  
+  max-width: 400px;
+  height: 400px; ?*/
+}
+.form-container input {
+  border: 1px solid #dddfe2;
+  color: #1d2129;
+  padding: 0 8px;
+  outline: none;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.colm-heading {
+
+  width: 1440px;
+  height: 96px;
+  background-color: #EBEBEB
+
+}
+
+.colm-form {
+  flex: 0 0 40%;
+  text-align: center;
+}
+
+.colm-heading img {
+  max-width: 400px;
+}
+
+.colm-heading h1 {
+ 
+  color:  #27348B;
+  padding-left: 40px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  font-family: 'Novel Pro';
+
+}
+
+
+.btn{
+  position: absolute;
+width: 131px;
+height: 54.98px;
+left: 613px;
+top: 601px;
+}
+.btn-login {
+font-size:19px;
+font-family:SourceSansPro;
+width:134px;
+height:57px;
+text-align:inherit;
+border-width:0px;
+color:#333333;
+border-color:#FFD216;
+background:#FFD216;
+margin-left: 32%;
+margin-top: 2%;
+background-image: url(doublearrow.png);
+background-repeat: no-repeat;
+background-position: right 24px center;
+padding-left: 15px;
+
+}
+
+.btn-login:hover {
+background:#DAAA00;
+background-image: url(doublearrow.png);
+background-repeat: no-repeat;
+background-position: right 24px center;
+}
+input{
+  width: 50px;
+}
+input, .colm-form .form-container .btn-login {
+  width: 100%;
+  margin: 5px 0;
+  height: 45px;
+  vertical-align: middle;
+  font-size: 16px;
+  background-color: #E8F0FE ;
+  font-family: 'Source Sans Pro Regular';
+   
+}
+label{
+  margin-top: 20px;
+  padding-left: 50px;
+}
+/* HOME */
+
+.para1{
+  position: absolute;
+width: 376px;
+height: 55px;
+left: 533px;
+top: 200px;
+
+font-family: 'TT Norms Pro';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 70px;
+/* or 438% */
+text-align: center;
+letter-spacing: 0.1em;
+
+color: #000000;
+
+}
+.para2{
+position: absolute;
+width: 409px;
+height: 73px;
+left: 512px;
+top: 250px;
+
+font-family: 'Novel Pro';
+font-style: normal;
+font-weight: 400;
+font-size: 36px;
+line-height: 70px;
+/* or 194% */
+text-align: center;
+letter-spacing: 0.1em;
+
+color: #000000;
+}
+.para3{
+  position: absolute;
+width: 430px;
+height: 74px;
+left: 505px;
+top: 300px;
+
+font-family: 'TT Norms Pro';
+font-style: normal;
+font-weight: 700;
+font-size: 44px;
+line-height: 70px;
+/* or 159% */
+text-align: center;
+letter-spacing: 0.1em;
+
+color: #000000;
+
+}
+
+/* FAQ */
+
+.accordion {
+  background-color: #EBEBEB;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;
+}
+
+.accordion:after {
+  content: '\002B';
+  color: #777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: #F2F2F2;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
 }
 
