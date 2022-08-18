@@ -3,17 +3,20 @@ from flask import render_template, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 
 @app.route('/')
-@app.route('/index')
+@app.route('/index', methods=['GET', 'POST'])
 def index():
     return render_template('index.html', title='Home')
 
 
+<<<<<<< HEAD
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     return render_template('signUp.html', title='Sign Up')
 
 
 
+=======
+>>>>>>> main
 # Login Page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -39,6 +42,15 @@ def createstudyplanstep1():
 def createstudyplanstep2():
     return render_template('step2-createstudyplan.html', title="Create study plan")
 
+# FAQ
+@app.route('/faq', methods=['GET', 'POST'])
+def faq():
+    return render_template('faq.html', title="FAQ")
+
+    
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    return render_template('signup.html', title='Sign up')
 
 @app.route('/faq', methods=['GET', 'POST'])
 def faq():

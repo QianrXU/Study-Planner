@@ -1,15 +1,14 @@
+
 {% extends "base.html" %}
 {% block content %}
 
-<div class="colm-heading">
-    <h1 >Log in to study planner tool</h1>
-</div>
-<div >
-    <div style="height: 70px; background-color: #e5e5e5; width: 45%; margin-top: 10%; margin-left: 30%;">
-        <h3 style="padding: 25px;">Login</h3>
-        </div>
-    <div class="form-container">
+<div>
+    <div style="height: 70px; background-color: #EBEBEB; width: 100%;">
+        <h3 style="padding: 25px; padding-left: 60px; ">Login</h3>
+    </div>
+    <div class="form-container-generic">
             
+<<<<<<< HEAD
         <form>
         <div class="row">
             <div class="column-left" style="padding: 25px;">
@@ -49,14 +48,26 @@
                 <input type="password" placeholder="">
             </div>
         </div>
+=======
+    <form>
+        <table style="width:100%">
+        <tr>
+            <td class="loginsignup-td"> <label class="label-loginsignup" for="email" >Email: </label></td>
+            <td class="loginsignup-td"> <input class="loginsignup" type="text" placeholder=""></td>
+>>>>>>> main
             
-
-        </form>
+        </tr>
+        <tr>
+            <td class="loginsignup-td"><label class="label-loginsignup" for="password"> Password: </label></td>
+            <td class="loginsignup-td"><input class="loginsignup" type="password" placeholder=""></td>
+        </tr>
+        </table>
+     </form>
             
         <button class="btn-login">Login</button> 
     </div>
 </div>
-        
-            
+
+
 
 {% endblock %}
