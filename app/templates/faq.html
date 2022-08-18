@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+        
+            <div class="colm-heading">
+                <h1 >Frequently asked questions</h1>
+            </div>
+            <div >
+                <div style="height: 70px; background-color: #EBEBEB; width: 45%; margin-top: 10%;
+                margin-left: 30%;">
+                    <h3 style="padding: 25px;">FAQ</h3>
+                    </div>
+                <div class="form-container" >
+                        
+                 <div >
+                    <button class="accordion">What is Study Planner?</button>
+                        <div class="panel">
+                        <p>The Study Planner is a UWA tool that allows students to create study plans for their future studies.</p>
+                        </div>
+
+                    <button class="accordion">How do i use study planner tool?</button>
+                        <div class="panel">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        </div>
+
+                    <button class="accordion">Do i need to sign up?</button>
+                        <div class="panel">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        </div>
+                 </div>
+                    
+
+                        
+                   
+                </div>
+            </div>
+        
+            
+            <script>
+                var acc = document.getElementsByClassName("accordion");
+                var i;
+                
+                for (i = 0; i < acc.length; i++) {
+                  acc[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var panel = this.nextElementSibling;
+                    if (panel.style.maxHeight) {
+                      panel.style.maxHeight = null;
+                    } else {
+                      panel.style.maxHeight = panel.scrollHeight + "px";
+                    } 
+                  });
+                }
+                </script>
+ {% endblock %}
