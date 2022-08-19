@@ -7,16 +7,11 @@ from flask_login import current_user, login_user, logout_user, login_required
 def index():
     return render_template('index.html', title='Home')
 
-
-<<<<<<< HEAD
+# Signup Page
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     return render_template('signUp.html', title='Sign Up')
 
-
-
-=======
->>>>>>> main
 # Login Page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -31,6 +26,11 @@ def logout():
     return redirect(url_for('login'))
 """
 
+# Account Page
+@app.route('/myaccount', methods=['GET', 'POST'])
+def account():
+    return render_template('myaccount.html', title="My Account")
+
 
 # Studyplanner step 1
 @app.route('/createstudyplan-courses', methods=['GET', 'POST'])
@@ -42,21 +42,12 @@ def createstudyplanstep1():
 def createstudyplanstep2():
     return render_template('step2-createstudyplan.html', title="Create study plan")
 
-# FAQ
+# FAQ Page
 @app.route('/faq', methods=['GET', 'POST'])
 def faq():
     return render_template('faq.html', title="FAQ")
 
-    
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    return render_template('signup.html', title='Sign up')
-
-@app.route('/faq', methods=['GET', 'POST'])
-def faq():
-    return render_template('faq.html', title='FAQ')
-
-
+# 404 Page
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
