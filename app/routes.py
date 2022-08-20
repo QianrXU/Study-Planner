@@ -42,6 +42,11 @@ def createstudyplanstep1():
 def createstudyplanstep2():
     return render_template('step2-createstudyplan.html', title="Create study plan")
 
+# Download PDF
+@app.route('/pdf', methods=['GET', 'POST'])
+def download():
+    return render_template('get_pdf.html', title="PDF")
+
 # FAQ Page
 @app.route('/faq', methods=['GET', 'POST'])
 def faq():
