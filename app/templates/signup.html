@@ -1,5 +1,10 @@
-{% extends "base.html" %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../static/login.css">
+</head>
+<body>
+ 
         
             <div class="colm-heading">
                 <h1 >Sign up to the study planner tool</h1>
@@ -11,33 +16,43 @@
                     </div>
                 <div class="form-container" style="height: 350px;">
                  <form>
-                    <table style="width:100%">
-              
-                        <tr>
-                          <td> <label for="email" >Email: </label></td>
-                          <td> <input type="text" placeholder="" style="margin-top: 20px;"></td>
-                         
-                        </tr>
-                        <tr>
-                          <td><label for="password"> Password: </label></td>
-                          <td><input type="password" placeholder="" style="margin-top: 0px;"></td>
-                         
-                        </tr>
-                        <tr>
-                            <td><label for="password"> Confirm Password: </label></td>
-                            <td> <input type="password" placeholder=""></td>
-                           
-                          </tr>
-                      </table>
-
+                    <div class="row">
+                        <div class="column-left" style="padding: 25px;width: 29%;">
+                            <label for="email" >Email: </label>
+                        </div>
+                        <div class="column" style="margin-left: 0%;">
+                            <input type="text" placeholder="">
+                        </div>
+                    </div>
                     
+
+                    <div class="row">
+                        <div class="column-left" style="padding: 25px;width: 29%;">
+                            <label for="password"> Password: </label>
+                        </div>
+                        <div class="column" style="margin-left: 0%;border: 1ch;">
+                            <input type="password" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column-left" style="padding: 25px;width: 29%;">
+                            <label for="password"> Confirm Password: </label>
+                        </div>
+                        <div class="column" style="margin-left: 0%;border: 1ch;">
+                            <input type="password" placeholder="">
+                        </div>
+                    </div>
+                       
  
                  </form>
                         
-                    <button class="btn-login" style="margin-top: 42px; margin-left: 310px;">Sign Up</button> 
+                    <button class="btn-login" style="margin-left: 31%;">Sign Up</button> 
                 </div>
             </div>
         
             
     
-            {% endblock %}
+</body>
+</html>
+
