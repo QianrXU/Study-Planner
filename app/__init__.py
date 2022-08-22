@@ -13,16 +13,16 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'flask'
  
-mysql = MySQL(app)
-migrate = Migrate(app, mysql)
+mysql_db = MySQL(app)
+migrate = Migrate(app, mysql_db)
 
-"""
-login_manager = LoginManager()
-login = login_manager.init_app(app)
+
+login = LoginManager(app)
+login.init_app(app)
 login.login_view = 'login'
-"""
 
-from app import routes
+
+from app import routes, models, forms
 
 if __name__ == '__main__':
     app.run(debug=True)
