@@ -1,6 +1,5 @@
 from distutils.log import debug
 from flask import Flask
-from flaskext.mysql import MySQL
 from flask_mysqldb import MySQL
 from flask_migrate import Migrate
 from flask_login import LoginManager 
@@ -17,9 +16,10 @@ app.config['MYSQL_DB'] = 'flask'
 mysql = MySQL(app)
 migrate = Migrate(app, mysql)
 
+
 """
-login_manager = LoginManager()
-login = login_manager.init_app(app)
+login = LoginManager(app)
+login.init_app(app)
 login.login_view = 'login'
 """
 
@@ -27,3 +27,4 @@ from app import routes
 
 if __name__ == '__main__':
     app.run(debug=True)
+
