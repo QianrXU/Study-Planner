@@ -27,13 +27,22 @@ The following two documents cover a little bit from all three points above.
 
 ___
 
-## How to run the project
+## How to run the project(IOS)
 1. Create a virtual environment: `$ python3 -m venv venv`
 2. Activate the python virtual environment: `$ source venv/bin/activate`
 3. Please see prerequisites below.
 4. To run the app: `$ flask run` - This should start the app running on localhost at port 5000, i.e.  http://localhost:5000/index
 5. To stop the app: `$ ^C`
 6. To exit the environment: `$ deactivate`
+
+## How to run the project(Windows)
+1. Create a virtual environment: `$ python3 -m venv venv`
+2. Activate the python virtual environment: `$ source venv\Scripts\activate`
+3. Please see prerequisites below.
+4. To run the app: `$ flask run` - This should start the app running on localhost at port 5000, i.e.  http://localhost:5000/index
+5. To stop the app: `$ ^C`
+6. To exit the environment: `$ deactivate`
+
 
 ## Prerequisites
 Requires python3, flask, venv.
