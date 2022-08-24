@@ -3,6 +3,7 @@ from wtforms import StringField, BooleanField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 from app.models import User
 
+# Need to update the names of attributes
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
