@@ -1,6 +1,5 @@
 from distutils.log import debug
 from flask import Flask
-from flaskext.mysql import MySQL
 from flask_mysqldb import MySQL
 from flask_migrate import Migrate
 from flask_login import LoginManager 

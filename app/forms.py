@@ -3,6 +3,7 @@ from wtforms import StringField, BooleanField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 from app.models import User
 
+# Will change the names of attributes later when classes are created in models.py
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
