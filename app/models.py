@@ -1,4 +1,5 @@
-from app import mysql_db
+from app import app
+# from app import mysql
 from app import login
 import mysql.connector
 from flask_login import UserMixin
