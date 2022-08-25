@@ -27,27 +27,26 @@ The following two documents cover a little bit from all three points above.
 
 ___
 
-## Prerequisites
-**Installing venv**
-* Set up a virtual environment:
-  - use pip or another package manager to install virtualenv package: `$ sudo apt-get install python3-venv`
-  - start the provided virtual environment: `$ source venv/bin/activate` (see below for how to start the virtual environment on Windows)
-
-**Installing the prerequisites**
-* Requires python3, flask, venv, etc. Use `$ pip3 install -r requirements.txt` to install the environment required.
-
 ## How to run the project (Unix)
+**Step 1**
+* Use pip or another package manager to install virtualenv package: `$ sudo apt-get install python3-venv`
+
+**Step 2**
 1. Create a virtual environment: `$ python3 -m venv venv`
 2. Activate the python virtual environment: `$ source venv/bin/activate`
-3. Please see prerequisites below.
+3. Install prerequisites (requires python3, flask, venv, etc.): `$ pip3 install -r requirements.txt`.
 4. To run the app: `$ flask run` - This should start the app running on localhost at port 5000, i.e.  http://localhost:5000/index
 5. To stop the app: `$ ^C`
 6. To exit the environment: `$ deactivate`
 
 ## How to run the project (Windows)
+**Step 1**
+* Use pip or another package manager to install virtualenv package: `$ xxxxx`
+
+**Step 2**
 1. Create a virtual environment: `$ python3 -m venv venv`
 2. Activate the python virtual environment: `$ source venv\Scripts\activate`
-3. Please see prerequisites below.
+3. Install prerequisites (requires python3, flask, venv, etc.): `$ xxxxx`.
 4. To run the app: `$ flask run` - This should start the app running on localhost at port 5000, i.e.  http://localhost:5000/index
 5. To stop the app: `$ ^C`
 6. To exit the environment: `$ deactivate`
