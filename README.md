@@ -17,8 +17,8 @@ The risk assessments, including a risk assessment matrix, performed by the team 
 ### 3. Project Management and Plans
 Project management is spread out across multiple spots. The team will normally type out responsibilities we have agreed on during meetings in the agenda/meeting notes, this then gets gets broken up into "work chunks" that are added to the team's Github project planning area. Additionally, the team utilises a GANTT chart to visualise the timeline and important dates/deadlines we have to consider.
 + **GitHub project planning page**. On the following link, the team will be splitting up smaller chunks of work and allocating them to their assigned team member. Here we will be able to follow the progress of each other's work, either in a table or as a Kanban board. https://github.com/users/QianrXU/projects/1
-+ **GitHub repository**. The team have decided we will all create our separate branches and that we will talk to each other before merging with the main branch. The following link contains our project's repository. https://github.com/QianrXU/Study-Planner
-+ **Project timeline**. The team felt the need to create a timeline where we could enter important dates and sprints in a visual way. https://uniwa.sharepoint.com/:x:/r/teams/CITS5206SEM-22022-StudyPlannerTeam1/Shared%20Documents/Study%20Planner%20Team%201/Study_Planner_Timeline%20(GANTT%20chart).xlsx?d=w2c73dcbc733846fea6abec1d7c534c20&csf=1&web=1&e=MAc9jP
++ **GitHub repository**. The team have decided we will all create our separate branches and that we will talk to each other before merging with the main branch. The following link contains our project's repository. Please note, for this link to work you need to be invited to join. https://github.com/QianrXU/Study-Planner
++ **Project timeline**. The team felt the need to create a timeline where we could enter important dates, meetings and sprints in a visual way. https://uniwa.sharepoint.com/:x:/r/teams/CITS5206SEM-22022-StudyPlannerTeam1/Shared%20Documents/Study%20Planner%20Team%201/Study_Planner_Timeline%20(GANTT%20chart).xlsx?d=w2c73dcbc733846fea6abec1d7c534c20&csf=1&web=1&e=MAc9jP
 
 ### 4. Other
 The following two documents cover a little bit from all three points above. 
@@ -27,7 +27,16 @@ The following two documents cover a little bit from all three points above.
 
 ___
 
-## How to run the project(IOS)
+## Prerequisites
+**Installing venv**
+* Set up a virtual environment:
+  - use pip or another package manager to install virtualenv package: `$ sudo apt-get install python3-venv`
+  - start the provided virtual environment: `$ source venv/bin/activate` (see below for how to start the virtual environment on Windows)
+
+**Installing the prerequisites**
+* Requires python3, flask, venv, etc. Use `$ pip3 install -r requirements.txt` to install the environment required.
+
+## How to run the project (Unix)
 1. Create a virtual environment: `$ python3 -m venv venv`
 2. Activate the python virtual environment: `$ source venv/bin/activate`
 3. Please see prerequisites below.
@@ -35,24 +44,13 @@ ___
 5. To stop the app: `$ ^C`
 6. To exit the environment: `$ deactivate`
 
-## How to run the project(Windows)
+## How to run the project (Windows)
 1. Create a virtual environment: `$ python3 -m venv venv`
 2. Activate the python virtual environment: `$ source venv\Scripts\activate`
 3. Please see prerequisites below.
 4. To run the app: `$ flask run` - This should start the app running on localhost at port 5000, i.e.  http://localhost:5000/index
 5. To stop the app: `$ ^C`
 6. To exit the environment: `$ deactivate`
-
-
-## Prerequisites
-Requires python3, flask, venv.
-Use `$ pip3 install -r requirements.txt` to install the environment required.
-
-### Installing the prerequisites
-**Installing venv**
-* Set up a virtual environment:
-  - use pip or another package manager to install virtualenv package: `$ sudo apt-get install python3-venv`
-  - start the provided virtual environment: `$ source venv/bin/activate`
 
 ## Deployment
 Deployment on localhost at port 5000.
