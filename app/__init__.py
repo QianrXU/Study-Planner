@@ -1,6 +1,6 @@
 from distutils.log import debug
 from flask import Flask
-#from flask_mysqldb import MySQL
+from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager 
 
@@ -8,13 +8,12 @@ app = Flask(__name__)
 
 app.secret_key = 'this1sKey'
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'flask'
+app.config['SQLALCHEMY_DATABASE_URI'] ='mysql://root:password123@localhost/study_planner'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-#mysql = MySQL(app)
-#migrate = Migrate(app, mysql)
+mysql = SQLAlchemy(app)
+migrate = Migrate(app, mysql)
+
 
 
 """
