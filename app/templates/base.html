@@ -43,30 +43,37 @@
     
     <!-- NAVIGATION BAR -->
     <header class="headercontainer" role="banner">
-      <div class="uwa-header">    
-        <div>
-          <a href="index">
-              <img alt="The University of Western Australia" height="50px" width="153px" src="{{ url_for('static', filename = 'uwacrest-white-logo.svg') }}">
-          </a>
-          <ul class="site-nav">
-            <li><a class="a" href="{{ url_for('login') }}">Log in</a></li>
-            <li><a class="a" href="{{ url_for('signup') }}">Sign up</a></li>
-            <li><a class="a" href="{{ url_for('faq') }}"><i class="fa-solid fa-circle-question"></i></a></li>
-          </ul>  
-        </div> 
-      </div>
+        <div class="uwa-header">    
+          <div>
+              <nav style="display: block; position: relative;">
+                  <div class="pic">
+                      <a href="index">
+                          <img alt="The University of Western Australia" src="{{ url_for('static', filename = 'uwacrest-white-logo.svg') }}">
+                      </a>
+                  </div>
+                  <ul class="site-nav">
+                      <li><a class="a" href="{{ url_for('login') }}">Log in</a></li>
+                      <li><a class="a" href="{{ url_for('signup') }}">Sign up</a></li>
+                      <li><a class="a" href="{{ url_for('faq') }}"><i class="fa-solid fa-circle-question"></i></a></li>
+                   </ul>  
+              </nav>
+          </div> 
+        </div>  
 
 
     <!-- TOP BAR -->
       
-      <div class="main-header">
-    
-          <h1 class="headerfont">
-              change for the page 
-          </h1>
-    
-      </div>
+        <div class="main-header" tabindex="0">
+            <div>
+      
+                <h1 class="headerfont">
+                    change for the page 
+                </h1>
+      
+            </div>
+        </div>
     </header>
+  
 
     <!-- MAIN CONTENT -->
     <div class="main-content">{% block content %}{% endblock %}</div>
@@ -76,36 +83,42 @@
       {% block footer %}
 
       <footer class="footercontainer" role="contentinfo">
-        <div class="footdiv">
-            <div class="footlink">
-                <ul class="social-icons">
-                    <li>
-                        <a href="https://twitter.com/uwanews" title="Twitter">
-                            <i class="fa-brands fa-twitter" style="color: rgb(29, 155, 240);"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.facebook.com/universitywa" title="Facebook">
-                            <i class="fa-brands fa-facebook-f" style=" color: #3B5998 !important;"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://www.linkedin.com/company/university-of-western-australia" title="Linkedin">
-                            <i class="fa-brands fa-linkedin-in"style="color: #27348B !important;"></i></a></li>
-                    <li>
-                        <a href="http://instagram.com/universitywa" title="Instagram">
-                            <i class="fa-brands fa-instagram" style="color: #125688 !important;"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://www.youtube.com/user/universitywa" title="YouTube">
-                            <i class="fa-brands fa-youtube" style="color:#BB0000 !important;"></i>
-                        </a>
-                    </li>
-                </ul>    
-            </div>
-            <div>
-                <h1> The University of Western Australia </h1>
+        <div class="footlink">
+            <div class="innerdiv">
+                <div>
+                    <ul class="social-icons">
+                        <li>
+                            <a href="https://twitter.com/uwanews" title="Twitter">
+                                <i class="fa-brands fa-twitter" style="color: rgb(29, 155, 240);"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.facebook.com/universitywa" title="Facebook">
+                                <i class="fa-brands fa-facebook-f" style=" color: #3B5998 !important;"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.linkedin.com/company/university-of-western-australia" title="Linkedin">
+                                <i class="fa-brands fa-linkedin-in"style="color: #27348B !important;"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://instagram.com/universitywa" title="Instagram">
+                                <i class="fa-brands fa-instagram" style="color: #125688 !important;"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.youtube.com/user/universitywa" title="YouTube">
+                                <i class="fa-brands fa-youtube" style="color:#BB0000 !important;"></i>
+                            </a>
+                        </li>
+                    </ul> 
+                </div>   
+
+                <div>
+                    <h1> The University of Western Australia </h1>
+                </div>
+
                 <div class="info-div">
                     <ul class="icon">
                         <li>
@@ -118,16 +131,18 @@
                         </li>
                     </ul>
                 </div>
+
                 <div class="endinfo">
                     <img alt="The University of Western Australia" height="50px" width="153px"  src="{{ url_for('static', filename = 'UWA_FORMAL_LANDSCAPE_CMYK.png') }}">
                 </div>
+
             </div>
         </div>
+    
         <div class="yellowbar">
         </div>
-      </footer>
-    
-    </div>
+    </footer>
+
       {% endblock %}
 
   <!-- END OF DOC -->
