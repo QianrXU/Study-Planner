@@ -174,11 +174,10 @@
 }
 
 .info-div{
-  width: 624px; 
+  width: 50%; 
   margin:0px; 
-  vertical-align: 
-  bottom; display: 
-  inline-block;
+  vertical-align: bottom; 
+  display: inline-block;
   box-sizing: border-box;
   position:relative;
 }
@@ -211,13 +210,14 @@
 }
 
 .endinfo{
-  width: 624px; 
+  width: 50%; 
   margin: 0px; 
   padding:15px; 
   vertical-align: bottom; 
   display: inline-block;
   position:absolute;
   text-align: right;
+  font-size: 20px;
   }
 
   .yellowbar{
