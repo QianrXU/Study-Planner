@@ -1,7 +1,11 @@
 from app import db
-#from app import login
+from app import login
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+
+@login.user_loader
+def load_user(user_id):
+  return User.query.get(user_id)
 
 class User(UserMixin, db.Model): #User table
 
@@ -10,35 +14,34 @@ class User(UserMixin, db.Model): #User table
   password_hash = db.Column(db.String(128))
 
 class Four_Sem_SP(db.Model):
-  Y1S1_1 = db.Column(db.String(10)),
-  Y1S1_2 = db.Column(db.String(10)),
-  Y1S1_3 = db.Column(db.String(10)),
-  Y1S1_4 = db.Column(db.String(10)),
-  Y1S1_5 = db.Column(db.String(10)),
+  study_plan_id = db.Column(db.Integer, primary_key=True)
+  Y1S1_1 = db.Column(db.String(10))
+  Y1S1_2 = db.Column(db.String(10))
+  Y1S1_3 = db.Column(db.String(10))
+  Y1S1_4 = db.Column(db.String(10))
+  Y1S1_5 = db.Column(db.String(10))
 
-  Y1S2_1 = db.Column(db.String(10)),
-  Y1S2_2 = db.Column(db.String(10)),
-  Y1S2_3 = db.Column(db.String(10)),
-  Y1S2_4 = db.Column(db.String(10)),
-  Y1S2_5 = db.Column(db.String(10)),
+  Y1S2_1 = db.Column(db.String(10))
+  Y1S2_2 = db.Column(db.String(10))
+  Y1S2_3 = db.Column(db.String(10))
+  Y1S2_4 = db.Column(db.String(10))
+  Y1S2_5 = db.Column(db.String(10))
   
-  Y2S1_1 = db.Column(db.String(10)),
-  Y2S1_2 = db.Column(db.String(10)),
-  Y2S1_3 = db.Column(db.String(10)),
-  Y2S1_4 = db.Column(db.String(10)),
-  Y2S1_5 = db.Column(db.String(10)),
+  Y2S1_1 = db.Column(db.String(10))
+  Y2S1_2 = db.Column(db.String(10))
+  Y2S1_3 = db.Column(db.String(10))
+  Y2S1_4 = db.Column(db.String(10))
+  Y2S1_5 = db.Column(db.String(10))
 
-  Y2S2_1 = db.Column(db.String(10)),
-  Y2S2_2 = db.Column(db.String(10)),
-  Y2S2_3 = db.Column(db.String(10)),
-  Y2S2_4 = db.Column(db.String(10)),
+  Y2S2_1 = db.Column(db.String(10))
+  Y2S2_2 = db.Column(db.String(10))
+  Y2S2_3 = db.Column(db.String(10))
+  Y2S2_4 = db.Column(db.String(10))
   Y2S2_5 = db.Column(db.String(10))
   user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # Reference to user id in user table
 
 """
-@login.user_loader
-def load_user(user_id):
-  return User.query.get(user_id)
+
 
 #Creating a connection cursor
 cursor = mysql.connection.cursor()
