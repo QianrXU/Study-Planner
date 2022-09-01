@@ -1,7 +1,39 @@
-from app import mysql
+from app import db
 #from app import login
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+
+class User(UserMixin, db.Model): #User table
+
+  id = db.Column(db.Integer, primary_key=True) # Each user has only one unique id;
+  email = db.Column(db.String(120), index=True, unique=True) 
+  password_hash = db.Column(db.String(128))
+
+class Four_Sem_SP(db.Model):
+  Y1S1_1 = db.Column(db.String(10)),
+  Y1S1_2 = db.Column(db.String(10)),
+  Y1S1_3 = db.Column(db.String(10)),
+  Y1S1_4 = db.Column(db.String(10)),
+  Y1S1_5 = db.Column(db.String(10)),
+
+  Y1S2_1 = db.Column(db.String(10)),
+  Y1S2_2 = db.Column(db.String(10)),
+  Y1S2_3 = db.Column(db.String(10)),
+  Y1S2_4 = db.Column(db.String(10)),
+  Y1S2_5 = db.Column(db.String(10)),
+  
+  Y2S1_1 = db.Column(db.String(10)),
+  Y2S1_2 = db.Column(db.String(10)),
+  Y2S1_3 = db.Column(db.String(10)),
+  Y2S1_4 = db.Column(db.String(10)),
+  Y2S1_5 = db.Column(db.String(10)),
+
+  Y2S2_1 = db.Column(db.String(10)),
+  Y2S2_2 = db.Column(db.String(10)),
+  Y2S2_3 = db.Column(db.String(10)),
+  Y2S2_4 = db.Column(db.String(10)),
+  Y2S2_5 = db.Column(db.String(10))
+  user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # Reference to user id in user table
 
 """
 @login.user_loader

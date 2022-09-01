@@ -11,8 +11,9 @@ app.secret_key = 'this1sKey'
 app.config['SQLALCHEMY_DATABASE_URI'] ='mysql://root:password123@localhost/study_planner'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-mysql = SQLAlchemy(app)
-migrate = Migrate(app, mysql)
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 
 
