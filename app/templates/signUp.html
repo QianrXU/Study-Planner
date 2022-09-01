@@ -1,43 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
         
-            <div class="colm-heading">
-                <h1 >Sign up to the study planner tool</h1>
-            </div>
-            <div >
-                <div style="height: 70px; background-color: #e5e5e5; width: 45%; margin-top: 10%;
-                margin-left: 30%;">
-                    <h3 style="padding: 25px;">Sign Up</h3>
-                    </div>
-                <div class="form-container" style="height: 350px;">
-                 <form>
-                    <table style="width:100%">
+<div >
+  <div style="height: 70px; background-color: #EBEBEB; width: 100%;">
+        <h3 style="padding: 25px; padding-left: 60px">Sign Up</h3>
+        </div>
+    <div class="form-container-generic" style="height: 350px;">
+      <form>
+        <table style="width:100%">
+  
+            <tr>
+              <td class="loginsignup-td"><label class="label-loginsignup" for="email" >Email: </label></td>
+              <td class="loginsignup-td"><input class="loginsignup" type="text" placeholder=""></td>
               
-                        <tr>
-                          <td> <label for="email" >Email: </label></td>
-                          <td> <input type="text" placeholder="" style="margin-top: 20px;"></td>
-                         
-                        </tr>
-                        <tr>
-                          <td><label for="password"> Password: </label></td>
-                          <td><input type="password" placeholder="" style="margin-top: 0px;"></td>
-                         
-                        </tr>
-                        <tr>
-                            <td><label for="password"> Confirm Password: </label></td>
-                            <td> <input type="password" placeholder=""></td>
-                           
-                          </tr>
-                      </table>
-
-                    
- 
-                 </form>
-                        
-                    <button class="btn-login" style="margin-top: 42px; margin-left: 310px;">Sign Up</button> 
-                </div>
-            </div>
-        
+            </tr>
+            <tr>
+              <td class="loginsignup-td"><label class="label-loginsignup" for="password"> Password: </label></td>
+              <td class="loginsignup-td"><input class="loginsignup" type="password" placeholder=""></td>
+              
+            </tr>
+            <tr>
+                <td class="loginsignup-td"><label class="label-loginsignup" for="password"> Confirm Password: </label></td>
+                <td class="loginsignup-td"> <input class="loginsignup" type="password" placeholder=""></td>
+                
+              </tr>
+          </table>
+      </form>
             
-    
-            {% endblock %}
+        <button class="btn-login">Sign Up</button> 
+    </div>
+</div>
+
+
+
+{% endblock %}

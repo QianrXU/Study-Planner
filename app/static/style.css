@@ -6,23 +6,44 @@
 @font-face {font-family: SourceSansPro; src: url('fonts/SourceSansPro-Bold.ttf'); font-weight: bold;} /* If you want bold text use font-weight bold */
 @font-face {font-family: SourceSansPro; src: url('fonts/SourceSansPro-Semibold.ttf'); font-weight: 500;} /* If you want semibold text use font-weight semibold */
 @font-face {font-family: SourceSansPro; src: url('fonts/SourceSansPro-SemiboldItalic.ttf'); font-weight: bold; font-style: italic;}
+<<<<<<< HEAD
   
+=======
+@font-face {font-family: TTNorms; src: url('fonts/TT-Norms-Pro-Regular.otf');}
+@font-face {font-family: TTNorms; src: url('fonts/TT-Norms-Pro-Bold.otf'); font-weight: bold;}
 
-/* Temporary navigation */
-ul.nav {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #333333;
+h1, h2, h3, h4, h5 {
+  font-family: TTNorms;
+  font-weight: bold !important;
+  color: black;
 }
 
-ul.nav a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 16px;
-  text-decoration: none;
+p {
+  font-family: SourceSansPro;
+  color: black;
+}
+
+/* H1 class for the headings within divs */
+.divheading {
+  margin-bottom: 30px;
+}
+
+>>>>>>> 0b39856f78242424897aa0dc7207a7bdc90f4dd4
+
+/* Paragraph class for 'Gain an experience rich education' */
+.gainanexperiencerich {
+  font-family: TTNorms;
+  letter-spacing: 0.1em;
+  font-size: 13px;
+  margin-bottom: 0.5rem;
+}
+
+/* Dealing with centering */
+.main-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 }
 
 

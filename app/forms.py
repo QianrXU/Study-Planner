@@ -1,36 +1,45 @@
-""" 
-
-from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length
+from wtforms import StringField, BooleanField, PasswordField, SubmitField
+from wtforms.validators import DataRequired, Email, EqualTo, Length
+from app.models import User
 
-THE BELOW NEEDS TO BE REVISED BUT I THINK THIS IS A 
-GOOD STARTING PLACE FOR DEVELLOPING THE LOGIN AND 
-REGISTRATION FORMS ////CHRISTINE
-
-
-
-# login form on the login page
 class LoginForm(FlaskForm):
-  email = StringField('Email', validators=[DataRequired(), Email()])
-  password = PasswordField('Password', validators=[DataRequired()])
-  remember_me = BooleanField('Remember Me')
-  submit = SubmitField('Sign in')
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
 
-# form to register the user
+    def validate(self):
+        initial_validation = super(LoginForm, self).validate()
+        if not initial_validation:
+            return False
+        user = User.query.filter_by(username=self.username.data).first()
+        if not user:
+            self.username.errors.append('Invalid username')
+            return False
+        if not user.check_password(self.password.data):
+            self.password.errors.append('Invalid password')
+            return False
+        return True
+
+
 class RegistrationForm(FlaskForm):
-  email = StringField('Email', validators=[DataRequired(), Email()])
-  password = PasswordField('Password', validators=[DataRequired(),Length(min=4, max=20)])
-  # repeat password for validation
-  password2 = PasswordField(
-    'Repeat Password', validators=[DataRequired(), EqualTo('password')])
-  submit = SubmitField('Register')
-  
-  # confirm that the email address is not already in use
-  def validate_email(self, email):
-    user = User.query.filter_by(email=email.data).first()
-    if user is not None:
-      raise ValidationError('Please use a different email address.')
-      
-""" 
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=40)])
+    password2 = PasswordField(
+        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Sign up')
+
+    def validate(self):
+        initial_validation = super(RegistrationForm, self).validate()
+        if not initial_validation:
+            return False
+        user = User.query.filter_by(username=self.username.data).first()
+        if user:
+            self.username.errors.append("Username taken, please pick a different one")
+            return False
+        user = User.query.filter_by(email=self.email.data).first()
+        if user:
+            self.email.errors.append("Email already in use, please try a different one or reset password")
+            return False
+        return True   
