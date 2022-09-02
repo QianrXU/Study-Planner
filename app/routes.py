@@ -1,6 +1,11 @@
 from app import app
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user, login_required
+from app.forms import RegistrationForm, LoginForm
+from .models import User, Four_Sem_SP
+from . import db
+from werkzeug.urls import url_parse
+
 
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
@@ -10,61 +15,42 @@ def index():
 # Signup Page
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    """
-    message = ''
-        if request.method == 'POST' and 'name' in request.form and 'password' in request.form and 'email' in request.form :
-            userName = request.form['name']
-            password = request.form['password']
-            email = request.form['email']
-            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute('SELECT * FROM user WHERE email = % s', (email, ))
-            account = cursor.fetchone()
-            if account:
-                message = 'Account already exists !'
-            elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
-                message = 'Invalid email address !'
-            elif not userName or not password or not email:
-                message = 'Please fill out the form !'
-            else:
-                cursor.execute('INSERT INTO user VALUES (NULL, % s, % s, % s)', (userName, email, password, ))
-                mysql.connection.commit()
-                message = 'You have successfully registered !'
-        elif request.method == 'POST':
-            message = 'Please fill out the form !'
-    """
-    return render_template('signUp.html', title='Sign Up')
+    if current_user.is_authenticated:
+        return redirect(url_for('login'))
+    form = RegistrationForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = User(email=form.email.data, password=form.password.data)
+            user.set_password(form.password.data)
+            db.session.add(user) # Add latest registered user into the database model
+            db.session.commit()
+            return redirect(url_for('login'))
+    return render_template('signup.html', title='Sign Up', form=form)
 
 # Login Page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    """
-    message = ''
-        if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
-            email = request.form['email']
-            password = request.form['password']
-            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-            cursor.execute('SELECT * FROM user WHERE email = % s AND password = % s', (email, password, ))
-            user = cursor.fetchone()
-            if user:
-                session['loggedin'] = True
-                session['userid'] = user['userid']
-                session['name'] = user['name']
-                session['email'] = user['email']
-                message = 'Logged in successfully !'
-                return render_template('user.html', mesage = mesage)
-            else:
-                message = 'Please enter correct email / password !'
-    """
-    return render_template('login.html', title="Log In")
+    form = LoginForm() 
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid email or password')
+            return redirect(url_for('login'))
+        login_user(user, remember=form.remember_me.data)
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            return redirect(url_for('index'))
+        return redirect(next_page)
+    return render_template('login.html', title="Log In", form=form)
 
-"""
+
 # logout the user and redirect to index page
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
-"""
+
 
 # Account Page
 @app.route('/myaccount', methods=['GET', 'POST'])
