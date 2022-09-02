@@ -14,7 +14,7 @@ class LoginForm(FlaskForm):
             return False
         user = User.query.filter_by(email=self.email.data).first()
         if not user:
-            self.email.errors.append('Invalid username')
+            self.email.errors.append('Invalid user email')
             return False
         if not user.check_password(self.password.data):
             self.password.errors.append('Invalid password')
@@ -23,7 +23,6 @@ class LoginForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=40)])
     password2 = PasswordField(
@@ -34,10 +33,7 @@ class RegistrationForm(FlaskForm):
         initial_validation = super(RegistrationForm, self).validate()
         if not initial_validation:
             return False
-        user = User.query.filter_by(username=self.username.data).first()
-        if user:
-            self.username.errors.append("Username taken, please pick a different one")
-            return False
+
         user = User.query.filter_by(email=self.email.data).first()
         if user:
             self.email.errors.append("Email already in use, please try a different one or reset password")
