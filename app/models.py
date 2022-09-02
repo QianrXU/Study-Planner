@@ -13,6 +13,20 @@ class User(UserMixin, db.Model): #User table
   email = db.Column(db.String(120), index=True, unique=True) 
   password_hash = db.Column(db.String(128))
 
+  def __init__(self, email, username, password):
+    self.email = email
+    self.set_password(password)
+
+  def set_password(self, password):
+    self.password_hash = generate_password_hash(password)
+
+  def check_password(self, password):
+    return check_password_hash(self.password_hash, password)
+
+  def is_authenticated(self):
+    return True
+
+
 class Four_Sem_SP(db.Model):
   study_plan_id = db.Column(db.Integer, primary_key=True)
   Y1S1_1 = db.Column(db.String(10))
@@ -39,6 +53,14 @@ class Four_Sem_SP(db.Model):
   Y2S2_4 = db.Column(db.String(10))
   Y2S2_5 = db.Column(db.String(10))
   user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # Reference to user id in user table
+
+def init_db():
+  db.drop_all() #needs review
+  db.create_all()
+
+
+if __name__ == '__main__':
+  init_db()
 
 """
 
