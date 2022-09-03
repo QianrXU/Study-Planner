@@ -6,28 +6,42 @@
         <h3 style="padding: 25px; padding-left: 60px">Sign Up</h3>
         </div>
     <div class="form-container-generic" style="height: 350px;">
-      <form>
+      <form method="post">
+        {{ form.hidden_tag() }}
         <table style="width:100%">
   
             <tr>
-              <td class="loginsignup-td"><label class="label-loginsignup" for="email" >Email: </label></td>
-              <td class="loginsignup-td"><input class="loginsignup" type="text" placeholder=""></td>
+              <td class="loginsignup-td">{{ form.email.label }}<br>
+                {{ form.email(size=64) }}<br>
+                {% for error in form.email.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}</td>
+              <!--<td class="loginsignup-td"><input class="loginsignup" type="text" placeholder=""></td>-->
               
             </tr>
             <tr>
-              <td class="loginsignup-td"><label class="label-loginsignup" for="password"> Password: </label></td>
-              <td class="loginsignup-td"><input class="loginsignup" type="password" placeholder=""></td>
+              <td class="loginsignup-td">{{ form.password.label }}<br>
+                {{ form.password(size=64) }}<br>
+                {% for error in form.password.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}</td>
+              <!--<td class="loginsignup-td"><input class="loginsignup" type="password" placeholder=""></td>-->
               
             </tr>
             <tr>
-                <td class="loginsignup-td"><label class="label-loginsignup" for="password"> Confirm Password: </label></td>
-                <td class="loginsignup-td"> <input class="loginsignup" type="password" placeholder=""></td>
+                <td class="loginsignup-td">{{ form.password2.label }}<br>
+                  {{ form.password2(size=64) }}<br>
+                  {% for error in form.password2.errors %}
+                  <span style="color: red;">[{{ error }}]</span>
+                  {% endfor %}</td>
+                <!--<td class="loginsignup-td"> <input class="loginsignup" type="password" placeholder=""></td>-->
                 
               </tr>
           </table>
+        <button class="btn-login">{{ form.submit() }}</button> 
       </form>
             
-        <button class="btn-login">Sign Up</button> 
+        
     </div>
 </div>
 
