@@ -15,11 +15,11 @@
 
   .form-container-generic input {
     border: 1px solid #dddfe2;
-    color: #1d2129;
+    color: #1d2129; 
     padding: 0 8px;
     outline: none;
   }
-  
+
 .btn-login {
   font-size: 19px;
   font-family: SourceSansPro;
@@ -36,7 +36,7 @@
   margin-top: 15px;
   }
   
-  .btn-login:hover {
+  #btn-login:hover {
   background:#DAAA00;
   background-image: url(doublearrow.png);
   background-repeat: no-repeat;

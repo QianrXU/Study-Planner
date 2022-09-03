@@ -4,14 +4,32 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 @login.user_loader
-def load_user(user_id):
-  return User.query.get(user_id)
+def load_user(id):
+  return User.query.get(id)
 
-class User(UserMixin, db.Model): #User table
+class User(db.Model): #User table
 
   id = db.Column(db.Integer, primary_key=True) # Each user has only one unique id;
   email = db.Column(db.String(120), index=True, unique=True) 
   password_hash = db.Column(db.String(128))
+
+
+  def __init__(self, email, password):
+    self.email = email
+    self.set_password(password)
+
+  def __repr__(self):
+    return '<User %r>' % self.email
+
+  def set_password(self, password):
+    self.password_hash = generate_password_hash(password)
+
+  def check_password(self, password):
+    return check_password_hash(self.password_hash, password)
+
+  def is_authenticated(self):
+    return True
+
 
 class Four_Sem_SP(db.Model):
   study_plan_id = db.Column(db.Integer, primary_key=True)
@@ -39,6 +57,22 @@ class Four_Sem_SP(db.Model):
   Y2S2_4 = db.Column(db.String(10))
   Y2S2_5 = db.Column(db.String(10))
   user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # Reference to user id in user table
+
+def init_db():
+  db.create_all()
+
+  # Create a test user
+  new_user = User('a@a.com', 'aaaaaaaa')
+  new_user.display_name = 'Nathan'
+  db.session.add(new_user)
+  db.session.commit()
+
+  new_user.datetime_subscription_valid_until = datetime.datetime(2019, 1, 1)
+  db.session.commit()
+
+
+if __name__ == '__main__':
+  init_db()
 
 """
 
