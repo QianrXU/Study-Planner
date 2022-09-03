@@ -8,29 +8,12 @@
     </div>
     <div class="form-container-generic">
             
-        <form method="post">
-            {{ form.hidden_tag() }}
-            <table style="width:100%">
-            <tr>
-                <td class="loginsignup-td"> {{ form.email.label }}<br>
-                    {{ form.email(size=64) }}<br>
-                    {% for error in form.email.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                    {% endfor %}</td>
-                
-            </tr>
-            <tr>
-                <td class="loginsignup-td">{{ form.password.label }}<br>
-                    {{ form.password(size=64) }}<br>
-                    {% for error in form.password.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                    {% endfor %}</td>
-            </tr>
-            </table>
-            <button class="btn-login">{{ form.submit() }}</button> 
-        </form>
+    <form>
+        <table style="width:100%">
+        <tr>
+            <td class="loginsignup-td"> <label class="label-loginsignup" for="email" >Email: </label></td>
+            <td class="loginsignup-td"> <input class="loginsignup" type="text" placeholder=""></td>
             
-
         </tr>
         <tr>
             <td class="loginsignup-td"><label class="label-loginsignup" for="password"> Password: </label></td>
@@ -40,7 +23,6 @@
      </form>
             
         <button class="btn-login" style="margin-top: 45px; margin-left: 250px;">Login</button> 
-
     </div>
 </div>
 
