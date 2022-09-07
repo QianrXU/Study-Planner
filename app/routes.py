@@ -56,6 +56,7 @@ def logout():
 @app.route('/myaccount', methods=['GET', 'POST'])
 def account():
     #Get user account
+    user=current_user.username
     #Check if user data exists
     #If true, get user data
     return render_template('myaccount.html', title="My Account")
