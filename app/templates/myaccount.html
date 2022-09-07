@@ -5,4 +5,31 @@
     <h1>This is my account.</h1>
 </div>
 
+<div>
+    <div style="height: 70px; background-color: #EBEBEB; width: 100%;">
+        <!-- Need to define this class once I find out which stylesheet is the main one. -->
+        <h3 class="myAccountHeader"> My study plans </h3>
+    </div>
+    <div class="form-container-generic">
+        <div class="container-account-study-plans">
+            <p style="font-family: TTNorms; font-weight: 400;"> Saved study plans </p>
+            <p style="display:none;">You have no saved study plans.</p>
+
+            <!--Pull in saved study plans from database here-->
+            <!--Need an if statement that sets this display to none and above display to inline-block-->
+            <!--List needs to be dynamic, there should be a list item for every row found in the database.-->
+            <ul class="list-account-study-plans">
+                <li>
+                    <a href="http://none">
+                        <p> 20/10/22 [dumby data] </p>
+                    </a>
+                    <!-- This will trigger a drop row/table request to the database -->
+                    <a href="http://none">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </li>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
