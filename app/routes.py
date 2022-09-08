@@ -57,11 +57,24 @@ def logout():
 def account():
     return render_template('myaccount.html', title="My Account")
 
+import pandas as pd
+import json
+import os
 
 # Studyplanner step 1
 @app.route('/createstudyplan-courses', methods=['GET', 'POST'])
 def createstudyplanstep1():
-    return render_template('step1-createstudyplan.html', title="Create study plan")
+    # save csv file into dataframe
+    targetcsv = os.path.join(app.static_folder, 'MIT-1.csv')
+    df = pd.read_csv(targetcsv, sep=",")
+    degrees =  list(df["Title"]) # save degrees into dictionary (column 'Title')
+    specialisations =  list(df["SpecialisationsOutcomes"]) # save specialisations into dictionary (column 'SpecialisationsOutcomes')
+
+    majors = dict(zip(df.Title, df.SpecialisationsOutcomes))
+
+    return render_template('step1-createstudyplan.html', degrees=degrees, majors=majors, data=map(json.dumps, specialisations), title="Create study plan")
+
+# d = dict(zip(df.Title, df.ID)) # if you want to create a dictionary of title of degree as key and then use as values something else, use the following
 
 # Studyplanner step 2
 @app.route('/createstudyplan-units', methods=['GET', 'POST'])

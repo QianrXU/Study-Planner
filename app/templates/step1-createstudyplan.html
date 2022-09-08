@@ -7,15 +7,17 @@
       <p class="gainanexperiencerich" style="text-transform: uppercase;">Gain an experience rich education</p>
       <h1 class="divheading">Create Study Plan</h1>
 
+      <!-- This dropdown group iterates through the variable 'degrees' (specified in routes.py). -->
       <div class="dropdowngroup">
         <div class="selectcourse dropdown">
           <button class="btn btn-secondary dropdown-toggle" id="selectcourse" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             Select your course
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Master of Information Technology</a></li>
-            <li><a class="dropdown-item" href="#">Option</a></li>
-            <li><a class="dropdown-item" href="#">Option</a></li>
+          <!-- Pulls data from the Title column -->
+          <ul class="dropdown-menu" id="selecteddegree" aria-labelledby="dropdownMenuButton1">
+            {% for value in degrees %}
+            <li><a class="dropdown-item" href="#">{{value}}</a></li>
+            {% endfor %}
           </ul>
         </div>
 
@@ -23,12 +25,20 @@
           <button class="btn btn-secondary dropdown-toggle" id="selectmajor" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             Select your major or specialisation
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <!-- Pulls data from the SpecialisationsOutcomes column -->
+          <ul class="dropdown-menu" id="selectedmajor" aria-labelledby="dropdownMenuButton1">
             <li><a class="dropdown-item" href="#">Not applicable</a></li>
             <div class="dropdown-divider"></div>
-            <li><a class="dropdown-item" href="#">Option</a></li>
-            <li><a class="dropdown-item" href="#">Option</a></li>
-            <li><a class="dropdown-item" href="#">Option</a></li>
+
+            <!-- Logic:
+            Match the selected course in above 
+            with a key from the specialisations dictionary
+            -->
+
+            <!-- if key is innerhtml e.g., master of it, display values with key that matches this -->
+            {% for value in specialisations %}
+            <li><a class="dropdown-item" href="#">{{value}}</a></li>
+            {% endfor %}
           </ul>
         </div>
 
@@ -36,20 +46,65 @@
           <button class="btn btn-secondary dropdown-toggle" id="selectbeginning" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             Select your beginning year and semester
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <ul class="dropdown-menu" id="selectedstart" aria-labelledby="dropdownMenuButton1">
             <li><a class="dropdown-item" href="#">Semester 1, 2023</a></li>
-            <li><a class="dropdown-item" href="#">Option</a></li>
-            <li><a class="dropdown-item" href="#">Option</a></li>
+            <li><a class="dropdown-item" href="#">Semester 2, 2023</a></li>
           </ul>
         </div>
 
       </div>
 
-      <button type="button" class="btn btn-warning"><a href="{{ url_for('createstudyplanstep2') }}">Continue</a></button>
+      
 
+      {{majors}}
+
+      <br><br>
+      
+      {% for value in majors %}
+        {{value}}
+      {% endfor %}
+
+      <button type="button" class="btn btn-warning"><a href="{{ url_for('createstudyplanstep2') }}">Continue</a></button>
     </div>
   </div>
 </div>
 
+<script>
+
+// COURSE DROPDOWN
+$("#selecteddegree a").click(function(){
+  event.preventDefault(); // prevents page scroll when button clicked
+  var selected_degree = $(this).text();
+  document.getElementById("selectcourse").innerHTML = selected_degree;
+})
+
+// MAJOR DROPDOWN
+$("#selectedmajor a").click(function(){
+  event.preventDefault(); // prevents page scroll when button clicked
+  selected_major = $(this).text();
+  document.getElementById("selectmajor").innerHTML = selected_major;
+})
+
+// this event listener detects whenever a user changes a course
+/* Event listener - listens out for any changes to major dropdown */
+changed_selected_course = document.getElementById("selectcourse");
+observer = new MutationObserver(function(mutationsList, observer) {detectedChange();});
+observer.observe(changed_selected_course, {characterData: false, childList: true, attributes: false});
+
+/* Function when master is changed */
+function detectedChange(){
+  // posts new course selection to console log
+   console.log(document.getElementById("selectcourse").innerHTML);
+   // we'll need to filter by key
+}
+
+// Select beginning year/semester dropdown
+$("#selectedstart a").click(function(){
+  event.preventDefault(); // prevents page scroll when button clicked
+  selected_start = $(this).text();
+  document.getElementById("selectbeginning").innerHTML = selected_start;
+})
+
+</script>
 
 {% endblock %}
