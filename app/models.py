@@ -1,7 +1,5 @@
 from app import db
 from app import login
-#Check with Fangting before intergrating this.
-from app import myaccount
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -9,10 +7,33 @@ from werkzeug.security import generate_password_hash, check_password_hash
 def load_user(id):
   return User.query.get(id)
 
-#Check with Fangting before intergrating this.
-@myaccount.SP_loader
-def load_user(id):
-  return User.query.get(id)
+#Check with Fangting before intergrating this. The next line doesn't work. Learn why.
+#@myaccount.SP_loader
+def load_SP(user_id):
+  return Four_Sem_SP.query.get(user_id)
+
+#@Step1.filter
+def filter_course(course):
+  return Unit.query.get(course)
+
+#@Step1.filter
+#def filter_special(course, specialisation):
+  #Check syntax for below query.
+  #return Four_Sem_SP.query.get(course, where specialisation=specialisation)
+
+  #@Step1.filter
+#def filter_start(start):
+  #Check syntax for below query.
+  #return Four_Sem_SP.query.get(course, where specialisation=specialisation)
+
+  #@Step1.filter
+#def filtered_units(course, specialisation, start):
+  #Check for null fields. If null, select *.
+  #return Four_Sem_SP.query.get(course, where specialisation=specialisation)
+
+
+#End Georgia's addiditons
+
 
 class User(db.Model): #User table
 
