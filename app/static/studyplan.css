@@ -62,23 +62,20 @@
   font-family: TTNorms;
   font-size: 14px;
   font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.unit-heading:first-child {
-  margin-top: 20px;
 }
 
 .unit-draggables {
   cursor: grab;
 }
 
-/* Colors need to be determined by availability. Will need to set one of these up for each unit header. */
-#conversionunits li::before {
-  content: '🟡';
-  margin-left: -32px;
-  padding-right: 10px;
+#conversionUL li:last-child, 
+#coreUL li:last-child, 
+#optionalUL li:last-child {
+  margin-bottom: 15px;
 }
+
+/* Colors need to be determined by availability. Will need to set one of these up for each unit header. */
+
 
 /* //////////////////////// */
 
@@ -97,10 +94,8 @@
 
 /* This needs to be updated to reflect the different colors of different unit availability */
 #units-content ul {
-  list-style: none;
-  font-family: TTNorms;
+  font-family: 'TTNorms';
   font-size: 14px;
-  margin-bottom: 5px;
 }
 
 #units-bottom {
@@ -178,7 +173,7 @@
 }
 
 .semester-paragraph {
-  font-family: TTNorms;
+  font-family: 'TTNorms';
   letter-spacing: 0.05em;
   font-size: 20px;
   margin-bottom: 0.5rem;
@@ -187,4 +182,23 @@
 
 .semester-paragraph:first-child {
   padding-top: 15px;
+}
+
+.semester-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.target {
+  background-color: #E7E7E7;
+  margin: 10px;
+  border: 1px solid #C9C9C9;
+  text-align: center;
+  padding: 20px;
+  list-style: none;
+  flex: 1; /* sets width of target container to fill width*/
 }
