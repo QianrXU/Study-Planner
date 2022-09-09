@@ -66,12 +66,40 @@
         <div class="main-header" tabindex="0">
             <div>
       
-                <h1 class="headerfont">
-                    change for the page 
+                <h1 class="title">
+                    
                 </h1>
       
             </div>
         </div>
+
+        
+    <script>
+        
+        let arr=location.href.split('/')
+        let len=location.href.split('/').length
+   
+        let pageParams=arr[len-1]
+        if(pageParams=='signup'){
+            document.getElementsByClassName("title")[0].innerHTML="Sign up to the Study Planner tool"
+        }else if(pageParams=='login'){
+            document.getElementsByClassName("title")[0].innerHTML="Log in to the Study Planner tool"
+        }else if(pageParams=='faq'){
+            document.getElementsByClassName("title")[0].innerHTML="Frequently asked questions"
+        }else if(pageParams=='myaccount'){
+            document.getElementsByClassName("title")[0].innerHTML="My Account"
+        }else if(pageParams=='step1-createstudyplan'){
+            document.getElementsByClassName("title")[0].innerHTML="Create study plan: Step 1"
+        }else if(pageParams=='step2-createstudyplan'){
+            document.getElementsByClassName("title")[0].innerHTML="Create study plan: Step 2"
+        }else{
+            document.getElementsByClassName("title")[0].innerHTML="Study Planner"
+        }
+
+    </script>
+
+    
+
     </header>
   
 
