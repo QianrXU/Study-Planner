@@ -36,9 +36,9 @@
       <div class="progress" id="units-progress-grid"><div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div>
         <div id="grid-content">
           <div id="course-information">
-            <p id="course-title">Master of Information Technology (Coursework)</p> <!--  Need to pull this. -->
-            <p id="administration">Administered by: Physics, Mathematics and Computing</p>  <!--  Need to pull this. -->
-            <p id="course-code">Course code: 62510</p>  <!--  Need to pull this. -->
+            <p id="course-title">{{ selectedCourse }}</p> <!-- Pulled from prior selection page -->
+            <p id="administration">Administered by: {{ faculty }}</p>  <!--  Need to pull this. -->
+            <p id="course-code">Course code: {{ coursecode }}</p>  <!--  Need to pull this. -->
           </div>
 
           <hr style="border-top: 1px solid #C9C9C9;">

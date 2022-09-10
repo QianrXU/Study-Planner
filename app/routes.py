@@ -60,26 +60,85 @@ def account():
 import pandas as pd
 import json
 import os
+import re
+from flask import request
+from flask import jsonify
+from werkzeug.wrappers import Request, Response
 
 # Studyplanner step 1
 @app.route('/createstudyplan-courses', methods=['GET', 'POST'])
 def createstudyplanstep1():
+
+    # WILL NEED TO FILTER BY YEAR. 
+    # PROBABLY BEST TO REMOVE UNWANTED YEARS FROM USER STANDPOINT DIRECTLY FROM CSV? /C
+
+    # declare global variables
+    global selectedCourse
+    global faculty
+    global coursecode
+
     # save csv file into dataframe
-    targetcsv = os.path.join(app.static_folder, 'MIT-1.csv')
+    targetcsv = os.path.join(app.static_folder, 'Json-export-bite.csv')
     df = pd.read_csv(targetcsv, sep=",")
-    degrees =  list(df["Title"]) # save degrees into dictionary (column 'Title')
-    specialisations =  list(df["SpecialisationsOutcomes"]) # save specialisations into dictionary (column 'SpecialisationsOutcomes')
 
-    majors = dict(zip(df.Title, df.SpecialisationsOutcomes))
+    # process ListMajors column
+    majors = df['ListMajors'].dropna().values.tolist() # create dataframe of listmajors column
+    pattern = r'[(\d)\'<b]+'
+    majors = ' '.join(str(e) for e in majors)
+    majors = re.split(pattern, majors)
+    majors = ' '.join(str(e) for e in majors)
+    newpattern = r'[\']+'
+    majors = re.split(newpattern, majors)
+    majors = ' '.join(str(e) for e in majors)
+    majors = majors.split(" r>")
 
-    return render_template('step1-createstudyplan.html', degrees=degrees, majors=majors, data=map(json.dumps, specialisations), title="Create study plan")
+    # TO DO 1
+    # need to figure out how to filter out degrees that are actually
+    # majors, e.g., Accounting and Business Law are majors (Bachelor of Commerce) 
+    # should not be in Course selection (will appear in majors too).
+    # Logic: If degree exists in major, pop item from degree dicitonary
 
-# d = dict(zip(df.Title, df.ID)) # if you want to create a dictionary of title of degree as key and then use as values something else, use the following
+    # degrees
+    degrees_withID = dict(zip(df.Title, df.CourseID))
+    degrees_withFaculty = dict(zip(df.Title, df.Faculty))
+    degrees = sorted(degrees_withID.keys())
+    faculty = dict(zip(df.Faculty, df.CourseID))
+
+    if request.method == 'POST':
+        try:
+            selectedCourse = request.form.get('name') # saves selected course into variable
+            for key, value in degrees_withID.items(): # iterates through values to find course code
+                if selectedCourse == key:
+                    coursecode=value
+            for key, value in degrees_withFaculty.items(): # iterates through values to find course code
+                if selectedCourse == key:
+                    faculty=value
+        except:
+            return render_template('404.html'), 404
+        return ('', 204) # indicates post response has been done successfully 
+    
+    return render_template('step1-createstudyplan.html',
+            degrees_withID=degrees_withID,
+            degrees=degrees, 
+            majors=majors,
+            #d=d,
+            faculty=faculty,
+            title="Create study plan")
 
 # Studyplanner step 2
 @app.route('/createstudyplan-units', methods=['GET', 'POST'])
 def createstudyplanstep2():
-    return render_template('step2-createstudyplan.html', title="Create study plan")
+    try:
+        global selectedCourse 
+        global faculty
+        global coursecode
+        return render_template('step2-createstudyplan.html', 
+            selectedCourse=selectedCourse, 
+            faculty=faculty,
+            coursecode=coursecode,
+            title="Create study plan")
+    except:
+        return render_template('404.html'), 404
 
 # Download PDF
 @app.route('/pdf', methods=['GET', 'POST'])
