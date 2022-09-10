@@ -13,18 +13,10 @@
     <div class="form-container-generic">
         <div class="container-account-study-plans">
             <p style="font-family: TTNorms; font-weight: 400;"> Saved study plans </p>
-            <p style="display:none;">You have no saved study plans.</p>
-
-            <!--Pull in saved study plans from database here-->
-            <!--Need an if statement that sets this display to none and above display to inline-block-->
-            <!--List needs to be dynamic, there should be a list item for every row found in the database.-->
-            <ul class="list-account-study-plans">
-                <li>
-                    <a href="http://none">
             {% if results == 0 %}
                 <p>You have no saved study plans.</p>
             {% else %}
-                <ul>    
+                <ul class="list-account-study-plans">    
                 {% for SP in SP_array %}
                     <!-- Needs to link to prepopulated version of this page -->
                     <li>
