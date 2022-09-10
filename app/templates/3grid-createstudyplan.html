@@ -71,12 +71,20 @@
       
       <button type="button" class="btn btn-warning" style="margin-left: 30px;"><a href="">Download</a></button>
       
+      {{ test }}
+
     </div>
 
   </div>
 </div>
 
+
+
+<!-- JSON from unitValues variable on back end -->
+<div id="unitValuesJSON" style="display: none;">{{ unitValues }}</div>
+
 <script>
+
 
 // Populate divs on page load
 var unitList = {
@@ -152,6 +160,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   }
 });
+
+
+
 
 
 // ITERATE OVER JAVASCRIPT OBJECT - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries

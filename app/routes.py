@@ -5,6 +5,10 @@ from app.forms import RegistrationForm, LoginForm
 from .models import User, Four_Sem_SP
 from . import db
 from werkzeug.urls import url_parse
+import pandas as pd
+import os
+import re
+import json
 
 
 @app.route('/')
@@ -57,39 +61,29 @@ def logout():
 def account():
     return render_template('myaccount.html', title="My Account")
 
-import pandas as pd
-import json
-import os
-import re
-from flask import request
-from flask import jsonify
-from werkzeug.wrappers import Request, Response
+
 
 # Studyplanner step 1
 @app.route('/createstudyplan-courses', methods=['GET', 'POST'])
 def createstudyplanSelectCourse():
 
     # WILL NEED TO FILTER BY YEAR. 
-    # PROBABLY BEST TO REMOVE UNWANTED YEARS FROM USER STANDPOINT DIRECTLY FROM CSV? /C
+    # PROBABLY BEST TO REMOVE UNWANTED YEARS FROM USER STANDPOINT DIRECTLY FROM CSV, 
+    # OTHERWISE THEY'D HAVE TO GO INTO THE SOURCE CODE TO CHANGE IT? /C
 
     # declare global variables
     global selectedCourse
     global faculty
     global coursecode
     global getMajorValues
+    global getUnitValues
 
     # save csv file into dataframe
     targetcsv = os.path.join(app.static_folder, 'Json-export-bite.csv')
     df = pd.read_csv(targetcsv, sep=",")
 
-    # TO DO 1
-    # need to figure out how to filter out degrees that are actually
-    # majors, e.g., Accounting and Business Law are majors (Bachelor of Commerce) 
-    # should not be in Course selection (will appear in majors too).
-    # Logic: If degree exists in major, pop item from degree dicitonary
-
     # Dataframe generation
-    degrees = df[~df.CourseID.str.startswith('MJD')]
+    degrees = df[~df.CourseID.str.startswith('MJD')] # remove any course IDs that start with MJD (i.e., majors). This is the column that the degrees selection dropdown will choose its values from.
     degrees = dict(zip(degrees.Title, degrees.CourseID))
     degrees = sorted(degrees.keys())
 
@@ -106,7 +100,8 @@ def createstudyplanSelectCourse():
             for key, value in degrees_withFaculty.items(): # iterates through values to find course code
                 if selectedCourse == key:
                     faculty=value
-            getMajorValues = df[df.Title.eq(selectedCourse)] # get dataframe for course title
+            getMajorValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Major 
+            getUnitValues = df[df.Title.eq(selectedCourse)] #  get dataframe for selected course, to be used in Units
 
         except:
             return render_template('404.html'), 404
@@ -149,8 +144,21 @@ def createstudyplanSelectUnits():
         global selectedCourse 
         global faculty
         global coursecode
+        global getUnitValues
+
+        # process units based on course selection
+        unitValues = getUnitValues['Structure'].dropna() # create dataframe of listmajors column
+        unitValues = [str(x) for x in unitValues][0] # convert to string
+        unitValues = unitValues[1:-1]
+        unitValues = json.loads(unitValues) # json file
+        test = json.dumps(unitValues)
+
+
+
         return render_template('3grid-createstudyplan.html', 
+            unitValues=unitValues,
             selectedCourse=selectedCourse, 
+            test=test,
             faculty=faculty,
             coursecode=coursecode,
             title="Create study plan")
