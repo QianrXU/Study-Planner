@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container" style="margin-top: 40px; margin-bottom: 40px;">
+  <div class="gridsystem row">
+    
+    <div class="units col-12 col-md-auto" id="units">
+      <div class="progress" id="units-progress"><div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div>
+        <div id="units-content">
+          <h2 id="select-units-title">Select units</h2>
+
+            <!-- If there exists conversion units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
+            <p class="unit-heading" id="conversion" draggable="false" style="display:none;">Conversion units (select xx units)</p>
+            <div class="unit-draggables" id="conversionunits" style="display:none;">
+              <ul id="conversionUL" style="display:none;"></ul>
+            </div>
+
+             <!-- If there exists core units units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
+             <p class="unit-heading" id="core" draggable="false" style="display:none;">Core units (select xx units)</p>
+             <div class="unit-draggables" id="corenunits" style="display:none;">
+               <ul id="coreUL" style="display:none;"></ul>
+             </div>
+
+            <!-- If there exists optional units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
+            <p class="unit-heading" id="optional" draggable="false" style="display:none;">Optional units (select xx units)</p>
+            <div class="unit-draggables" id="optionalunits" style="display:none;">
+              <ul id="optionalUL" style="display:none;"></ul>
+            </div>
+            
+
+        </div>
+        <div id="units-bottom">Availability keys</div>
+    </div>
+
+    <div class="col-12 col-md" id="grid">
+      <div class="progress" id="units-progress-grid"><div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div>
+        <div id="grid-content">
+          <div id="course-information">
+            <p id="course-title">{{ selectedCourse }}</p> <!-- Pulled from prior selection page -->
+            <p id="administration">Administered by: {{ faculty }}</p>  <!--  Need to pull this. -->
+            <p id="course-code">Course code: {{ coursecode }}</p>  <!--  Need to pull this. -->
+          </div>
+
+          <hr style="border-top: 1px solid #C9C9C9;">
+
+          <!--  Grid system. --> 
+          <div class="container" id="gridcontainer">
+
+            <!--  Start semester/year determined by what user selects in dropdown in previous window -->
+            <p class="semester-paragraph" id="year1semester1">Semester 1, 2023</p>
+            <div class="semester-row" id="row1"> <!--  Add/delete row button to add/delete. -->
+              <div class="target" id="year1sem1_1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem1_2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem1_3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem1_4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem1_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display:none;"></div>  <!-- if overloading, unhide -->
+            </div>
+
+            <p class="semester-paragraph" id="year1semester1">Semester 2, 2023</p>
+            <div class="semester-row" id="row1">
+              <div class="target" id="year1sem2_1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem2_2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem2_3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem2_4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display:none;"></div>  <!-- if overloading, unhide -->
+            </div>
+
+          </div>
+
+      </div>
+      
+      <button type="button" class="btn btn-warning" style="margin-left: 30px;"><a href="">Download</a></button>
+      
+    </div>
+
+  </div>
+</div>
+
+<script>
+
+// Populate divs on page load
+var unitList = {
+  "conversion": "CITS1001 Software Engineering with Java, CITS1003 Introduction to Cybersecurity", 
+  "core": "CITS4401 Software Requirements and Design, CITS4407 Open Source Tools and Scripting",
+  "optional": "AUTO4508 Mobile Robots, CITS4009 Computational Data Analysis"
+  };
+
+window.addEventListener('DOMContentLoaded', (event) => {
+  console.log('DOM fully loaded and parsed');
+
+  // Iterate over unitList object and populate unit selection based on contents: conversion units
+  for (const [key, value] of Object.entries(unitList)) {
+    if (`${key}` == 'conversion') {
+      console.log("Conversion units exist")
+      document.getElementById("conversion").style.display = "inline";
+      document.getElementById("conversionunits").style.display = "inline";
+      document.getElementById("conversionUL").style.display = "flex";
+      document.getElementById("conversionUL").style.flexDirection = "column";
+      var conversionArr = (`${value}`).split(','); // split conversion units into list (split by comma)
+      conversionArr.forEach(createConversionList); // iterate over units in conversionList and pass through List creator
+      function createConversionList(item, index){
+        var conversionList = document.getElementById("conversionUL"); // find conversion list
+        var conversionLListItem = document.createElement("li"); // create list item
+        conversionLListItem.appendChild(document.createTextNode(item)); // create and append content of list item
+        conversionLListItem.setAttribute("id", item); // set ID of new list item to 'Unit Code Unit Name'
+        conversionLListItem.setAttribute("class", "element"); // set class of new list item to 'element'
+        conversionLListItem.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
+        conversionLListItem.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
+        conversionList.appendChild(conversionLListItem); // append list item and content of list item to conversion list
+    }}
+
+    // Iterate over unitList object and populate unit selection based on contents: core units
+    if (`${key}` == 'core') {
+      console.log("Core units exist")
+      document.getElementById("core").style.display = "inline";
+      document.getElementById("corenunits").style.display = "inline";
+      document.getElementById("coreUL").style.display = "flex";
+      document.getElementById("coreUL").style.flexDirection = "column";
+      var coreArr = (`${value}`).split(','); // split conversion units into list (split by comma)
+      coreArr.forEach(createCoreList); // iterate over units in conversionList and pass through List creator
+      function createCoreList(item, index){
+        var coreList = document.getElementById("coreUL"); // find conversion list
+        var coreLListItem = document.createElement("li"); // create list item
+        coreLListItem.appendChild(document.createTextNode(item)); // create and append content of list item
+        coreLListItem.setAttribute("id", item); // set ID of new list item to 'Unit Code Unit Name'
+        coreLListItem.setAttribute("class", "element"); // set class of new list item to 'element'
+        coreLListItem.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
+        coreLListItem.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
+        coreList.appendChild(coreLListItem); // append list item and content of list item to conversion list
+      }}
+
+      // Iterate over unitList object and populate unit selection based on contents: optional units
+      if (`${key}` == 'optional') {
+      console.log("Optional units exist")
+      document.getElementById("optional").style.display = "inline";
+      document.getElementById("optionalunits").style.display = "inline";
+      document.getElementById("optionalUL").style.display = "flex";
+      document.getElementById("optionalUL").style.flexDirection = "column";
+      var optionalArr = (`${value}`).split(','); // split conversion units into list (split by comma)
+      optionalArr.forEach(createOptionalist); // iterate over units in conversionList and pass through List creator
+      function createOptionalist(item, index){
+        var optionalList = document.getElementById("optionalUL"); // find conversion list 
+        var optionalLListItem = document.createElement("li"); // create list item
+        optionalLListItem.appendChild(document.createTextNode(item)); // create and append content of list item
+        optionalLListItem.setAttribute("id", item); // set ID of new list item to 'Unit Code Unit Name'
+        optionalLListItem.setAttribute("class", "element"); // set class of new list item to 'element'
+        optionalLListItem.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
+        optionalLListItem.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
+        optionalList.appendChild(optionalLListItem); // append list item and content of list item to conversion list
+      }}
+
+
+  }
+});
+
+
+// ITERATE OVER JAVASCRIPT OBJECT - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
+// const object1 = {
+//   a: 'somestring',
+//   b: 42
+// };
+
+// for (const [key, value] of Object.entries(object1)) {
+//   console.log(`${key}: ${value}`);
+// }
+
+// // expected output:
+// // "a: somestring"
+// // "b: 42"
+
+
+
+
+
+// Grid system
+
+let offset = [0, 0]
+
+function allowDrop(ev) {
+  var t = ev.target;
+  while (t !== null && !t.classList.contains("target")) {
+    t = t.parentNode;
+  }
+  if (t && t.childNodes.length > 0) {
+    return false;
+  }
+  ev.preventDefault()
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData('dragID', ev.target.id)
+  offset = [
+    ev.target.offsetLeft - ev.clientX,
+    ev.target.offsetTop - ev.clientY
+  ]
+}
+
+function drop(ev) {
+  ev.preventDefault();
+  const data = ev.dataTransfer.getData('dragID');
+  ev.target.appendChild(document.getElementById(data));
+}
+
+function pullBack(){
+  // function for binning items here
+}
+
+
+
+</script>
+
+{% endblock %}

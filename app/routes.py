@@ -67,7 +67,7 @@ from werkzeug.wrappers import Request, Response
 
 # Studyplanner step 1
 @app.route('/createstudyplan-courses', methods=['GET', 'POST'])
-def createstudyplanstep1():
+def createstudyplanSelectCourse():
 
     # WILL NEED TO FILTER BY YEAR. 
     # PROBABLY BEST TO REMOVE UNWANTED YEARS FROM USER STANDPOINT DIRECTLY FROM CSV? /C
@@ -76,6 +76,8 @@ def createstudyplanstep1():
     global selectedCourse
     global faculty
     global coursecode
+    global majors
+    global getMajorValues
 
     # save csv file into dataframe
     targetcsv = os.path.join(app.static_folder, 'Json-export-bite.csv')
@@ -98,9 +100,11 @@ def createstudyplanstep1():
     # should not be in Course selection (will appear in majors too).
     # Logic: If degree exists in major, pop item from degree dicitonary
 
-    # degrees
+    # Dataframe generation
     degrees_withID = dict(zip(df.Title, df.CourseID))
     degrees_withFaculty = dict(zip(df.Title, df.Faculty))
+    degrees_withMajor = dict(zip(df.Title, df.ListMajors))
+
     degrees = sorted(degrees_withID.keys())
     faculty = dict(zip(df.Faculty, df.CourseID))
 
@@ -113,26 +117,51 @@ def createstudyplanstep1():
             for key, value in degrees_withFaculty.items(): # iterates through values to find course code
                 if selectedCourse == key:
                     faculty=value
+            getMajorValues = df[df.Title.eq(selectedCourse)] # get dataframe for course title
+
         except:
             return render_template('404.html'), 404
-        return ('', 204) # indicates post response has been done successfully 
+        return ('', 204) # indicates post response has been done successfully
     
-    return render_template('step1-createstudyplan.html',
+    return render_template('1course-createstudyplan.html',
             degrees_withID=degrees_withID,
             degrees=degrees, 
             majors=majors,
-            #d=d,
             faculty=faculty,
             title="Create study plan")
 
+# Download PDF
+@app.route('/createstudyplan-majors', methods=['GET', 'POST'])
+def createstudyplanSelectMajor():
+    try:
+        global getMajorValues
+
+        # process ListMajors column
+        newmajors = getMajorValues['ListMajors'].dropna().values.tolist() # create dataframe of listmajors column
+        pattern = r'[(\d)\'<b]+'
+        newmajors = ' '.join(str(e) for e in newmajors)
+        newmajors = re.split(pattern, newmajors)
+        newmajors = ' '.join(str(e) for e in newmajors)
+        newpattern = r'[\']+'
+        newmajors = re.split(newpattern, newmajors)
+        newmajors = ' '.join(str(e) for e in newmajors)
+        newmajors = newmajors.split(" r>")
+
+        return render_template('2major-createstudyplan.html',
+            newmajors=newmajors,
+            getMajorValues=getMajorValues,
+            title="Create study plan")
+    except:
+        return render_template('404.html'), 404
+
 # Studyplanner step 2
 @app.route('/createstudyplan-units', methods=['GET', 'POST'])
-def createstudyplanstep2():
+def createstudyplanSelectUnits():
     try:
         global selectedCourse 
         global faculty
         global coursecode
-        return render_template('step2-createstudyplan.html', 
+        return render_template('3grid-createstudyplan.html', 
             selectedCourse=selectedCourse, 
             faculty=faculty,
             coursecode=coursecode,
