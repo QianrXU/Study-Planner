@@ -12,26 +12,6 @@ def load_user(id):
 def load_SP(user_id):
   return Four_Sem_SP.query.get(user_id)
 
-#@Step1.filter
-def filter_course(course):
-  return Unit.query.get(course)
-
-#@Step1.filter
-#def filter_special(course, specialisation):
-  #Check syntax for below query.
-  #return Four_Sem_SP.query.get(course, where specialisation=specialisation)
-
-  #@Step1.filter
-#def filter_start(start):
-  #Check syntax for below query.
-  #return Four_Sem_SP.query.get(course, where specialisation=specialisation)
-
-  #@Step1.filter
-#def filtered_units(course, specialisation, start):
-  #Check for null fields. If null, select *.
-  #return Four_Sem_SP.query.get(course, where specialisation=specialisation)
-
-
 #End Georgia's addiditons
 
 
@@ -85,6 +65,7 @@ class Four_Sem_SP(db.Model):
   Y2S2_4 = db.Column(db.String(10))
   Y2S2_5 = db.Column(db.String(10))
   user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # Reference to user id in user table
+  #date_updated=db.Column(db.DATETIME, nullable=False, default=db.GETDATE())
 
 def init_db():
   db.create_all()

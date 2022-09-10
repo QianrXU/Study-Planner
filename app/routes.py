@@ -55,12 +55,23 @@ def logout():
 # Account Page
 @app.route('/myaccount', methods=['GET', 'POST'])
 def myaccount():
+    #Adapted code from https://python-adv-web-apps.readthedocs.io/en/latest/flask_db2.html
+    
+    #Is user logged in as their user_id or their email?
+    
     #Get user account
     user=current_user.username
-    #Check if user data exists
+    saved_study_plans= Four_Sem_SP.query.filter_by(user_id=user).order_by(Four_Sem_SP.date_updated).all()
+    results= saved_study_plans.count()
+    if results>0:
+        SP_array = []
+        for SP in saved_study_plans:
+            SP_key=SP.study_plan_id
+            SP_name= SP.date_updated
+            SP.append( (SP_key, SP_name) )
+    return render_template('myaccount.html', title="My Account", SP_array=SP_array, results=results)
 
-    #If true, get user data
-    return render_template('myaccount.html', title="My Account")
+    
 
 import pandas as pd
 import json

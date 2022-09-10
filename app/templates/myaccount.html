@@ -21,15 +21,25 @@
             <ul class="list-account-study-plans">
                 <li>
                     <a href="http://none">
-                        <p> 20/10/22 [dumby data] </p>
-                    </a>
-                    <!-- This will trigger a drop row/table request to the database -->
-                    <a href="http://none">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </li>
+            {% if results == 0 %}
+                <p>You have no saved study plans.</p>
+            {% else %}
+                <ul>    
+                {% for SP in SP_array %}
+                    <!-- Needs to link to prepopulated version of this page -->
+                    <li>
+                        <a href="{{ url_for('createstudyplan-units') }}"> {{ SPS[1] }} </a> 
+                        <button id=" {{ SP[0] }}"> <i class="fas fa-trash"></i> </button>
+                    </li>
+                {% end for %}
+                </ul>
+            {% endif %}
+            
+            
         </div>
     </div>
 </div>
+
+
 
 {% endblock %}
