@@ -76,23 +76,11 @@ def createstudyplanSelectCourse():
     global selectedCourse
     global faculty
     global coursecode
-    global majors
     global getMajorValues
 
     # save csv file into dataframe
     targetcsv = os.path.join(app.static_folder, 'Json-export-bite.csv')
     df = pd.read_csv(targetcsv, sep=",")
-
-    # process ListMajors column
-    majors = df['ListMajors'].dropna().values.tolist() # create dataframe of listmajors column
-    pattern = r'[(\d)\'<b]+'
-    majors = ' '.join(str(e) for e in majors)
-    majors = re.split(pattern, majors)
-    majors = ' '.join(str(e) for e in majors)
-    newpattern = r'[\']+'
-    majors = re.split(newpattern, majors)
-    majors = ' '.join(str(e) for e in majors)
-    majors = majors.split(" r>")
 
     # TO DO 1
     # need to figure out how to filter out degrees that are actually
@@ -101,11 +89,12 @@ def createstudyplanSelectCourse():
     # Logic: If degree exists in major, pop item from degree dicitonary
 
     # Dataframe generation
+    degrees = df[~df.CourseID.str.startswith('MJD')]
+    degrees = dict(zip(degrees.Title, degrees.CourseID))
+    degrees = sorted(degrees.keys())
+
     degrees_withID = dict(zip(df.Title, df.CourseID))
     degrees_withFaculty = dict(zip(df.Title, df.Faculty))
-    degrees_withMajor = dict(zip(df.Title, df.ListMajors))
-
-    degrees = sorted(degrees_withID.keys())
     faculty = dict(zip(df.Faculty, df.CourseID))
 
     if request.method == 'POST':
@@ -126,7 +115,6 @@ def createstudyplanSelectCourse():
     return render_template('1course-createstudyplan.html',
             degrees_withID=degrees_withID,
             degrees=degrees, 
-            majors=majors,
             faculty=faculty,
             title="Create study plan")
 
