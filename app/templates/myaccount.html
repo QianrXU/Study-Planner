@@ -21,17 +21,30 @@
                     <!-- Needs to link to prepopulated version of this page -->
                     <li>
                         <a href="{{ url_for('createstudyplan-units') }}"> {{ SPS[1] }} </a> 
-                        <button id=" {{ SP[0] }}"> <i class="fas fa-trash"></i> </button>
+                        <button id=" {{ SP[0] }}" onClick="delete_SP(this.id)"> <i class="fas fa-trash"></i> </button>
                     </li>
                 {% end for %}
                 </ul>
             {% endif %}
-            
-            
+              
         </div>
     </div>
 </div>
 
+<script>
+    /* Function to delete study plan. */
+function delete_SP(SP_id){
+  // posts SP id to console log
+  console.log(SP_id);
+
+  // if delete button pressed, it sends the id to the backend.
+  $.ajax({
+    type: "POST",
+    url: "{{ url_for('myaccount') }}",
+    data: {"SP_id": SP_id}
+  })
+}
+</script>
 
 
 {% endblock %}

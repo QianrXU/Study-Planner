@@ -63,6 +63,16 @@ def myaccount():
     user=current_user.username
     saved_study_plans= Four_Sem_SP.query.filter_by(user_id=user).order_by(Four_Sem_SP.date_updated).all()
     results= saved_study_plans.count()
+
+    if request.method == 'POST':
+        delete_plan =request.form.get('SP_id')
+        Four_Sem_SP.query.filter_by(study_plan_id=delete_plan).delete()
+        
+        #Rerun the original query
+        saved_study_plans #get updated study plan list
+        results #get new results number
+        return render_template('myaccount.html', title="My Account", SP_array=SP_array, results=results)
+
     if results>0:
         SP_array = []
         for SP in saved_study_plans:
