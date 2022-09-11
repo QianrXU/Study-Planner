@@ -397,7 +397,7 @@ def createstudyplanSelectUnits():
         except: type8 = "No Type 8"
 
 # NEED TO LOOK AT ADDING MORE POTENTIALLY - E.G., COURSE ID 71580 HAS 8 LEVELS (I.E., TYPES). Does any other
-# degrees have more than 8 ? /C 
+# degrees have more than 8 ? Look at 31400 I think it went over? /C 
 
         return render_template('3grid-createstudyplan.html', 
             units1=units1,

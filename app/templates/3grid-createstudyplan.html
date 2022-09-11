@@ -27,6 +27,18 @@
               <ul id="optionalUL" style="display:none;"></ul>
             </div>
             
+            <!-- If there exists a particular Group for units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
+            <p class="unit-heading" id="optionalGroupA" draggable="false" style="display:none;">Optional - Group A units (select xx units)</p>
+            <div class="unit-draggables" id="optionalA" style="display:none;">
+              <ul id="optionalA_UL" style="display:none;"></ul>
+            </div>
+
+            <!-- If there exists a particular Group for units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
+            <p class="unit-heading" id="optionalGroupB" draggable="false" style="display:none;">Optional - Group B units (select xx units)</p>
+            <div class="unit-draggables" id="optionalB" style="display:none;">
+              <ul id="optionalB_UL" style="display:none;"></ul>
+            </div>
+
         </div>
         <div id="units-bottom">Availability keys</div>
     </div>
@@ -178,7 +190,8 @@ console.log(multiArray)
 
 console.log("##########")
 
-// Populate divs on page load
+// Populate divs on page load. THIS MAY NOT WORK WITH ALL COURSES. E.G., LOOK AT MASTER OF BUSINESS ANALYTICS, CONVERSION UNITS IS UNDEFINED
+// I believe there mustn't be a second index for that array and that is why it comes out undefined under 'Conversion'.
 unitlists = {}
 for(var i = 0; i < multiArray.length; i++){
   unitlists[multiArray[i][0][0]] = multiArray[i][0][2];
@@ -248,13 +261,48 @@ window.addEventListener('DOMContentLoaded', (event) => {
         optionalList.appendChild(optionalLListItem); // append list item and content of list item to conversion list
       }}
 
+      // Iterate over unitList object and populate unit selection based on contents: optional group A units
+      if (`${key}` == 'Option - Group A') {
+      console.log("Optional Group A units exist")
+      document.getElementById("optionalGroupA").style.display = "inline";
+      document.getElementById("optionalA").style.display = "inline";
+      document.getElementById("optionalA_UL").style.display = "flex";
+      document.getElementById("optionalA_UL").style.flexDirection = "column";
+      var optionalArr = (`${value}`).split(','); // split conversion units into list (split by comma)
+      optionalArr.forEach(createOptionalist); // iterate over units in conversionList and pass through List creator
+      function createOptionalist(item, index){
+        var optionalList = document.getElementById("optionalA_UL"); // find conversion list 
+        var optionalLListItem = document.createElement("li"); // create list item
+        optionalLListItem.appendChild(document.createTextNode(item)); // create and append content of list item
+        optionalLListItem.setAttribute("id", item); // set ID of new list item to 'Unit Code Unit Name'
+        optionalLListItem.setAttribute("class", "element"); // set class of new list item to 'element'
+        optionalLListItem.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
+        optionalLListItem.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
+        optionalList.appendChild(optionalLListItem); // append list item and content of list item to conversion list
+      }}
+
+      // Iterate over unitList object and populate unit selection based on contents: optional group B units
+      if (`${key}` == 'Option - Group A') {
+      console.log("Optional Group B units exist")
+      document.getElementById("optionalGroupB").style.display = "inline";
+      document.getElementById("optionalB").style.display = "inline";
+      document.getElementById("optionalB_UL").style.display = "flex";
+      document.getElementById("optionalB_UL").style.flexDirection = "column";
+      var optionalArr = (`${value}`).split(','); // split conversion units into list (split by comma)
+      optionalArr.forEach(createOptionalist); // iterate over units in conversionList and pass through List creator
+      function createOptionalist(item, index){
+        var optionalList = document.getElementById("optionalB_UL"); // find conversion list 
+        var optionalLListItem = document.createElement("li"); // create list item
+        optionalLListItem.appendChild(document.createTextNode(item)); // create and append content of list item
+        optionalLListItem.setAttribute("id", item); // set ID of new list item to 'Unit Code Unit Name'
+        optionalLListItem.setAttribute("class", "element"); // set class of new list item to 'element'
+        optionalLListItem.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
+        optionalLListItem.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
+        optionalList.appendChild(optionalLListItem); // append list item and content of list item to conversion list
+      }}
 
   }
 });
-
-
-
-
 
 // ITERATE OVER JAVASCRIPT OBJECT - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
 // const object1 = {
