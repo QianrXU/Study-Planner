@@ -71,38 +71,18 @@
       </div>
       
       <button type="button" class="btn btn-warning" style="margin-left: 30px;"><a href="">Download</a></button>
-      
 
-      <h1>type2</h1>
-      {{ type2 }}
-      <h1>type3</h1>
-      {{ type3 }}
-      <h1>type4</h1>
-      {{ type4 }}
-      <h1>type5</h1>
-      {{ type5 }}
-
-     <h1>units</h1>
-     {{ units }}
-
-     <h1>type1role</h1>
-     {{ type1role }}
-
-          <!-- <p id="demo"></p> -->
     </div>
 
   </div>
 </div>
 
-<!-- JSON from unitValues variable on back end -->
-<div id="unitValuesJSON" style="display: none;"></div>
+<!-- Units variable from back end -->
+<div id="units" style="display: none;">{{ units }}</div>
 
 <script>
 
-// var obj = document.getElementById("unitValuesJSON");
-// myobj = JSON.stringify(obj);
-// document.getElementById("demo").innerHTML = myobj;
-// console.log(myobj);
+var obj = document.getElementById("units");
 
 // Populate divs on page load
 var unitList = {

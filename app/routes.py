@@ -170,7 +170,6 @@ def createstudyplanSelectUnits():
         
         levelsSpecials = unitValues['levelsSpecials'] #retrieve levelsSpecials and place it in List
         lengthLS = len(levelsSpecials)
-
         typeNames = [] # extract all typesnames from 'Structure'
         for i in range(lengthLS): # loop through list
             for key, val in levelsSpecials[i].items():
@@ -301,18 +300,10 @@ def createstudyplanSelectUnits():
                         units.append(val)
         except: type5 = "No Type 5"
 
-# NEED TO LOOK AT ADDING MORE POTENTIALLY - E.G., COURSE ID 71580 HAS 8 LEVELS (I.E., TYPES), NOT 5 
+# NEED TO LOOK AT ADDING MORE POTENTIALLY - E.G., COURSE ID 71580 HAS 8 LEVELS (I.E., TYPES), NOT 5 /C 
 
         return render_template('3grid-createstudyplan.html', 
-            type1units=type1units,
-            type1=type1,
-            type2=type2,
-            type3=type3,
-            type4=type4,
-            type5=type5,
             units=units,
-            typeNames=typeNames,
-            levelsSpecials=levelsSpecials,
             selectedCourse=selectedCourse, 
             selectedMajor=selectedMajor,
             faculty=faculty,
