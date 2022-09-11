@@ -62,25 +62,23 @@ def account():
     return render_template('myaccount.html', title="My Account")
 
 
-
-# Studyplanner step 1
+# STUDY PLANNER - SELECT COURSE
 @app.route('/createstudyplan-courses', methods=['GET', 'POST'])
 def createstudyplanSelectCourse():
-
-    # WILL NEED TO FILTER BY YEAR. 
-    # PROBABLY BEST TO REMOVE UNWANTED YEARS FROM USER STANDPOINT DIRECTLY FROM CSV, 
-    # OTHERWISE THEY'D HAVE TO GO INTO THE SOURCE CODE TO CHANGE IT? /C
-
     # declare global variables
     global selectedCourse
     global faculty
     global coursecode
     global getMajorValues
     global getUnitValues
+    global selectedMajor
 
     # save csv file into dataframe
-    targetcsv = os.path.join(app.static_folder, 'Json-export-bite.csv')
+    targetcsv = os.path.join(app.static_folder, 'Json-export.csv')
     df = pd.read_csv(targetcsv, sep=",")
+    selectedYear = 2022 # Filters by year. Change value to other year if wanted/needed.
+    df = df[df.Year.eq(selectedYear)]
+    df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
 
     # Dataframe generation
     degrees = df[~df.CourseID.str.startswith('MJD')] # remove any course IDs that start with MJD (i.e., majors). This is the column that the degrees selection dropdown will choose its values from.
@@ -90,6 +88,10 @@ def createstudyplanSelectCourse():
     degrees_withID = dict(zip(df.Title, df.CourseID))
     degrees_withFaculty = dict(zip(df.Title, df.Faculty))
     faculty = dict(zip(df.Faculty, df.CourseID))
+
+    # TO DO - Need to check if selected degree ListMajors and ListMajors2 empty, 
+    # if empty give selected major ..
+    selectedMajor = "No major or specification available"
 
     if request.method == 'POST':
         try:
@@ -106,42 +108,54 @@ def createstudyplanSelectCourse():
         except:
             return render_template('404.html'), 404
         return ('', 204) # indicates post response has been done successfully
-    
+
+
     return render_template('1course-createstudyplan.html',
             degrees_withID=degrees_withID,
             degrees=degrees, 
             faculty=faculty,
             title="Create study plan")
 
-# Download PDF
+# STUDY PLANNER - SELECT MAJOR
 @app.route('/createstudyplan-majors', methods=['GET', 'POST'])
 def createstudyplanSelectMajor():
     try:
+        global selectedMajor
         global getMajorValues
 
         # process ListMajors column
-        newmajors = getMajorValues['ListMajors'].dropna().values.tolist() # create dataframe of listmajors column
+        majors = getMajorValues['ListMajors'].dropna().values.tolist() # create dataframe of ListMajors column
+        #majors2 = getMajorValues['ListMajors2'].dropna().values.tolist() # create dataframe of ListMajors2 column - SOMETIMES MAJORS ARE LISTED IN THIS COLUMN, WE'LL NEED TO RUN SOME CHECKS TO SEE WHICH ONE IS ACCURATE FOR SELECTED COURSE
         pattern = r'[(\d)\'<b]+'
-        newmajors = ' '.join(str(e) for e in newmajors)
-        newmajors = re.split(pattern, newmajors)
-        newmajors = ' '.join(str(e) for e in newmajors)
+        majors = ' '.join(str(e) for e in majors)
+        majors = re.split(pattern, majors)
+        majors = ' '.join(str(e) for e in majors)
         newpattern = r'[\']+'
-        newmajors = re.split(newpattern, newmajors)
-        newmajors = ' '.join(str(e) for e in newmajors)
-        newmajors = newmajors.split(" r>")
+        majors = re.split(newpattern, majors)
+        majors = ' '.join(str(e) for e in majors)
+        majors = majors.split(" r>")
+
+        # retrieve selected major
+        if request.method == 'POST':
+            try:
+                selectedMajor = request.form.get('name') # saves selected major into variable
+            except:
+                return render_template('404.html'), 404
+            return ('', 204) # indicates post response has been done successfully
 
         return render_template('2major-createstudyplan.html',
-            newmajors=newmajors,
+            majors=majors,
             getMajorValues=getMajorValues,
             title="Create study plan")
     except:
         return render_template('404.html'), 404
 
-# Studyplanner step 2
+# STUDY PLANNER - SELECT UNITS
 @app.route('/createstudyplan-units', methods=['GET', 'POST'])
 def createstudyplanSelectUnits():
     try:
         global selectedCourse 
+        global selectedMajor
         global faculty
         global coursecode
         global getUnitValues
@@ -151,14 +165,15 @@ def createstudyplanSelectUnits():
         unitValues = [str(x) for x in unitValues][0] # convert to string
         unitValues = unitValues[1:-1]
         unitValues = json.loads(unitValues) # json file
-        test = json.dumps(unitValues)
 
-
+        #courseInfo = unitValues['introduction'] #retrieve information from introduction (sometimes does not exists, may need to deal with somehow?)
+        
+        levelsSpecials = unitValues['levelsSpecials'] #retrieve levelsSpecials
 
         return render_template('3grid-createstudyplan.html', 
-            unitValues=unitValues,
+            levelsSpecials=levelsSpecials,
             selectedCourse=selectedCourse, 
-            test=test,
+            selectedMajor=selectedMajor,
             faculty=faculty,
             coursecode=coursecode,
             title="Create study plan")
