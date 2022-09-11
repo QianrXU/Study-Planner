@@ -78,11 +78,66 @@
 </div>
 
 <!-- Units variable from back end -->
-<div id="units" style="display: none;">{{ units }}</div>
+<div id="units1" style="display: none;">{{ units1 }}</div>
+<div id="units2" style="display: none;">{{ units2 }}</div>
+<div id="units3" style="display: none;">{{ units3 }}</div>
+<div id="units4" style="display: none;">{{ units4 }}</div>
+<div id="units5" style="display: none;">{{ units5 }}</div>
+<div id="units6" style="display: none;">{{ units6 }}</div>
+<div id="units7" style="display: none;">{{ units7 }}</div>
+<div id="units8" style="display: none;">{{ units8 }}</div>
 
 <script>
 
-var obj = document.getElementById("units");
+// Process units1 variable from backend in JS
+var units1 = document.getElementById("units1").innerHTML;
+var units2 = document.getElementById("units1").innerHTML;
+var units3 = document.getElementById("units1").innerHTML;
+var units4 = document.getElementById("units1").innerHTML;
+var units5 = document.getElementById("units1").innerHTML;
+var units6 = document.getElementById("units1").innerHTML;
+var units7 = document.getElementById("units1").innerHTML;
+var units8 = document.getElementById("units1").innerHTML;
+
+var units1 = units1.slice(1, -1);
+var units2 = units1.slice(1, -1);
+var units3 = units1.slice(1, -1);
+var units4 = units1.slice(1, -1);
+var units5 = units1.slice(1, -1);
+var units6 = units1.slice(1, -1);
+var units7 = units1.slice(1, -1);
+var units8 = units1.slice(1, -1);
+
+var units1 = units1.replace(/'/g, '');
+var units2 = units1.replace(/'/g, '');
+var units3 = units1.replace(/'/g, '');
+var units4 = units1.replace(/'/g, '');
+var units5 = units1.replace(/'/g, '');
+var units6 = units1.replace(/'/g, '');
+var units7 = units1.replace(/'/g, '');
+var units8 = units1.replace(/'/g, '');
+
+var units1 = units1.replace(/"/g, '');
+var units2 = units1.replace(/"/g, '');
+var units3 = units1.replace(/"/g, '');
+var units4 = units1.replace(/"/g, '');
+var units5 = units1.replace(/"/g, '');
+var units6 = units1.replace(/"/g, '');
+var units7 = units1.replace(/"/g, '');
+var units8 = units1.replace(/"/g, '');
+
+var units1Array = units1
+
+console.log(units1Array);
+
+var units1ArrayLength = units1Array.length;
+for (var i = 0; i < units1ArrayLength; i++) {
+  if (units1Array[i].toLowerCase() == "conversion") {
+    console.log("hello")
+    console.log(units1Array[i]);
+  }
+}
+
 
 // Populate divs on page load
 var unitList = {

@@ -176,7 +176,14 @@ def createstudyplanSelectUnits():
                 if key == 'unitTypes':
                     typeNames.append(val)
 
-        units = []
+        units1 = []
+        units2 = []
+        units3 = []
+        units4 = []
+        units5 = []
+        units6 = []
+        units7 = []
+        units8 = []
 
         # If someone knows how to create new variables in a loop, otherwise this solution works
         # for every unit role/type (conversion, option, core, etc) within the selected course, save them to a separate list
@@ -187,21 +194,21 @@ def createstudyplanSelectUnits():
             for i in range(lengthtype1): # loop through list
                 for key, val in type1[i].items():
                     if key == 'typeName': # e.g., conversion, core, option, etc.
-                        units.append(val)
+                        units1.append(val)
                     if key == 'typeInto': # if there is any typeInto field, include this
-                        units.append(val)
+                        units1.append(val)
                     type1units = val # creates list with dictionary of units in type1 group
             lengthtype1 = len(type1units)
             for i in range(lengthtype1): # loop through list and take the following from Structure
                 for key, val in type1units[i].items():
                     if key == 'unitCode':
-                        units.append(val)
+                        units1.append(val)
                     if key == 'unitTitle':
-                        units.append(val)
+                        units1.append(val)
                     if key == 'unitPoints':
-                        units.append(val)
+                        units1.append(val)
                     if key == 'unitURL':
-                        units.append(val)
+                        units1.append(val)
         except: type1 = "No Type 1"
 
         try: 
@@ -211,21 +218,21 @@ def createstudyplanSelectUnits():
             for i in range(lengthtype2): # loop through list
                 for key, val in type2[i].items():
                     if key == 'typeName': # e.g., conversion, core, option, etc.
-                        units.append(val)
+                        units2.append(val)
                     if key == 'typeInto': # if there is any typeInto field, include this
-                        units.append(val) 
+                        units2.append(val) 
                     type2units = val # creates list with dictionary of units in type1 group
             lengthtype2 = len(type2units)
             for i in range(lengthtype2): # loop through list and take the following from Structure
                 for key, val in type2units[i].items():
                     if key == 'unitCode':
-                        units.append(val)
+                        units2.append(val)
                     if key == 'unitTitle':
-                        units.append(val)
+                        units2.append(val)
                     if key == 'unitPoints':
-                        units.append(val)
+                        units2.append(val)
                     if key == 'unitURL':
-                        units.append(val)
+                        units2.append(val)
         except: type2 = "No Type 2"
 
         try: 
@@ -235,21 +242,21 @@ def createstudyplanSelectUnits():
             for i in range(lengthtype3): # loop through list
                 for key, val in type3[i].items():
                     if key == 'typeName': # e.g., conversion, core, option, etc.
-                        units.append(val)
+                        units3.append(val)
                     if key == 'typeInto': # if there is any typeInto field, include this
-                        units.append(val) 
+                        units3.append(val) 
                     type3units = val # creates list with dictionary of units in type1 group
             lengthtype3 = len(type3units)
             for i in range(lengthtype3): # loop through list and take the following from Structure
                 for key, val in type3units[i].items():
                     if key == 'unitCode':
-                        units.append(val)
+                        units3.append(val)
                     if key == 'unitTitle':
-                        units.append(val)
+                        units3.append(val)
                     if key == 'unitPoints':
-                        units.append(val)
+                        units3.append(val)
                     if key == 'unitURL':
-                        units.append(val)
+                        units3.append(val)
         except: type3 = "No Type 3"
 
         try: 
@@ -259,21 +266,21 @@ def createstudyplanSelectUnits():
             for i in range(lengthtype4): # loop through list
                 for key, val in type4[i].items():
                     if key == 'typeName': # e.g., conversion, core, option, etc.
-                        units.append(val)
+                        units4.append(val)
                     if key == 'typeInto': # if there is any typeInto field, include this
-                        units.append(val) 
+                        units4.append(val) 
                     type4units = val # creates list with dictionary of units in type1 group
             lengthtype4 = len(type4units)
             for i in range(lengthtype4): # loop through list and take the following from Structure
                 for key, val in type4units[i].items():
                     if key == 'unitCode':
-                        units.append(val)
+                        units4.append(val)
                     if key == 'unitTitle':
-                        units.append(val)
+                        units4.append(val)
                     if key == 'unitPoints':
-                        units.append(val)
+                        units4.append(val)
                     if key == 'unitURL':
-                        units.append(val)
+                        units4.append(val)
         except: type4 = "No Type 4"
         
         try: 
@@ -283,27 +290,107 @@ def createstudyplanSelectUnits():
             for i in range(lengthtype5): # loop through list
                 for key, val in type5[i].items():
                     if key == 'typeName': # e.g., conversion, core, option, etc.
-                        units.append(val)
+                        units5.append(val)
                     if key == 'typeInto': # if there is any typeInto field, include this
-                        units.append(val) 
+                        units5.append(val) 
                     type5units = val # creates list with dictionary of units in type1 group
             lengthtype5 = len(type5units)
             for i in range(lengthtype5): # loop through list and take the following from Structure
                 for key, val in type5units[i].items():
                     if key == 'unitCode':
-                        units.append(val)
+                        units5.append(val)
                     if key == 'unitTitle':
-                        units.append(val)
+                        units5.append(val)
                     if key == 'unitPoints':
-                        units.append(val)
+                        units5.append(val)
                     if key == 'unitURL':
-                        units.append(val)
+                        units5.append(val)
         except: type5 = "No Type 5"
+        
+        try: 
+            type6 = typeNames[5]
+            lengthtype6 = len(type6)
+            type6units = []
+            for i in range(lengthtype6): # loop through list
+                for key, val in type6[i].items():
+                    if key == 'typeName': # e.g., conversion, core, option, etc.
+                        units6.append(val)
+                    if key == 'typeInto': # if there is any typeInto field, include this
+                        units6.append(val) 
+                    type6units = val # creates list with dictionary of units in type1 group
+            lengthtype6 = len(type6units)
+            for i in range(lengthtype6): # loop through list and take the following from Structure
+                for key, val in type6units[i].items():
+                    if key == 'unitCode':
+                        units6.append(val)
+                    if key == 'unitTitle':
+                        units6.append(val)
+                    if key == 'unitPoints':
+                        units6.append(val)
+                    if key == 'unitURL':
+                        units6.append(val)
+        except: type6 = "No Type 6"
 
-# NEED TO LOOK AT ADDING MORE POTENTIALLY - E.G., COURSE ID 71580 HAS 8 LEVELS (I.E., TYPES), NOT 5 /C 
+        try: 
+            type7 = typeNames[6]
+            lengthtype7 = len(type7)
+            type7units = []
+            for i in range(lengthtype7): # loop through list
+                for key, val in type7[i].items():
+                    if key == 'typeName': # e.g., conversion, core, option, etc.
+                        units7.append(val)
+                    if key == 'typeInto': # if there is any typeInto field, include this
+                        units7.append(val) 
+                    type7units = val # creates list with dictionary of units in type1 group
+            lengthtype7 = len(type7units)
+            for i in range(lengthtype7): # loop through list and take the following from Structure
+                for key, val in type7units[i].items():
+                    if key == 'unitCode':
+                        units7.append(val)
+                    if key == 'unitTitle':
+                        units7.append(val)
+                    if key == 'unitPoints':
+                        units7.append(val)
+                    if key == 'unitURL':
+                        units7.append(val)
+        except: type7 = "No Type 7"
+
+        try: 
+            type8 = typeNames[7]
+            lengthtype8 = len(type8)
+            type8units = []
+            for i in range(lengthtype8): # loop through list
+                for key, val in type8[i].items():
+                    if key == 'typeName': # e.g., conversion, core, option, etc.
+                        units8.append(val)
+                    if key == 'typeInto': # if there is any typeInto field, include this
+                        units8.append(val) 
+                    type8units = val # creates list with dictionary of units in type1 group
+            lengthtype8 = len(type8units)
+            for i in range(lengthtype8): # loop through list and take the following from Structure
+                for key, val in type8units[i].items():
+                    if key == 'unitCode':
+                        units8.append(val)
+                    if key == 'unitTitle':
+                        units8.append(val)
+                    if key == 'unitPoints':
+                        units8.append(val)
+                    if key == 'unitURL':
+                        units8.append(val)
+        except: type8 = "No Type 8"
+
+# NEED TO LOOK AT ADDING MORE POTENTIALLY - E.G., COURSE ID 71580 HAS 8 LEVELS (I.E., TYPES). Does any other
+# degrees have more than 8 ? /C 
 
         return render_template('3grid-createstudyplan.html', 
-            units=units,
+            units1=units1,
+            units2=units2,
+            units3=units3,
+            units4=units4,
+            units5=units5,
+            units6=units6,
+            units7=units7,
+            units8=units8,
             selectedCourse=selectedCourse, 
             selectedMajor=selectedMajor,
             faculty=faculty,
