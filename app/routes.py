@@ -90,7 +90,8 @@ def createstudyplanSelectCourse():
     faculty = dict(zip(df.Faculty, df.CourseID))
 
     # TO DO - Need to check if selected degree ListMajors and ListMajors2 empty, 
-    # if empty give selected major ..
+    # Currently only checking ListMajors, not ListMajors2 (some courses seem to add them in there for some reason)
+    # Maybe there is a way to concatenate them? /C
     selectedMajor = "No major or specification available"
 
     if request.method == 'POST':
@@ -103,7 +104,7 @@ def createstudyplanSelectCourse():
                 if selectedCourse == key:
                     faculty=value
             getMajorValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Major 
-            getUnitValues = df[df.Title.eq(selectedCourse)] #  get dataframe for selected course, to be used in Units
+            getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
 
         except:
             return render_template('404.html'), 404
