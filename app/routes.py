@@ -195,20 +195,22 @@ def createstudyplanSelectUnits():
                 for key, val in type1[i].items():
                     if key == 'typeName': # e.g., conversion, core, option, etc.
                         units1.append(val)
+                        units1.append("&*:") #something random to split by on the frontend
                     if key == 'typeInto': # if there is any typeInto field, include this
                         units1.append(val)
+                        units1.append("&*:")
                     type1units = val # creates list with dictionary of units in type1 group
             lengthtype1 = len(type1units)
             for i in range(lengthtype1): # loop through list and take the following from Structure
                 for key, val in type1units[i].items():
                     if key == 'unitCode':
-                        units1.append(val)
+                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
                     if key == 'unitTitle':
-                        units1.append(val)
-                    if key == 'unitPoints':
-                        units1.append(val)
-                    if key == 'unitURL':
-                        units1.append(val)
+                        units1.append(unitCode + " " + val)
+                    # if key == 'unitPoints':
+                    #     units1.append(val)
+                    # if key == 'unitURL':
+                    #     units1.append(val)
         except: type1 = "No Type 1"
 
         try: 
@@ -219,20 +221,22 @@ def createstudyplanSelectUnits():
                 for key, val in type2[i].items():
                     if key == 'typeName': # e.g., conversion, core, option, etc.
                         units2.append(val)
+                        units2.append("&*:") #something random to split by on the frontend
                     if key == 'typeInto': # if there is any typeInto field, include this
                         units2.append(val) 
+                        units2.append("&*:") #something random to split by on the frontend
                     type2units = val # creates list with dictionary of units in type1 group
             lengthtype2 = len(type2units)
             for i in range(lengthtype2): # loop through list and take the following from Structure
                 for key, val in type2units[i].items():
                     if key == 'unitCode':
-                        units2.append(val)
+                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
                     if key == 'unitTitle':
-                        units2.append(val)
-                    if key == 'unitPoints':
-                        units2.append(val)
-                    if key == 'unitURL':
-                        units2.append(val)
+                        units2.append(unitCode + " " + val)
+                    # if key == 'unitPoints':
+                    #     units2.append(val)
+                    # if key == 'unitURL':
+                    #     units2.append(val)
         except: type2 = "No Type 2"
 
         try: 
@@ -243,20 +247,22 @@ def createstudyplanSelectUnits():
                 for key, val in type3[i].items():
                     if key == 'typeName': # e.g., conversion, core, option, etc.
                         units3.append(val)
+                        units3.append("&*:") #something random to split by on the frontend
                     if key == 'typeInto': # if there is any typeInto field, include this
                         units3.append(val) 
+                        units3.append("&*:") #something random to split by on the frontend
                     type3units = val # creates list with dictionary of units in type1 group
             lengthtype3 = len(type3units)
             for i in range(lengthtype3): # loop through list and take the following from Structure
                 for key, val in type3units[i].items():
                     if key == 'unitCode':
-                        units3.append(val)
+                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
                     if key == 'unitTitle':
-                        units3.append(val)
-                    if key == 'unitPoints':
-                        units3.append(val)
-                    if key == 'unitURL':
-                        units3.append(val)
+                        units3.append(unitCode + " " + val)
+                    # if key == 'unitPoints':
+                    #     units3.append(val)
+                    # if key == 'unitURL':
+                    #     units3.append(val)
         except: type3 = "No Type 3"
 
         try: 
@@ -267,20 +273,22 @@ def createstudyplanSelectUnits():
                 for key, val in type4[i].items():
                     if key == 'typeName': # e.g., conversion, core, option, etc.
                         units4.append(val)
+                        units4.append("&*:") #something random to split by on the frontend
                     if key == 'typeInto': # if there is any typeInto field, include this
                         units4.append(val) 
+                        units4.append("&*:") #something random to split by on the frontend
                     type4units = val # creates list with dictionary of units in type1 group
             lengthtype4 = len(type4units)
             for i in range(lengthtype4): # loop through list and take the following from Structure
                 for key, val in type4units[i].items():
                     if key == 'unitCode':
-                        units4.append(val)
+                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
                     if key == 'unitTitle':
-                        units4.append(val)
-                    if key == 'unitPoints':
-                        units4.append(val)
-                    if key == 'unitURL':
-                        units4.append(val)
+                        units4.append(unitCode + " " + val)
+                    # if key == 'unitPoints':
+                    #     units4.append(val)
+                    # if key == 'unitURL':
+                    #     units4.append(val)
         except: type4 = "No Type 4"
         
         try: 
@@ -291,20 +299,22 @@ def createstudyplanSelectUnits():
                 for key, val in type5[i].items():
                     if key == 'typeName': # e.g., conversion, core, option, etc.
                         units5.append(val)
+                        units5.append("&*:") #something random to split by on the frontend
                     if key == 'typeInto': # if there is any typeInto field, include this
                         units5.append(val) 
+                        units5.append("&*:") #something random to split by on the frontend
                     type5units = val # creates list with dictionary of units in type1 group
             lengthtype5 = len(type5units)
             for i in range(lengthtype5): # loop through list and take the following from Structure
                 for key, val in type5units[i].items():
                     if key == 'unitCode':
-                        units5.append(val)
+                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
                     if key == 'unitTitle':
-                        units5.append(val)
-                    if key == 'unitPoints':
-                        units5.append(val)
-                    if key == 'unitURL':
-                        units5.append(val)
+                        units5.append(unitCode + " " + val)
+                    # if key == 'unitPoints':
+                    #     units5.append(val)
+                    # if key == 'unitURL':
+                    #     units5.append(val)
         except: type5 = "No Type 5"
         
         try: 
@@ -315,20 +325,22 @@ def createstudyplanSelectUnits():
                 for key, val in type6[i].items():
                     if key == 'typeName': # e.g., conversion, core, option, etc.
                         units6.append(val)
+                        units6.append("&*:") #something random to split by on the frontend
                     if key == 'typeInto': # if there is any typeInto field, include this
                         units6.append(val) 
+                        units6.append("&*:") #something random to split by on the frontend
                     type6units = val # creates list with dictionary of units in type1 group
             lengthtype6 = len(type6units)
             for i in range(lengthtype6): # loop through list and take the following from Structure
                 for key, val in type6units[i].items():
                     if key == 'unitCode':
-                        units6.append(val)
+                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
                     if key == 'unitTitle':
-                        units6.append(val)
-                    if key == 'unitPoints':
-                        units6.append(val)
-                    if key == 'unitURL':
-                        units6.append(val)
+                        units6.append(unitCode + " " + val)
+                    # if key == 'unitPoints':
+                    #     units6.append(val)
+                    # if key == 'unitURL':
+                    #     units6.append(val)
         except: type6 = "No Type 6"
 
         try: 
@@ -339,20 +351,22 @@ def createstudyplanSelectUnits():
                 for key, val in type7[i].items():
                     if key == 'typeName': # e.g., conversion, core, option, etc.
                         units7.append(val)
+                        units7.append("&*:") #something random to split by on the frontend
                     if key == 'typeInto': # if there is any typeInto field, include this
                         units7.append(val) 
+                        units7.append("&*:") #something random to split by on the frontend
                     type7units = val # creates list with dictionary of units in type1 group
             lengthtype7 = len(type7units)
             for i in range(lengthtype7): # loop through list and take the following from Structure
                 for key, val in type7units[i].items():
                     if key == 'unitCode':
-                        units7.append(val)
+                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
                     if key == 'unitTitle':
-                        units7.append(val)
-                    if key == 'unitPoints':
-                        units7.append(val)
-                    if key == 'unitURL':
-                        units7.append(val)
+                        units7.append(unitCode + " " + val)
+                    # if key == 'unitPoints':
+                    #     units7.append(val)
+                    # if key == 'unitURL':
+                    #     units7.append(val)
         except: type7 = "No Type 7"
 
         try: 
@@ -363,20 +377,22 @@ def createstudyplanSelectUnits():
                 for key, val in type8[i].items():
                     if key == 'typeName': # e.g., conversion, core, option, etc.
                         units8.append(val)
+                        units8.append("&*:") #something random to split by on the frontend
                     if key == 'typeInto': # if there is any typeInto field, include this
                         units8.append(val) 
+                        units8.append("&*:") #something random to split by on the frontend
                     type8units = val # creates list with dictionary of units in type1 group
             lengthtype8 = len(type8units)
             for i in range(lengthtype8): # loop through list and take the following from Structure
                 for key, val in type8units[i].items():
                     if key == 'unitCode':
-                        units8.append(val)
+                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
                     if key == 'unitTitle':
-                        units8.append(val)
-                    if key == 'unitPoints':
-                        units8.append(val)
-                    if key == 'unitURL':
-                        units8.append(val)
+                        units8.append(unitCode + " " + val)
+                    # if key == 'unitPoints':
+                    #     units8.append(val)
+                    # if key == 'unitURL':
+                    #     units8.append(val)
         except: type8 = "No Type 8"
 
 # NEED TO LOOK AT ADDING MORE POTENTIALLY - E.G., COURSE ID 71580 HAS 8 LEVELS (I.E., TYPES). Does any other

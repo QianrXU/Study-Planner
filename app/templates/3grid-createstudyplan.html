@@ -57,8 +57,26 @@
               <div class="target" id="year1sem1_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display:none;"></div>  <!-- if overloading, unhide -->
             </div>
 
-            <p class="semester-paragraph" id="year1semester1">Semester 2, 2023</p>
-            <div class="semester-row" id="row1">
+            <p class="semester-paragraph" id="year1semester2">Semester 2, 2023</p>
+            <div class="semester-row" id="row2">
+              <div class="target" id="year1sem2_1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem2_2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem2_3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem2_4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display:none;"></div>  <!-- if overloading, unhide -->
+            </div>
+
+            <p class="semester-paragraph" id="year2semester1">Semester 1, 2024</p>
+            <div class="semester-row" id="row3">
+              <div class="target" id="year1sem2_1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem2_2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem2_3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem2_4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year1sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display:none;"></div>  <!-- if overloading, unhide -->
+            </div>
+
+            <p class="semester-paragraph" id="year2semester2">Semester 2, 2024</p>
+            <div class="semester-row" id="row4">
               <div class="target" id="year1sem2_1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               <div class="target" id="year1sem2_2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               <div class="target" id="year1sem2_3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
@@ -77,6 +95,8 @@
   </div>
 </div>
 
+
+
 <!-- Units variable from back end -->
 <div id="units1" style="display: none;">{{ units1 }}</div>
 <div id="units2" style="display: none;">{{ units2 }}</div>
@@ -87,71 +107,89 @@
 <div id="units7" style="display: none;">{{ units7 }}</div>
 <div id="units8" style="display: none;">{{ units8 }}</div>
 
+
 <script>
 
-// Process units1 variable from backend in JS
+// If someone wants to think of how to do this in a loop please be my guest!! :) /C
+// Process units variable from backend in JS
 var units1 = document.getElementById("units1").innerHTML;
-var units2 = document.getElementById("units1").innerHTML;
-var units3 = document.getElementById("units1").innerHTML;
-var units4 = document.getElementById("units1").innerHTML;
-var units5 = document.getElementById("units1").innerHTML;
-var units6 = document.getElementById("units1").innerHTML;
-var units7 = document.getElementById("units1").innerHTML;
-var units8 = document.getElementById("units1").innerHTML;
+var units2 = document.getElementById("units2").innerHTML;
+var units3 = document.getElementById("units3").innerHTML;
+var units4 = document.getElementById("units4").innerHTML;
+var units5 = document.getElementById("units5").innerHTML;
+var units6 = document.getElementById("units6").innerHTML;
+var units7 = document.getElementById("units7").innerHTML;
+var units8 = document.getElementById("units8").innerHTML;
 
 var units1 = units1.slice(1, -1);
-var units2 = units1.slice(1, -1);
-var units3 = units1.slice(1, -1);
-var units4 = units1.slice(1, -1);
-var units5 = units1.slice(1, -1);
-var units6 = units1.slice(1, -1);
-var units7 = units1.slice(1, -1);
-var units8 = units1.slice(1, -1);
+var units2 = units2.slice(1, -1);
+var units3 = units3.slice(1, -1);
+var units4 = units4.slice(1, -1);
+var units5 = units5.slice(1, -1);
+var units6 = units6.slice(1, -1);
+var units7 = units7.slice(1, -1);
+var units8 = units8.slice(1, -1);
 
 var units1 = units1.replace(/'/g, '');
-var units2 = units1.replace(/'/g, '');
-var units3 = units1.replace(/'/g, '');
-var units4 = units1.replace(/'/g, '');
-var units5 = units1.replace(/'/g, '');
-var units6 = units1.replace(/'/g, '');
-var units7 = units1.replace(/'/g, '');
-var units8 = units1.replace(/'/g, '');
+var units2 = units2.replace(/'/g, '');
+var units3 = units3.replace(/'/g, '');
+var units4 = units4.replace(/'/g, '');
+var units5 = units5.replace(/'/g, '');
+var units6 = units6.replace(/'/g, '');
+var units7 = units7.replace(/'/g, '');
+var units8 = units8.replace(/'/g, '');
 
 var units1 = units1.replace(/"/g, '');
-var units2 = units1.replace(/"/g, '');
-var units3 = units1.replace(/"/g, '');
-var units4 = units1.replace(/"/g, '');
-var units5 = units1.replace(/"/g, '');
-var units6 = units1.replace(/"/g, '');
-var units7 = units1.replace(/"/g, '');
-var units8 = units1.replace(/"/g, '');
+var units2 = units2.replace(/"/g, '');
+var units3 = units3.replace(/"/g, '');
+var units4 = units4.replace(/"/g, '');
+var units5 = units5.replace(/"/g, '');
+var units6 = units6.replace(/"/g, '');
+var units7 = units7.replace(/"/g, '');
+var units8 = units8.replace(/"/g, '');
 
 var units1Array = units1
+var units1Array = units1Array.split(", &amp;*:, ")
 
-console.log(units1Array);
+var units2Array = units2
+var units2Array = units2Array.split(", &amp;*:, ")
 
-var units1ArrayLength = units1Array.length;
-for (var i = 0; i < units1ArrayLength; i++) {
-  if (units1Array[i].toLowerCase() == "conversion") {
-    console.log("hello")
-    console.log(units1Array[i]);
-  }
-}
+var units3Array = units3
+var units3Array = units3Array.split(", &amp;*:, ")
 
+var units4Array = units4
+var units4Array = units4Array.split(", &amp;*:, ")
+
+var units5Array = units5
+var units5Array = units5Array.split(", &amp;*:, ")
+
+var units6Array = units6
+var units6Array = units6Array.split(", &amp;*:, ")
+
+var units7Array = units7
+var units7Array = units7Array.split(", &amp;*:, ")
+
+var units8Array = units8
+var units8Array = units8Array.split(", &amp;*:, ")
+
+// Create multidimensional array
+var multiArray = [[units1Array], [units2Array], [units3Array], [units4Array], [units5Array], [units6Array], [units7Array], [units8Array]]
+console.log(multiArray)
+
+console.log("##########")
 
 // Populate divs on page load
-var unitList = {
-  "conversion": "CITS1001 Software Engineering with Java, CITS1003 Introduction to Cybersecurity", 
-  "core": "CITS4401 Software Requirements and Design, CITS4407 Open Source Tools and Scripting",
-  "optional": "AUTO4508 Mobile Robots, CITS4009 Computational Data Analysis"
-  };
+unitlists = {}
+for(var i = 0; i < multiArray.length; i++){
+  unitlists[multiArray[i][0][0]] = multiArray[i][0][2];
+}
 
 window.addEventListener('DOMContentLoaded', (event) => {
   console.log('DOM fully loaded and parsed');
 
   // Iterate over unitList object and populate unit selection based on contents: conversion units
-  for (const [key, value] of Object.entries(unitList)) {
-    if (`${key}` == 'conversion') {
+  for (const [key, value] of Object.entries(unitlists)) {
+    if (`${key}` == 'Conversion') {
       console.log("Conversion units exist")
       document.getElementById("conversion").style.display = "inline";
       document.getElementById("conversionunits").style.display = "inline";
@@ -171,7 +209,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }}
 
     // Iterate over unitList object and populate unit selection based on contents: core units
-    if (`${key}` == 'core') {
+    if (`${key}` == 'Core') {
       console.log("Core units exist")
       document.getElementById("core").style.display = "inline";
       document.getElementById("corenunits").style.display = "inline";
@@ -191,7 +229,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       }}
 
       // Iterate over unitList object and populate unit selection based on contents: optional units
-      if (`${key}` == 'optional') {
+      if (`${key}` == 'Option') {
       console.log("Optional units exist")
       document.getElementById("optional").style.display = "inline";
       document.getElementById("optionalunits").style.display = "inline";
@@ -270,7 +308,7 @@ function pullBack(){
 }
 
 
-
 </script>
+
 
 {% endblock %}
