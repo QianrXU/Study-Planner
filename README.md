@@ -19,6 +19,15 @@ ___
 ___
 
 ## Project Details
+A study plan helps students to plan their sequence of units for a university course such as the Masters of IT. Currently, study plans are created by hand based on the unit sequence, course rules, and semester availability, which are stored in UWAs CAIDi curriculum management system. This project aims to automate the process of building a study plan for a given UWA course. 
+
+The Study Planner software will: 
+*Given a University program exported from CAIDi, automatically create a feasible study plan for students starting either in semester 1 or 2 satisfying given constraints on a course (core units, prerequisites, semester availability) 
+*Provide an interactive visualisation of a given study plan, enabling students and staff to explore study plan options and visualise constraints on the plan 
+*Allow students or staff to propose adjustments to a study plan such as the addition or deletion of units 
+*Allow students or staff to download a completed study plan and upload an existing plan to make changes 
+
+This application is using flask as the backend framework and its FlaskSQLAlchemy for the database.
 
 ___
 
