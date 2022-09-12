@@ -65,7 +65,7 @@ class Four_Sem_SP(db.Model):
   Y2S2_4 = db.Column(db.String(10))
   Y2S2_5 = db.Column(db.String(10))
   user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # Reference to user id in user table
-  date_updated=db.Column(db.DATETIME, nullable=False, default=db.GETDATE())
+  date_updated=db.Column(db.DATETIME, nullable=False, default=db.func.current_date())
 
 db.create_all()
 
