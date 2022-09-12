@@ -59,6 +59,8 @@
           <!--  Grid system. --> 
           <div class="container" id="gridcontainer">
 
+            <div id="trash" ondrop="removeUnit(event)"><i class="fa fa-trash" aria-hidden="true" style="font-size: 2em; float: right;"></i></div>
+
             <!--  Start semester/year determined by what user selects in dropdown in previous window -->
             <p class="semester-paragraph" id="year1semester1">Semester 1, 2023</p>
             <div class="semester-row" id="row1"> <!--  Add/delete row button to add/delete. -->
@@ -119,6 +121,9 @@
 <div id="units7" style="display: none;">{{ units7 }}</div>
 <div id="units8" style="display: none;">{{ units8 }}</div>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
 
@@ -304,6 +309,49 @@ window.addEventListener('DOMContentLoaded', (event) => {
   }
 });
 
+// Resets all dragover activities - needed for trash to work
+document.addEventListener("dragover", function(event) {
+  event.preventDefault();
+});
+
+
+// Click event - removes unit upon click. Have to change this to something else
+// e.g., at drop on bin icon, element is removed
+// alternative 1. if event id is removed, append clone to initial list?
+// document.addEventListener('click',function(e){
+//   if(e.target && e.target.classList == 'element'){
+//     event.target.parentNode.removeChild(event.target);
+//    }
+//  });
+
+removedUnits = []
+function removeUnit(ev){
+  const data = ev.dataTransfer.getData('dragID');
+  removedUnits.push(document.getElementById(data)); // Removed unit data saved to removedUnits
+  document.getElementById(data).style.display = "none"; // Change style of element to none upon removal
+  console.log(removedUnits)
+}
+
+// /* Event listener - listens for changes to units content div */
+// detect_units_changing = document.getElementById("conversionUL");
+// observer = new MutationObserver(function(mutationsList, observer) {detectedChange();});
+// observer.observe(detect_units_changing, {characterData: false, childList: true, attributes: false});
+
+// /* Function when course is changed */
+// function detectedChange(){
+//   // posts new course selection to console log
+//   detected_course = document.getElementById("course-title").innerHTML;
+//   console.log(detected_course);
+// }
+
+// Dragstart - save initial position somehow?
+document.addEventListener('dragstart',function(e){
+    if(e.target && e.target.classList == 'element'){
+      console.log("dragging")
+      id = event.target.id;
+     }
+ });
+
 
 // Click event - Add modal on click?
 document.addEventListener('click',function(e){
@@ -345,6 +393,8 @@ function drop(ev) {
 function pullBack(){
   // function for binning items here
 }
+
+
 
 
 </script>
