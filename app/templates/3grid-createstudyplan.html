@@ -99,7 +99,6 @@
             </div>
 
           </div>
-
       </div>
       
       <button type="button" class="btn btn-warning" style="margin-left: 30px;"><a href="">Download</a></button>
@@ -126,6 +125,10 @@
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
+// Remove major information from frontend if doesn't contain anything valuable
+if (document.getElementById("course-major").innerHTML == "Major: No major or specification available"){
+  document.getElementById("course-major").style.display = "none";
+}
 
 // If someone wants to think of how to do this in a loop please be my guest!! :) /C
 // Process units variable from backend in JS
@@ -350,6 +353,7 @@ document.addEventListener('dragstart',function(e){
       console.log("dragging")
       id = event.target.id;
      }
+     
  });
 
 

@@ -72,6 +72,7 @@ def createstudyplanSelectCourse():
     global getMajorValues
     global getUnitValues
     global selectedMajor
+    global df
 
     # save csv file into dataframe
     targetcsv = os.path.join(app.static_folder, 'Json-export.csv')
@@ -105,11 +106,9 @@ def createstudyplanSelectCourse():
                     faculty=value
             getMajorValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Major 
             getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
-
         except:
             return render_template('404.html'), 404
         return ('', 204) # indicates post response has been done successfully
-
 
     return render_template('1course-createstudyplan.html',
             degrees_withID=degrees_withID,
@@ -123,6 +122,7 @@ def createstudyplanSelectMajor():
     try:
         global selectedMajor
         global getMajorValues
+        global selectedCourse
 
         # process ListMajors column
         majors = getMajorValues['ListMajors'].dropna().values.tolist() # create dataframe of ListMajors column
@@ -135,6 +135,8 @@ def createstudyplanSelectMajor():
         majors = re.split(newpattern, majors)
         majors = ' '.join(str(e) for e in majors)
         majors = majors.split(" r>")
+        # would be nice to remove the unitcode before the major title, if we do this we would have to
+        # make changes to majorCode below though as that splits the majors text (I believe) /C
 
         # retrieve selected major
         if request.method == 'POST':
@@ -145,6 +147,7 @@ def createstudyplanSelectMajor():
             return ('', 204) # indicates post response has been done successfully
 
         return render_template('2major-createstudyplan.html',
+
             majors=majors,
             getMajorValues=getMajorValues,
             title="Create study plan")
@@ -161,8 +164,18 @@ def createstudyplanSelectUnits():
         global coursecode
         global getUnitValues
 
+        #replace unit selection for degree if the user has selected a major or specification - choose the values that are
+        #in the structure column for this courseID instead
+        majorCode = selectedMajor
+        noMajor = "No major or specification available"
+        if noMajor not in majorCode:
+            majorCode = selectedMajor.split() # need to split as unitCode in index first and then major title
+            majorCode = majorCode[0]
+            getUnitValues = df[df.CourseID.eq(majorCode)] # change to selectedMajor
+            coursecode = majorCode
+
         # process units based on course selection
-        unitValues = getUnitValues['Structure'].dropna() # create dataframe of listmajors column
+        unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
         unitValues = [str(x) for x in unitValues][0] # convert to string
         unitValues = unitValues[1:-1]
         unitValues = json.loads(unitValues) # json file
@@ -397,7 +410,8 @@ def createstudyplanSelectUnits():
         except: type8 = "No Type 8"
 
 # NEED TO LOOK AT ADDING MORE POTENTIALLY - E.G., COURSE ID 71580 HAS 8 LEVELS (I.E., TYPES). Does any other
-# degrees have more than 8 ? Look at 31400 I think it went over? /C 
+# degrees have more than 8 ? Look at 31400 I think it went over.
+# # Doctor of Podiatry, completely different again. Need to rethink /C 
 
         return render_template('3grid-createstudyplan.html', 
             units1=units1,
@@ -408,6 +422,7 @@ def createstudyplanSelectUnits():
             units6=units6,
             units7=units7,
             units8=units8,
+            majorCode=majorCode,
             selectedCourse=selectedCourse, 
             selectedMajor=selectedMajor,
             faculty=faculty,

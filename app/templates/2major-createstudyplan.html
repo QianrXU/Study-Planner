@@ -13,8 +13,8 @@
           </button>
           <!-- Pulls data from the ListMajors column -->
           <ul class="dropdown-menu" id="selectedmajor" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Not applicable</a></li>
-            <div class="dropdown-divider"></div>
+            <!-- <li><a class="dropdown-item" href="#">Not applicable</a></li>
+            <div class="dropdown-divider"></div> -->
             {% for value in majors %}
             <li><a class="dropdown-item" href="#">{{value}}</a></li>
             {% endfor %}
@@ -22,7 +22,7 @@
         </div>
         <br>
         <button type="button" class="btn btn-warning"><a href="{{ url_for('createstudyplanSelectUnits') }}">Continue</a></button>
-      
+
       </div>
     </div>
   </div>
