@@ -304,23 +304,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
   }
 });
 
-// ITERATE OVER JAVASCRIPT OBJECT - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
-// const object1 = {
-//   a: 'somestring',
-//   b: 42
-// };
 
-// for (const [key, value] of Object.entries(object1)) {
-//   console.log(`${key}: ${value}`);
-// }
-
-// // expected output:
-// // "a: somestring"
-// // "b: 42"
-
-
-
-
+// Click event - Add modal on click?
+document.addEventListener('click',function(e){
+    if(e.target && e.target.classList == 'element'){
+      id = event.target.id;
+      alert("You've clicked on " + id); 
+     }
+ });
 
 // Grid system
 
