@@ -21,7 +21,6 @@ class User(db.Model): #User table
   email = db.Column(db.String(120), index=True, unique=True) 
   password_hash = db.Column(db.String(128))
 
-
   def __init__(self, email, password):
     self.email = email
     self.set_password(password)
@@ -38,6 +37,7 @@ class User(db.Model): #User table
   def is_authenticated(self):
     return True
 
+db.create_all()
 
 class Four_Sem_SP(db.Model):
   study_plan_id = db.Column(db.Integer, primary_key=True)
@@ -67,17 +67,27 @@ class Four_Sem_SP(db.Model):
   user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # Reference to user id in user table
   date_updated=db.Column(db.DATETIME, nullable=False, default=db.GETDATE())
 
+db.create_all()
+
 def init_db():
   db.create_all()
-
-  # Create a test user
-  new_user = User('a@a.com', 'aaaaaaaa')
-  new_user.display_name = 'Nathan'
-  db.session.add(new_user)
+  # Create three test user
+  user1 = User(email='123@gmail.com', password='testing1')
+  user2 = User(email='456@gmail.com', password='testing2')
+  user3 = User(email='789@gmail.com', password='testing3')
+  db.session.add(user1)
+  db.session.add(user2)
+  db.session.add(user3)
   db.session.commit()
 
-  new_user.datetime_subscription_valid_until = datetime.datetime(2019, 1, 1)
-  db.session.commit()
+
+#new_user = User('a@a.com', 'aaaaaaaa')
+# new_user.display_name = 'Nathan'
+#db.session.add(new_user)
+#db.session.commit()
+
+#new_user.datetime_subscription_valid_until = datetime.datetime(2019, 1, 1)
+#db.session.commit()
 
 
 if __name__ == '__main__':

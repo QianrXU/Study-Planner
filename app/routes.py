@@ -41,6 +41,7 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             return redirect(url_for('index'))
         return redirect(next_page)
+
     return render_template('login.html', title="Log In", form=form)
 
 
