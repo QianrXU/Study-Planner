@@ -146,8 +146,12 @@ def createstudyplanSelectMajor():
                 return render_template('404.html'), 404
             return ('', 204) # indicates post response has been done successfully
 
-        return render_template('2major-createstudyplan.html',
+        # redirect for degrees with no majors/specialisations
+        lengthOfMajorsList = len(majors) # the length of the majors list will be 1 for all degrees that do not contain majors. we'll want to redirect users to the third step if there is no majors
+        if lengthOfMajorsList == 1:
+            return redirect(url_for('createstudyplanSelectUnits'), code=302)
 
+        return render_template('2major-createstudyplan.html',
             majors=majors,
             getMajorValues=getMajorValues,
             title="Create study plan")
