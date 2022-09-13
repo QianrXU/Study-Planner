@@ -56,9 +56,16 @@
                       </a>
                   </div>
                   <ul class="site-nav">
-                      <li><a class="a" href="{{ url_for('login') }}">Log in</a></li>
-                      <li><a class="a" href="{{ url_for('signup') }}">Sign up</a></li>
-                      <li><a class="a" href="{{ url_for('faq') }}"><i class="fa-solid fa-circle-question"></i></a></li>
+                    {% if current_user.is_authenticated %}
+                    <li><a class="a" href="{{ url_for('index') }}">Home</a></li>
+                    <li><a class="a" href="{{ url_for('account') }}">My Account</a></li>
+                    <li><a class="a" href="{{ url_for('logout') }}">Log Out</a></li>
+                    <li><a class="a" href="{{ url_for('faq') }}"><i class="fa-solid fa-circle-question"></i></a></li>
+                    {% else %}
+                    <li><a class="a" href="{{ url_for('login') }}">Log In</a></li>
+                    <li><a class="a" href="{{ url_for('signup') }}">Sign Up</a></li>
+                    <li><a class="a" href="{{ url_for('faq') }}"><i class="fa-solid fa-circle-question"></i></a></li>
+                    {% endif %}
                    </ul>  
               </nav>
           </div> 
@@ -92,9 +99,9 @@
             document.getElementsByClassName("title")[0].innerHTML="Frequently asked questions"
         }else if(pageParams=='myaccount'){
             document.getElementsByClassName("title")[0].innerHTML="My Account"
-        }else if(pageParams=='step1-createstudyplan'){
+        }else if(pageParams=='createstudyplan-courses'){
             document.getElementsByClassName("title")[0].innerHTML="Create study plan: Step 1"
-        }else if(pageParams=='step2-createstudyplan'){
+        }else if(pageParams=='createstudyplan-units'){
             document.getElementsByClassName("title")[0].innerHTML="Create study plan: Step 2"
         }else{
             document.getElementsByClassName("title")[0].innerHTML="Study Planner"

@@ -19,6 +19,12 @@
     padding: 0 8px;
     outline: none;
   }
+  .signup_div{
+    height: 70px; background-color: #EBEBEB; width: 100%;
+  }
+  .signup_h3{
+    padding: 25px; padding-left: 60px"
+  }
 
 .btn-login {
   font-size: 19px;
@@ -32,7 +38,7 @@
   background-image: url(doublearrow.png);
   background-repeat: no-repeat;
   background-position: right 15px center;
-  padding-left: 0px;
+  padding-left: 15px;
   margin-top: 15px;
   }
   
