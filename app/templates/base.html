@@ -53,8 +53,8 @@
                   </div>
                   <ul class="site-nav">
                     {% if current_user.is_authenticated %}
-                    <li><a class="a" href="{{ url_for('myaccount') }}">My Account</a></li>
-                    <li><a class="a" href="{{ url_for('home') }}">Log in</a></li>
+                    <li><a class="a" href="{{ url_for('account') }}">My Account</a></li>
+                    <li><a class="a" href="{{ url_for('index') }}">Log in</a></li>
                     {% else %}
                     <li><a class="a" href="{{ url_for('login') }}">Log in</a></li>
                     <li><a class="a" href="{{ url_for('signup') }}">Sign up</a></li>
