@@ -6,13 +6,13 @@ from .models import User, Four_Sem_SP
 from . import db
 from werkzeug.urls import url_parse
 
-
+# Index page
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', title='Home')
+    return render_template('index.html', title='Home') # when the server runs, the page should show up with a title named 'Home'
 
-# Signup Page
+# Signup function for users
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if current_user.is_authenticated:
@@ -25,9 +25,9 @@ def signup():
             db.session.add(user) # Add latest registered user into the database model
             db.session.commit()
             return redirect(url_for('login'))
-    return render_template('signup.html', title='Sign Up', form=form)
+    return render_template('signup.html', title='Sign Up', form=form) # the page should show up with a title named 'Sign Up' and display the signup form.
 
-# Login Page
+# Login function for users. 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm() 
@@ -42,18 +42,18 @@ def login():
             return redirect(url_for('index'))
         return redirect(next_page)
 
-    return render_template('login.html', title="Log In", form=form)
+    return render_template('login.html', title="Log In", form=form) # the page should show up with a title named 'Log in' and display the login form.
 
 
-# logout the user and redirect to index page
+# Logout function for logged in users.
 @app.route('/logout', methods=['GET', 'POST'])
-@login_required
+@login_required # Users need to login before clicking the logout tab.
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('index')) # The web page will be redirected to the index page (home page).
 
 
-# Account Page
+# Account Page for logged in users. 
 @app.route('/myaccount', methods=['GET', 'POST'])
 def account():
     return render_template('myaccount.html', title="My Account")
@@ -74,10 +74,10 @@ def createstudyplanstep2():
 def download():
     return render_template('get_pdf.html', title="PDF")
 
-# FAQ Page
+# FAQ Page 
 @app.route('/faq', methods=['GET', 'POST'])
 def faq():
-    return render_template('faq.html', title="FAQ")
+    return render_template('faq.html', title="FAQ") # the page should show up with a title named 'FAQ'
 
 # 404 Page
 @app.errorhandler(404)
