@@ -1,40 +1,45 @@
-
 {% extends "base.html" %}
 {% block content %}
-
-<div>
-    <div class style="height: 70px; background-color: #EBEBEB; width: 100%;">
-        <h3 style="padding: 25px; padding-left: 60px; ">Login</h3>
-    </div>
-    <div class="form-container-generic">
-            
-        <form method="post">
-            {{ form.hidden_tag() }}
-            <table style="width:100%">
-            <tr>
-                <td class="loginsignup-td"> {{ form.email.label }}<br>
-                    {{ form.email(size=64) }}<br>
-                    {% for error in form.email.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                    {% endfor %}</td>
-                
-            </tr>
-            <tr>
-                <td class="loginsignup-td">{{ form.password.label }}<br>
-                    {{ form.password(size=64) }}<br>
-                    {% for error in form.password.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                    {% endfor %}</td>
-            </tr>
-            </table>
-            <button class="btn-login">{{ form.submit() }}</button> 
-        </form>
-            
-
         
-    </div>
-</div>
-
+<div>
+  <div class = "signup_div">
+      <h3 class="signup_h3">Login</h3>
+   </div>
+   <div class = "form-container-generic">
+      <form method="post">
+        {{ form.hidden_tag() }}
+        <table style="width:100%">
+  
+            <tr>
+              <td class="loginsignup-td">{{ form.email.label }}</td>
+              <td>{{ form.email(size=64) }}<br>
+                {% for error in form.email.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}</td></td>
+                
+              <!--<td class="loginsignup-td"><input class="loginsignup" type="text" placeholder=""></td>-->
+              
+            </tr>
+            <tr>
+              <td class="loginsignup-td">{{ form.password.label }}</td>
+              <td>{{ form.password(size=64) }}<br>
+                {% for error in form.password.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}</td>
+                
+              <!--<td class="loginsignup-td"><input class="loginsignup" type="password" placeholder=""></td>-->
+              
+            </tr>
+            
+          </table>
+        <!--<input  class="btn-login">{{ form.submit() }}</input> -->
+        <button type="submit" class="btn-login">Sign Up</button>
+      </form>
+            
+   </div>
+</div>   
+    
 
 
 {% endblock %}
+
