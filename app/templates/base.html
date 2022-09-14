@@ -7,10 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Load internal CSS -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
   <link rel="stylesheet" href="{{ url_for('static', filename='ancy.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='studyplan.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='navbarandfooter.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <!-- Load favicon -->
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='pictures/favicon.ico') }}">
 
   <!-- Fonteawesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -48,7 +52,7 @@
               <nav style="display: block; position: relative;">
                   <div class="pic">
                       <a href="index">
-                          <img alt="The University of Western Australia" src="{{ url_for('static', filename = 'uwacrest-white-logo.svg') }}">
+                          <img alt="The University of Western Australia" src="{{ url_for('static', filename = 'pictures/UWA_white_logo.svg') }}">
                       </a>
                   </div>
                   <ul class="site-nav">
@@ -97,8 +101,10 @@
             document.getElementsByClassName("title")[0].innerHTML="My Account"
         }else if(pageParams=='createstudyplan-courses'){
             document.getElementsByClassName("title")[0].innerHTML="Create study plan: Step 1"
-        }else if(pageParams=='createstudyplan-units'){
+        }else if(pageParams=='createstudyplan-majors'){
             document.getElementsByClassName("title")[0].innerHTML="Create study plan: Step 2"
+        }else if(pageParams=='createstudyplan-units'){
+            document.getElementsByClassName("title")[0].innerHTML="Create study plan: Step 3"
         }else{
             document.getElementsByClassName("title")[0].innerHTML="Study Planner"
         }
@@ -168,7 +174,7 @@
                 </div>
 
                 <div class="endinfo">
-                    <img alt="The University of Western Australia" height="50px" width="153px"  src="{{ url_for('static', filename = 'UWA_FORMAL_LANDSCAPE_CMYK.png') }}">
+                    <img alt="The University of Western Australia" height="50px" width="153px"  src="{{ url_for('static', filename = 'pictures/UWA_blue_logo.png') }}">
                 </div>
 
             </div>

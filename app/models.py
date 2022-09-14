@@ -59,7 +59,7 @@ class Four_Sem_SP(db.Model):
   Y2S2_5 = db.Column(db.String(10))
   user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # Reference to user id in user table
 
-'''def init_db():
+  """
   db.create_all()
 
   # Create a test user
@@ -73,9 +73,7 @@ class Four_Sem_SP(db.Model):
 
 
 if __name__ == '__main__':
-  init_db()'''
-
-"""
+  init_db()
 
 
 #Creating a connection cursor
