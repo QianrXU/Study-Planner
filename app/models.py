@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 def load_user(id):
   return User.query.get(id)
 
-class User(db.Model): #User table
+class User(db.Model,UserMixin): #User table
 
   id = db.Column(db.Integer, primary_key=True) # Each user has only one unique id;
   email = db.Column(db.String(120), index=True, unique=True) 
@@ -29,6 +29,7 @@ class User(db.Model): #User table
 
   def is_authenticated(self):
     return True
+
 
 
 class Four_Sem_SP(db.Model):
