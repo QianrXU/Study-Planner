@@ -1,4 +1,4 @@
-
+# Done by Fangting
 import pytest
 import unittest,os
 from app import app, db
@@ -34,7 +34,7 @@ class UserModelCase(unittest.TestCase):
     self.assertFalse(user1.check_password('nonsense'))
     self.assertTrue(user1.check_password('testing1'))
 
-##### UNIT TESTS FOR REGISTRATION ####
+##### UNIT TESTS FOR REGISTRATIONn - Fangting ####
 
   def register(self,username,email,password,confirm):
     return self.app.post('signup/', 
@@ -66,7 +66,30 @@ class UserModelCase(unittest.TestCase):
     data=dict(username=username, password=password),
     follow_redirects=True)
 
-##### UNIT TESTS FOR LOGIN ####
+##### UNIT TESTS FOR LOGIN - Ancy####
+  def test_login_form_displays(self):
+    response = self.app.get('/login')
+    self.assertEqual(response.status_code, 200)
+    self.assertIn(b'', response.data)
+
+  def test_valid_user_login(self):
+    self.app.get('/login', follow_redirects=True)
+    response = self.login('test1@mail.com', 'ILoveTeamwork')
+    self.assertEqual(response.status_code, 200)
+    self.assertIn(b'', response.data)
+    
+  def test_login_wrong_email(self):
+    self.app.get('/login', follow_redirects=True)
+    response = self.login('test123@mail.com', 'ILoveTeamwork')
+    self.assertEqual(response.status_code, 200)
+    self.assertIn(b'Invalid email address', response.data)
+    
+  def test_login_wrong_password(self):
+    self.app.get('/login', follow_redirects=True)
+    response = self.login('test1@mail.com', 'ThisIsWrong')
+    self.assertEqual(response.status_code, 200)
+    self.assertIn(b'Invalid password', response.data)
+
 
 
 
