@@ -99,11 +99,10 @@
             </div>
 
           </div>
-
       </div>
+      
+      <button type="button" class="btn btn-warning" style="margin-left: 30px; margin-bottom: 60px;"><a href="">Download</a></button>
 
-      <button type="button" id="download" class="btn btn-warning" style="margin-left: 30px;" onClick="CreatePDFfromHTML()"><a href="">Download</a></button>
-            
     </div>
 
   </div>
@@ -129,6 +128,10 @@
 <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
 <script>
+// Remove major information from frontend if doesn't contain anything valuable
+if (document.getElementById("course-major").innerHTML == "Major: No major or specification available"){
+  document.getElementById("course-major").style.display = "none";
+}
 
 // If someone wants to think of how to do this in a loop please be my guest!! :) /C
 // Process units variable from backend in JS
@@ -353,6 +356,7 @@ document.addEventListener('dragstart',function(e){
       console.log("dragging")
       id = event.target.id;
      }
+     
  });
 
 

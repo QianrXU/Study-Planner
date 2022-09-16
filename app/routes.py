@@ -10,13 +10,13 @@ import os
 import re
 import json
 
-
+# Index page
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', title='Home')
+    return render_template('index.html', title='Home') # when the server runs, the page should show up with a title named 'Home'
 
-# Signup Page
+# Signup function for users
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if current_user.is_authenticated:
@@ -29,9 +29,9 @@ def signup():
             db.session.add(user) # Add latest registered user into the database model
             db.session.commit()
             return redirect(url_for('login'))
-    return render_template('signup.html', title='Sign Up', form=form)
+    return render_template('signup.html', title='Sign Up', form=form) # the page should show up with a title named 'Sign Up' and display the signup form.
 
-# Login Page
+# Login function for users. 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm() 
@@ -45,18 +45,19 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             return redirect(url_for('index'))
         return redirect(next_page)
-    return render_template('login.html', title="Log In", form=form)
+
+    return render_template('login.html', title="Log In", form=form) # the page should show up with a title named 'Log in' and display the login form.
 
 
-# logout the user and redirect to index page
+# Logout function for logged in users.
 @app.route('/logout', methods=['GET', 'POST'])
-@login_required
+@login_required # Users need to login before clicking the logout tab.
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('index')) # The web page will be redirected to the index page (home page).
 
 
-# Account Page
+# Account Page for logged in users. 
 @app.route('/myaccount', methods=['GET', 'POST'])
 def account():
     return render_template('myaccount.html', title="My Account")
@@ -72,6 +73,7 @@ def createstudyplanSelectCourse():
     global getMajorValues
     global getUnitValues
     global selectedMajor
+    global df
 
     # save csv file into dataframe
     targetcsv = os.path.join(app.static_folder, 'Json-export.csv')
@@ -105,11 +107,9 @@ def createstudyplanSelectCourse():
                     faculty=value
             getMajorValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Major 
             getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
-
         except:
             return render_template('404.html'), 404
         return ('', 204) # indicates post response has been done successfully
-
 
     return render_template('1course-createstudyplan.html',
             degrees_withID=degrees_withID,
@@ -123,6 +123,7 @@ def createstudyplanSelectMajor():
     try:
         global selectedMajor
         global getMajorValues
+        global selectedCourse
 
         # process ListMajors column
         majors = getMajorValues['ListMajors'].dropna().values.tolist() # create dataframe of ListMajors column
@@ -135,6 +136,8 @@ def createstudyplanSelectMajor():
         majors = re.split(newpattern, majors)
         majors = ' '.join(str(e) for e in majors)
         majors = majors.split(" r>")
+        # would be nice to remove the unitcode before the major title, if we do this we would have to
+        # make changes to majorCode below though as that splits the majors text (I believe) /C
 
         # retrieve selected major
         if request.method == 'POST':
@@ -143,6 +146,11 @@ def createstudyplanSelectMajor():
             except:
                 return render_template('404.html'), 404
             return ('', 204) # indicates post response has been done successfully
+
+        # redirect for degrees with no majors/specialisations
+        lengthOfMajorsList = len(majors) # the length of the majors list will be 1 for all degrees that do not contain majors. we'll want to redirect users to the third step if there is no majors
+        if lengthOfMajorsList == 1:
+            return redirect(url_for('createstudyplanSelectUnits'), code=302)
 
         return render_template('2major-createstudyplan.html',
             majors=majors,
@@ -161,8 +169,18 @@ def createstudyplanSelectUnits():
         global coursecode
         global getUnitValues
 
+        #replace unit selection for degree if the user has selected a major or specification - choose the values that are
+        #in the structure column for this courseID instead
+        majorCode = selectedMajor
+        noMajor = "No major or specification available"
+        if noMajor not in majorCode:
+            majorCode = selectedMajor.split() # need to split as unitCode in index first and then major title
+            majorCode = majorCode[0]
+            getUnitValues = df[df.CourseID.eq(majorCode)] # change to selectedMajor
+            coursecode = majorCode
+
         # process units based on course selection
-        unitValues = getUnitValues['Structure'].dropna() # create dataframe of listmajors column
+        unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
         unitValues = [str(x) for x in unitValues][0] # convert to string
         unitValues = unitValues[1:-1]
         unitValues = json.loads(unitValues) # json file
@@ -397,7 +415,8 @@ def createstudyplanSelectUnits():
         except: type8 = "No Type 8"
 
 # NEED TO LOOK AT ADDING MORE POTENTIALLY - E.G., COURSE ID 71580 HAS 8 LEVELS (I.E., TYPES). Does any other
-# degrees have more than 8 ? Look at 31400 I think it went over? /C 
+# degrees have more than 8 ? Look at 31400 I think it went over.
+# # Doctor of Podiatry, completely different again. Need to rethink /C 
 
         return render_template('3grid-createstudyplan.html', 
             units1=units1,
@@ -408,6 +427,7 @@ def createstudyplanSelectUnits():
             units6=units6,
             units7=units7,
             units8=units8,
+            majorCode=majorCode,
             selectedCourse=selectedCourse, 
             selectedMajor=selectedMajor,
             faculty=faculty,
@@ -421,10 +441,10 @@ def createstudyplanSelectUnits():
 def download():
     return render_template('get_pdf.html', title="PDF")
 
-# FAQ Page
+# FAQ Page 
 @app.route('/faq', methods=['GET', 'POST'])
 def faq():
-    return render_template('faq.html', title="FAQ")
+    return render_template('faq.html', title="FAQ") # the page should show up with a title named 'FAQ'
 
 # 404 Page
 @app.errorhandler(404)
