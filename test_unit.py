@@ -27,10 +27,6 @@ class UserModelCase(unittest.TestCase):
     # remove all the db data so the test can be reusable
     db.session.remove() 
     db.drop_all()
-  
-  # __init__() test including:
-  # Email check(Wether can login with registered/non-registered emails)
-  # Password check(registered email address login attempts with right/wrong passwords)
 
   def test_password_hashing(self):
     user1 = User.query.filter_by(email='123@mail.com')
@@ -38,13 +34,17 @@ class UserModelCase(unittest.TestCase):
     self.assertFalse(user1.check_password('nonsense'))
     self.assertTrue(user1.check_password('testing1'))
 
+##### UNIT TESTS FOR REGISTRATION ####
+
   def register(self,username,email,password,confirm):
     return self.app.post('signup/', 
     data=dict(username=username,email=email, password=password, confirm=confirm),
     follow_redirects=True)
 
-  # user registration form displays test
-  # Required Ancy to do
+  def test_user_registration_form_displays(self):
+    response = self.app.get('/signup')
+    self.assertEqual(response.status_code, 200)
+    self.assertIn(b'', response.data)
 
   def test_valid_user_registration(self):
     self.app.get('/signup', follow_redirects=True)
@@ -66,8 +66,10 @@ class UserModelCase(unittest.TestCase):
     data=dict(username=username, password=password),
     follow_redirects=True)
 
+##### UNIT TESTS FOR LOGIN ####
+
+
+
+
 if __name__ == "__main__":
     unittest.main()
-
-  
-  

@@ -101,7 +101,7 @@
           </div>
       </div>
       
-      <button type="button" class="btn btn-warning" style="margin-left: 30px; margin-bottom: 60px;"><a href="">Download</a></button>
+      <button type="button" class="btn btn-warning" style="margin-left: 30px; margin-bottom: 60px;" onClick="CreatePDFfromHTML()">Download</button>
 
     </div>
 
@@ -123,6 +123,9 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.12.4.js"></script>
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!--Script to support PDF conversion-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
+<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
 <script>
 // Remove major information from frontend if doesn't contain anything valuable
@@ -399,6 +402,32 @@ function pullBack(){
 }
 
 
+
+// function for downloading a pdf (whole page)
+// code based on the second answer from this page: https://stackoverflow.com/questions/17293135/download-a-div-in-a-html-page-as-pdf-using-javascript
+
+function CreatePDFfromHTML() {
+    var div_Width = $("#grid-content").width();
+    var div_Height = $("#grid-content").height();
+    var top_left_margin = 15;
+    var PDF_Width = div_Width + (top_left_margin * 2);
+    var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+    var canvas_image_width = div_Width;
+    var canvas_image_height = div_Height;
+
+    var totalPDFPages = Math.ceil(div_Height / PDF_Height) - 1;
+
+    html2canvas($("#grid-content")[0]).then(function (canvas) {
+        var imgData = canvas.toDataURL("image/jpeg", 1.0);
+        var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+        pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+        for (var i = 1; i <= totalPDFPages; i++) { 
+            pdf.addPage(PDF_Width, PDF_Height);
+            pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+        }
+        pdf.save("study-plan.pdf");
+    });
+}
 
 
 </script>
