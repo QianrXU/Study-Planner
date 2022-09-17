@@ -98,6 +98,8 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
 <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
+
+
 <script>
 // Remove major information from frontend if doesn't contain anything valuable
 if (document.getElementById("course-major").innerHTML == "Major: No major or specification available"){
@@ -113,31 +115,47 @@ var units = units.replace(/"/g, '');
 //var unitsArray = units
 var unitsArray = units.split(", NEXT_UNIT_ROLE, ") // Split into array when this test occurs
 
-console.log("##########")
-
 window.addEventListener('DOMContentLoaded', (event) => {
-  console.log('DOM fully loaded and parsed');
-
   unitsArray.forEach(element => {
     unitRole = element.split(", ***, "); // This split stirng is decided in routes.py
     unitRole = unitRole.map(elem => elem.replace(", ***", "")); // if there would be any erronous split symbols (&amp;*:,) that have come across despite the split, clean those up
 
     unitlists = {} // Dictionary for unit roles and units
-    unitlists[unitRole[0]] = unitRole[2]; // take index 0 (unit code) and index 2 (units belonging to this unit role) from unitRole list
+
+    var unitRoleUnits = unitRole[2] // take index 2 are the units that belong to the unit role.
+    if (unitRole[2] == null) { // test if the units belonging to this unit role is empty, in which case, don't display the role, replace with text below
+    unitRoleUnits = "No information to be displayed. Check with faculty.";
+    }
+    unitlists[unitRole[0]] = unitRoleUnits; // place in unitlists dictionary: key is index 0 (unit code) and value is index 2 (units belonging to this unit role) from unitRole list
+
+    // Extract information about unit roles
+    var unitInfo = unitRole[1] 
 
     // Process key-value pairs in unitlists dictionary
     for (const [key, value] of Object.entries(unitlists)) {
       const unitRoleHeader = document.createElement("p"); // create unit headers for each unit role
-      const node = document.createTextNode(key);
-      unitRoleHeader.appendChild(node);
+      const keyNode = document.createTextNode(key + " ");
+      unitRoleHeader.appendChild(keyNode);
       unitRoleHeader.setAttribute("class", "unit-heading");
       const heading = document.getElementById("unitsSelection");
       heading.appendChild(unitRoleHeader);
       const unitRoleUl = document.createElement("ul"); // create and append unit-draggables div to each unit role
       heading.appendChild(unitRoleUl);
       unitRoleUl.setAttribute("class", "unit-ul");
+      
+      // appends tooltip icon to header
+      const infoDiv = document.createElement("div");
+      unitRoleHeader.appendChild(infoDiv);
+      infoDiv.setAttribute('class', 'tooltipinfo');
+      infoDiv.insertAdjacentHTML("afterbegin", '<i class="fa-solid fa-circle-info"></i>');
 
-      // The below splits each unit role list and dynamically creates li's
+      // appends unit info to tooltip icon
+      const infotext = document.createElement("span");
+      infotext.setAttribute('class', 'tooltiptextinfo');
+      infoDiv.appendChild(infotext);
+      infotext.insertAdjacentHTML("afterbegin", unitInfo);
+
+      // The below splits each unit role list and dynamically creates li's under the correct heading (key)
       var unitArr = (`${value}`).split(','); // split conversion units into list (split by comma)
       var unitArrLength = unitArr.length // grab length of each unit role list
       for (i = 0; i < unitArrLength; i++) {

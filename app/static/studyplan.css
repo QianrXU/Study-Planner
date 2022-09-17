@@ -92,7 +92,51 @@
   margin: .25rem 1rem;
 }
 
+/* Tooltip container */
+.tooltipinfo {
+  position: relative;
+  display: inline-block;
+}
 
+/* Tooltip text */
+.tooltipinfo .tooltiptextinfo {
+  visibility: hidden;
+  width: 350px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+  border-radius: 6px;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 9999;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltipinfo .tooltiptextinfo::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltipinfo:hover .tooltiptextinfo {
+  visibility: visible;
+  opacity: 1;
+}
 
 /* Colors need to be determined by availability. Will need to set one of these up for each unit header. */
 
@@ -222,3 +266,4 @@
   list-style: none;
   flex: 1; /* sets width of target container to fill width*/
 }
+
