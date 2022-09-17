@@ -7,54 +7,14 @@
     <div class="units col-12 col-md-auto" id="units">
       <div class="progress" id="units-progress"><div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div>
         <div id="units-content">
+
           <h2 id="select-units-title">Select units</h2>
-
-            <!-- If there exists conversion units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
-            <p class="unit-heading" id="type1" draggable="false" style="display:none;">Type1</p>
-            <div class="unit-draggables" id="conversionunits" style="display:none;">
-              <ul id="conversionUL" style="display:none;"></ul>
-            </div>
-
-             <!-- If there exists core units units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
-             <p class="unit-heading" id="type2" draggable="false" style="display:none;">Type2</p>
-             <div class="unit-draggables" id="corenunits" style="display:none;">
-               <ul id="coreUL" style="display:none;"></ul>
-             </div>
-
-            <!-- If there exists optional units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
-            <p class="unit-heading" id="type3" draggable="false" style="display:none;">Type3</p>
-            <div class="unit-draggables" id="optionalunits" style="display:none;">
-              <ul id="optionalUL" style="display:none;"></ul>
-            </div>
-            
-            <!-- If there exists a particular Group for units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
-            <p class="unit-heading" id="type4" draggable="false" style="display:none;">Type4</p>
-            <div class="unit-draggables" id="optionalA" style="display:none;">
-              <ul id="optionalA_UL" style="display:none;"></ul>
-            </div>
-
-            <!-- If there exists a particular Group for units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
-            <p class="unit-heading" id="type5" draggable="false" style="display:none;">Type5</p>
-            <div class="unit-draggables" id="optionalB" style="display:none;">
-              <ul id="optionalB_UL" style="display:none;"></ul>
-            </div>
-
-            <!-- If there exists a particular Group for units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
-            <p class="unit-heading" id="type6" draggable="false" style="display:none;">Type6</p>
-            <div class="unit-draggables" id="optionalB" style="display:none;">
-              <ul id="optionalB_UL" style="display:none;"></ul>
-            </div>
-
-            <!-- If there exists a particular Group for units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
-            <p class="unit-heading" id="type7" draggable="false" style="display:none;">Type7</p>
-            <div class="unit-draggables" id="optionalB" style="display:none;">
-              <ul id="optionalB_UL" style="display:none;"></ul>
-            </div>
-
-            <!-- If there exists a particular Group for units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
-            <p class="unit-heading" id="type8" draggable="false" style="display:none;">Type8</p>
-            <div class="unit-draggables" id="optionalB" style="display:none;">
-              <ul id="optionalB_UL" style="display:none;"></ul>
+            <div id="unitsSelection">
+              <!-- If there exists conversion units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
+              <p class="unit-heading" id="type1" draggable="false" style="display: none;">Type1</p>
+              <div class="unit-draggables" id="type1units" style="display: none;">
+                <ul id="type1unitsUL" style="display: none;"></ul>
+              </div>
             </div>
 
         </div>
@@ -144,132 +104,54 @@ if (document.getElementById("course-major").innerHTML == "Major: No major or spe
   document.getElementById("course-major").style.display = "none";
 }
 
-// If someone wants to think of how to do this in a loop please be my guest!! :) /C
 // Process units variable from backend in JS
 var units = document.getElementById("unitList").innerHTML;
-var units = units.slice(1, -1);
+var units = units.slice(1, -19); // slice off back of string and do some further processing below
 var units = units.replace(/'/g, '');
 var units = units.replace(/"/g, '');
 
-var unitsArray = units
-var unitsArray = unitsArray.split(", &amp;*:, ")
-
-console.log(unitsArray)
+//var unitsArray = units
+var unitsArray = units.split(", NEXT_UNIT_ROLE, ") // Split into array when this test occurs
 
 console.log("##########")
-
-// Populate divs on page load. THIS MAY NOT WORK WITH ALL COURSES. E.G., LOOK AT MASTER OF BUSINESS ANALYTICS, CONVERSION UNITS IS UNDEFINED
-// I believe there mustn't be a second index for that array and that is why it comes out undefined under 'Conversion'.
-unitlists = {}
-for(var i = 0; i < multiArray.length; i++){
-  unitlists[multiArray[i][0][0]] = multiArray[i][0][2];
-}
 
 window.addEventListener('DOMContentLoaded', (event) => {
   console.log('DOM fully loaded and parsed');
 
-  // Iterate over unitList object and populate unit selection based on contents: conversion units
-  for (const [key, value] of Object.entries(unitlists)) {
-    if (`${key}` == 'Conversion') {
-      console.log("Conversion units exist")
-      document.getElementById("conversion").style.display = "inline";
-      document.getElementById("conversionunits").style.display = "inline";
-      document.getElementById("conversionUL").style.display = "flex";
-      document.getElementById("conversionUL").style.flexDirection = "column";
-      var conversionArr = (`${value}`).split(','); // split conversion units into list (split by comma)
-      conversionArr.forEach(createConversionList); // iterate over units in conversionList and pass through List creator
-      function createConversionList(item, index){
-        var conversionList = document.getElementById("conversionUL"); // find conversion list
-        var conversionLListItem = document.createElement("li"); // create list item
-        conversionLListItem.appendChild(document.createTextNode(item)); // create and append content of list item
-        conversionLListItem.setAttribute("id", item); // set ID of new list item to 'Unit Code Unit Name'
-        conversionLListItem.setAttribute("class", "element"); // set class of new list item to 'element'
-        conversionLListItem.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
-        conversionLListItem.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
-        conversionList.appendChild(conversionLListItem); // append list item and content of list item to conversion list
-    }}
+  unitsArray.forEach(element => {
+    unitRole = element.split(", ***, "); // This split stirng is decided in routes.py
+    unitRole = unitRole.map(elem => elem.replace(", ***", "")); // if there would be any erronous split symbols (&amp;*:,) that have come across despite the split, clean those up
 
-    // Iterate over unitList object and populate unit selection based on contents: core units
-    if (`${key}` == 'Core') {
-      console.log("Core units exist")
-      document.getElementById("core").style.display = "inline";
-      document.getElementById("corenunits").style.display = "inline";
-      document.getElementById("coreUL").style.display = "flex";
-      document.getElementById("coreUL").style.flexDirection = "column";
-      var coreArr = (`${value}`).split(','); // split conversion units into list (split by comma)
-      coreArr.forEach(createCoreList); // iterate over units in conversionList and pass through List creator
-      function createCoreList(item, index){
-        var coreList = document.getElementById("coreUL"); // find conversion list
-        var coreLListItem = document.createElement("li"); // create list item
-        coreLListItem.appendChild(document.createTextNode(item)); // create and append content of list item
-        coreLListItem.setAttribute("id", item); // set ID of new list item to 'Unit Code Unit Name'
-        coreLListItem.setAttribute("class", "element"); // set class of new list item to 'element'
-        coreLListItem.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
-        coreLListItem.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
-        coreList.appendChild(coreLListItem); // append list item and content of list item to conversion list
-      }}
+    unitlists = {} // Dictionary for unit roles and units
+    unitlists[unitRole[0]] = unitRole[2]; // take index 0 (unit code) and index 2 (units belonging to this unit role) from unitRole list
 
-      // Iterate over unitList object and populate unit selection based on contents: optional units
-      if (`${key}` == 'Option') {
-      console.log("Optional units exist")
-      document.getElementById("optional").style.display = "inline";
-      document.getElementById("optionalunits").style.display = "inline";
-      document.getElementById("optionalUL").style.display = "flex";
-      document.getElementById("optionalUL").style.flexDirection = "column";
-      var optionalArr = (`${value}`).split(','); // split conversion units into list (split by comma)
-      optionalArr.forEach(createOptionalist); // iterate over units in conversionList and pass through List creator
-      function createOptionalist(item, index){
-        var optionalList = document.getElementById("optionalUL"); // find conversion list 
-        var optionalLListItem = document.createElement("li"); // create list item
-        optionalLListItem.appendChild(document.createTextNode(item)); // create and append content of list item
-        optionalLListItem.setAttribute("id", item); // set ID of new list item to 'Unit Code Unit Name'
-        optionalLListItem.setAttribute("class", "element"); // set class of new list item to 'element'
-        optionalLListItem.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
-        optionalLListItem.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
-        optionalList.appendChild(optionalLListItem); // append list item and content of list item to conversion list
-      }}
+    // Process key-value pairs in unitlists dictionary
+    for (const [key, value] of Object.entries(unitlists)) {
+      const unitRoleHeader = document.createElement("p"); // create unit headers for each unit role
+      const node = document.createTextNode(key);
+      unitRoleHeader.appendChild(node);
+      unitRoleHeader.setAttribute("class", "unit-heading");
+      const heading = document.getElementById("unitsSelection");
+      heading.appendChild(unitRoleHeader);
+      const unitRoleUl = document.createElement("ul"); // create and append unit-draggables div to each unit role
+      heading.appendChild(unitRoleUl);
+      unitRoleUl.setAttribute("class", "unit-ul");
 
-      // Iterate over unitList object and populate unit selection based on contents: optional group A units
-      if (`${key}` == 'Option - Group A') {
-      console.log("Optional Group A units exist")
-      document.getElementById("optionalGroupA").style.display = "inline";
-      document.getElementById("optionalA").style.display = "inline";
-      document.getElementById("optionalA_UL").style.display = "flex";
-      document.getElementById("optionalA_UL").style.flexDirection = "column";
-      var optionalArr = (`${value}`).split(','); // split conversion units into list (split by comma)
-      optionalArr.forEach(createOptionalist); // iterate over units in conversionList and pass through List creator
-      function createOptionalist(item, index){
-        var optionalList = document.getElementById("optionalA_UL"); // find conversion list 
-        var optionalLListItem = document.createElement("li"); // create list item
-        optionalLListItem.appendChild(document.createTextNode(item)); // create and append content of list item
-        optionalLListItem.setAttribute("id", item); // set ID of new list item to 'Unit Code Unit Name'
-        optionalLListItem.setAttribute("class", "element"); // set class of new list item to 'element'
-        optionalLListItem.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
-        optionalLListItem.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
-        optionalList.appendChild(optionalLListItem); // append list item and content of list item to conversion list
-      }}
+      // The below splits each unit role list and dynamically creates li's
+      var unitArr = (`${value}`).split(','); // split conversion units into list (split by comma)
+      var unitArrLength = unitArr.length // grab length of each unit role list
+      for (i = 0; i < unitArrLength; i++) {
+        var lielement = document.createElement("li"); // create list item
+        lielement.appendChild(document.createTextNode(unitArr[i])); // create and append content of list item
+        lielement.setAttribute("id", unitArr[i]); // set ID of new list item to 'Unit Code Unit Name'
+        lielement.setAttribute("class", "element"); // set class of new list item to 'element'
+        lielement.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
+        lielement.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
+        unitRoleUl.appendChild(lielement);
+      }
+    }
 
-      // Iterate over unitList object and populate unit selection based on contents: optional group B units
-      if (`${key}` == 'Option - Group A') {
-      console.log("Optional Group B units exist")
-      document.getElementById("optionalGroupB").style.display = "inline";
-      document.getElementById("optionalB").style.display = "inline";
-      document.getElementById("optionalB_UL").style.display = "flex";
-      document.getElementById("optionalB_UL").style.flexDirection = "column";
-      var optionalArr = (`${value}`).split(','); // split conversion units into list (split by comma)
-      optionalArr.forEach(createOptionalist); // iterate over units in conversionList and pass through List creator
-      function createOptionalist(item, index){
-        var optionalList = document.getElementById("optionalB_UL"); // find conversion list 
-        var optionalLListItem = document.createElement("li"); // create list item
-        optionalLListItem.appendChild(document.createTextNode(item)); // create and append content of list item
-        optionalLListItem.setAttribute("id", item); // set ID of new list item to 'Unit Code Unit Name'
-        optionalLListItem.setAttribute("class", "element"); // set class of new list item to 'element'
-        optionalLListItem.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
-        optionalLListItem.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
-        optionalList.appendChild(optionalLListItem); // append list item and content of list item to conversion list
-      }}
-
-  }
+  });
 });
 
 // Resets all dragover activities - needed for trash to work

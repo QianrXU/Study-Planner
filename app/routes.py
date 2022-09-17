@@ -210,10 +210,10 @@ def createstudyplanSelectUnits():
                     for key, val in types[i].items():
                         if key == 'typeName': # e.g., conversion, core, option, etc.
                             units.append(val)
-                            units.append("&*:") #something random to split by on the frontend
+                            units.append("***") #something random to split by on the frontend
                         if key == 'typeInto': # if there is any typeInto field, include this
                             units.append(val)
-                            units.append("&*:")
+                            units.append("***")
                         typesOfunits = val # creates list with dictionary of units in type1 group
                 lengthtype1 = len(typesOfunits)
                 for i in range(lengthtype1): # loop through list and take the following from Structure
@@ -222,7 +222,8 @@ def createstudyplanSelectUnits():
                             unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
                         if key == 'unitTitle':
                             units.append(unitCode + " " + val)
-                units.append("&*:") #something random to split by on the frontend
+                #units.append("&*:") #something random to split by on the frontend
+                units.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
                         # if key == 'unitPoints':
                         #     units1.append(val)
                         # if key == 'unitURL':
