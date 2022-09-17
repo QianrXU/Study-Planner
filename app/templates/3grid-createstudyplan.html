@@ -172,29 +172,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
   });
 });
 
-// Resets all dragover activities - needed for trash to work
-document.addEventListener("dragover", function(event) {
-  event.preventDefault();
-});
-
-
-// Click event - removes unit upon click. Have to change this to something else
-// e.g., at drop on bin icon, element is removed
-// alternative 1. if event id is removed, append clone to initial list?
-// document.addEventListener('click',function(e){
-//   if(e.target && e.target.classList == 'element'){
-//     event.target.parentNode.removeChild(event.target);
-//    }
-//  });
-
-removedUnits = []
-function removeUnit(ev){
-  const data = ev.dataTransfer.getData('dragID');
-  removedUnits.push(document.getElementById(data)); // Removed unit data saved to removedUnits
-  document.getElementById(data).style.display = "none"; // Change style of element to none upon removal
-  console.log(removedUnits)
-}
-
 // /* Event listener - listens for changes to units content div */
 // detect_units_changing = document.getElementById("conversionUL");
 // observer = new MutationObserver(function(mutationsList, observer) {detectedChange();});
@@ -254,10 +231,29 @@ function drop(ev) {
   ev.target.appendChild(document.getElementById(data));
 }
 
-function pullBack(){
-  // function for binning items here
-}
+// Removing units from grid
 
+// Click event - removes unit upon click. Have to change this to something else
+// e.g., at drop on bin icon, element is removed
+// alternative 1. if event id is removed, append clone to initial list?
+// document.addEventListener('click',function(e){
+//   if(e.target && e.target.classList == 'element'){
+//     event.target.parentNode.removeChild(event.target);
+//    }
+//  });
+
+// Resets all dragover activities - needed for trash to work, however, disables the constraint on only one unit per div. Find other way of dealing with trash? /C
+// document.addEventListener("dragover", function(event) {
+//   event.preventDefault();
+// });
+
+removedUnits = []
+function removeUnit(ev){
+  const data = ev.dataTransfer.getData('dragID');
+  removedUnits.push(document.getElementById(data)); // Removed unit data saved to removedUnits
+  document.getElementById(data).style.display = "none"; // Change style of element to none upon removal
+  console.log(removedUnits)
+}
 
 
 // function for downloading a pdf (whole page)
