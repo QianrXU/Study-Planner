@@ -169,6 +169,10 @@ def createstudyplanSelectUnits():
         global coursecode
         global getUnitValues
 
+        #import and read unit list into unitscsv variable
+        unitscsv = os.path.join(app.static_folder, 'Unit list.csv')
+        unitscsv = pd.read_csv(unitscsv, sep=",")
+
         #replace unit selection for degree if the user has selected a major or specification - choose the values that are
         #in the structure column for this courseID instead
         majorCode = selectedMajor
