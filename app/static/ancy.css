@@ -142,5 +142,11 @@
     overflow: hidden;
     transition: max-height 0.2s ease-out;
   }
+  .icon {
+    color: green;
+    cursor: pointer;
+    margin-right: 6px;
+  }
+  
   
   
