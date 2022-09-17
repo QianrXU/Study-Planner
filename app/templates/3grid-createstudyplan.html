@@ -10,31 +10,49 @@
           <h2 id="select-units-title">Select units</h2>
 
             <!-- If there exists conversion units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
-            <p class="unit-heading" id="conversion" draggable="false" style="display:none;">Conversion units (select xx units)</p>
+            <p class="unit-heading" id="type1" draggable="false" style="display:none;">Type1</p>
             <div class="unit-draggables" id="conversionunits" style="display:none;">
               <ul id="conversionUL" style="display:none;"></ul>
             </div>
 
              <!-- If there exists core units units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
-             <p class="unit-heading" id="core" draggable="false" style="display:none;">Core units (select xx units)</p>
+             <p class="unit-heading" id="type2" draggable="false" style="display:none;">Type2</p>
              <div class="unit-draggables" id="corenunits" style="display:none;">
                <ul id="coreUL" style="display:none;"></ul>
              </div>
 
             <!-- If there exists optional units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
-            <p class="unit-heading" id="optional" draggable="false" style="display:none;">Optional units (select xx units)</p>
+            <p class="unit-heading" id="type3" draggable="false" style="display:none;">Type3</p>
             <div class="unit-draggables" id="optionalunits" style="display:none;">
               <ul id="optionalUL" style="display:none;"></ul>
             </div>
             
             <!-- If there exists a particular Group for units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
-            <p class="unit-heading" id="optionalGroupA" draggable="false" style="display:none;">Optional - Group A units (select xx units)</p>
+            <p class="unit-heading" id="type4" draggable="false" style="display:none;">Type4</p>
             <div class="unit-draggables" id="optionalA" style="display:none;">
               <ul id="optionalA_UL" style="display:none;"></ul>
             </div>
 
             <!-- If there exists a particular Group for units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
-            <p class="unit-heading" id="optionalGroupB" draggable="false" style="display:none;">Optional - Group B units (select xx units)</p>
+            <p class="unit-heading" id="type5" draggable="false" style="display:none;">Type5</p>
+            <div class="unit-draggables" id="optionalB" style="display:none;">
+              <ul id="optionalB_UL" style="display:none;"></ul>
+            </div>
+
+            <!-- If there exists a particular Group for units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
+            <p class="unit-heading" id="type6" draggable="false" style="display:none;">Type6</p>
+            <div class="unit-draggables" id="optionalB" style="display:none;">
+              <ul id="optionalB_UL" style="display:none;"></ul>
+            </div>
+
+            <!-- If there exists a particular Group for units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
+            <p class="unit-heading" id="type7" draggable="false" style="display:none;">Type7</p>
+            <div class="unit-draggables" id="optionalB" style="display:none;">
+              <ul id="optionalB_UL" style="display:none;"></ul>
+            </div>
+
+            <!-- If there exists a particular Group for units for this course, they will appear here otherwise this will be hidden. This is associated with the JS UnitLists object (see below) -->
+            <p class="unit-heading" id="type8" draggable="false" style="display:none;">Type8</p>
             <div class="unit-draggables" id="optionalB" style="display:none;">
               <ul id="optionalB_UL" style="display:none;"></ul>
             </div>
@@ -111,14 +129,7 @@
 
 
 <!-- Units variable from back end -->
-<div id="units1" style="display: none;">{{ units1 }}</div>
-<div id="units2" style="display: none;">{{ units2 }}</div>
-<div id="units3" style="display: none;">{{ units3 }}</div>
-<div id="units4" style="display: none;">{{ units4 }}</div>
-<div id="units5" style="display: none;">{{ units5 }}</div>
-<div id="units6" style="display: none;">{{ units6 }}</div>
-<div id="units7" style="display: none;">{{ units7 }}</div>
-<div id="units8" style="display: none;">{{ units8 }}</div>
+<div id="unitList" style="display: none;">{{ units }}</div>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.12.4.js"></script>
@@ -135,69 +146,15 @@ if (document.getElementById("course-major").innerHTML == "Major: No major or spe
 
 // If someone wants to think of how to do this in a loop please be my guest!! :) /C
 // Process units variable from backend in JS
-var units1 = document.getElementById("units1").innerHTML;
-var units2 = document.getElementById("units2").innerHTML;
-var units3 = document.getElementById("units3").innerHTML;
-var units4 = document.getElementById("units4").innerHTML;
-var units5 = document.getElementById("units5").innerHTML;
-var units6 = document.getElementById("units6").innerHTML;
-var units7 = document.getElementById("units7").innerHTML;
-var units8 = document.getElementById("units8").innerHTML;
+var units = document.getElementById("unitList").innerHTML;
+var units = units.slice(1, -1);
+var units = units.replace(/'/g, '');
+var units = units.replace(/"/g, '');
 
-var units1 = units1.slice(1, -1);
-var units2 = units2.slice(1, -1);
-var units3 = units3.slice(1, -1);
-var units4 = units4.slice(1, -1);
-var units5 = units5.slice(1, -1);
-var units6 = units6.slice(1, -1);
-var units7 = units7.slice(1, -1);
-var units8 = units8.slice(1, -1);
+var unitsArray = units
+var unitsArray = unitsArray.split(", &amp;*:, ")
 
-var units1 = units1.replace(/'/g, '');
-var units2 = units2.replace(/'/g, '');
-var units3 = units3.replace(/'/g, '');
-var units4 = units4.replace(/'/g, '');
-var units5 = units5.replace(/'/g, '');
-var units6 = units6.replace(/'/g, '');
-var units7 = units7.replace(/'/g, '');
-var units8 = units8.replace(/'/g, '');
-
-var units1 = units1.replace(/"/g, '');
-var units2 = units2.replace(/"/g, '');
-var units3 = units3.replace(/"/g, '');
-var units4 = units4.replace(/"/g, '');
-var units5 = units5.replace(/"/g, '');
-var units6 = units6.replace(/"/g, '');
-var units7 = units7.replace(/"/g, '');
-var units8 = units8.replace(/"/g, '');
-
-var units1Array = units1
-var units1Array = units1Array.split(", &amp;*:, ")
-
-var units2Array = units2
-var units2Array = units2Array.split(", &amp;*:, ")
-
-var units3Array = units3
-var units3Array = units3Array.split(", &amp;*:, ")
-
-var units4Array = units4
-var units4Array = units4Array.split(", &amp;*:, ")
-
-var units5Array = units5
-var units5Array = units5Array.split(", &amp;*:, ")
-
-var units6Array = units6
-var units6Array = units6Array.split(", &amp;*:, ")
-
-var units7Array = units7
-var units7Array = units7Array.split(", &amp;*:, ")
-
-var units8Array = units8
-var units8Array = units8Array.split(", &amp;*:, ")
-
-// Create multidimensional array
-var multiArray = [[units1Array], [units2Array], [units3Array], [units4Array], [units5Array], [units6Array], [units7Array], [units8Array]]
-console.log(multiArray)
+console.log(unitsArray)
 
 console.log("##########")
 
