@@ -139,7 +139,22 @@
 }
 
 /* Colors need to be determined by availability. Will need to set one of these up for each unit header. */
+.sem1::marker {
+  content: '🟡 ';
+  /* content: url('../../media/examples/fire.png'); */
+}
 
+.sem2::marker {
+  content: '🟢 ';
+}
+
+.sem1and2::marker {
+  content: '🟠 ';
+}
+
+.element::marker {
+  content: '⚫ ';
+}
 
 /* //////////////////////// */
 
