@@ -173,6 +173,10 @@
 }
 
 
+li {
+  margin-bottom: 7px;
+}
+
 
 /* //////////////////////// */
 
@@ -185,7 +189,7 @@
 
 #units-content {
   background: #F2F2F2;
-  width: 300px;
+  width: 400px;
   padding: 30px;
 }
 
@@ -196,7 +200,7 @@
 }
 
 #units-bottom {
-  width: 300px;
+  width: 400px;
 }
 
 @media only screen and (max-width: 800px) {
@@ -219,7 +223,7 @@
   }}
 
 #units-progress {
-  width: 300px;
+  width: 400px;
 }
 
 #units-progress-grid {
