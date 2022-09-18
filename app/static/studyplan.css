@@ -152,9 +152,27 @@
   content: '🟠 ';
 }
 
+.not_available::marker {
+  content: '🔵 ';
+}
+
+.non_standard::marker {
+  content: '⭕ ';
+}
+
 .element::marker {
   content: '⚫ ';
 }
+
+.no_marker::marker {
+  content: "";
+}
+
+.no_marker {
+  margin-left: -32px !important;
+}
+
+
 
 /* //////////////////////// */
 

@@ -23,6 +23,8 @@
           <p style="margin-bottom: 5px;">🟡 Only run in Semester 1</p>
           <p style="margin-bottom: 5px;">🟢 Only run in Semester 2</p>
           <p style="margin-bottom: 5px;">🟠 Runs in Semester 1 and 2</p>
+          <p style="margin-bottom: 5px;">🔵 Not available in 2022</p>
+          <p style="margin-bottom: 5px;">⭕ Non-standard</p>
           <p style="margin-bottom: 5px;">⚫ No information</p>
         </div>
     </div>
@@ -184,32 +186,38 @@ window.addEventListener('DOMContentLoaded', (event) => {
         var lielement = document.createElement("li"); // create list item
         lielement.appendChild(document.createTextNode(unitArr[i].trim())); // create and append content of list item (i.e., unit)
         lielement.setAttribute("id", unitArr[i].trim()); // set ID of new list item to 'Unit Code Unit Name'
-        lielement.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
-        lielement.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
-
-        // Find availability of units and attach the class (sem1, sem2 or sem1and2, to each li element)
-        var availabilityinfo = unitInformation.indexOf(unitArr[i].trim())
-        if (availabilityinfo != -1) { // if unit was found in unitInformation array, i.e., does not return -1
-          availability = unitInformation[availabilityinfo+1]
-          if (availability.includes("Semester 1")) {
-            //console.log(unitInformation[availabilityinfo])
-            //console.log("Semester 1 unit")
-            lielement.setAttribute("class", "sem1");
-          }
-          if (availability.includes("Semester 2")) {
-              //console.log(unitInformation[availabilityinfo])
-              //console.log("Semester 2 unit")
-              lielement.setAttribute("class", "sem2");
-          }
-          if (availability.includes("Semester 1") && availability.includes("Semester 2")) {
-              //console.log(unitInformation[availabilityinfo])
-              //console.log("Semester 1+2 unit")
-              lielement.setAttribute("class", "sem1and2");
-          }
+        if (unitArr[i].trim() == "No information to be displayed. Check with faculty.") {
+          unitRoleUl.appendChild(lielement);
+          lielement.setAttribute("class", "no_marker");
         }
-        else {lielement.setAttribute("class", "element")}
-        
-        unitRoleUl.appendChild(lielement); // append li element/unit
+        else {
+          lielement.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
+          lielement.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
+
+          // Find availability of units and attach the class (sem1, sem2 or sem1and2, to each li element)
+          var availabilityinfo = unitInformation.indexOf(unitArr[i].trim())
+          if (availabilityinfo != -1) { // if unit was found in unitInformation array, i.e., does not return -1
+            availability = unitInformation[availabilityinfo+1]
+            if (availability.includes("Semester 1")) {
+              lielement.setAttribute("class", "sem1");
+            }
+            if (availability.includes("Semester 2")) {
+                lielement.setAttribute("class", "sem2");
+            }
+            if (availability.includes("Semester 1") && availability.includes("Semester 2")) {
+                lielement.setAttribute("class", "sem1and2");
+            }
+            if (availability.includes("Not available")) {
+                lielement.setAttribute("class", "not_available");
+            }
+            if (availability.includes("Non-standard")) {
+                lielement.setAttribute("class", "non_standard");
+            }
+          }
+          else {lielement.setAttribute("class", "element")}
+          
+          unitRoleUl.appendChild(lielement); // append li element/unit
+        }
       }
     }
   });
