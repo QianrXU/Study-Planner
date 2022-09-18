@@ -139,6 +139,39 @@
 }
 
 /* Colors need to be determined by availability. Will need to set one of these up for each unit header. */
+.sem1::marker {
+  content: '🟡 ';
+  /* content: url('../../media/examples/fire.png'); */
+}
+
+.sem2::marker {
+  content: '🟢 ';
+}
+
+.sem1and2::marker {
+  content: '🟠 ';
+}
+
+.not_available::marker {
+  content: '🔵 ';
+}
+
+.non_standard::marker {
+  content: '⭕ ';
+}
+
+.element::marker {
+  content: '⚫ ';
+}
+
+.no_marker::marker {
+  content: "";
+}
+
+.no_marker {
+  margin-left: -32px !important;
+}
+
 
 
 /* //////////////////////// */
