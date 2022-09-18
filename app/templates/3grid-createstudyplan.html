@@ -121,7 +121,7 @@ if (document.getElementById("course-major").innerHTML == "Major: No major or spe
 
 // Process units variable from backend in JS
 var units = document.getElementById("unitList").innerHTML;
-var units = units.slice(1, -19); // slice off back of string and do some further processing below
+var units = units.slice(1, -23); // slice off back of string and do some further processing below
 var units = units.replace(/'/g, '');
 var units = units.replace(/"/g, '');
 var unitsArray = units.split(", NEXT_UNIT_ROLE, ") // Split into array when this test occurs
@@ -176,7 +176,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
       infotext.insertAdjacentHTML("afterbegin", unitInfo);
 
       // The below splits each unit role list and dynamically creates li's under the correct heading (key)
-      var unitArr = (`${value}`).split(','); // split conversion units into list (split by comma)
+      var unitArr = (`${value}`).split('***, '); // split conversion units into list (split by comma)
+      unitArr = unitArr.map(elem => elem.replace("***", "")); 
+
       var unitArrLength = unitArr.length // grab length of each unit role list
       for (i = 0; i < unitArrLength; i++) {
         var lielement = document.createElement("li"); // create list item
@@ -190,18 +192,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
         if (availabilityinfo != -1) { // if unit was found in unitInformation array, i.e., does not return -1
           availability = unitInformation[availabilityinfo+1]
           if (availability.includes("Semester 1")) {
-            console.log(unitInformation[availabilityinfo])
-            console.log("Semester 1 unit")
+            //console.log(unitInformation[availabilityinfo])
+            //console.log("Semester 1 unit")
             lielement.setAttribute("class", "sem1");
           }
           if (availability.includes("Semester 2")) {
-              console.log(unitInformation[availabilityinfo])
-              console.log("Semester 2 unit")
+              //console.log(unitInformation[availabilityinfo])
+              //console.log("Semester 2 unit")
               lielement.setAttribute("class", "sem2");
           }
           if (availability.includes("Semester 1") && availability.includes("Semester 2")) {
-              console.log(unitInformation[availabilityinfo])
-              console.log("Semester 1+2 unit")
+              //console.log(unitInformation[availabilityinfo])
+              //console.log("Semester 1+2 unit")
               lielement.setAttribute("class", "sem1and2");
           }
         }

@@ -219,7 +219,7 @@ def createstudyplanSelectUnits():
                             unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
                             unitCodeList.append(val)
                         if key == 'unitTitle':
-                            units.append(unitCode + " " + val)
+                            units.append(unitCode + " " + val + "***")
                 #units.append("&*:") #something random to split by on the frontend
                 units.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
                         # if key == 'unitPoints':
