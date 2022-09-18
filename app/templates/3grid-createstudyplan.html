@@ -48,8 +48,9 @@
               <div class="target" id="year1sem1_4" ondrop="drop(event)" ondragover="allowDrop(event)"></div> 
               <div class="target" id="year1sem1_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
              <!--Font awesome icon that will able to add new unit in the selector- Ancy-->
-              <i class="fa fa-plus-circle icon" aria-hidden="true" id = 'add_unit_sem1' onclick="addSem11OverLoad()" ></i>
-             <!-- <button id = 'add_unit_sem1' onclick="addSem11OverLoad()">Click Me</button> -->
+             <button onclick="addSem11OverLoad(this);"class="btn-ol" id="show_hide_bt" >
+              <i class="fa fa-plus-circle"></i> Add
+          </button>             <!-- <button id = 'add_unit_sem1' onclick="addSem11OverLoad()">Click Me</button> -->
             </div>
 
             <p class="semester-paragraph" id="year1semester2">Semester 2, 2023</p>
@@ -60,8 +61,9 @@
               <div class="target" id="year1sem2_4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               <div class="target" id="year1sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
                <!--Font awesome icon that will able to add new unit in the selector- Ancy-->
-              <i class="fa fa-plus-circle icon" aria-hidden="true" id = 'add_unit_sem2' onclick="addSem12OverLoad()" ></i>
-            </div>
+               <button onclick="addSem12OverLoad(this);"class="btn-ol" id="show_hide_bt" >
+                <i class="fa fa-plus-circle"></i> Add
+            </button>            </div>
 
             <p class="semester-paragraph" id="year2semester1">Semester 1, 2024</p>
             <div class="semester-row" id="row3">
@@ -71,8 +73,9 @@
               <div class="target" id="year1sem2_4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               <div class="target" id="year2sem1_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;" ></div>  <!-- if overloading, unhide -->
                <!--Font awesome icon that will able to add new unit in the selector- Ancy-->
-              <i class="fa fa-plus-circle icon" aria-hidden="true" id = 'add_unit_sem3' onclick="addSem21OverLoad()" ></i>
-
+               <button onclick="addSem21OverLoad(this);"class="btn-ol" id="show_hide_bt" >
+                <i class="fa fa-plus-circle"></i> Add
+            </button>
             </div>
 
             <p class="semester-paragraph" id="year2semester2">Semester 2, 2024</p>
@@ -83,7 +86,9 @@
               <div class="target" id="year1sem2_4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               <div class="target" id="year2sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;" ></div>  <!-- if overloading, unhide -->
                <!--Font awesome icon that will able to add new unit in the selector- Ancy-->
-              <i class="fa fa-plus-circle icon" aria-hidden="true" id = 'add_unit_sem4' onclick="addSem22OverLoad()" ></i>
+               <button onclick="addSem22OverLoad(this);"class="btn-ol" id="show_hide_bt" >
+           <i class="fa fa-plus-circle"></i> Add
+       </button>
             </div>
 
           </div>
@@ -294,52 +299,60 @@ function CreatePDFfromHTML() {
 
 //Function for overloading - Ancy
 // This add one more grid to each semester if the user wants to do 5 units in a semester
-function addSem11OverLoad() {
-  var add_unit_sem1 = document.getElementById("add_unit_sem1");
+function addSem11OverLoad(button) {
   var year1sem1_5 = document.getElementById("year1sem1_5");
-  //checking if the fifth unit is already selected
-  if (year1sem1_5.style.display === "none") {
-    $(this).find('i').toggleClass('fa-minus-circle fa-plus-circle');
-    year1sem1_5.style.display = "block";
-  } else {
-    year1sem1_5.style.display = "none";
-  }
+   $(button).find('i').remove();
+   if ($(button).text().trim() == 'Add') {
+     $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove');
+     //x.fadeIn();
+     
+     year1sem1_5.style.display = "block";
+    }
+    else {
+      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add');
+      year1sem1_5.style.display = "none"
+    }
   
 }
-function addSem12OverLoad() {
-  var add_unit_sem2 = document.getElementById("add_unit_sem2");
-  var year1sem2_5 = document.getElementById("year1sem2_5");
-  if (year1sem2_5.style.display === "none") {
-    $(this).find('i').toggleClass('fa-minus-circle fa-plus-circle');
-    year1sem2_5.style.display = "block";
-  } else {
-    year1sem2_5.style.display = "none";
-  }
+function addSem12OverLoad(button) {
+  var x = document.getElementById("year1sem2_5");
+   $(button).find('i').remove();
+   if ($(button).text().trim() == 'Add') {
+     $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove');
+     x.style.display = "block";
+    }
+    else {
+      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add');
+      x.style.display = "none"
+    }
   
   
 }
-function addSem21OverLoad() {
-  var add_unit_sem3 = document.getElementById("add_unit_sem3");
-  var year2sem1_5 = document.getElementById("year2sem1_5");
-  if (year2sem1_5.style.display === "none") {
-    $(this).find('i').toggleClass('fa-minus-circle fa-plus-circle');
-    year2sem1_5.style.display = "block";
-  } else {  
-    year2sem1_5.style.display = "none";
-  }
+function addSem21OverLoad(button) {
+  var x = document.getElementById("year2sem1_5");
+   $(button).find('i').remove();
+   if ($(button).text().trim() == 'Add') {
+     $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove');
+     x.style.display = "block";}
+    else {
+      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add');
+      x.style.display = "none"
+    }
   
-}
-function addSem22OverLoad() {
-  var add_unit_sem4 = document.getElementById("add_unit_sem4");
-  var year2sem2_5 = document.getElementById("year2sem2_5");
-  if (year2sem2_5.style.display === "none") {
-    $(this).find('i').toggleClass('fa-minus-circle fa-plus-circle');
-    year2sem2_5.style.display = "block";
-  } else { 
-    year2sem2_5.style.display = "none";
-  }
 }
 
+function addSem22OverLoad(button) {
+   var x = document.getElementById("year2sem2_5");
+   $(button).find('i').remove();
+   if ($(button).text().trim() == 'Add') {
+     $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove');
+     x.style.display = "block";
+    }
+    else {
+      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add');
+      x.style.display = "none"
+    }
+}
 
 </script>
 
