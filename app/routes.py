@@ -10,6 +10,40 @@ import os
 import re
 import json
 
+#There might be a tidier way to do this if I can figure out how to get the column names.
+#This sets up the dictionary in which study plan units can be stored.
+SP_dict={}
+
+# Set up the unit names as empty strings so that if a user has unassigned units the page will show them as
+# empty boxes.
+SP_dict['Y1S1_1']=""
+SP_dict['Y1S1_2']=""
+SP_dict['Y1S1_3']=""
+SP_dict['Y1S1_4']=""
+SP_dict['Y1S1_5']=""
+
+SP_dict['Y1S2_1']=""
+SP_dict['Y1S2_2']=""
+SP_dict['Y1S2_3']=""
+SP_dict['Y1S2_4']=""
+SP_dict['Y1S2_5']=""
+
+SP_dict['Y2S1_1']=""
+SP_dict['Y2S1_2']=""
+SP_dict['Y2S1_3']=""
+SP_dict['Y2S1_4']=""
+SP_dict['Y2S1_5']=""
+
+SP_dict['Y2S2_1']=""
+SP_dict['Y2S2_2']=""
+SP_dict['Y2S2_3']=""
+SP_dict['Y2S2_4']=""
+SP_dict['Y2S2_5']=""
+SP_dict['selectedCourse']=""
+SP_dict['selectedMajor']=""
+SP_dict['faculty']=""
+SP_dict['coursecode']=""
+
 # Index page
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
@@ -58,33 +92,71 @@ def logout():
 
 
 # Account Page for logged in users. 
-@app.route('/myaccount', methods=['GET', 'POST'])
-def myaccount():
+@app.route('/account', methods=['GET', 'POST'])
+def account():
     #Adapted code from https://python-adv-web-apps.readthedocs.io/en/latest/flask_db2.html
     
     #Is user logged in as their user_id or their email?
     
     #Get user account
-    user=current_user.username
-    saved_study_plans= Four_Sem_SP.query.filter_by(user_id=user).order_by(Four_Sem_SP.date_updated).all()
-    results= saved_study_plans.count()
+    user=current_user.id
+    #check if user has saved study plans. Saves query to variable name.
+    saved_study_plans=Four_Sem_SP.query.filter_by(user_id=user).order_by(Four_Sem_SP.date_updated).all()
+    #initialize results and study plan array.
+    results=0
+    SP_array = []
+    
+    #if study plan found in database, then set results value to the number of rows the query returns.
+    if  saved_study_plans:
+        results= saved_study_plans.count()
 
+    #If post request then the delete or load function has been called.
     if request.method == 'POST':
-        delete_plan =request.form.get('SP_id')
-        Four_Sem_SP.query.filter_by(study_plan_id=delete_plan).delete()
-        
-        #Rerun the original query
-        saved_study_plans #get updated study plan list
-        results #get new results number
-        return render_template('myaccount.html', title="My Account", SP_array=SP_array, results=results)
+        #Identifies study plan user is interacting with.
+        SP_id = request.form.get('SP_id')
+        #Identifies if they want to load a study plan or not.
+        redir = request.form.get('redir')
 
+        #If redir is false, then delete study plan.
+        if redir=='False':
+            #SQLAlchemy for deleting a row.
+            Four_Sem_SP.query.filter_by(study_plan_id=SP_id).delete()
+            
+            #Rerun the original query
+            saved_study_plans #get updated study plan list
+            results #get new results number
+            #Reload the myaccount page.
+            return render_template('account.html', title="My Account", SP_array=SP_array, results=results)
+        #If redir is true, then load study plan into 3grid-createstudyplan.html'
+        else:
+            #Get all study plan values
+            study_plan=Four_Sem_SP.query.filter_by(study_plan_id=SP_id)
+
+            #Loop through SP_dict dictionary and use the key value to access the 
+            #correlating value in the study_plan query.
+            for value in SP_dict:
+                data=study_plan.value
+                #If statement to avoid null pointer exceptions.
+                if data is not None:
+                  SP_dict[value]=data 
+
+            #Send relevant data to the
+            return render_template('3grid-createstudyplan.html', 
+            SP_dict=SP_dict,
+            title="Create study plan"
+            )
+
+    #If not post method and when saved_study_plans returns at least 1 row.
     if results>0:
-        SP_array = []
+        #loop through rows from query.
         for SP in saved_study_plans:
+            #Save study plan id so that it can be identified in the webpage.
             SP_key=SP.study_plan_id
+            #Save data so that it can be named in the study plan list.
             SP_name= SP.date_updated
-            SP.append( (SP_key, SP_name) )
-    return render_template('myaccount.html', title="My Account", SP_array=SP_array, results=results)
+            #Add to the study plan array so it can easily be sent to the web page.
+            SP_array.append( (SP_key, SP_name) )
+    return render_template('account.html', title="My Account", SP_array=SP_array, results=results)
 
     
 

@@ -2,28 +2,24 @@
 {% block content %}
 
 <div>
-    <h1>This is my account.</h1>
-</div>
-
-<div>
-    <div style="height: 70px; background-color: #EBEBEB; width: 100%;">
+    <div class = "signup_div">
         <!-- Need to define this class once I find out which stylesheet is the main one. -->
-        <h3 class="myAccountHeader"> My study plans </h3>
+        <h3 class="signup_h3"> My Study Plans </h3>
     </div>
     <div class="form-container-generic">
         <div class="container-account-study-plans">
-            <p style="font-family: TTNorms; font-weight: 400;"> Saved study plans </p>
             {% if results == 0 %}
                 <p>You have no saved study plans.</p>
             {% else %}
+                <p style="font-family: TTNorms; font-weight: 400;"> Saved study plans: </p>
                 <ul class="list-account-study-plans">    
                 {% for SP in SP_array %}
-                    <!-- Needs to link to prepopulated version of this page -->
                     <li>
-                        <a href="{{ url_for('createstudyplan-units') }}"> {{ SPS[1] }} </a> 
+                        <button id=" {{ SP[0] }}a" onClick="open_SP(this.id)"> {{ SPS[1] }} </button> 
                         <button id=" {{ SP[0] }}" onClick="delete_SP(this.id)"> <i class="fas fa-trash"></i> </button>
+                        <hr style="border-top: 1px solid #C9C9C9;">
                     </li>
-                {% end for %}
+                {% endfor %}
                 </ul>
             {% endif %}
               
@@ -33,17 +29,31 @@
 
 <script>
     /* Function to delete study plan. */
-function delete_SP(SP_id){
+function send_data(redir, SP_id){
   // posts SP id to console log
   console.log(SP_id);
 
   // if delete button pressed, it sends the id to the backend.
   $.ajax({
     type: "POST",
-    url: "{{ url_for('myaccount') }}",
-    data: {"SP_id": SP_id}
+    url: "{{ url_for('account') }}",
+    data: {"SP_id": SP_id,
+           "redir": redir }
   })
 }
+
+function delete_SP(SP_id){
+    var redir="False"
+    send_data(redir, SP_id)
+}
+
+function open_SP(SP_id){
+    var redir="True"
+    var SP=SP_id.substring(-1)
+    send_data(redir, SP)
+}
+
+
 </script>
 
 

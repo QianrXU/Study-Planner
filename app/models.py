@@ -30,104 +30,36 @@ class User(db.Model,UserMixin): #User table
   def is_authenticated(self):
     return True
 
-
-
 class Four_Sem_SP(db.Model):
   study_plan_id = db.Column(db.Integer, primary_key=True)
-  Y1S1_1 = db.Column(db.String(10))
-  Y1S1_2 = db.Column(db.String(10))
-  Y1S1_3 = db.Column(db.String(10))
-  Y1S1_4 = db.Column(db.String(10))
-  Y1S1_5 = db.Column(db.String(10))
 
-  Y1S2_1 = db.Column(db.String(10))
-  Y1S2_2 = db.Column(db.String(10))
-  Y1S2_3 = db.Column(db.String(10))
-  Y1S2_4 = db.Column(db.String(10))
-  Y1S2_5 = db.Column(db.String(10))
+  Y1S1_1 = db.Column(db.String(200))
+  Y1S1_2 = db.Column(db.String(200))
+  Y1S1_3 = db.Column(db.String(200))
+  Y1S1_4 = db.Column(db.String(200))
+  Y1S1_5 = db.Column(db.String(200))
+
+  Y1S2_1 = db.Column(db.String(200))
+  Y1S2_2 = db.Column(db.String(200))
+  Y1S2_3 = db.Column(db.String(200))
+  Y1S2_4 = db.Column(db.String(200))
+  Y1S2_5 = db.Column(db.String(200))
   
-  Y2S1_1 = db.Column(db.String(10))
-  Y2S1_2 = db.Column(db.String(10))
-  Y2S1_3 = db.Column(db.String(10))
-  Y2S1_4 = db.Column(db.String(10))
-  Y2S1_5 = db.Column(db.String(10))
+  Y2S1_1 = db.Column(db.String(200))
+  Y2S1_2 = db.Column(db.String(200))
+  Y2S1_3 = db.Column(db.String(200))
+  Y2S1_4 = db.Column(db.String(200))
+  Y2S1_5 = db.Column(db.String(200))
 
-  Y2S2_1 = db.Column(db.String(10))
-  Y2S2_2 = db.Column(db.String(10))
-  Y2S2_3 = db.Column(db.String(10))
-  Y2S2_4 = db.Column(db.String(10))
-  Y2S2_5 = db.Column(db.String(10))
+  Y2S2_1 = db.Column(db.String(200))
+  Y2S2_2 = db.Column(db.String(200))
+  Y2S2_3 = db.Column(db.String(200))
+  Y2S2_4 = db.Column(db.String(200))
+  Y2S2_5 = db.Column(db.String(200))
+
+  selectedCourse = db.Column(db.String(200))
+  selectedMajor = db.Column(db.String(200))
+  faculty = db.Column(db.String(200))
+  coursecode = db.Column(db.String(200))
   user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # Reference to user id in user table
   date_updated=db.Column(db.DATETIME, nullable=False, default=db.func.current_date())
-
-  """
-  db.create_all()
-
-  # Create a test user
-  new_user = User('a@a.com', 'aaaaaaaa')
-  new_user.display_name = 'Nathan'
-  db.session.add(new_user)
-  db.session.commit()
-
-  new_user.datetime_subscription_valid_until = datetime.datetime(2019, 1, 1)
-  db.session.commit()
-
-
-if __name__ == '__main__':
-  init_db()
-
-
-#Creating a connection cursor
-cursor = mysql.connection.cursor()
- 
-#Executing SQL Statements
-# Create user table
-cursor.execute(''' CREATE TABLE User(
-  UserID int NOT NULL,
-  Email varchar(255) NOT NULL, 
-  Password_hash varchar(255) NOT NULL,
-  PRIMARY KEY (User_id,Email)
-  ) ''')
- 
-# Create four semester studyplan table
-
-cursor.execute(''' CREATE TABLE Four_Sem_SP(
-  UserID int NOT NULL,
-  Y1S1_1 varchar(8),
-  Y1S1_2 varchar(8),
-  Y1S1_3 varchar(8),
-  Y1S1_4 varchar(8),
-  Y1S1_5 varchar(8),
-  Y1S1_6 varchar(8),
-  Y1S2_1 varchar(8),
-  Y1S2_2 varchar(8),
-  Y1S2_3 varchar(8),
-  Y1S2_4 varchar(8),
-  Y1S2_5 varchar(8),
-  Y1S2_6 varchar(8),
-  Y2S1_1 varchar(8),
-  Y2S1_2 varchar(8),
-  Y2S1_3 varchar(8),
-  Y2S1_4 varchar(8),
-  Y2S1_5 varchar(8),
-  Y2S1_6 varchar(8),
-  Y2S2_1 varchar(8),
-  Y2S2_2 varchar(8),
-  Y2S2_3 varchar(8),
-  Y2S2_4 varchar(8),
-  Y2S2_5 varchar(8),
-  Y2S2_6 varchar(8),
-  FOREIGN KEY (UserID) REFERENCES User(UserID)
-  ) ''')
-
-# the add value statement: 
-# INSERT INTO Four_Sem_SP(c1,c2,c3) Values(v1,v2,v3) If we do not specify column's name, the value
-# will be added sequentially.
-# Better to have a functon for each course in each semester, therefore, 24 functions will be required 
-
-#Saving the Actions performed on the DB
-mysql.connection.commit()
- 
-#Closing the cursor
-cursor.close()
-"""
