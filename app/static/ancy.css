@@ -142,7 +142,7 @@
     overflow: hidden;
     transition: max-height 0.2s ease-out;
   }
-  .icon {
+  .fa-plus-circle {
     color: green;
     cursor: pointer;
     margin-right: 6px;
