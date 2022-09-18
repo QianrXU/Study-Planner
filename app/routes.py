@@ -169,6 +169,10 @@ def createstudyplanSelectUnits():
         global coursecode
         global getUnitValues
 
+        #import and read unit list into unitscsv variable
+        unitscsv = os.path.join(app.static_folder, 'Unit list.csv')
+        unitscsv = pd.read_csv(unitscsv, sep=",")
+
         #replace unit selection for degree if the user has selected a major or specification - choose the values that are
         #in the structure column for this courseID instead
         majorCode = selectedMajor
@@ -195,238 +199,40 @@ def createstudyplanSelectUnits():
                 if key == 'unitTypes':
                     typeNames.append(val)
 
-        units1 = []
-        units2 = []
-        units3 = []
-        units4 = []
-        units5 = []
-        units6 = []
-        units7 = []
-        units8 = []
-
-        # If someone knows how to create new variables in a loop, otherwise this solution works
-        # for every unit role/type (conversion, option, core, etc) within the selected course, save them to a separate list
-        try: 
-            type1 = typeNames[0]
-            lengthtype1 = len(type1)
-            type1units = []
-            for i in range(lengthtype1): # loop through list
-                for key, val in type1[i].items():
-                    if key == 'typeName': # e.g., conversion, core, option, etc.
-                        units1.append(val)
-                        units1.append("&*:") #something random to split by on the frontend
-                    if key == 'typeInto': # if there is any typeInto field, include this
-                        units1.append(val)
-                        units1.append("&*:")
-                    type1units = val # creates list with dictionary of units in type1 group
-            lengthtype1 = len(type1units)
-            for i in range(lengthtype1): # loop through list and take the following from Structure
-                for key, val in type1units[i].items():
-                    if key == 'unitCode':
-                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
-                    if key == 'unitTitle':
-                        units1.append(unitCode + " " + val)
-                    # if key == 'unitPoints':
-                    #     units1.append(val)
-                    # if key == 'unitURL':
-                    #     units1.append(val)
-        except: type1 = "No Type 1"
+        units = []
 
         try: 
-            type2 = typeNames[1]
-            lengthtype2 = len(type2)
-            type2units = []
-            for i in range(lengthtype2): # loop through list
-                for key, val in type2[i].items():
-                    if key == 'typeName': # e.g., conversion, core, option, etc.
-                        units2.append(val)
-                        units2.append("&*:") #something random to split by on the frontend
-                    if key == 'typeInto': # if there is any typeInto field, include this
-                        units2.append(val) 
-                        units2.append("&*:") #something random to split by on the frontend
-                    type2units = val # creates list with dictionary of units in type1 group
-            lengthtype2 = len(type2units)
-            for i in range(lengthtype2): # loop through list and take the following from Structure
-                for key, val in type2units[i].items():
-                    if key == 'unitCode':
-                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
-                    if key == 'unitTitle':
-                        units2.append(unitCode + " " + val)
-                    # if key == 'unitPoints':
-                    #     units2.append(val)
-                    # if key == 'unitURL':
-                    #     units2.append(val)
-        except: type2 = "No Type 2"
-
-        try: 
-            type3 = typeNames[2]
-            lengthtype3 = len(type3)
-            type3units = []
-            for i in range(lengthtype3): # loop through list
-                for key, val in type3[i].items():
-                    if key == 'typeName': # e.g., conversion, core, option, etc.
-                        units3.append(val)
-                        units3.append("&*:") #something random to split by on the frontend
-                    if key == 'typeInto': # if there is any typeInto field, include this
-                        units3.append(val) 
-                        units3.append("&*:") #something random to split by on the frontend
-                    type3units = val # creates list with dictionary of units in type1 group
-            lengthtype3 = len(type3units)
-            for i in range(lengthtype3): # loop through list and take the following from Structure
-                for key, val in type3units[i].items():
-                    if key == 'unitCode':
-                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
-                    if key == 'unitTitle':
-                        units3.append(unitCode + " " + val)
-                    # if key == 'unitPoints':
-                    #     units3.append(val)
-                    # if key == 'unitURL':
-                    #     units3.append(val)
-        except: type3 = "No Type 3"
-
-        try: 
-            type4 = typeNames[3]
-            lengthtype4 = len(type4)
-            type4units = []
-            for i in range(lengthtype4): # loop through list
-                for key, val in type4[i].items():
-                    if key == 'typeName': # e.g., conversion, core, option, etc.
-                        units4.append(val)
-                        units4.append("&*:") #something random to split by on the frontend
-                    if key == 'typeInto': # if there is any typeInto field, include this
-                        units4.append(val) 
-                        units4.append("&*:") #something random to split by on the frontend
-                    type4units = val # creates list with dictionary of units in type1 group
-            lengthtype4 = len(type4units)
-            for i in range(lengthtype4): # loop through list and take the following from Structure
-                for key, val in type4units[i].items():
-                    if key == 'unitCode':
-                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
-                    if key == 'unitTitle':
-                        units4.append(unitCode + " " + val)
-                    # if key == 'unitPoints':
-                    #     units4.append(val)
-                    # if key == 'unitURL':
-                    #     units4.append(val)
-        except: type4 = "No Type 4"
-        
-        try: 
-            type5 = typeNames[4]
-            lengthtype5 = len(type5)
-            type5units = []
-            for i in range(lengthtype5): # loop through list
-                for key, val in type5[i].items():
-                    if key == 'typeName': # e.g., conversion, core, option, etc.
-                        units5.append(val)
-                        units5.append("&*:") #something random to split by on the frontend
-                    if key == 'typeInto': # if there is any typeInto field, include this
-                        units5.append(val) 
-                        units5.append("&*:") #something random to split by on the frontend
-                    type5units = val # creates list with dictionary of units in type1 group
-            lengthtype5 = len(type5units)
-            for i in range(lengthtype5): # loop through list and take the following from Structure
-                for key, val in type5units[i].items():
-                    if key == 'unitCode':
-                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
-                    if key == 'unitTitle':
-                        units5.append(unitCode + " " + val)
-                    # if key == 'unitPoints':
-                    #     units5.append(val)
-                    # if key == 'unitURL':
-                    #     units5.append(val)
-        except: type5 = "No Type 5"
-        
-        try: 
-            type6 = typeNames[5]
-            lengthtype6 = len(type6)
-            type6units = []
-            for i in range(lengthtype6): # loop through list
-                for key, val in type6[i].items():
-                    if key == 'typeName': # e.g., conversion, core, option, etc.
-                        units6.append(val)
-                        units6.append("&*:") #something random to split by on the frontend
-                    if key == 'typeInto': # if there is any typeInto field, include this
-                        units6.append(val) 
-                        units6.append("&*:") #something random to split by on the frontend
-                    type6units = val # creates list with dictionary of units in type1 group
-            lengthtype6 = len(type6units)
-            for i in range(lengthtype6): # loop through list and take the following from Structure
-                for key, val in type6units[i].items():
-                    if key == 'unitCode':
-                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
-                    if key == 'unitTitle':
-                        units6.append(unitCode + " " + val)
-                    # if key == 'unitPoints':
-                    #     units6.append(val)
-                    # if key == 'unitURL':
-                    #     units6.append(val)
-        except: type6 = "No Type 6"
-
-        try: 
-            type7 = typeNames[6]
-            lengthtype7 = len(type7)
-            type7units = []
-            for i in range(lengthtype7): # loop through list
-                for key, val in type7[i].items():
-                    if key == 'typeName': # e.g., conversion, core, option, etc.
-                        units7.append(val)
-                        units7.append("&*:") #something random to split by on the frontend
-                    if key == 'typeInto': # if there is any typeInto field, include this
-                        units7.append(val) 
-                        units7.append("&*:") #something random to split by on the frontend
-                    type7units = val # creates list with dictionary of units in type1 group
-            lengthtype7 = len(type7units)
-            for i in range(lengthtype7): # loop through list and take the following from Structure
-                for key, val in type7units[i].items():
-                    if key == 'unitCode':
-                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
-                    if key == 'unitTitle':
-                        units7.append(unitCode + " " + val)
-                    # if key == 'unitPoints':
-                    #     units7.append(val)
-                    # if key == 'unitURL':
-                    #     units7.append(val)
-        except: type7 = "No Type 7"
-
-        try: 
-            type8 = typeNames[7]
-            lengthtype8 = len(type8)
-            type8units = []
-            for i in range(lengthtype8): # loop through list
-                for key, val in type8[i].items():
-                    if key == 'typeName': # e.g., conversion, core, option, etc.
-                        units8.append(val)
-                        units8.append("&*:") #something random to split by on the frontend
-                    if key == 'typeInto': # if there is any typeInto field, include this
-                        units8.append(val) 
-                        units8.append("&*:") #something random to split by on the frontend
-                    type8units = val # creates list with dictionary of units in type1 group
-            lengthtype8 = len(type8units)
-            for i in range(lengthtype8): # loop through list and take the following from Structure
-                for key, val in type8units[i].items():
-                    if key == 'unitCode':
-                        unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
-                    if key == 'unitTitle':
-                        units8.append(unitCode + " " + val)
-                    # if key == 'unitPoints':
-                    #     units8.append(val)
-                    # if key == 'unitURL':
-                    #     units8.append(val)
-        except: type8 = "No Type 8"
-
-# NEED TO LOOK AT ADDING MORE POTENTIALLY - E.G., COURSE ID 71580 HAS 8 LEVELS (I.E., TYPES). Does any other
-# degrees have more than 8 ? Look at 31400 I think it went over.
-# # Doctor of Podiatry, completely different again. Need to rethink /C 
+            length = len(typeNames)
+            for y in range(length):
+                types = typeNames[y]
+                lengthoftypes = length = len(types)
+                for i in range(lengthoftypes): # loop through list
+                    for key, val in types[i].items():
+                        if key == 'typeName': # e.g., conversion, core, option, etc.
+                            units.append(val)
+                            units.append("***") #something random to split by on the frontend
+                        if key == 'typeInto': # if there is any typeInto field, include this
+                            units.append(val)
+                            units.append("***")
+                        typesOfunits = val # creates list with dictionary of units in type1 group
+                lengthtype1 = len(typesOfunits)
+                for i in range(lengthtype1): # loop through list and take the following from Structure
+                    for key, val in typesOfunits[i].items():
+                        if key == 'unitCode':
+                            unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
+                        if key == 'unitTitle':
+                            units.append(unitCode + " " + val)
+                #units.append("&*:") #something random to split by on the frontend
+                units.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
+                        # if key == 'unitPoints':
+                        #     units1.append(val)
+                        # if key == 'unitURL':
+                        #     units1.append(val)
+        except:
+            units.append("No units")
 
         return render_template('3grid-createstudyplan.html', 
-            units1=units1,
-            units2=units2,
-            units3=units3,
-            units4=units4,
-            units5=units5,
-            units6=units6,
-            units7=units7,
-            units8=units8,
+            units=units,
             majorCode=majorCode,
             selectedCourse=selectedCourse, 
             selectedMajor=selectedMajor,
