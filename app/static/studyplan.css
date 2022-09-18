@@ -62,6 +62,8 @@
   font-family: TTNorms;
   font-size: 14px;
   font-weight: bold;
+  margin-bottom: 7px;
+  margin-top: 20px;
 }
 
 .unit-draggables {
@@ -202,6 +204,12 @@ li {
 #units-bottom {
   width: 400px;
 }
+
+#units-bottom p {
+  font-family: TTNorms;
+  font-size: 14px;
+}
+
 
 @media only screen and (max-width: 800px) {
   #units {
