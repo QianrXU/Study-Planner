@@ -308,7 +308,9 @@ li {
   border: 1px solid #C9C9C9;
   text-align: center;
   padding: 20px;
+  min-height: 90px;
   list-style: none;
   flex: 1; /* sets width of target container to fill width*/
+
 }
 
