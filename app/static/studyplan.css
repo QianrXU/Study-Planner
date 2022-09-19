@@ -31,6 +31,10 @@
   border-radius: 0;
 }
 
+.dropdowngroup {
+  margin-bottom: 30px;
+}
+
 /* Dropdown arrow float right */
 .dropdown-toggle::after {
   margin-top: 10px;

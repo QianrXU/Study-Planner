@@ -53,59 +53,64 @@
     display: flex;
     justify-content: center;
   }
-  
-  
-  .btn-login:hover {
-  background:#DAAA00;
-  background-image: url('pictures/doublearrow.png');
-  background-repeat: no-repeat;
-  background-position: right 15px center;
-  }
-  .button {
-    
-    border: none;
-    color: #333333;
-  border-color: #FFD216;
-  background: #FFD216;
-  background-image: url('pictures/doublearrow.png');
-  background-repeat: no-repeat;
-  background-position: right 15px center;
-    padding: 20px 38px;
-    text-align: left;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 20px;
-    margin: 4px 2px;
-    cursor: pointer;}
-  .btn-index {
-    font-size: 19px;
-    font-family: SourceSansPro;
-    text-align: left;
-    width: 200x;
-    height: 60px;
-    border-width: 0px;
-    color: #333333;
-    border-color: #FFD216;
-    background: #FFD216;
-    background-image: url('pictures/doublearrow.png');
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-   
-    cursor: pointer;
-    text-decoration: none;
-    }
 
-    .button:hover{
+.button_general {
+  border-style: solid;
+  border-width: 2px;
+  cursor: pointer;
+  text-align: center;
+  border-left-width: 2px;
+  border-right-width: 2px;
+  background: #E2B600;
+  border-color: #E2B600;
+  color: #27348b;
+  font-weight: normal;
+  box-sizing: border-box;
+  width: fit-content;
+  line-height: 0px;
+  font-size: calc(0.875rem + 0.125 * ((100vw - 40rem)/40));
+  padding: 16px 28px 17px 28px;
+  text-decoration: none;
+  display: inline-block;
+}
 
-      background:#DAAA00;
-  background-image: url('pictures/doublearrow.png');
-  background-repeat: no-repeat;
-  background-position: right 15px center;
-    }
+.button_general:hover {
+  background: #E5C43B;
+  color: #27348b;
+}
 
-  .index-btn {
-    width: 250px;
-  }
+.button_general:hover:before {
+  opacity: 1;
+}
+
+.button_general span {
+  display: inline-block;
+  transition: 0.1s ease-in;
+}
+
+.button_general:hover span {
+  transform: translateX(25%);
+}
+
+.arrow {
+  font-size: 0.8em;
+  margin-left: 5px;
+}
+
+#selectmajorbutton {
+  padding: 14px 22px 15px 22px;
+  margin-left: 30px;
+  margin-bottom: 50px;
+}
+
+#selectcoursebutton {
+  margin-left: 0px;
+  margin-bottom: 0px;
+}
+
+#selectmajorbutton:hover span {
+  transform: translateY(15%);
+}
 
   .loginsignup {
     width: 100%;
@@ -123,7 +128,7 @@
   font-size: 16px;
   /* or 438% */
   letter-spacing: 0.1em;
-  
+  margin-bottom: 2em;
   color: #000000;
   
   }
@@ -135,7 +140,7 @@
   font-size: 36px;
   /* or 194% */
   letter-spacing: 0.1em;
-  
+  margin-bottom: 0.1em;
   color: #000000;
   }
 
@@ -146,7 +151,7 @@
   font-size: 44px;
   /* or 159% */
   letter-spacing: 0.1em;
-  
+  margin-bottom: 1em;
   color: #000000;
   
   }
