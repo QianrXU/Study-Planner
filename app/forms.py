@@ -6,8 +6,8 @@ from app.models import User
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Login')
+    remember_me = BooleanField('Remember me')
+    submit = SubmitField('Log in')
 
     def validate(self):
         initial_validation = super(LoginForm, self).validate()
@@ -26,8 +26,7 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=40)])
-    password2 = PasswordField(
-        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    password2 = PasswordField('Repeat password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign up')
 
     def validate(self):
@@ -37,6 +36,6 @@ class RegistrationForm(FlaskForm):
 
         user = User.query.filter_by(email=self.email.data).first()
         if user:
-            self.email.errors.append("Email already in use, please try a different one or reset password")
+            self.email.errors.append("Email already in use, please use a different one or reset your password.")
             return False
         return True   

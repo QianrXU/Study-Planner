@@ -56,10 +56,10 @@
               <div class="target" id="year1sem1_4" ondrop="drop(event)" ondragover="allowDrop(event)"></div> 
               <!--https://github.com/QianrXU/Study-Planner/issues/82-->
               <div class="target" id="year1sem1_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
-             <!--Font awesome icon that will able to add new unit in the selector- Ancy-->
-             <button onclick="addSem11OverLoad(this);"class="btn-ol" id="show_hide_bt" >
-              <i class="fa fa-plus-circle"></i> Add
-          </button>             <!-- <button id = 'add_unit_sem1' onclick="addSem11OverLoad()">Click Me</button> -->
+              <!--Font awesome icon that will able to add new unit in the selector- Ancy-->
+              <button onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" >
+                  <i class="fa fa-plus-circle"></i> Add
+              </button>
             </div>
 
             <p class="semester-paragraph" id="year1semester2">Semester 2, 2023</p>
@@ -71,33 +71,33 @@
               <div class="target" id="year1sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
                <!--Font awesome icon that will able to add new unit in the selector- Ancy-->
                <!--Clicking '+' calls the function to add or remove a grid-->
-               <button onclick="addSem12OverLoad(this);"class="btn-ol" id="show_hide_bt" >
-                <i class="fa fa-plus-circle"></i> Add
-            </button>            
+               <button onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" >
+                 <i class="fa fa-plus-circle"></i> Add
+               </button>            
           </div>
 
             <p class="semester-paragraph" id="year2semester1">Semester 1, 2024</p>
             <div class="semester-row" id="row3">
-              <div class="target" id="year1sem2_1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-              <div class="target" id="year1sem2_2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-              <div class="target" id="year1sem2_3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-              <div class="target" id="year1sem2_4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year2sem1_1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year2sem1_2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year2sem1_3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year2sem1_4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               <div class="target" id="year2sem1_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;" ></div>  <!-- if overloading, unhide -->
                <!--Font awesome icon that will able to add new unit in the selector- Ancy-->
-               <button onclick="addSem21OverLoad(this);"class="btn-ol" id="show_hide_bt" >
-                <i class="fa fa-plus-circle"></i> Add
-            </button>
+               <button onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" >
+                 <i class="fa fa-plus-circle"></i> Add
+               </button>
             </div>
 
             <p class="semester-paragraph" id="year2semester2">Semester 2, 2024</p>
             <div class="semester-row" id="row4">
-              <div class="target" id="year1sem2_1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-              <div class="target" id="year1sem2_2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-              <div class="target" id="year1sem2_3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-              <div class="target" id="year1sem2_4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year2sem2_1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year2sem2_2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year2sem2_3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+              <div class="target" id="year2sem2_4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               <div class="target" id="year2sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;" ></div>  <!-- if overloading, unhide -->
                <!--Font awesome icon that will able to add new unit in the selector- Ancy-->
-               <button onclick="addSem22OverLoad(this);"class="btn-ol" id="show_hide_bt" >
+               <button onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" >
            <i class="fa fa-plus-circle"></i> Add
        </button>
             </div>
@@ -116,12 +116,9 @@
 <div id="unitList" style="display: none;">{{ units }}</div>
 <div id="unitCodeList" style="display: none;">{{ availability }}</div>
 
-<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"> -->
-<script src="//code.jquery.com/jquery-1.12.4.js"></script>
-<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!--Script to support PDF conversion-->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
-<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
 <script>
 // Remove major information from frontend if doesn't contain anything valuable
@@ -136,7 +133,7 @@ var units = units.replace(/'/g, '');
 var units = units.replace(/"/g, '');
 var unitsArray = units.split(", NEXT_UNIT_ROLE, ") // Split into array when this test occurs
 
-// Process unitInformation to retrieve availability
+// Process unitInformation variable to retrieve availability
 var unitInformation = document.getElementById("unitCodeList").innerHTML;
 var unitInformation = unitInformation.slice(1, -2); // slice off back of string and do some further processing below
 var unitInformation = unitInformation.replace(/'/g, '');

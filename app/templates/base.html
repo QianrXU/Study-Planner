@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +6,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Study Planner</title>
 
   <!-- Load internal CSS -->
   <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
@@ -16,19 +19,9 @@
   <!-- Load favicon -->
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='pictures/favicon.ico') }}">
 
-  <!-- Fonteawesome -->
+  <!-- Fontawesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://kit.fontawesome.com/78fa101452.js" crossorigin="anonymous"></script>
-  
-  <!-- Load Google icon library -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-  <!-- Load Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
 
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
@@ -37,16 +30,15 @@
   
   <!-- Jquery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-  <title>{% block title %}{% endblock %} Study Planner</title>
   {% endblock %}
 </head>
-
 <body>
   <div class="main">
     
     <!-- NAVIGATION BAR -->
-    <header class="headercontainer" role="banner">
+    <header class="headercontainer">
         <div class="uwa-header">    
           <div>
               <nav style="display: block; position: relative;">
@@ -72,47 +64,13 @@
         </div>  
 
 
-    <!-- TOP BAR -->
-      
+    <!-- SUB NAVIGATION BAR - populated with JS-->
         <div class="main-header" tabindex="0">
             <div>
-      
-                <h1 class="title">
-                    
-                </h1>
-      
+                <h1 class="title">Study Planner</h1>
             </div>
         </div>
-
         
-    <script>
-        
-        let arr=location.href.split('/')
-        let len=location.href.split('/').length
-   
-        let pageParams=arr[len-1]
-        if(pageParams=='signup'){
-            document.getElementsByClassName("title")[0].innerHTML="Sign up to the Study Planner tool"
-        }else if(pageParams=='login'){
-            document.getElementsByClassName("title")[0].innerHTML="Log in to the Study Planner tool"
-        }else if(pageParams=='faq'){
-            document.getElementsByClassName("title")[0].innerHTML="Frequently asked questions"
-        }else if(pageParams=='myaccount'){
-            document.getElementsByClassName("title")[0].innerHTML="My Account"
-        }else if(pageParams=='createstudyplan-courses'){
-            document.getElementsByClassName("title")[0].innerHTML="Create study plan"
-        }else if(pageParams=='createstudyplan-majors'){
-            document.getElementsByClassName("title")[0].innerHTML="Create study plan"
-        }else if(pageParams=='createstudyplan-units'){
-            document.getElementsByClassName("title")[0].innerHTML="Create study plan"
-        }else{
-            document.getElementsByClassName("title")[0].innerHTML="Study Planner"
-        }
-
-    </script>
-
-    
-
     </header>
   
 
@@ -123,7 +81,7 @@
     <!-- FOOTER -->
       {% block footer %}
 
-      <footer class="footercontainer" role="contentinfo">
+      <footer class="footercontainer">
         <div class="footlink">
             <div class="innerdiv">
                 <div>
@@ -140,7 +98,7 @@
                         </li>
                         <li>
                             <a href="http://www.linkedin.com/company/university-of-western-australia" title="Linkedin">
-                                <i class="fa-brands fa-linkedin-in"style="color: #27348B !important;"></i>
+                                <i class="fa-brands fa-linkedin-in" style="color: #27348B !important;"></i>
                             </a>
                         </li>
                         <li>
@@ -157,7 +115,7 @@
                 </div>   
 
                 <div>
-                    <h1> The University of Western Australia </h1>
+                    <h1>The University of Western Australia</h1>
                 </div>
 
                 <div class="info-div">
@@ -183,13 +141,34 @@
         <div class="yellowbar">
         </div>
     </footer>
+  </div>
+  {% endblock %}
 
-      {% endblock %}
+<script>
+      
+  let arr=location.href.split('/')
+  let len=location.href.split('/').length
 
-  <!-- END OF DOC -->
+  let pageParams=arr[len-1]
+  if(pageParams=='signup'){
+      document.getElementsByClassName("title")[0].innerHTML="Sign up"
+  }else if(pageParams=='login'){
+      document.getElementsByClassName("title")[0].innerHTML="Log in"
+  }else if(pageParams=='faq'){
+      document.getElementsByClassName("title")[0].innerHTML="Frequently asked questions"
+  }else if(pageParams=='myaccount'){
+      document.getElementsByClassName("title")[0].innerHTML="My account"
+  }else if(pageParams=='createstudyplan-courses'){
+      document.getElementsByClassName("title")[0].innerHTML="Create study plan"
+  }else if(pageParams=='createstudyplan-majors'){
+      document.getElementsByClassName("title")[0].innerHTML="Create study plan"
+  }else if(pageParams=='createstudyplan-units'){
+      document.getElementsByClassName("title")[0].innerHTML="Create study plan"
+  }else{
+      document.getElementsByClassName("title")[0].innerHTML="Study Planner"
+  }
+
+</script>
 
 </body>
-
-
-
 </html>
