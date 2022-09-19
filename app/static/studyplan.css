@@ -92,7 +92,7 @@
 #courseInput {
   padding: .25rem 1rem;
   margin-top: 0.25rem !important;
-  margin-left: 0x !important;
+  margin-left: 0px !important;
   margin-bottom: 10px;
   width: fit-content;
   min-width: 200px;
@@ -186,18 +186,10 @@
 /* Change cursor and allow for text highlighting/copying */
 li {
   margin-bottom: 7px;
-  -o-user-select: text;
-  -moz-user-select: text;
-  -webkit-user-select: text;
-  user-select: text;
 }
 
 .unit-ul li {
   cursor: grabbing;
-  -o-user-select: text;
-  -moz-user-select: text;
-  -webkit-user-select: text;
-  user-select: text;
 }
 
 /* //////////////////////// */
