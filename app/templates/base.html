@@ -58,12 +58,12 @@
                   <ul class="site-nav">
                     {% if current_user.is_authenticated %}
                     <li><a class="a" href="{{ url_for('index') }}">Home</a></li>
-                    <li><a class="a" href="{{ url_for('account') }}">My Account</a></li>
-                    <li><a class="a" href="{{ url_for('logout') }}">Log Out</a></li>
+                    <li><a class="a" href="{{ url_for('account') }}">My account</a></li>
+                    <li><a class="a" href="{{ url_for('logout') }}">Log out</a></li>
                     <li><a class="a" href="{{ url_for('faq') }}"><i class="fa-solid fa-circle-question"></i></a></li>
                     {% else %}
-                    <li><a class="a" href="{{ url_for('login') }}">Log In</a></li>
-                    <li><a class="a" href="{{ url_for('signup') }}">Sign Up</a></li>
+                    <li><a class="a" href="{{ url_for('login') }}">Log in</a></li>
+                    <li><a class="a" href="{{ url_for('signup') }}">Sign up</a></li>
                     <li><a class="a" href="{{ url_for('faq') }}"><i class="fa-solid fa-circle-question"></i></a></li>
                     {% endif %}
                    </ul>  
@@ -187,9 +187,6 @@
       {% endblock %}
 
   <!-- END OF DOC -->
-
-  <!-- Load JS files -->
-  <script src="/static/javascript.js"></script>
 
 </body>
 

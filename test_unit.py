@@ -67,6 +67,7 @@ class UserModelCase(unittest.TestCase):
     follow_redirects=True)
 
 ##### UNIT TESTS FOR LOGIN - Ancy####
+# https://github.com/QianrXU/Study-Planner/issues/65
   def test_login_form_displays(self):
     response = self.app.get('/login')
     self.assertEqual(response.status_code, 200)

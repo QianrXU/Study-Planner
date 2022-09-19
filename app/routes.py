@@ -192,7 +192,7 @@ def createstudyplanSelectCourse():
     # TO DO - Need to check if selected degree ListMajors and ListMajors2 empty, 
     # Currently only checking ListMajors, not ListMajors2 (some courses seem to add them in there for some reason)
     # Maybe there is a way to concatenate them? /C
-    selectedMajor = "No major or specification available"
+    selectedMajor = "No major or specialisation available"
 
     if request.method == 'POST':
         try:
@@ -267,14 +267,10 @@ def createstudyplanSelectUnits():
         global coursecode
         global getUnitValues
 
-        #import and read unit list into unitscsv variable
-        unitscsv = os.path.join(app.static_folder, 'Unit list.csv')
-        unitscsv = pd.read_csv(unitscsv, sep=",")
-
-        #replace unit selection for degree if the user has selected a major or specification - choose the values that are
+        #replace unit selection for degree if the user has selected a major or specialisation - choose the values that are
         #in the structure column for this courseID instead
         majorCode = selectedMajor
-        noMajor = "No major or specification available"
+        noMajor = "No major or specialisation available"
         if noMajor not in majorCode:
             majorCode = selectedMajor.split() # need to split as unitCode in index first and then major title
             majorCode = majorCode[0]
@@ -297,7 +293,8 @@ def createstudyplanSelectUnits():
                 if key == 'unitTypes':
                     typeNames.append(val)
 
-        units = []
+        units = [] # all unit codes + unit titles to be saved into this list 
+        unitCodeList = [] # all unit codes to be saved into this list (for connecting with unit list.csv on frontend)
 
         try: 
             length = len(typeNames)
@@ -318,8 +315,9 @@ def createstudyplanSelectUnits():
                     for key, val in typesOfunits[i].items():
                         if key == 'unitCode':
                             unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
+                            unitCodeList.append(val)
                         if key == 'unitTitle':
-                            units.append(unitCode + " " + val)
+                            units.append(unitCode + " " + val + "***")
                 #units.append("&*:") #something random to split by on the frontend
                 units.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
                         # if key == 'unitPoints':
@@ -329,7 +327,15 @@ def createstudyplanSelectUnits():
         except:
             units.append("No units")
 
+        #import and read unit list into unitscsv variable
+        unitInfoCsv = os.path.join(app.static_folder, 'Unit list.csv')
+        unitInfoCsv = pd.read_csv(unitInfoCsv, sep=",")
+        unitInfoCsv = unitInfoCsv[unitInfoCsv.Code.isin(unitCodeList)] # filter 'Unit list.csv' by units in selected degree/major/specialisation
+        availability = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title + "***", unitInfoCsv.Availabilities + "***"))
+
         return render_template('3grid-createstudyplan.html', 
+            unitCodeList=unitCodeList,
+            availability=availability,
             units=units,
             majorCode=majorCode,
             selectedCourse=selectedCourse, 
