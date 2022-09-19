@@ -40,7 +40,7 @@
             <p id="course-code">Course code: {{ coursecode }}</p> 
           </div>
 
-          <hr style="border-top: 1px solid #C9C9C9;">
+          <hr style="border-top: 1px solid #505050;">
 
           <!--  Grid system. --> 
           <div class="container" id="gridcontainer">
@@ -233,6 +233,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 });
 
 
+// Click event - Add modal on click?
+document.addEventListener('click',function(e){
+    if(e.target && e.target.classList == 'element'){
+      id = event.target.id;
+      alert("You've clicked on " + id); 
+     }
+ });
+
 // /* Event listener - listens for changes to units content div */
 // detect_units_changing = document.getElementById("conversionUL");
 // observer = new MutationObserver(function(mutationsList, observer) {detectedChange();});
@@ -252,15 +260,6 @@ document.addEventListener('dragstart',function(e){
       id = event.target.id;
      }
      
- });
-
-
-// Click event - Add modal on click?
-document.addEventListener('click',function(e){
-    if(e.target && e.target.classList == 'element'){
-      id = event.target.id;
-      alert("You've clicked on " + id); 
-     }
  });
 
 // Grid system

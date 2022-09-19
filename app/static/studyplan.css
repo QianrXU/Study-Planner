@@ -31,10 +31,6 @@
   border-radius: 0;
 }
 
-.dropdowngroup {
-  margin-bottom: 30px;
-}
-
 /* Dropdown arrow float right */
 .dropdown-toggle::after {
   margin-top: 10px;
@@ -51,7 +47,7 @@
 #selectmajor a,
 #selectbeginning a {
   font-family: TTNorms;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 #selectcourse,
@@ -59,7 +55,8 @@
 #selectbeginning {
   text-align: left;
   font-family: TTNorms;
-  font-size: 14px;
+  font-size: 15px;
+  margin-bottom: 5px;
 }
 
 .unit-heading {
@@ -91,7 +88,8 @@
   padding: .25rem 1rem;
   margin-top: .25rem 1rem !important;
   margin-left: 0x !important;
-  width: 75%;
+  margin-bottom: 15px;
+  width: 90%;
 }
 
 #magnifyingglass {
@@ -178,11 +176,22 @@
   margin-left: -32px !important;
 }
 
-
+/* Change cursor and allow for text highlighting/copying */
 li {
   margin-bottom: 7px;
+  -o-user-select: text;
+  -moz-user-select: text;
+  -webkit-user-select: text;
+  user-select: text;
 }
 
+.unit-ul li {
+  cursor: grabbing;
+  -o-user-select: text;
+  -moz-user-select: text;
+  -webkit-user-select: text;
+  user-select: text;
+}
 
 /* //////////////////////// */
 
@@ -252,10 +261,6 @@ li {
   background: #F2F2F2;
 }
 
-#grid-content {
-  padding: 30px;
-}
-
 #course-title {
   margin-top: 10px;
   font-family: TTNorms;
@@ -285,10 +290,23 @@ li {
   list-style: none;
 }
 
+#grid-content {
+  padding: 30px;
+}
+
+#grid-content p, li {
+  font-family: 'TTNorms';
+  font-size: 14px;
+}
+
+#grid-content li {
+  cursor: grabbing;
+}
+
 .semester-paragraph {
   font-family: 'TTNorms';
   letter-spacing: 0.05em;
-  font-size: 20px;
+  font-size: 20px !important;
   margin-bottom: 0.5rem;
   padding-top: 25px;
 }
@@ -315,6 +333,10 @@ li {
   min-height: 90px;
   list-style: none;
   flex: 1; /* sets width of target container to fill width*/
-
 }
+
+.target:first-child {
+  margin-left: 0px;
+}
+
 

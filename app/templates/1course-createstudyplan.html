@@ -6,6 +6,7 @@
     <div class="step1content container">
       <p class="gainanexperiencerich" style="text-transform: uppercase;">Gain an experience rich education</p>
       <h1 class="divheading">Create Study Plan</h1>
+      <p>Select your course and the semester you wish to commence your studies.</p>
 
       <!-- This dropdown group iterates through the variable 'degrees' (specified in routes.py). -->
       <div class="dropdowngroup">
@@ -31,7 +32,6 @@
             <li><a class="dropdown-item" href="#">Semester 2, 2023</a></li>
           </ul>
         </div>
-
       </div>
     
       <a href="{{ url_for('createstudyplanSelectMajor') }}" class ="button_general" id="selectcoursebutton">Continue<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></a>

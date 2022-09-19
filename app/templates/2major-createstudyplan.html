@@ -6,6 +6,7 @@
     <div class="step1content container">
       <p class="gainanexperiencerich" style="text-transform: uppercase;">Gain an experience rich education</p>
       <h1 class="divheading">Create Study Plan</h1>
+      <p>Select the major or specialisation you wish to pursue within your course.</p>
 
         <div class="selectcourse dropdown">
           <button class="btn btn-secondary dropdown-toggle" id="selectmajor" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -20,7 +21,6 @@
             {% endfor %}
           </ul>
         </div>
-        <br>
 
         <a href="{{ url_for('createstudyplanSelectUnits') }}" class ="button_general" id="selectcoursebutton">Continue<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></a>
       
