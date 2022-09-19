@@ -324,8 +324,25 @@ li {
   width: 100%;
 }
 
+/* If target container has a unit in it, this is what it will look like */
 .target {
+  margin: 10px;
   background-color: #E7E7E7;
+  border: 1px solid #C9C9C9;
+  text-align: center;
+  padding: 20px;
+  min-height: 90px;
+  list-style: none;
+  flex: 1; /* sets width of target container to fill width*/
+}
+
+/* If target container is empty (i.e., no unit in it, this is what it will look like */
+.target:empty {
+  background-color: #E7E7E7;
+  background-image: url('pictures/circlex.png');
+  background-repeat: no-repeat;
+  background-size: 50%;
+  background-position: center;
   margin: 10px;
   border: 1px solid #C9C9C9;
   text-align: center;

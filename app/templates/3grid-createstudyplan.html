@@ -271,7 +271,7 @@ function allowDrop(ev) {
   while (t !== null && !t.classList.contains("target")) {
     t = t.parentNode;
   }
-  if (t && t.childNodes.length > 0) {
+  if (t && t.childNodes.length > 0) { // Return false if user tries to place more than 1 unit per unit div
     return false;
   }
   ev.preventDefault()
