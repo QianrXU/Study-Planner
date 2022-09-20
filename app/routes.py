@@ -80,6 +80,10 @@ def createstudyplanSelectCourse():
     df = pd.read_csv(targetcsv, sep=",")
     selectedYear = 2022 # Filters by year. Change value to other year if wanted/needed.
     df = df[df.Year.eq(selectedYear)]
+
+    #df = df[df.Title.str.contains("Master")] # Filter out all master's degrees
+    #df = df[~df.Title.str.contains("Bachelor|Doctor")] # Filter out all combined masters/bachelors and dmasters/octorates from df (~ means inverse)
+
     df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
 
     # Dataframe generation
