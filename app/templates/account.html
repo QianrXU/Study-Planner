@@ -3,30 +3,29 @@
 
 <!-- HTML & JS by Georgia Jefferson -->
 
-<div>
+<div class="MyStudyPlans">
     <div class = "signup_div">
         <h3 class="signup_h3"> My Study Plans </h3>
     </div>
-    <div class="form-container-generic" style="width: 100%;">
+    <div class="form-container-generic" id="SPcontent" style="width: 100%;">
         <div class="container-account-study-plans">
             {% if results == 0 %}
                 <p>You have no saved study plans.</p>
             {% else %}
-                <p style="font-family: TTNorms; font-weight: 400;"> Saved study plans: </p>
-                <ul class="list-account-study-plans" style="list-style: none">    
+                <p style="font-family: TTNorms; font-weight: bold;"> Saved study plans: </p>
                 {% for SP in SP_array %}
-                    <li>
-                        <button id="{{ SP[0] }}a" onClick="open_SP(this.id)" style="border: none;" > {{ SP[1] }} </button> 
-                        <button id="{{ SP[0] }}" onClick="delete_SP(this.id)" style="border: none;"> <i class="fas fa-trash"></i> </button>
-                        <hr style="border-top: 1px solid #C9C9C9;">
-                    </li>
+                    <button id="{{ SP[0] }}a" onClick="open_SP(this.id)" style="border: none; text-decoration: underline;" > {{ SP[1] }} </button> 
+                    <button id="{{ SP[0] }}" onClick="delete_SP(this.id)" style="border: none;"> <i class="fas fa-trash"></i> </button>
+                    <br>
                 {% endfor %}
-                </ul>
             {% endif %}
               
         </div>
     </div>
+    <br>
+    <a href="{{ url_for('createstudyplanSelectCourse') }}" class ="button_general" id="createSPbutton">Create Study Plan <span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></a>
 </div>
+
 
 <script>
     /* Function to delete study plan. */
