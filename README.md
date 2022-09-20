@@ -106,9 +106,40 @@ ___
 
 ## Functionality
 ### Sign up
-This is the registration page for new users to register an account to create the study plan. User can enter email address and password, The password should not be less than 6 characters long. Enter the same password you have entered for password in confirm password field. Only registered user will have the access to Myaccount page that will allow user to see his/her saved study plans.
+> signup.html
 
-![Sign up](./readmeImages/register.PNG)
+This is the signup page((**Figure 1**)) for new users to register an account to create the study plan. User can enter email address and password, The password should not be less than 6 characters long. Enter the same password you have entered for password in confirm password field. Only registered user will have the access to Myaccount page that will allow user to see his/her saved study plans. Registered user can save the plans for later reference and can be deleted if not needed
+
+|![Sign up](./readmeImages/register.PNG)|
+|:--:|
+| <b> Figure 1</b>|
+
+### Login
+> login.html
+
+If the user is registered, the user can login using his/her credentials that used at the time of registration. User can use this login page(**Figure 2**) to create, save and delete study plans. If the user enters wrong credentials, the system will alert this and ask to enter correct details. This page also has 'remember me' functionality that allows user to save his/her login information and do not have to be enter the details each login time. If the user is not registered, he can click 'Don't have an account?' link to directs to sign up page. We will be adding forgot password actionality in sprint 3.
+
+|![Login](./readmeImages/login.PNG)|
+|:--:|
+| <b> Figure 2</b>|
+
+### Home Page
+> index.html
+
+All users(registered or not registered) are able to access this page (**Figure 3**) and create study plan, but only the registered users will be able to save the study plan. Clicking 'Create study Plan' directs the user to the course selection page.
+
+|![Home Page](./readmeImages/home.PNG)|
+|:--:|
+| <b> Figure 3</b>|
+
+### FAQ Page
+> faq.html
+
+Frequently asked questions can be found at this page(**Figure 4**). We are still waiting for more questions from client to add to the list. To land this page, from the navigation bar, click '?'.
+
+|![FAQ](./readmeImages/faq.PNG)|
+|:--:|
+| <b> Figure 4</b>|
 
 
 ### Creating a study plan
