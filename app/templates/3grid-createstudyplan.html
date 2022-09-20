@@ -115,6 +115,7 @@
 <!-- Units variable from back end -->
 <div id="unitList" style="display: none;">{{ units }}</div>
 <div id="unitCodeList" style="display: none;">{{ availability }}</div>
+<div id="unitalert" style="display: none;">{{ prerequists }}</div>
 
 <!--Script to support PDF conversion-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
@@ -398,6 +399,37 @@ function addSem22OverLoad(button) {
       x.style.display = "none"
     }
 }
+
+//Add a pop-up reminder for the dragged course, showing the prerequisites of the course
+var unitprerequist = document.getElementById("unitalert").innerHTML;
+//var unitprerequist = "\'" + unitprerequist + "\'";
+unitprerequist =JSON.parse(unitprerequist);
+//This function needs to start after the page is loaded
+window.onload = (event) => {
+const verify = document.querySelectorAll('.target');
+const dragg = document.querySelectorAll('.unit-ul li');
+let target = null
+
+dragg.forEach(item=> {
+    item.addEventListener('dragstart', (event) => {
+        target = event.target
+        console.log(target)
+    })
+})
+
+verify.forEach(item => {
+    item.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    })
+
+    item.addEventListener('drop',(event) => {
+        for (var key in unitprerequist){
+          if (target.innerHTML.includes(key)){
+            window.alert(unitprerequist[key]);
+          }
+          } 
+        })}  ) }
+//Pop-up reminder function ends
 
 </script>
 

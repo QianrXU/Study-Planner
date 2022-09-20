@@ -234,7 +234,9 @@ def createstudyplanSelectUnits():
         unitInfoCsv = pd.read_csv(unitInfoCsv, sep=",")
         unitInfoCsv = unitInfoCsv[unitInfoCsv.Code.isin(unitCodeList)] # filter 'Unit list.csv' by units in selected degree/major/specialisation
         availability = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title + "***", unitInfoCsv.Availabilities + "***"))
-
+        #Add Code and Prerequisites from unit list.csv to dictinary
+        prerequists = dict(zip(unitInfoCsv.Code, unitInfoCsv.Prerequisites))
+        prerequists=json.dumps(prerequists)
         return render_template('3grid-createstudyplan.html', 
             unitCodeList=unitCodeList,
             availability=availability,
@@ -244,6 +246,7 @@ def createstudyplanSelectUnits():
             selectedMajor=selectedMajor,
             faculty=faculty,
             coursecode=coursecode,
+            prerequists = prerequists,
             title="Create study plan")
     except:
         return render_template('404.html'), 404
