@@ -52,7 +52,57 @@ Depending on if you use Unix or Windows, follow the steps below.
 5. To deactivate the virtual environment: `> deactivate`
 ___
 
-## Database schema
+## Database 
+SQLAlchemy is used as the database for this project, it is a Python SQL toolkit and Object Relational Mapper.
+
+### Database schema
+
+The following diagram shows the abstract desgin for the data storage in the database.   
+
+![Data-Schema](./readmeImages/DataSchema.png)   
+
+### User Table
+The User table is used to store the registered user information.
+- id is an automatically generated index and is a Primary Key.
+- email records user's registered email address. It is unique which means one email address can register for one account
+- password_hash records the encrypted password to ensure privacy.
+
+### Four_Sem_SP Table
+This table can store a study plan for four semesters with five units each semester at the maximum. Only logged in users can save their study plans into this table.
+
+- selectedCourse, selectedMajor and faculty are straightforward.
+- coursecode stands for the unique code for each Course.
+- user_id is the Foreign Key linked to the id in the User table.
+- Y1S1_1 stands for the first unit planned for year 1, semester 1 and so on. Y2S2_5  stands for the fifth unit (overloading unit) planned for year 2, semester 2
+
+
+### Interaction with database
+
+#### User Interface
+There is no interface presented for users to interact with the tables in the database directly. Users may add values into the database but they may not delete or change any data through the user interface.
+
+2 addition actions are:
+
+- Users can insert values into the User table through Sign Up.
+- Users can insert values into the Four_Sem_SP table through save button.
+
+#### Python Script
+SQLAlchemy is a Python SQL toolkit and Object Relational Mapper. Users may write SQL queries in python file to create, read, update and delete data in the database.
+
+#### Installation and connection before applying SQL queries.
+
+Installing The Package   
+`pip install sqlalchemy`
+
+Connecting to the database   
+`import sqlalchemy as db`   
+`engine = db.create_engine('sqlite:///app/db.sqlite')`   
+`connection = engine.connect()`   
+`metadata = db.MetaData()`   
+
+#### Command Line
+
+Type ***python*** in Terminal to start a Python interactive session, then follow the **Python Script** instruction.
 
 ___
 
