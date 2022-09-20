@@ -36,6 +36,6 @@ class RegistrationForm(FlaskForm):
 
         user = User.query.filter_by(email=self.email.data).first()
         if user:
-            self.email.errors.append("Email already in use, please use a different one or reset your password.")
+            self.email.errors.append("This Email is already registered")
             return False
         return True   
