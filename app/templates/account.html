@@ -1,22 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
 
+<!-- HTML & JS by Georgia Jefferson -->
+
 <div>
     <div class = "signup_div">
-        <!-- Need to define this class once I find out which stylesheet is the main one. -->
         <h3 class="signup_h3"> My Study Plans </h3>
     </div>
-    <div class="form-container-generic">
+    <div class="form-container-generic" style="width: 100%;">
         <div class="container-account-study-plans">
             {% if results == 0 %}
                 <p>You have no saved study plans.</p>
             {% else %}
                 <p style="font-family: TTNorms; font-weight: 400;"> Saved study plans: </p>
-                <ul class="list-account-study-plans">    
+                <ul class="list-account-study-plans" style="list-style: none">    
                 {% for SP in SP_array %}
                     <li>
-                        <button id=" {{ SP[0] }}a" onClick="open_SP(this.id)"> {{ SPS[1] }} </button> 
-                        <button id=" {{ SP[0] }}" onClick="delete_SP(this.id)"> <i class="fas fa-trash"></i> </button>
+                        <button id="{{ SP[0] }}a" onClick="open_SP(this.id)" style="border: none;" > {{ SP[1] }} </button> 
+                        <button id="{{ SP[0] }}" onClick="delete_SP(this.id)" style="border: none;"> <i class="fas fa-trash"></i> </button>
                         <hr style="border-top: 1px solid #C9C9C9;">
                     </li>
                 {% endfor %}
@@ -30,15 +31,17 @@
 <script>
     /* Function to delete study plan. */
 function send_data(redir, SP_id){
-  // posts SP id to console log
-  console.log(SP_id);
+  // sets up variable to track function success
+  var response=''
 
-  // if delete button pressed, it sends the id to the backend.
+  // if button pressed, it sends the id to the backend.
   $.ajax({
     type: "POST",
     url: "{{ url_for('account') }}",
     data: {"SP_id": SP_id,
-           "redir": redir }
+           "redir": redir },
+    success: function( data ) {response=data;},
+    error: function(xhr, status, error) {response = status;}
   })
 }
 
@@ -48,8 +51,8 @@ function delete_SP(SP_id){
 }
 
 function open_SP(SP_id){
-    var redir="True"
-    var SP=SP_id.substring(-1)
+    var redir="True";
+    var SP=String(SP_id).slice(0, -1);
     send_data(redir, SP)
 }
 
