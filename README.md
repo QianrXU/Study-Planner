@@ -4,21 +4,22 @@ This is the main repository and project planning page of Study Planner Team 1 (p
 ___
 
 ## User Manual
-* Project Details 
-* How to Run the Project
-* Database Schema
-* Functionalities
-  * Sign up
-  * Log in
-  * Select units
-  * Save study plan
-  * Download study plan
-* Testing documentations
-* Extended Functions for Final Project
+1. [Project Details] (#Project Details) ---- test markdown TOC functionality
+2. How to run Study Planner
+3. Database Schema
+4. Data
+5. Functionality
+   1. Sign up
+   2. Log in
+   3. Select units
+   4. Save study plan
+   5. Download study plan
+6. Testing documentation
+7. Extended functionality
 
 ___
 
-## Project Details
+## Project Details <a name="Project Details"></a>
 A study plan helps students to plan their sequence of units for a university course such as the Masters of IT. Currently, study plans are created by hand based on the unit sequence, course rules, and semester availability, which are stored in UWAs CAIDi curriculum management system. This project aims to automate the process of building a study plan for a given UWA course. 
 
 The Study Planner software will: 
