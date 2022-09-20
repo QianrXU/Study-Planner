@@ -184,16 +184,23 @@ def createstudyplanSelectCourse():
     global selectedMajor
     global df
     global SP_dict
+    global coursecode
 
-    # save csv file into dataframe
+    # Save csv file into dataframe
     targetcsv = os.path.join(app.static_folder, 'Json-export.csv')
     df = pd.read_csv(targetcsv, sep=",")
-    selectedYear = 2022 # Filters by year. Change value to other year if wanted/needed.
+
+    # Process data
+    selectedYear = 2022 # Filters courses by year determined on the left. Change value to other year if wanted/needed.
     df = df[df.Year.eq(selectedYear)]
+    df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
     df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
 
-    # Dataframe generation
-    degrees = df[~df.CourseID.str.startswith('MJD')] # remove any course IDs that start with MJD (i.e., majors). This is the column that the degrees selection dropdown will choose its values from.
+    #df = df[df.Title.str.contains("Master")] # Filter out all master's degrees
+    #df = df[~df.Title.str.contains("Bachelor|Doctor")] # Filter out all combined masters/bachelors and dmasters/octorates from df (~ means inverse)
+
+    # Degrees variable processing - this is the dataframe that the Course selection dropdown will get its values from.
+    degrees = df[~df.CourseID.str.contains('MJD|MJS')] # remove any course IDs that start with MJD or MJS (majors or second majors).
     degrees = dict(zip(degrees.Title, degrees.CourseID))
     degrees = sorted(degrees.keys())
 
@@ -212,9 +219,11 @@ def createstudyplanSelectCourse():
             SP_dict['selectedCourse'] = selectedCourse
             for key, value in degrees_withID.items(): # iterates through values to find course code
                 if selectedCourse == key:
+                    coursecode=value
                     SP_dict['coursecode'] = value
             for key, value in degrees_withFaculty.items(): # iterates through values to find course code
                 if selectedCourse == key:
+                    faculty=value
                     SP_dict['faculty'] = value
             getMajorValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Major 
             getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
@@ -223,9 +232,10 @@ def createstudyplanSelectCourse():
         return ('', 204) # indicates post response has been done successfully
 
     return render_template('1course-createstudyplan.html',
+            #faculty=SP_dict['faculty'],
+            faculty=faculty,
             degrees_withID=degrees_withID,
             degrees=degrees, 
-            faculty=SP_dict['faculty'],
             title="Create study plan")
 
 # STUDY PLANNER - SELECT MAJOR
@@ -291,6 +301,7 @@ def createstudyplanSelectUnits():
             majorCode = majorCode[0]
             SP_dict['courseCode'] = majorCode
             getUnitValues = df[df.CourseID.eq(majorCode)] # change to selectedMajor
+            #coursecode = majorCode
 
         # process units based on course selection
         unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
@@ -358,7 +369,8 @@ def createstudyplanSelectUnits():
             selectedCourse=selectedCourse, 
             selectedMajor=selectedMajor,
             faculty=faculty,
-            coursecode= SP_dict['courseCode'],
+            #coursecode= SP_dict['courseCode'],
+            coursecode=coursecode,
             prerequists = prerequists,
             title="Create study plan")
     except:
