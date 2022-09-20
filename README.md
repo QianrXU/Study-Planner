@@ -13,7 +13,7 @@ ___
    2. Log in
    3. Select units
    4. Save study plan
-   5. Download study plan
+   5. Download study plan 
 6. Testing documentation
 7. Extended functionality
 
