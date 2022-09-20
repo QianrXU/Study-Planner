@@ -123,11 +123,23 @@ def account():
         if redir=='False':
             #SQLAlchemy for deleting a row.
             Four_Sem_SP.query.filter_by(study_plan_id=SP_id).delete()
-            
+            db.session.commit()
+
             #Rerun the original query
-            saved_study_plans #get updated study plan list
-            results #get new results number
-            #Reload the myaccount page.
+            saved_study_plans=Four_Sem_SP.query.filter_by(user_id=user).order_by(Four_Sem_SP.date_updated).all() #get updated study plan list
+            #get new results number
+            if  saved_study_plans:
+                results= len(saved_study_plans)
+                #Reload the myaccount page.
+            if results>0:
+                #loop through rows from query.
+                for SP in saved_study_plans:
+                    #Save study plan id so that it can be identified in the webpage.
+                    SP_key=SP.study_plan_id
+                    #Save data so that it can be named in the study plan list.
+                    SP_name= SP.date_updated.strftime( "%d/%m/%Y" )
+                    #Add to the study plan array so it can easily be sent to the web page.
+                    SP_array.append( (SP_key, SP_name) )
             return render_template('account.html', title="My Account", SP_array=SP_array, results=results)
 
         #If redir is true, then load study plan into 3grid-createstudyplan.html'
