@@ -53,6 +53,11 @@ Depending on if you use Unix or Windows, follow the steps below.
 ___
 
 ## Database schema
+The following diagram shows the abstract desgin for the data storage in the database.
+
+![Data Schema](./readmeImages/DataSchema.PNG)
+
+
 
 ___
 
