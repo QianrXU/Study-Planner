@@ -62,9 +62,10 @@ ___
 
 
 ## Functionalities
+### Sign up
+This is the registration page for new users to register an account to create the study plan(**Figure 1**). User can enter email address and password, The password should be 6 characters long. Enter the same password you have entered. Only registered user will have the access to Myaccount page that will allow user to see his/her saved  study plans
 
-___
-
+![Sign up](..\readmeImages\register.PNG)
 
 ## Testing Documentations
 
