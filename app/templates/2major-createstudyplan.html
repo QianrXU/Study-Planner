@@ -9,11 +9,11 @@
       <p>Select the major or specialisation you wish to pursue within your course.</p>
 
         <div class="selectcourse dropdown">
-          <button class="btn btn-secondary dropdown-toggle" id="selectmajor" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-secondary dropdown-toggle" id="selectmajor" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Select your major or specialisation
           </button>
           <!-- Pulls data from the ListMajors column -->
-          <ul class="dropdown-menu" id="selectedmajor" aria-labelledby="dropdownMenuButton1">
+          <ul class="dropdown-menu" id="selectedmajor" aria-labelledby="selectmajor">
             <!-- <li><a class="dropdown-item" href="#">Not applicable</a></li>
             <div class="dropdown-divider"></div> -->
             {% for value in majors %}
@@ -23,13 +23,10 @@
         </div>
 
         <a href="{{ url_for('createstudyplanSelectUnits') }}" class ="button_general" id="selectcoursebutton">Continue<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></a>
-      
-      </div>
-    </div>
+
   </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
 

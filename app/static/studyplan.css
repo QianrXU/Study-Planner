@@ -42,11 +42,15 @@
   margin-bottom: 5px;
 }
 
+.dropdown-item {
+  font-size: 15px;
+}
+
 /* Dropdowns text */
 #selectcourse a,
 #selectmajor a,
 #selectbeginning a {
-  font-family: TTNorms;
+  font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   font-size: 15px;
 }
 
@@ -54,13 +58,13 @@
 #selectmajor,
 #selectbeginning {
   text-align: left;
-  font-family: TTNorms;
+  font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   font-size: 15px;
   margin-bottom: 5px;
 }
 
 .unit-heading {
-  font-family: TTNorms;
+  font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 7px;
@@ -82,14 +86,17 @@
 #selecteddegree {
   max-height: 50vh;
   overflow-y: scroll;
+  width: fit-content;
 }
 
 #courseInput {
   padding: .25rem 1rem;
-  margin-top: .25rem 1rem !important;
-  margin-left: 0x !important;
-  margin-bottom: 15px;
-  width: 90%;
+  margin-top: 0.25rem !important;
+  margin-left: 0px !important;
+  margin-bottom: 10px;
+  width: fit-content;
+  min-width: 200px;
+  margin-right: 1rem;
 }
 
 #magnifyingglass {
@@ -179,18 +186,10 @@
 /* Change cursor and allow for text highlighting/copying */
 li {
   margin-bottom: 7px;
-  -o-user-select: text;
-  -moz-user-select: text;
-  -webkit-user-select: text;
-  user-select: text;
 }
 
 .unit-ul li {
   cursor: grabbing;
-  -o-user-select: text;
-  -moz-user-select: text;
-  -webkit-user-select: text;
-  user-select: text;
 }
 
 /* //////////////////////// */
@@ -210,7 +209,7 @@ li {
 
 /* This needs to be updated to reflect the different colors of different unit availability */
 #units-content ul {
-  font-family: 'TTNorms';
+  font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   font-size: 14px;
 }
 
@@ -219,7 +218,7 @@ li {
 }
 
 #units-bottom p {
-  font-family: TTNorms;
+  font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   font-size: 14px;
 }
 
@@ -325,7 +324,7 @@ li {
 
 #course-title {
   margin-top: 10px;
-  font-family: TTNorms;
+  font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   letter-spacing: 0.05em;
   font-size: 16px;
   margin-bottom: 0.5rem;
@@ -357,7 +356,7 @@ li {
 }
 
 #grid-content p, li {
-  font-family: 'TTNorms';
+  font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   font-size: 14px;
 }
 
@@ -366,7 +365,7 @@ li {
 }
 
 .semester-paragraph {
-  font-family: 'TTNorms';
+  font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   letter-spacing: 0.05em;
   font-size: 20px !important;
   margin-bottom: 0.5rem;

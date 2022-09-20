@@ -29,7 +29,7 @@ def signup():
             db.session.add(user) # Add latest registered user into the database model
             db.session.commit()
             return redirect(url_for('login'))
-    return render_template('signup.html', title='Sign Up', form=form) # the page should show up with a title named 'Sign Up' and display the signup form.
+    return render_template('signup.html', title='Sign up', form=form) # the page should show up with a title named 'Sign Up' and display the signup form.
 
 # Login function for users. 
 @app.route('/login', methods=['GET', 'POST'])
@@ -41,12 +41,12 @@ def login():
             flash('Invalid email or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        next_page = request.args.get('next')
+        next_page = request.args.get('account')
         if not next_page or url_parse(next_page).netloc != '':
-            return redirect(url_for('index'))
-        return redirect(next_page)
+            return redirect(url_for('account'))
+        return redirect('account')
 
-    return render_template('login.html', title="Log In", form=form) # the page should show up with a title named 'Log in' and display the login form.
+    return render_template('login.html', title="Log in", form=form) # the page should show up with a title named 'Log in' and display the login form.
 
 
 # Logout function for logged in users.
@@ -60,7 +60,7 @@ def logout():
 # Account Page for logged in users. 
 @app.route('/myaccount', methods=['GET', 'POST'])
 def account():
-    return render_template('myaccount.html', title="My Account")
+    return render_template('myaccount.html', title="My account")
 
 
 # STUDY PLANNER - SELECT COURSE
