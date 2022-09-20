@@ -65,24 +65,3 @@ class Four_Sem_SP(db.Model):
   user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # Reference to user id in user table
   date_updated=db.Column(db.DATETIME(timezone=True), nullable=False, default=func.now())
 
-test_SP=Four_Sem_SP(
-  Y1S1_1 = "test",
-  Y1S1_2 = "test",
-  Y1S1_3 = "test",
-  Y1S1_4 = "test",
-
-  Y1S2_1 = "test",
-  Y1S2_2 = "test",
-  Y1S2_3 = "test",
-  Y1S2_4 = "test",
-  Y1S2_5 = "test",
-  
-  Y2S1_1 ="test",
-  Y2S1_2 = "test",
-  Y2S1_3 = "test",
-
-  selectedCourse = "Testing",
-  selectedMajor = "Tester",
-  faculty = "Testing",
-  coursecode = "test101",
-  user_id = 1)

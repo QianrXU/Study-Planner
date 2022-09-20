@@ -14,8 +14,8 @@
             {% else %}
                 <p style="font-family: TTNorms; font-weight: bold;"> Saved study plans: </p>
                 {% for SP in SP_array %}
-                    <button id="{{ SP[0] }}a" onClick="open_SP(this.id)" style="border: none; text-decoration: underline;" > {{ SP[1] }} </button> 
-                    <button id="{{ SP[0] }}" onClick="delete_SP(this.id)" style="border: none;"> <i class="fas fa-trash"></i> </button>
+                    <button id="{{ SP[0] }}a" onClick="open_SP(this.id)" style="border: none; text-decoration: underline;" > <a style="color: black;" href="{{ url_for('createstudyplanSelectUnits') }}">{{ SP[1] }}</a></button> 
+                    <button id="{{ SP[0] }}" onClick="delete_SP(this.id)" style="border: none;"><a style="color: black;" href="{{ url_for('account') }}"><i class="fas fa-trash"></i></a> </button>
                     <br>
                 {% endfor %}
             {% endif %}

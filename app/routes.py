@@ -125,22 +125,8 @@ def account():
             Four_Sem_SP.query.filter_by(study_plan_id=SP_id).delete()
             db.session.commit()
 
-            #Rerun the original query
-            saved_study_plans=Four_Sem_SP.query.filter_by(user_id=user).order_by(Four_Sem_SP.date_updated).all() #get updated study plan list
-            #get new results number
-            if  saved_study_plans:
-                results= len(saved_study_plans)
-                #Reload the myaccount page.
-            if results>0:
-                #loop through rows from query.
-                for SP in saved_study_plans:
-                    #Save study plan id so that it can be identified in the webpage.
-                    SP_key=SP.study_plan_id
-                    #Save data so that it can be named in the study plan list.
-                    SP_name= SP.date_updated.strftime( "%d/%m/%Y" )
-                    #Add to the study plan array so it can easily be sent to the web page.
-                    SP_array.append( (SP_key, SP_name) )
-            return render_template('account.html', title="My Account", SP_array=SP_array, results=results)
+            return ('', 204) # indicates post response has been done successfully
+
 
         #If redir is true, then load study plan into 3grid-createstudyplan.html'
         else:
@@ -155,8 +141,7 @@ def account():
                 if data is not None:    
                     SP_dict[value]=data 
 
-            #Send relevant data to the study plan.
-            return render_template('3grid-createstudyplan.html', SP_dict=SP_dict, title="Create study plan")
+            return ('', 204) # indicates post response has been done successfully
 
     #If not post method and when saved_study_plans returns at least 1 row.
     if results>0:
@@ -179,6 +164,7 @@ def createstudyplanSelectCourse():
     # declare global variables
     global selectedCourse
     global faculty
+    global coursecode
     global getMajorValues
     global getUnitValues
     global selectedMajor
@@ -289,6 +275,7 @@ def createstudyplanSelectUnits():
         global selectedCourse 
         global selectedMajor
         global faculty
+        global coursecode
         global getUnitValues
         global SP_dict
 
@@ -299,6 +286,7 @@ def createstudyplanSelectUnits():
         if noMajor not in majorCode:
             majorCode = selectedMajor.split() # need to split as unitCode in index first and then major title
             majorCode = majorCode[0]
+            coursecode = majorCode
             SP_dict['courseCode'] = majorCode
             getUnitValues = df[df.CourseID.eq(majorCode)] # change to selectedMajor
             #coursecode = majorCode
