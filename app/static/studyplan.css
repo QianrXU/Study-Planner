@@ -186,11 +186,20 @@
 /* Change cursor and allow for text highlighting/copying */
 li {
   margin-bottom: 7px;
+  -o-user-select: text;
+  -moz-user-select: text;
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 .unit-ul li {
   cursor: grabbing;
+  -o-user-select: text;
+  -moz-user-select: text;
+  -webkit-user-select: text;
+  user-select: text;
 }
+
 
 /* //////////////////////// */
 

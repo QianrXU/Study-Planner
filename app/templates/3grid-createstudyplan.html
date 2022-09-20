@@ -82,7 +82,7 @@
             <!-- Pulled from prior selection pages -->
             <p id="course-title">{{ selectedCourse }}</p> 
             <p id="course-major">Major: {{ selectedMajor }}</p>
-            <p id="administration">Administered by: {{ faculty }}</p>
+            <p id="administration">Faculty: {{ faculty }}</p>
             <p id="course-code">Course code: {{ coursecode }}</p> 
           </div>
 
@@ -103,7 +103,7 @@
               <!--https://github.com/QianrXU/Study-Planner/issues/82-->
               <div class="target" id="year1sem1_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
               <!--Font awesome icon that will able to add new unit in the selector- Ancy-->
-              <button onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" >
+              <button onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true">
                   <i class="fa fa-plus-circle"></i> Add
               </button>
             </div>
@@ -117,7 +117,7 @@
               <div class="target" id="year1sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
                <!--Font awesome icon that will able to add new unit in the selector- Ancy-->
                <!--Clicking '+' calls the function to add or remove a grid-->
-               <button onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" >
+               <button onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true">
                  <i class="fa fa-plus-circle"></i> Add
                </button>            
           </div>
@@ -130,7 +130,7 @@
               <div class="target" id="year2sem1_4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               <div class="target" id="year2sem1_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;" ></div>  <!-- if overloading, unhide -->
                <!--Font awesome icon that will able to add new unit in the selector- Ancy-->
-               <button onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" >
+               <button onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true">
                  <i class="fa fa-plus-circle"></i> Add
                </button>
             </div>
@@ -143,7 +143,7 @@
               <div class="target" id="year2sem2_4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
               <div class="target" id="year2sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;" ></div>  <!-- if overloading, unhide -->
                <!--Font awesome icon that will able to add new unit in the selector- Ancy-->
-               <button onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" >
+               <button onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true">
            <i class="fa fa-plus-circle"></i> Add
        </button>
             </div>

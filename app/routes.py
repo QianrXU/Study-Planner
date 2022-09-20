@@ -174,15 +174,21 @@ def createstudyplanSelectCourse():
     global SP_dict
     global coursecode
 
-    # save csv file into dataframe
+    # Save csv file into dataframe
     targetcsv = os.path.join(app.static_folder, 'Json-export.csv')
     df = pd.read_csv(targetcsv, sep=",")
-    selectedYear = 2022 # Filters by year. Change value to other year if wanted/needed.
+
+    # Process data
+    selectedYear = 2022 # Filters courses by year determined on the left. Change value to other year if wanted/needed.
     df = df[df.Year.eq(selectedYear)]
+    df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
     df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
 
-    # Dataframe generation
-    degrees = df[~df.CourseID.str.startswith('MJD')] # remove any course IDs that start with MJD (i.e., majors). This is the column that the degrees selection dropdown will choose its values from.
+    #df = df[df.Title.str.contains("Master")] # Filter out all master's degrees
+    #df = df[~df.Title.str.contains("Bachelor|Doctor")] # Filter out all combined masters/bachelors and dmasters/octorates from df (~ means inverse)
+
+    # Degrees variable processing - this is the dataframe that the Course selection dropdown will get its values from.
+    degrees = df[~df.CourseID.str.contains('MJD|MJS')] # remove any course IDs that start with MJD or MJS (majors or second majors).
     degrees = dict(zip(degrees.Title, degrees.CourseID))
     degrees = sorted(degrees.keys())
 
