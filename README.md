@@ -57,9 +57,9 @@ SQLAlchemy is used as the database for this project, it is a Python SQL toolkit 
 
 ### Database schema
 
-The following diagram shows the abstract desgin for the data storage in the database.
+The following diagram shows the abstract desgin for the data storage in the database.   
 
-![Data-Schema](./readmeImages/dataschema.PNG)
+![Data-Schema](./readmeImages/dataschema.PNG)   
 
 ### User Table
 The User table is used to store the registered user information.
