@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- HTML & JS by Georgia Jefferson -->
+
+<div class="MyStudyPlans">
+    <div class = "signup_div">
+        <h3 class="signup_h3"> My Study Plans </h3>
+    </div>
+    <div class="form-container-generic" id="SPcontent" style="width: 100%;">
+        <div class="container-account-study-plans">
+            {% if results == 0 %}
+                <p>You have no saved study plans.</p>
+            {% else %}
+                <p style="font-family: TTNorms; font-weight: bold;"> Saved study plans: </p>
+                {% for SP in SP_array %}
+                    <button id="{{ SP[0] }}a" onClick="open_SP(this.id)" style="border: none; text-decoration: underline;" > {{ SP[1] }} </button> 
+                    <button id="{{ SP[0] }}" onClick="delete_SP(this.id)" style="border: none;"> <i class="fas fa-trash"></i> </button>
+                    <br>
+                {% endfor %}
+            {% endif %}
+              
+        </div>
+    </div>
+    <br>
+    <a href="{{ url_for('createstudyplanSelectCourse') }}" class ="button_general" id="createSPbutton">Create Study Plan <span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></a>
+</div>
+
+
+<script>
+    /* Function to delete study plan. */
+function send_data(redir, SP_id){
+  // sets up variable to track function success
+  var response=''
+
+  // if button pressed, it sends the id to the backend.
+  $.ajax({
+    type: "POST",
+    url: "{{ url_for('account') }}",
+    data: {"SP_id": SP_id,
+           "redir": redir },
+    success: function( data ) {response=data;},
+    error: function(xhr, status, error) {response = status;}
+  })
+}
+
+function delete_SP(SP_id){
+    var redir="False"
+    send_data(redir, SP_id)
+}
+
+function open_SP(SP_id){
+    var redir="True";
+    var SP=String(SP_id).slice(0, -1);
+    send_data(redir, SP)
+}
+
+
+</script>
+
+
+{% endblock %}
