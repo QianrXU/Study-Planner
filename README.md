@@ -59,7 +59,7 @@ SQLAlchemy is used as the database for this project, it is a Python SQL toolkit 
 
 The following diagram shows the abstract desgin for the data storage in the database.
 
-![Data Schema](./readmeImages/DataSchema.PNG)
+![Data Schema](/readmeImages/DataSchema.PNG)
 
 ### User Table
 The User table is used to store the registered user information.
@@ -89,16 +89,16 @@ There is no interface presented for users to interact with the tables in the dat
 #### Python Script
 SQLAlchemy is a Python SQL toolkit and Object Relational Mapper. Users may write SQL queries in python file to create, read, update and delete data in the database.
 
-Installation and connection before applying SQL queries.
+#### Installation and connection before applying SQL queries.
 
-***Installing The Package***
-pip install sqlalchemy
+Installing The Package
+`pip install sqlalchemy`
 
-***Connecting to the database***
-import sqlalchemy as db
-engine = db.create_engine('sqlite:///app/db.sqlite')
-connection = engine.connect()
-metadata = db.MetaData() 
+Connecting to the database
+`import sqlalchemy as db`
+`engine = db.create_engine('sqlite:///app/db.sqlite')`
+`connection = engine.connect()`
+`metadata = db.MetaData()`
 
 #### Command Line
 
