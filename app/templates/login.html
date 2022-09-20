@@ -33,9 +33,17 @@
               
             </table>
           </div>
-          
+         <br>
+          {{ form.remember_me() }} {{ form.remember_me.label }} 
+          <br>
+       
           <button type="submit" class="button_general" id="loginsignupbutton">Log in<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></button>
+         
+    
       </form>
+        <!-- Link to Register -->
+        <br>
+        <p ><a href="{{ url_for('signup') }}">Don't have an account?</a></p>
             
    </div>
 </div> 
