@@ -1,22 +1,22 @@
 /* Fonts and body text */
 
-@font-face {font-family: uwafont; src: url('fonts/uwa-slab-regular.otf');}
-@font-face {font-family: SourceSansPro; src: url('fonts/SourceSansPro-Regular.ttf');}
-@font-face {font-family: SourceSansPro; src: url('fonts/SourceSansPro-Italic.ttf'); font-style: italic;}
-@font-face {font-family: SourceSansPro; src: url('fonts/SourceSansPro-Bold.ttf'); font-weight: bold;} /* If you want bold text use font-weight bold */
-@font-face {font-family: SourceSansPro; src: url('fonts/SourceSansPro-Semibold.ttf'); font-weight: 500;} /* If you want semibold text use font-weight semibold */
-@font-face {font-family: SourceSansPro; src: url('fonts/SourceSansPro-SemiboldItalic.ttf'); font-weight: bold; font-style: italic;}
-@font-face {font-family: TTNorms; src: url('fonts/TT-Norms-Pro-Regular.otf');}
-@font-face {font-family: TTNorms; src: url('fonts/TT-Norms-Pro-Bold.otf'); font-weight: bold;}
+@font-face {font-family: 'uwafont'; src: url('fonts/uwa-slab-regular.otf');}
+@font-face {font-family: 'SourceSansPro'; src: url('fonts/SourceSansPro-Regular.ttf');}
+@font-face {font-family: 'SourceSansPro'; src: url('fonts/SourceSansPro-Italic.ttf'); font-style: italic;}
+@font-face {font-family: 'SourceSansPro'; src: url('fonts/SourceSansPro-Bold.ttf'); font-weight: bold;} /* If you want bold text use font-weight bold */
+@font-face {font-family: 'SourceSansPro'; src: url('fonts/SourceSansPro-Semibold.ttf'); font-weight: 500;} /* If you want semibold text use font-weight semibold */
+@font-face {font-family: 'SourceSansPro'; src: url('fonts/SourceSansPro-SemiboldItalic.ttf'); font-weight: bold; font-style: italic;}
+@font-face {font-family: 'TTNorms'; src: url('fonts/TT-Norms-Pro-Regular.otf');}
+@font-face {font-family: 'TTNorms'; src: url('fonts/TT-Norms-Pro-Bold.otf'); font-weight: bold;}
 
 h1, h2, h3, h4, h5 {
-  font-family: TTNorms;
+  font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   font-weight: bold !important;
   color: black;
 }
 
 p {
-  font-family: TTNorms;
+  font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   color: black;
 }
 
@@ -28,7 +28,7 @@ p {
 
 /* Paragraph class for 'Gain an experience rich education' */
 .gainanexperiencerich {
-  font-family: TTNorms;
+  font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   letter-spacing: 0.1em;
   font-size: 13px;
   margin-bottom: 0.5rem;

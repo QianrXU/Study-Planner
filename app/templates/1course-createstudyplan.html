@@ -11,12 +11,12 @@
       <!-- This dropdown group iterates through the variable 'degrees' (specified in routes.py). -->
       <div class="dropdowngroup">
         <div class="selectcourse dropdown">
-          <button class="btn btn-secondary dropdown-toggle" id="selectcourse" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-secondary dropdown-toggle" id="selectcourse" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Select your course
           </button>
           <!-- Pulls data from the Title column -->
-          <ul class="dropdown-menu" id="selecteddegree" aria-labelledby="dropdownMenuButton1">
-            <i id="magnifyingglass" class="fa fa-search" aria-hidden="true"></i><input type="text" paceholder="Search" id="courseInput" onkeyup="filterFunction()">
+          <ul class="dropdown-menu" id="selecteddegree" aria-labelledby="selectcourse">
+            <span><i id="magnifyingglass" class="fa fa-search" aria-hidden="true"></i></span><input type="text" paceholder="Search" id="courseInput" onkeyup="filterFunction()">
             {% for value in degrees %}
             <li><a class="dropdown-item" href="#">{{value}}</a></li>
             {% endfor %}
@@ -24,10 +24,10 @@
         </div>
 
         <div class="selectcourse dropdown">
-          <button class="btn btn-secondary dropdown-toggle" id="selectbeginning" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-secondary dropdown-toggle" id="selectbeginning" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Select your beginning year and semester
           </button>
-          <ul class="dropdown-menu" id="selectedstart" aria-labelledby="dropdownMenuButton1">
+          <ul class="dropdown-menu" id="selectedstart" aria-labelledby="selectbeginning">
             <li><a class="dropdown-item" href="#">Semester 1, 2023</a></li>
             <li><a class="dropdown-item" href="#">Semester 2, 2023</a></li>
           </ul>
@@ -35,17 +35,10 @@
       </div>
     
       <a href="{{ url_for('createstudyplanSelectMajor') }}" class ="button_general" id="selectcoursebutton">Continue<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></a>
-      
-    </div>
   </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 <script>
-
-
-
 
 // COURSE DROPDOWN
 
@@ -100,7 +93,7 @@ $("#selectedstart a").click(function(){
   document.getElementById("selectbeginning").innerHTML = selected_start;
   console.log(selected_start);
 
-// TAKES PRECEDENCE OVER OTHER AJAX REQUEST, MAYBE REORDER OR USE SQL QUERIES INSTEAD??
+// THE BELOW TAKES PRECEDENCE OVER AJAX REQUEST ABOVE, MAYBE REORDER? RELATED ISSUE HERE: https://github.com/QianrXU/Study-Planner/issues/107 /C
 //   $.ajax({
 //     type: "POST",
 //     url: "{{ url_for('createstudyplanSelectCourse') }}",

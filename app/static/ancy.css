@@ -1,6 +1,6 @@
 
   .form-container-generic {
-    font-family: SourceSansPro;
+    font-family: 'SourceSansPro', "Trebuchet MS", Helvetica, sans-serif;
     background-color:  #F2F2F2;
     border: none;
     width: 100%;
@@ -26,34 +26,6 @@
     padding: 25px; padding-left: 60px;
   }
 
-.btn-login {
-  font-size: 19px;
-  font-family: SourceSansPro;
-  text-align: left;
-  width: 120px;
-  height: 47px;
-  border-width: 0px;
-  color: #333333;
-  border-color: #FFD216;
-  background: #FFD216;
-  background-image: url('pictures/doublearrow.png');
-  background-repeat: no-repeat;
-  background-position: right 15px center;
-  padding-left: 15px;
-  margin-top: 15px;
-  padding-right: 30px;
-  justify-content: center;
-  align-items: center;  
-  margin-right: 0px;
-  text-decoration: none;
-  }
-  .flex-end {
-    
-    padding: 10px 0;
-    display: flex;
-    justify-content: center;
-  }
-
 .button_general {
   border-style: solid;
   border-width: 2px;
@@ -69,7 +41,7 @@
   width: fit-content;
   line-height: 0px;
   font-size: calc(0.875rem + 0.125 * ((100vw - 40rem)/40));
-  padding: 16px 28px 17px 28px;
+  padding: 17px 28px 17px 28px;
   text-decoration: none;
   display: inline-block;
 }
@@ -109,6 +81,12 @@
   margin-bottom: 0px;
 }
 
+#loginsignupbutton {
+  display: inline-block;
+  margin-top: 30px !important;
+}
+
+
 #selectmajorbutton:hover span {
   transform: translateY(15%);
 }
@@ -121,9 +99,13 @@
     padding: 10px;
   }
 
+  .logindiv {
+    margin-bottom: 25px;
+  }
+
   /* HOME */
   .para1{
-  font-family: 'TT Norms Pro';
+  font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -135,7 +117,7 @@
   }
 
   .para2{
-  font-family: 'Novel Pro';
+  font-family: 'uwafont', 'SourceSansPro', "Trebuchet MS", Helvetica, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 36px;
@@ -146,7 +128,7 @@
   }
 
   .para3{
-  font-family: 'TT Norms Pro';
+  font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 44px;
@@ -160,7 +142,7 @@
   /* FAQ */
   
   .form-container-faq {
-    font-family: SourceSansPro;
+    font-family: 'SourceSansPro', "Trebuchet MS", Helvetica, sans-serif;
     background-color: #F2F2F2;;
     border: none;
     padding: 60px;

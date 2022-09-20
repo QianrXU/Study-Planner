@@ -55,7 +55,7 @@
 }
 
 .site-nav .a{
-  font-family: 'TT Norms Pro';
+  font-family: 'TTNorms', 'SourceSansPro', "Trebuchet MS", Helvetica, sans-serif;
   font-weight: 600;
   font-size: 18px;
   display: inline-block;
@@ -94,7 +94,7 @@
 }
 
 .main-header h1{
-  font-family:'uwafont';
+  font-family: 'uwafont', 'SourceSansPro', "Trebuchet MS", Helvetica, sans-serif;
   color: #27348b;
   margin: 0;
   border: 0;
@@ -166,7 +166,7 @@
 }
 
 .footlink h1{
-  font-family:'uwafont';
+  font-family: 'uwafont', 'SourceSansPro', "Trebuchet MS", Helvetica, sans-serif;
   font-size: 20px;
   line-height: 20px;
   margin-bottom: 20px;
