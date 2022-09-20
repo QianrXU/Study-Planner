@@ -91,10 +91,10 @@ SQLAlchemy is a Python SQL toolkit and Object Relational Mapper. Users may write
 
 #### Installation and connection before applying SQL queries.
 
-Installing The Package
+Installing The Package   
 `pip install sqlalchemy`
 
-Connecting to the database
+Connecting to the database   
 `import sqlalchemy as db`   
 `engine = db.create_engine('sqlite:///app/db.sqlite')`   
 `connection = engine.connect()`   
