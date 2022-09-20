@@ -223,14 +223,21 @@ li {
   font-size: 14px;
 }
 
+/* this is the div where the info icon is */
+#info-icon {
+  display: flex;  
+  flex-direction: row;
+  justify-content: end;
+}
+/* this is the info icon that can trigger the general info modal */
 #myModal {
-  display: flex;
   color: #003087;
   cursor: pointer;
   font-size: 2.5rem;
+  margin-bottom: 0;
 }
 
-/* modal */
+/* the general info modal */
 .modal-container { 
   width: 100%;
   display: inline-block;
@@ -242,7 +249,7 @@ li {
   width: 100%;
   height: 100% !important;
   justify-content: center;
-  overflow: scroll !important;
+  overflow: scroll !important; 
   background-color: rgba(0, 0, 0, 0.5);
 }
 .modal-content {
@@ -264,7 +271,7 @@ li {
 
 .modal-body {
   background: #fff;
-  margin: 50px; 
+  margin: 30px 50px ; 
 }
 
 .general li {

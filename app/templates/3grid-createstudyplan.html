@@ -28,14 +28,17 @@
             <p style="margin-bottom: 5px;">⭕ Non-standard</p>
             <p style="margin-bottom: 5px;">⚫ No information</p>
           </div>
-          <div id="info-icon">
+          <!-- the info icon that show the general-info modal below -Valerie -->
+          <div id="info-icon"> 
+            <!-- the icon listens to a click function to show the modal -->
             <i class="fa-solid fa-circle-info" onclick="openModal()" id="myModal"></i>
           </div>
-          <!-- General info modal -->
+          <!-- General info modal that can triggered by clicking the large info icon at the bottom of availability key lists -Valerie -->
           <div id="modal-container">
             <div class="modal" id="my-modal">
               <div class="modal-content">
                 <div class="modal-header">
+                  <!-- the icon listens to a click action to close the modal-->
                   <i class="fa-solid fa-rectangle-xmark" id="close-info" onclick="closeModal()"></i>
                 </div>
                 <div class="modal-body">
@@ -43,7 +46,7 @@
                   <br>
                   <H5>Core Units</H5>
                   <p>Core units are the compulsory units in your chosen course. In the Study Planner tool, you must allocate these units before allocating optional units.</p>
-                  <hr style="border-top: 1px solid #505050;">
+                  <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
                   <h3>BACHELOR'S DEGREE</h3>
                   <p>UWA's three-year undergraduate courses each comprise 24 units. The units you study must include:
                     <ul class="general">
@@ -61,7 +64,7 @@
                   <p>All students towards a Bachelor's Degree at UWA are required to broaden their studies by completing a minimum of four units (24 points) of study outside their degree specific major.</p>
                   <H5>Bridging Units</H5>
                   <p>Bridging units are designed for students who have not met the relevant ATAR level (or equivalent qualification) required as prerequisites for their major. Bridging units must be successfully completed within the first 48 points of study.</p>
-                  <hr style="border-top: 1px solid #505050;">
+                  <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
                   <h3>MASTER'S DEGREE</h3>
                   <h5>Conversion Units</h5>
                   <p>For some courses, there may be special conditions on admission. Students who have completed degree studies in a non-cognate area or equivalenet (as recognised by the University), must complete relevant conversion units. This is determined upon offer of admission and by the scope of a students's prior study.</p>
@@ -288,15 +291,15 @@ document.addEventListener('click',function(e){
      }
  });
 
-//Modal - open modal
+// Functions to show and close the general-info modal - Done by Valerie
+//Modal - open general-info modal
 function openModal(){
-  const modal = document.getElementById('my-modal');
+  const modal = document.getElementById('my-modal'); // get the modal that needs to be showed
   modal.style.display = 'block'; //show the modal after click action
 }
-// Modal -close modal
+// Modal - close general-info modal
 function closeModal(){
-  const closeBtn = document.getElementById('close-info');
-  const modal = document.getElementById('my-modal');
+  const modal = document.getElementById('my-modal'); // get the modal that needs to be closed
   modal.style.display = 'none'; //hide the modal after clicking the close button
 }
 
