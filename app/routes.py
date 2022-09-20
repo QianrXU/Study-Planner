@@ -172,6 +172,7 @@ def createstudyplanSelectCourse():
     global selectedMajor
     global df
     global SP_dict
+    global coursecode
 
     # save csv file into dataframe
     targetcsv = os.path.join(app.static_folder, 'Json-export.csv')
@@ -200,9 +201,11 @@ def createstudyplanSelectCourse():
             SP_dict['selectedCourse'] = selectedCourse
             for key, value in degrees_withID.items(): # iterates through values to find course code
                 if selectedCourse == key:
+                    coursecode=value
                     SP_dict['coursecode'] = value
             for key, value in degrees_withFaculty.items(): # iterates through values to find course code
                 if selectedCourse == key:
+                    faculty=value
                     SP_dict['faculty'] = value
             getMajorValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Major 
             getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
@@ -211,9 +214,10 @@ def createstudyplanSelectCourse():
         return ('', 204) # indicates post response has been done successfully
 
     return render_template('1course-createstudyplan.html',
+            #faculty=SP_dict['faculty'],
+            faculty=faculty,
             degrees_withID=degrees_withID,
             degrees=degrees, 
-            faculty=SP_dict['faculty'],
             title="Create study plan")
 
 # STUDY PLANNER - SELECT MAJOR
@@ -279,6 +283,7 @@ def createstudyplanSelectUnits():
             majorCode = majorCode[0]
             SP_dict['courseCode'] = majorCode
             getUnitValues = df[df.CourseID.eq(majorCode)] # change to selectedMajor
+            #coursecode = majorCode
 
         # process units based on course selection
         unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
@@ -346,7 +351,8 @@ def createstudyplanSelectUnits():
             selectedCourse=selectedCourse, 
             selectedMajor=selectedMajor,
             faculty=faculty,
-            coursecode= SP_dict['courseCode'],
+            #coursecode= SP_dict['courseCode'],
+            coursecode=coursecode,
             prerequists = prerequists,
             title="Create study plan")
     except:
