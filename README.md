@@ -7,7 +7,7 @@ ___
 1. [Project details](#project-details)
 2. [How to run the Study Planner project](#how-to-run-the-project)
 3. [Flask API](#flask-api)
-4. [Database schema](#database-schema)
+4. [Database](#database)
 5. [Data](#data)
 6. [Functionality](#functionality)
    1. [Sign up](#sign-up)
