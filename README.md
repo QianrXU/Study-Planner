@@ -64,7 +64,56 @@ Follow the steps below to run the project on differetn operating systems:
 ___
 
 ## Flask API
-Flask 
+Flask is a widely used micro web framework for creating APIs in Python, which serves as the backend of our project. 
+
+### Installation 
+Install Flask using pip
+```
+pip install Flask
+```
+### Flask App
+Can refer to the files `__init__.py`, `routes.py`, `models.py`, and `app/forms.py` in the app folder.
+
+#### /app/__init__.py
+Understand the working of the codes:  
+`from flask import Flask` Import the Flask class.
+
+`app = Flask(__name__)` This creates an instance of the class.
+
+`from app import routes, models, forms` This connects the instance of the class to the routes, models, and forms. 
+
+`if __name__ == '__main__'` `__name__` is a special variable in Python which takes the value of the script name. This line ensures that our Flask app runs only when it is executed in the main file and not when it is imported in some other file.
+
+`app.run(debug=True)` Run the Flask application with enabling the debug mode. Whenever code changes, the server will automatically reload and will show an interactive debugger in the browser with occurrences of errors during a request.
+
+#### /app/routes.py
+Several routes have been included in the file: /index, /signup, /login, /logout, /account, /createstudyplan-courses, /createstudyplan-majors, /createstudyplan-units, /faq and a page_not_found(e) function has been set up to deal with invalid routes.
+
+- The /index route renders index.html.
+- The /signup route renders signup.html.
+- The /login route renders login.html.
+- The /logout route redirects to index.html when users log out.
+- The /accout route renders myaccount.html.
+- The /createstudyplay-course route renders 1grid-createstudyplan.html.
+- The /createstudyplay-course route renders 2grid-createstudyplan.html.
+- The /createstudyplay-course route renders 3grid-createstudyplan.html.
+- The page_not_found(e) function renders 404.html.
+
+`from flask import render_template` Import the method render_template() to render templates.
+
+`@app.route(‘/index’, methods=['GET', 'POST'])` We use the route() decorator to tell Flask what URL should trigger the function. Methods specify which HTTP methods are allowed. The default is ['GET’].
+
+```
+def index():
+    return render_template('index.html', title='Home')
+```
+Specify the name of the template and the variables you want to pass to the template engine as keyword arguments and Flask will look for templates in the templates folder.  
+
+#### /app/models.py
+This is related to the database and will be further explained in the Database part.
+
+#### /app/forms.py
+There are two Flask form inside the file to support the signup function and login function. Each field of the forms are clearly stated with formats and validations have been added to the forms.
 ___
 
 ## Database 
