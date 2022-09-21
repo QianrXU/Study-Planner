@@ -6,16 +6,15 @@ ___
 ## User manual
 1. Project details
 2. How to run the Study Planner project
-3. Database schema
-4. Data
-5. Functionality
+3. Flask API
+4. Database schema
+5. Data
+6. Functionality
    1. Sign up
    2. Log in
    3. Select units
    4. Save study plan
    5. Download study plan 
-6. Testing documentation
-7. Extended functionality
 
 ___
 
@@ -29,7 +28,18 @@ ___
 ## How to run the project
 First you will want to cd to the project directory in which you want to host the Study Planner project and then clone the project files from GitHub: `git clone https://github.com/QianrXU/Study-Planner.git`
 
-Depending on if you use Unix or Windows, follow the steps below.
+Follow the steps below to run the project on differetn operating systems:
+
+### Mac
+**If virtual environment not installed:** Use pip or another package manager to install the virtual environment package: `$ sudo apt-get install python3-venv`
+
+1. cd into project folder: `$ cd Study-Planner`
+2. Create a virtual environment: `$ python3 -m venv venv`
+3. Activate the python virtual environment: `$ source venv/bin/activate`
+4. Install prerequisites (requires python3, flask, venv, etc.): `$ pip3 install -r requirements.txt`.
+5. To run the app: `$ flask run`. This should start the app running on localhost at port 5000, i.e. http://localhost:5000/
+6. To deactivate the project on localhost: `$ ^C`
+7. To deactivate the virtual environment: `$ deactivate`
 
 ### Unix
 **If virtual environment not installed:** Use pip or another package manager to install the virtual environment package: `$ sudo apt-get install python3-venv`
@@ -38,7 +48,7 @@ Depending on if you use Unix or Windows, follow the steps below.
 2. Create a virtual environment: `$ python3 -m venv venv`
 3. Activate the python virtual environment: `$ source venv/bin/activate`
 4. Install prerequisites (requires python3, flask, venv, etc.): `$ pip3 install -r requirements.txt`.
-5. To run the app: `$ flask run`. This should start the app running on localhost at port 5000, i.e. http://localhost:5000/index
+5. To run the app: `$ flask run`. This should start the app running on localhost at port 5000, i.e. http://localhost:5000/
 6. To deactivate the project on localhost: `$ ^C`
 7. To deactivate the virtual environment: `$ deactivate`
 
@@ -47,9 +57,14 @@ Depending on if you use Unix or Windows, follow the steps below.
 
 1. cd into project folder: `$ cd Study-Planner`
 2. Create a virtual environment: `> virtualenv`
-3. Activate the python virtual environment: `> .\venv\Scripts\activate`. This should start the app running on localhost at port 5000, i.e. http://localhost:5000/index.
+3. Activate the python virtual environment: `> .\venv\Scripts\activate`. This should start the app running on localhost at port 5000, i.e. http://localhost:5000/.
 4. Install prerequisites (requires python3, flask, venv, etc.): `> pip install -r requirements.txt`.
 5. To deactivate the virtual environment: `> deactivate`
+
+___
+
+## Flask API
+Flask 
 ___
 
 ## Database 
@@ -237,15 +252,4 @@ Functionality on this page will (Sprint 3 pending) constrain a user's ability to
 
 Additionally, this page includes functionality like saving a study plan to a user account (exclusive to authorised/logged in users) and downloading a study plan.
 
-___
 
-## Testing documentation
-
-___
-
-## Extended functionality
-
-___
-
-## Deployment
-Deployment on localhost at port 5000, http://localhost:5000/index.
