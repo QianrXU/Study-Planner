@@ -364,10 +364,6 @@ def createstudyplanSelectUnits():
     except:
         return render_template('404.html'), 404
 
-# Download PDF
-@app.route('/pdf', methods=['GET', 'POST'])
-def download():
-    return render_template('get_pdf.html', title="PDF")
 
 # FAQ Page 
 @app.route('/faq', methods=['GET', 'POST'])
