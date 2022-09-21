@@ -4,17 +4,17 @@ This is the main repository and project planning page of Study Planner Team 1 (C
 ___
 
 ## User manual
-1. Project details
-2. How to run the Study Planner project
-3. Flask API
-4. Database schema
-5. Data
-6. Functionality
-   1. Sign up
-   2. Log in
-   3. Select units
+1. [Project details](#project-details)
+2. [How to run the Study Planner project](#how-to-run-the-project)
+3. [Flask API](#flask-api)
+4. [Database schema](#database-schema)
+5. [Data](#data)
+6. [Functionality](#functionality)
+   1. [Sign up](#sign-up)
+   2. [Log in](#login)
+   3. [Create a study plan](#creating-a-study-plan)
    4. Save study plan
-   5. Download study plan 
+   5. Download study plan
 
 ___
 
