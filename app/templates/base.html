@@ -145,7 +145,7 @@
   {% endblock %}
 
 <script>
-      
+  //Change the title according to the html page    
   let arr=location.href.split('/')
   let len=location.href.split('/').length
 
@@ -156,7 +156,7 @@
       document.getElementsByClassName("title")[0].innerHTML="Log in"
   }else if(pageParams=='faq'){
       document.getElementsByClassName("title")[0].innerHTML="Frequently asked questions"
-  }else if(pageParams=='myaccount'){
+  }else if(pageParams=='account'){
       document.getElementsByClassName("title")[0].innerHTML="My account"
   }else if(pageParams=='createstudyplan-courses'){
       document.getElementsByClassName("title")[0].innerHTML="Create study plan"
