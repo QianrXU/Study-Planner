@@ -68,23 +68,27 @@ class UserModelCase(unittest.TestCase):
 
 ##### UNIT TESTS FOR LOGIN - Ancy####
 # https://github.com/QianrXU/Study-Planner/issues/65
+#Unit test to check if it displays login page
   def test_login_form_displays(self):
     response = self.app.get('/login')
     self.assertEqual(response.status_code, 200)
     self.assertIn(b'', response.data)
 
+#Test to check if its a valid user
   def test_valid_user_login(self):
     self.app.get('/login', follow_redirects=True)
     response = self.login('test1@mail.com', 'ILoveTeamwork')
     self.assertEqual(response.status_code, 200)
     self.assertIn(b'', response.data)
-    
+
+  #Test to check if wrong email address is entered  
   def test_login_wrong_email(self):
     self.app.get('/login', follow_redirects=True)
     response = self.login('test123@mail.com', 'ILoveTeamwork')
     self.assertEqual(response.status_code, 200)
     self.assertIn(b'Invalid email address', response.data)
-    
+
+  # Test to check if wrong password is entered  
   def test_login_wrong_password(self):
     self.app.get('/login', follow_redirects=True)
     response = self.login('test1@mail.com', 'ThisIsWrong')
