@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512">
+	<!--<path fill="none" stroke="green" stroke-width="20" d="M0,0 L512,0 L512,512 L0,512 Z"></path>-->
+
+  <g transform="translate(100, 180)">
+    <path fill="#868686" stroke="none" stroke-width="0" d="M0,0 L24,0 L120,100 L120,122 L24,222 L0,222 L65,111 Z"></path>
+    <path transform="translate(118,0)" fill="#868686" stroke="none" stroke-width="0" d="M0,0 L24,0 L120,100 L120,122 L24,222 L0,222 L65,111 Z"></path>
+  </g>
+</svg>
+
+
+<!--<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10">
+
+   <text x="3" y="8" style="fill: #888888; stroke: #888888; stroke-width: 0.5px; font-size: 12px; text-anchor: start; font-family: 'Source Sans Pro';">»</text>
+
+</svg>-->
