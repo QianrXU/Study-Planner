@@ -255,6 +255,14 @@ Frequently asked questions can be found at this page(**Figure 4**). We are still
 |:--:|
 | <b> Figure 4</b>|
 
+### My Account
+> account.html
+
+All logged in users are able to access this page (**Figure 5**). The account page displays the user's saved study plans and allows them to load or delete them. The user may also create a new study plan which will navigate them to the 1grid-createstudyplan.html page.
+
+|![Account](./readmeImages/account.PNG)|
+|:--:|
+| <b> Figure 5</b>|
 
 ### Creating a study plan
 The following steps outline how a user goes about the process of creating a study plan, as well as how data is processed in the background to generate the view that users end up with. 
@@ -299,6 +307,9 @@ Functionality on this page will (Sprint 3 pending) constrain a user's ability to
 * Unit incompatibilities
 * Unit prerequisites
 
-Additionally, this page includes functionality like saving a study plan to a user account (exclusive to authorised/logged in users) and downloading a study plan.
-
+**Saving study plans**
+Additionally, this page includes functionality like saving a study plan to a user account (Sprint 3 pending) for logged in users, and downloading a study plan as a PDF for all users. The format of a downloaded study plan can be seen below (**Figure 6**).
+|![PDF](./readmeImages/studyplanPDF.PNG)|
+|:--:|
+| <b> Figure 6</b>|
 
