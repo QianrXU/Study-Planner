@@ -295,6 +295,11 @@ Each unit has a color. This color explains when it is available to study (pulls 
 
 Upon click of a unit, the user currently gets an alert that says what unit they have clicked on. In Sprint 3, we wish to see how we can incorporate the *Content* and *Outcomes* attributes here. This would allow the user to read about individual units.
 
+Drag a unit onto the grid, a floater with prerequisites for the course appears at the bottom of the page. Remind the user of the prerequisites that need to be followed when selecting this unit.
+|![Prerequisites](./readmeImages/prerequisites.png)|
+|:--:|
+| <b> Figure 6</b>|
+
 **Grid system**
 
 The grid system is made up of two parts. The top part provides details to the user in regard to their selected course. The second part which fills the majority of the page consists of the grid system. A layout made up of rows where each row is a semester made up of a total of 5 boxes (one box for each unit). A normal full time study load at UWA is 3-4 units, but students are allowed to overload semesters by taking a maximum of 5 units per semester.
@@ -314,5 +319,5 @@ Additionally, this page includes functionality like saving a study plan to a use
 
 |![PDF](./readmeImages/studyplanPDF.PNG)|
 |:--:|
-| <b> Figure 6</b>|
+| <b> Figure 7</b>|
 
