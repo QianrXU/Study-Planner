@@ -13,8 +13,7 @@ ___
    1. [Sign up](#sign-up)
    2. [Log in](#login)
    3. [Create a study plan](#creating-a-study-plan)
-   4. Save study plan
-   5. Download study plan
+   4. [Save study plan](#saving-study-plans)
 
 ___
 
@@ -308,7 +307,7 @@ Functionality on this page will (Sprint 3 pending) constrain a user's ability to
 * Unit incompatibilities
 * Unit prerequisites
 
-**Saving study plans**
+#### Saving study plans
 
 Additionally, this page includes functionality like saving a study plan to a user account (Sprint 3 pending) for logged in users, and downloading a study plan as a PDF for all users. The format of a downloaded study plan can be seen below (**Figure 6**).
 
