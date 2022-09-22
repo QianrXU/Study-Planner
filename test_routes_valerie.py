@@ -12,7 +12,7 @@ class FlaskTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         # compare the content we get from the response with the content we should have 
         self.assertIn(b'GAIN AN EXPERIENCE RICH EDUCATION', response.data)
-        self.assertIn(b'Ready to Plan your', response.data)
+        self.assertIn(b'Ready to plan your', response.data)
         self.assertIn(b'future at UWA?', response.data)
 
     # Ensure the faq page shows up correctly using the url
