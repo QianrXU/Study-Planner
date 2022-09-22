@@ -440,8 +440,9 @@ li {
   text-align:center;
 }
 
-#warning_text{
+#requistinfo{
   margin:0; 
+  display:inline;
   position:relative; 
   display: inline-block;
 }
