@@ -12,9 +12,9 @@ ___
 6. [Functionality](#functionality)
    1. [Sign up](#sign-up)
    2. [Log in](#login)
-   3. [My Account] (#my-account)
+   3. [My Account](#my-account)
    4. [Create a study plan](#creating-a-study-plan)
-   5. [Save study plan] (#save-study-plan)
+   5. [Save study plan](#save-study-plan)
 
 ___
 
