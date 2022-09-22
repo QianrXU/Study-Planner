@@ -308,7 +308,9 @@ Functionality on this page will (Sprint 3 pending) constrain a user's ability to
 * Unit prerequisites
 
 **Saving study plans**
+
 Additionally, this page includes functionality like saving a study plan to a user account (Sprint 3 pending) for logged in users, and downloading a study plan as a PDF for all users. The format of a downloaded study plan can be seen below (**Figure 6**).
+
 |![PDF](./readmeImages/studyplanPDF.PNG)|
 |:--:|
 | <b> Figure 6</b>|
