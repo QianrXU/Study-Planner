@@ -296,6 +296,7 @@ Each unit has a color. This color explains when it is available to study (pulls 
 Upon click of a unit, the user currently gets an alert that says what unit they have clicked on. In Sprint 3, we wish to see how we can incorporate the *Content* and *Outcomes* attributes here. This would allow the user to read about individual units.
 
 **Grid system**
+
 The grid system is made up of two parts. The top part provides details to the user in regard to their selected course. The second part which fills the majority of the page consists of the grid system. A layout made up of rows where each row is a semester made up of a total of 5 boxes (one box for each unit). A normal full time study load at UWA is 3-4 units, but students are allowed to overload semesters by taking a maximum of 5 units per semester.
 
 The grid system is currently (at the end of Sprint 2) based on the HTML Drag and Drop API. This allows for units to be dragged from the unit selection pane onto a box in the grid. Clicking on the 'Add' button for a Semester row adds overloading functionality, and if the 'Add' button has been clicked, a 'Remove' button will appear to remove overloading.
