@@ -244,7 +244,7 @@ def getMasterDegrees(data, selectedCourse):
     structureProcessing = json.loads(structureProcessing) # convert into json/list
 
     masterprocess = structureProcessing
-    print(structureProcessing)
+    #print(structureProcessing)
 
     # 'introduction', 'levelsspecials'; bottom layer of structure
     m_items = structureProcessing.items() # keys on this dict will provide bottom layer of information: ['introduction', 'levelsSpecials']
@@ -279,17 +279,29 @@ def getMasterDegrees(data, selectedCourse):
     for i in range(len(m_typeName)): # print the number of typeNames present. 
         [delist] = m_typeName[i] # delist each item (unit group) in m_types to convert it to a dictionary
         for k, v in delist.items(): # keys are: ['typeName', 'typeInto', 'units']
-            if k == "typeName":
+            if k == "typeName": # e.g., "Conversion"
                 units.append(v)
-            if k == "typeInto":
+            if k == "typeInto": # e.g., "Students who have completed degree studies in a non-cognate area, ..."
                 units.append(v)
+            types = v # creates new variable, types, with lists of dictionaries of units in each unit group. v = unitCode, unitTitle, unitPoints and unitURL for each unit group.
+        for r in range(len(types)):
+            for k, v in types[r].items():
+                if k == "unitCode": # e.g., "CITS1001"
+                    uc = v # save unit code in variable 'uc' to be concatenated with unit title below
+                if k == "unitTitle": # e.g., "Software Engineering with Java"
+                    units.append(uc + " " + v)
+                if k == "unitPoints":
+                    points = "credit points: "
+                    units.append(points + v)
+                if k == "unitURL":
+                    units.append(v)
 
-            # one step deeper
-            if k == "units":
-                units.append(v)
+                #units.append(v)
+                #print(v)
+
             
-    print(units)
-
+    #print(units)
+    print(m_typeName)
 
     print("######  COMPLETE #######")
 
