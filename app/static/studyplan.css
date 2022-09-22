@@ -427,3 +427,23 @@ li {
 }
 
 
+/*the floating box*/
+#warning{
+  position:fixed; 
+  bottom:0; 
+  width: 100%; 
+  background-color: rgb(246, 212, 212);
+}
+
+#warningbox{
+  padding:20px;
+  text-align:center;
+}
+
+#requistinfo{
+  margin:0; 
+  display:inline;
+  position:relative; 
+  display: inline-block;
+}
+
