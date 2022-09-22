@@ -157,6 +157,13 @@
 
   </div>
 </div>
+<div id="warning" style="display:none;">
+  <div id = "warningbox">
+    <p id="warning_text">Warning: </p>
+    <p id="requistinfo" style="display:inline;"></p>
+    <i class="fa-solid fa-rectangle-xmark" style="display:inline;" onclick="closeModal()"></i>
+  </div>
+</div>
 
 
     
@@ -298,7 +305,10 @@ function openModal(){
 // Modal - close general-info modal
 function closeModal(){
   const modal = document.getElementById('my-modal'); // get the modal that needs to be closed
+  const warningicon = document.getElementById("warning");
   modal.style.display = 'none'; //hide the modal after clicking the close button
+  warningicon.style.display = 'none';
+
 }
 
 
@@ -475,7 +485,7 @@ let target = null
 
 dragg.forEach(item=> {
     item.addEventListener('dragstart', (event) => {
-        target = event.target
+        target = event.target;
         console.log(target)
     })
 })
@@ -485,13 +495,23 @@ verify.forEach(item => {
     event.preventDefault();
     })
 
+    //add the drop event listener
     item.addEventListener('drop',(event) => {
-        for (var key in unitprerequist){
-          if (target.innerHTML.includes(key)){
-            window.alert(unitprerequist[key]);
-          }
-          } 
-        })}  ) }
+    //Display prerequisites in the floating box
+    const warningtext = document.getElementById('warning'); 
+    warningtext.style.display = 'block'; 
+    var warinfo = document.getElementById("requistinfo");
+    warinfo.innerHTML="";
+      for (var key in unitprerequist){
+        if (target.innerHTML.includes(key)){
+          //window.alert(unitprerequist[key]);
+          var txt =document.createTextNode(unitprerequist[key]);
+          warinfo.appendChild(txt);
+        }
+      } 
+    })
+  }) 
+}
 //Pop-up reminder function ends
 
 </script>
