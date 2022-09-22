@@ -267,16 +267,16 @@ def getMasterDegrees(data, selectedCourse):
     for i in range(len(unitgroup)): # count the amount of unitgroups that exist and pull out each one
         for k, v in unitgroup[i].items(): # keys are: ['levelName', 'typeInto', 'unitTypes']
             if k == "levelName":
-                m_levelNames.append(v) 
-                #print(v)
-        
+                m_levelNames.append(v) # v = 'conversion', 'core'm etc., but also all specialisations, e.g., 'biomedical engineering specialisation'
             # process units under each unit group
             if k == "unitTypes":
                 m_typeName.append(v)
 
+    # will work for all degrees without nested units within units, e.g., Chemical Engineering specialisation may have 'Core', 'Option - Group A' etc 
     # typeNames
     units = []
     for i in range(len(m_typeName)): # print the number of typeNames present. 
+        #units.append(m_levelNames[i]) # this will be the sub unit group, e.g., specialisation for those that have specialisations, otherwise just a duplicate of whatever the unit type is specified as below
         [delist] = m_typeName[i] # delist each item (unit group) in m_types to convert it to a dictionary
         for k, v in delist.items(): # keys are: ['typeName', 'typeInto', 'units']
             if k == "typeName": # e.g., "Conversion"
@@ -291,26 +291,30 @@ def getMasterDegrees(data, selectedCourse):
                 if k == "unitTitle": # e.g., "Software Engineering with Java"
                     units.append(uc + " " + v)
                 if k == "unitPoints":
-                    points = "credit points: "
+                    points = "unitpoints: "
                     units.append(points + v)
                 if k == "unitURL":
                     units.append(v)
 
                 #units.append(v)
                 #print(v)
-
             
-    #print(units)
-    print(m_typeName)
+    print(units)
+
+
+
+
 
     print("######  COMPLETE #######")
 
-
+    print(len(m_levelNames))
+    print(len(m_typeName))
 
     #print(m_levelNames)
     
 
     return masterCourses, masterprocess
+
 
 
 
