@@ -1,4 +1,4 @@
-# Done by Fangting
+# Testing Enviroment Set up by Fangting
 import pytest
 import unittest,os
 from app import app, db
@@ -34,7 +34,7 @@ class UserModelCase(unittest.TestCase):
     self.assertFalse(user1.check_password('nonsense'))
     self.assertTrue(user1.check_password('testing1'))
 
-##### UNIT TESTS FOR REGISTRATIONn - Fangting ####
+##### UNIT TESTS FOR REGISTRATION - Fangting ####
 
   def register(self,username,email,password,confirm):
     return self.app.post('signup/', 
