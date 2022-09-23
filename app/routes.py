@@ -225,8 +225,9 @@ def createstudyplanSelectCourse():
 
 def getMasterDegrees(data, selectedCourse):
     global masterCourses
-    global masterprocess # don't forget to remove redundant global vars !!
     global m_specialisations_list
+    global core
+    global spec
 
     # get fields we're interested in
     masterCourses = data[["Year", "CourseID", "Title", "ListMajors2", "Faculty", "Structure", "Availability", "IntakePeriods", "StandardFullTimeCompletion"]] # only interested in these variables
@@ -243,7 +244,6 @@ def getMasterDegrees(data, selectedCourse):
     structureProcessing = structureProcessing[1:-1]
     structureProcessing = json.loads(structureProcessing) # convert into json/list
 
-    masterprocess = structureProcessing
     #print(structureProcessing)
 
     # 'introduction', 'levelsspecials'; bottom layer of structure
@@ -296,9 +296,18 @@ def getMasterDegrees(data, selectedCourse):
             #     m_typeName.append(v)
             #     #print(v)
 
-    #print(m_levelNamesCore)
-    print(m_specialisations_list)
-    #print(m_typeName)
+
+    core = [] # this list will hold the core/conversion units for a degree with a major/specialisation
+    for i in range(0, len(m_levelNamesCore), 2):
+        x = str([m_levelNamesCore[i]])
+        y = str([m_levelNamesCore[i+1]])
+        core.append(x + "***" + y) # need to add *** for something to split by
+
+    spec = [] # this list will hold the units for all unit groups under a major/specialisation
+    for i in range(0, len(m_specialisations), 2):
+        x = str([m_specialisations[i]])
+        y = str([m_specialisations[i+1]])
+        spec.append(x + "***" + y) # something to split by
 
     # will work for all degrees without nested units within units, e.g., Chemical Engineering specialisation may have 'Core', 'Option - Group A' etc 
     # typeNames
@@ -327,20 +336,18 @@ def getMasterDegrees(data, selectedCourse):
                 #units.append(v)
                 #print(v)
             
-    #print(units)
-
+    # x=spec[0].split('***')
+    # print(x[0])
 
     #print(m_specialisations)
 
 
     print("######  COMPLETE #######")
 
-    print(len(m_levelNames))
-    print(len(m_levelNamesCore))
-    print(len(m_specialisations))
-    #print(m_levelNames)
+    print(len(core))
+    print(len(spec))
     
-    return masterCourses, m_specialisations_list
+    return masterCourses, m_specialisations_list, core, spec
 
 
 
@@ -378,9 +385,7 @@ def createstudyplanSelectMajor():
         global selectedCourse
         global SP_dict
 
-        m_specialisations_list
-
-        # process ListMajors column
+        # process ListMajors column (i.e., potential majors) and potential specialisations if master is selected where specialisation is an option
         majors = getMajorValues['ListMajors'].dropna().values.tolist() # create dataframe of ListMajors column
         #majors2 = getMajorValues['ListMajors2'].dropna().values.tolist() # create dataframe of ListMajors2 column - SOMETIMES MAJORS ARE LISTED IN THIS COLUMN, WE'LL NEED TO RUN SOME CHECKS TO SEE WHICH ONE IS ACCURATE FOR SELECTED COURSE
         pattern = r'[(\d)\'<b]+'
@@ -391,7 +396,7 @@ def createstudyplanSelectMajor():
         majors = re.split(newpattern, majors)
         majors = ' '.join(str(e) for e in majors)
         majors = majors.split(" r>")
-        for specialisation in range(len(m_specialisations_list)):
+        for specialisation in range(len(m_specialisations_list)): # m_specialisations_list contains all specialisations for the selected course (if master with specialisation)
             majors.append(m_specialisations_list[specialisation])
         # would be nice to remove the unitcode before the major title, if we do this we would have to
         # make changes to majorCode below though as that splits the majors text (I believe) /C
@@ -411,7 +416,6 @@ def createstudyplanSelectMajor():
         #     return redirect(url_for('createstudyplanSelectUnits'), code=302)
 
         return render_template('2major-createstudyplan.html',
-            masterprocess=masterprocess,
             masterCourses=masterCourses,
             majors=majors,
             getMajorValues=getMajorValues,
