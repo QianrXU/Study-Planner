@@ -1,4 +1,5 @@
 from signal import valid_signals
+from tkinter import Y
 from app import app
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user, login_required
@@ -156,8 +157,6 @@ def account():
             SP_array.append( (SP_key, SP_name) )
     return render_template('account.html', title="My Account", SP_array=SP_array, results=results)
 
-    
-
 
 # STUDY PLANNER - SELECT COURSE
 # in this function we focus on processing the json-export.csv file so that users can select the degree they are interested in
@@ -183,6 +182,10 @@ def createstudyplanSelectCourse():
     df = df[df.Year.eq(selectedYear)]
     df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
     df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
+
+    # filter out combined bachelors/masters and doctorates
+    df = df[df.Title.str.contains("Master")] # Filter out all master's degrees
+    df = df[~df.Title.str.contains("Bachelor|Doctor")] # Filter out all combined masters/bachelors and dmasters/octorates from df (~ means inverse)
 
     # Degrees variable processing - this is the dataframe that the Course selection dropdown will get its values from.
     degrees = df[~df.CourseID.str.contains('MJD|MJS')] # remove any course IDs that start with MJD or MJS (majors or second majors).
@@ -226,11 +229,12 @@ def createstudyplanSelectCourse():
 
 
 def getMasterDegrees(data, selectedCourse):
-    global masterCourses
     global m_specialisations_list
+    global m_levelNames_list
+    global m_specialisations
+    global m_levelNamesCore
     global core
     global spec
-    global m_levelNames_list
 
     # get fields we're interested in
     masterCourses = data[["Year", "CourseID", "Title", "ListMajors2", "Faculty", "Structure", "Availability", "IntakePeriods", "StandardFullTimeCompletion"]] # only interested in these variables
@@ -322,12 +326,22 @@ def getMasterDegrees(data, selectedCourse):
     #             if k == "unitURL":
     #                 units.append(v)
 
-    print(len(core))
-    print(len(spec))
+    # print(len(core))
+    # print(len(spec))
     
-    print("###### COMPLETE #######")
+    # # process units based on course selection
+    # majorCode = "Biomedical Engineering specialisation"
+    # unitValues = []
 
-    return masterCourses, m_specialisations_list, core, spec, m_levelNames_list
+    # for i in range(len(m_specialisations)):
+    #     if majorCode == "Biomedical Engineering specialisation":
+    #         index = m_specialisations.index(majorCode)
+    #         unitValues.append(m_specialisations[index+1])
+
+    # print(unitValues)
+
+
+    return m_specialisations_list, m_levelNames_list, m_specialisations, m_levelNamesCore, core, spec
 
 # STUDY PLANNER - SELECT MAJOR
 @app.route('/createstudyplan-majors', methods=['GET', 'POST'])
@@ -369,7 +383,6 @@ def createstudyplanSelectMajor():
             return redirect(url_for('createstudyplanSelectUnits'), code=302)
 
         return render_template('2major-createstudyplan.html',
-            masterCourses=masterCourses,
             majors=majors,
             getMajorValues=getMajorValues,
             title="Create study plan")
@@ -390,6 +403,8 @@ def createstudyplanSelectUnits():
         #replace unit selection for degree if the user has selected a major or specification - choose the values that are
         #in the structure column for this courseID instead
         majorCode = selectedMajor
+        print(selectedMajor)
+
         noMajor = "No major or specialisation available"
         if noMajor not in majorCode:
             majorCode = selectedMajor.split() # need to split as unitCode in index first and then major title
@@ -398,22 +413,36 @@ def createstudyplanSelectUnits():
             SP_dict['courseCode'] = majorCode
             getUnitValues = df[df.CourseID.eq(majorCode)] # change to selectedMajor
             #coursecode = majorCode
-
-        # process units based on course selection
-        unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
-        unitValues = [str(x) for x in unitValues][0] # convert to string
-        unitValues = unitValues[1:-1]
-        unitValues = json.loads(unitValues) # json file
-
-        #courseInfo = unitValues['introduction'] #retrieve information from introduction (sometimes does not exists, may need to deal with somehow?)
         
-        levelsSpecials = unitValues['levelsSpecials'] #retrieve levelsSpecials and place it in List
-        lengthLS = len(levelsSpecials)
-        typeNames = [] # extract all typesnames from 'Structure'
-        for i in range(lengthLS): # loop through list
-            for key, val in levelsSpecials[i].items():
-                if key == 'unitTypes':
-                    typeNames.append(val)
+        if len(spec) == 0:
+            # process units based on course selection
+            unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
+            unitValues = [str(x) for x in unitValues][0] # convert to string
+            unitValues = unitValues[1:-1]
+            unitValues = json.loads(unitValues) # json file
+
+            #courseInfo = unitValues['introduction'] #retrieve information from introduction (sometimes does not exists, may need to deal with somehow?)
+            
+            levelsSpecials = unitValues['levelsSpecials'] #retrieve levelsSpecials and place it in List
+            lengthLS = len(levelsSpecials)
+            typeNames = [] # extract all typesnames from 'Structure'
+            for i in range(lengthLS): # loop through list
+                for key, val in levelsSpecials[i].items():
+                    if key == 'unitTypes':
+                        typeNames.append(val)
+            print(typeNames)
+
+        if len(spec) > 0: # if there are specialisations
+            # m_levelNamesCore needs to be appended too as they are core regardless of specialisation
+            typeNames = []
+            for y in range(1, len(m_levelNamesCore), 2):
+                #print(m_levelNamesCore[y])
+                typeNames.append(m_levelNamesCore[y])
+            
+            for i in range(len(m_specialisations)):
+                if selectedMajor == m_specialisations[i]:
+                    index = m_specialisations.index(selectedMajor)
+                    typeNames.append(m_specialisations[index+1])
 
         units = [] # all unit codes + unit titles to be saved into this list 
         unitCodeList = [] # all unit codes to be saved into this list (for connecting with unit list.csv on frontend)
@@ -451,8 +480,6 @@ def createstudyplanSelectUnits():
                         #     units1.append(val)
         except:
             units.append("No units")
-
-        print(units)
 
         #import and read unit list into unitscsv variable
         unitInfoCsv = os.path.join(app.static_folder, 'Unit list.csv')
