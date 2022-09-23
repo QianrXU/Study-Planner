@@ -184,8 +184,8 @@ def createstudyplanSelectCourse():
     df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
 
     # filter out combined bachelors/masters and doctorates
-    df = df[df.Title.str.contains("Master")] # Filter out all master's degrees
-    df = df[~df.Title.str.contains("Bachelor|Doctor")] # Filter out all combined masters/bachelors and dmasters/octorates from df (~ means inverse)
+    #df = df[df.Title.str.contains("Master")] # Filter out all master's degrees
+    #df = df[~df.Title.str.contains("Bachelor|Doctor")] # Filter out all combined masters/bachelors and dmasters/octorates from df (~ means inverse)
 
     # Degrees variable processing - this is the dataframe that the Course selection dropdown will get its values from.
     degrees = df[~df.CourseID.str.contains('MJD|MJS')] # remove any course IDs that start with MJD or MJS (majors or second majors).
