@@ -265,7 +265,7 @@ def getMasterDegrees(data, selectedCourse):
     m_specialisations = [] # levelnames = unit group names - ONLY specialisations, with unit data after append
     m_specialisations_list = [] # levelnames = unit group names - ONLY specialisation names
     [unitgroup] = m_levelsSpecials # delist m_levelsSpecials (i.e., reduce by one list level), otherwhise the list length (used in range below) will not be correct. 
-    #print(unitgroup)
+
     for i in range(len(unitgroup)): # count the amount of unitgroups that exist and process each one
         for k, v in unitgroup[i].items(): # keys are: ['levelName', 'typeInto', 'unitTypes']
             if k == "levelName":
@@ -301,45 +301,6 @@ def getMasterDegrees(data, selectedCourse):
         x = str([m_specialisations[i]])
         y = str([m_specialisations[i+1]])
         spec[x] = y
-
-    # # will work for all degrees without nested units within units, e.g., Chemical Engineering specialisation may have 'Core', 'Option - Group A' etc 
-    # # typeNames
-    # units = []
-    # for i in range(len(m_typeName)): # print the number of typeNames present. 
-    #     #units.append(m_levelNames[i]) # this will be the sub unit group, e.g., specialisation for those that have specialisations, otherwise just a duplicate of whatever the unit type is specified as below
-    #     [delist] = m_typeName[i] # delist each item (unit group) in m_types to convert it to a dictionary
-    #     for k, v in delist.items(): # keys are: ['typeName', 'typeInto', 'units']
-    #         if k == "typeName": # e.g., "Conversion"
-    #             units.append(v)
-    #         if k == "typeInto": # e.g., "Students who have completed degree studies in a non-cognate area, ..."
-    #             units.append(v)
-    #         types = v # creates new variable, types, with lists of dictionaries of units in each unit group. v = unitCode, unitTitle, unitPoints and unitURL for each unit group.
-    #     for r in range(len(types)):
-    #         for k, v in types[r].items():
-    #             if k == "unitCode": # e.g., "CITS1001"
-    #                 uc = v # save unit code in variable 'uc' to be concatenated with unit title below
-    #             if k == "unitTitle": # e.g., "Software Engineering with Java"
-    #                 units.append(uc + " " + v)
-    #             if k == "unitPoints":
-    #                 points = "unitpoints: "
-    #                 units.append(points + v)
-    #             if k == "unitURL":
-    #                 units.append(v)
-
-    # print(len(core))
-    # print(len(spec))
-    
-    # # process units based on course selection
-    # majorCode = "Biomedical Engineering specialisation"
-    # unitValues = []
-
-    # for i in range(len(m_specialisations)):
-    #     if majorCode == "Biomedical Engineering specialisation":
-    #         index = m_specialisations.index(majorCode)
-    #         unitValues.append(m_specialisations[index+1])
-
-    # print(unitValues)
-
 
     return m_specialisations_list, m_levelNames_list, m_specialisations, m_levelNamesCore, core, spec
 
@@ -434,7 +395,6 @@ def createstudyplanSelectUnits():
                 for key, val in levelsSpecials[i].items():
                     if key == 'unitTypes':
                         typeNames.append(val)
-            print(typeNames)
 
         if len(spec) > 0: # if there are specialisations
             typeNames = []
@@ -445,7 +405,6 @@ def createstudyplanSelectUnits():
                 if selectedMajor == m_specialisations[i]: # if the selected major is in the m_specialisations variable ...
                     index = m_specialisations.index(selectedMajor) # ... find the index of that variable and pop and ...
                     typeNames.append(m_specialisations[index+1]) # ... append the specialisation data to typenames
-                    #print([m_specialisations[index+1]])
 
         units = [] # all unit codes + unit titles to be saved into this list 
         unitCodeList = [] # all unit codes to be saved into this list (for connecting with unit list.csv on frontend)
@@ -455,22 +414,17 @@ def createstudyplanSelectUnits():
             for y in range(length):
                 types = typeNames[y]
                 lengthoftypes = length = len(types)
-                #print(types)
 
                 for i in range(lengthoftypes): # loop through list
 
                     if lengthoftypes == 1 or lengthoftypes > 1:
                         for key, val in types[i].items():
                             if key == 'typeName': # e.g., conversion, core, option, etc.
-                                #if len(spec) != 0: # if the length of the spec variable is more than 0, there will be specialisations in this course
-                                #    units.append(m_levelNames_list[y])
-                                #else: 
                                 units.append(val)
                                 units.append("***") #something random to split by on the frontend
                             if key == 'typeInto': # if there is any typeInto field, include this
                                 units.append(val)
                                 units.append("***")
-                            print(key)
                             typesOfunits = val # creates list with dictionary of units
 
                     lengthtype1 = len(typesOfunits)
