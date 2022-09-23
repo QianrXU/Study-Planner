@@ -260,7 +260,6 @@ def getMasterDegrees(data, selectedCourse):
     m_levelNamesCore = [] # levelnames = unit group names - ONLY core/conversion, with unit data after append
     m_specialisations = [] # levelnames = unit group names - ONLY specialisations, with unit data after append
     m_specialisations_list = [] # levelnames = unit group names - ONLY specialisation names
-    m_typeName = [] # POTENTIALLY UNECCESSARY NOW??? 
     [unitgroup] = m_levelsSpecials # delist m_levelsSpecials (i.e., reduce by one list level), otherwhise the list length (used in range below) will not be correct. 
     #print(unitgroup)
     for i in range(len(unitgroup)): # count the amount of unitgroups that exist and process each one
@@ -284,50 +283,44 @@ def getMasterDegrees(data, selectedCourse):
                     for k, v in unitgroup[i].items():
                          if k == "unitTypes":
                             m_levelNamesCore.append(v)
-            # process units under each unit group
-            # if k == "unitTypes":
-            #     m_typeName.append(v)
-            #     #print(v)
 
-    #core = [] # this list will hold the core/conversion units for a degree with a major/specialisation
+    # this dict will hold the core/conversion units for a degree with a major/specialisation
     core = {}
     for i in range(0, len(m_levelNamesCore), 2):
         x = str([m_levelNamesCore[i]])
         y = str([m_levelNamesCore[i+1]])
         core[x] = y
-        #core.append(x + "***" + y) # need to add *** for something to split by
 
-    #spec = [] # this list will hold the units for all unit groups under a major/specialisation
+    # this dict will hold the units for all unit groups under a major/specialisation
     spec = {}
     for i in range(0, len(m_specialisations), 2):
         x = str([m_specialisations[i]])
         y = str([m_specialisations[i+1]])
         spec[x] = y
-        #spec.append(x + "***" + y) # something to split by
 
-    # will work for all degrees without nested units within units, e.g., Chemical Engineering specialisation may have 'Core', 'Option - Group A' etc 
-    # typeNames
-    units = []
-    for i in range(len(m_typeName)): # print the number of typeNames present. 
-        #units.append(m_levelNames[i]) # this will be the sub unit group, e.g., specialisation for those that have specialisations, otherwise just a duplicate of whatever the unit type is specified as below
-        [delist] = m_typeName[i] # delist each item (unit group) in m_types to convert it to a dictionary
-        for k, v in delist.items(): # keys are: ['typeName', 'typeInto', 'units']
-            if k == "typeName": # e.g., "Conversion"
-                units.append(v)
-            if k == "typeInto": # e.g., "Students who have completed degree studies in a non-cognate area, ..."
-                units.append(v)
-            types = v # creates new variable, types, with lists of dictionaries of units in each unit group. v = unitCode, unitTitle, unitPoints and unitURL for each unit group.
-        for r in range(len(types)):
-            for k, v in types[r].items():
-                if k == "unitCode": # e.g., "CITS1001"
-                    uc = v # save unit code in variable 'uc' to be concatenated with unit title below
-                if k == "unitTitle": # e.g., "Software Engineering with Java"
-                    units.append(uc + " " + v)
-                if k == "unitPoints":
-                    points = "unitpoints: "
-                    units.append(points + v)
-                if k == "unitURL":
-                    units.append(v)
+    # # will work for all degrees without nested units within units, e.g., Chemical Engineering specialisation may have 'Core', 'Option - Group A' etc 
+    # # typeNames
+    # units = []
+    # for i in range(len(m_typeName)): # print the number of typeNames present. 
+    #     #units.append(m_levelNames[i]) # this will be the sub unit group, e.g., specialisation for those that have specialisations, otherwise just a duplicate of whatever the unit type is specified as below
+    #     [delist] = m_typeName[i] # delist each item (unit group) in m_types to convert it to a dictionary
+    #     for k, v in delist.items(): # keys are: ['typeName', 'typeInto', 'units']
+    #         if k == "typeName": # e.g., "Conversion"
+    #             units.append(v)
+    #         if k == "typeInto": # e.g., "Students who have completed degree studies in a non-cognate area, ..."
+    #             units.append(v)
+    #         types = v # creates new variable, types, with lists of dictionaries of units in each unit group. v = unitCode, unitTitle, unitPoints and unitURL for each unit group.
+    #     for r in range(len(types)):
+    #         for k, v in types[r].items():
+    #             if k == "unitCode": # e.g., "CITS1001"
+    #                 uc = v # save unit code in variable 'uc' to be concatenated with unit title below
+    #             if k == "unitTitle": # e.g., "Software Engineering with Java"
+    #                 units.append(uc + " " + v)
+    #             if k == "unitPoints":
+    #                 points = "unitpoints: "
+    #                 units.append(points + v)
+    #             if k == "unitURL":
+    #                 units.append(v)
 
     print(len(core))
     print(len(spec))
