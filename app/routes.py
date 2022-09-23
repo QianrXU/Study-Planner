@@ -403,9 +403,13 @@ def createstudyplanSelectUnits():
         #replace unit selection for degree if the user has selected a major or specification - choose the values that are
         #in the structure column for this courseID instead
         majorCode = selectedMajor
-        print(selectedMajor)
 
         noMajor = "No major or specialisation available"
+
+        # if specialisation, change majorCode (what is displayed on frontend) to nocode (as it will show under Major: anyway!)
+        if len(spec) != 0:
+            majorCode = noMajor
+
         if noMajor not in majorCode:
             majorCode = selectedMajor.split() # need to split as unitCode in index first and then major title
             majorCode = majorCode[0]
@@ -433,16 +437,15 @@ def createstudyplanSelectUnits():
             print(typeNames)
 
         if len(spec) > 0: # if there are specialisations
-            # m_levelNamesCore needs to be appended too as they are core regardless of specialisation
             typeNames = []
-            for y in range(1, len(m_levelNamesCore), 2):
-                #print(m_levelNamesCore[y])
-                typeNames.append(m_levelNamesCore[y])
-            
+            for y in range(1, len(m_levelNamesCore), 2): # start from index 1 and increment by 2. m_levelNamesCore needs to be appended too as they are core regardless of specialisation
+                typeNames.append(m_levelNamesCore[y]) # the appended typenames from this variable will be core and conversion units that are mutual for all specialisations regardless of which one
+
             for i in range(len(m_specialisations)):
-                if selectedMajor == m_specialisations[i]:
-                    index = m_specialisations.index(selectedMajor)
-                    typeNames.append(m_specialisations[index+1])
+                if selectedMajor == m_specialisations[i]: # if the selected major is in the m_specialisations variable ...
+                    index = m_specialisations.index(selectedMajor) # ... find the index of that variable and pop and ...
+                    typeNames.append(m_specialisations[index+1]) # ... append the specialisation data to typenames
+                    #print([m_specialisations[index+1]])
 
         units = [] # all unit codes + unit titles to be saved into this list 
         unitCodeList = [] # all unit codes to be saved into this list (for connecting with unit list.csv on frontend)
@@ -452,32 +455,39 @@ def createstudyplanSelectUnits():
             for y in range(length):
                 types = typeNames[y]
                 lengthoftypes = length = len(types)
+                #print(types)
+
                 for i in range(lengthoftypes): # loop through list
-                    for key, val in types[i].items():
-                        if key == 'typeName': # e.g., conversion, core, option, etc.
-                            if len(spec) != 0: # if the length of the spec variable is more than 0, there will be specialisations in this course
-                                units.append(m_levelNames_list[y])
-                            else: 
+
+                    if lengthoftypes == 1 or lengthoftypes > 1:
+                        for key, val in types[i].items():
+                            if key == 'typeName': # e.g., conversion, core, option, etc.
+                                #if len(spec) != 0: # if the length of the spec variable is more than 0, there will be specialisations in this course
+                                #    units.append(m_levelNames_list[y])
+                                #else: 
                                 units.append(val)
-                            units.append("***") #something random to split by on the frontend
-                        if key == 'typeInto': # if there is any typeInto field, include this
-                            units.append(val)
-                            units.append("***")
-                        typesOfunits = val # creates list with dictionary of units in type1 group
-                lengthtype1 = len(typesOfunits)
-                for i in range(lengthtype1): # loop through list and take the following from Structure
-                    for key, val in typesOfunits[i].items():
-                        if key == 'unitCode':
-                            unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
-                            unitCodeList.append(val)
-                        if key == 'unitTitle':
-                            units.append(unitCode + " " + val + "***")
-                #units.append("&*:") #something random to split by on the frontend
-                units.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
-                        # if key == 'unitPoints':
-                        #     units1.append(val)
-                        # if key == 'unitURL':
-                        #     units1.append(val)
+                                units.append("***") #something random to split by on the frontend
+                            if key == 'typeInto': # if there is any typeInto field, include this
+                                units.append(val)
+                                units.append("***")
+                            print(key)
+                            typesOfunits = val # creates list with dictionary of units
+
+                    lengthtype1 = len(typesOfunits)
+                    for i in range(lengthtype1): # loop through list and take the following from Structure
+                        for key, val in typesOfunits[i].items():
+                            if key == 'unitCode':
+                                unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
+                                unitCodeList.append(val)
+                            if key == 'unitTitle':
+                                units.append(unitCode + " " + val + "***")
+
+                    units.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
+                            # if key == 'unitPoints':
+                            #     units1.append(val)
+                            # if key == 'unitURL':
+                            #     units1.append(val)
+                    
         except:
             units.append("No units")
 

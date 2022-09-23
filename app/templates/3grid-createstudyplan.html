@@ -81,7 +81,7 @@
           <div id="course-information">
             <!-- Pulled from prior selection pages -->
             <p id="course-title">{{ selectedCourse }}</p> 
-            <p id="course-major">Major: {{ selectedMajor }}</p>
+            <p id="course-major">{{ selectedMajor }}</p>
             <p id="administration">Faculty: {{ faculty }}</p>
             <p id="course-code">Course code: {{ coursecode }}</p> 
           </div>
@@ -153,6 +153,7 @@
       
       <a onClick="CreatePDFfromHTML()" class ="button_general" id="selectmajorbutton">Download<span class="arrow"><i class="fa-sharp fa-solid fa-angles-down" id="buttonarrow"></i></span></a>
     
+      <br><br>
     </div>
 
   </div>
@@ -179,7 +180,7 @@
 
 <script>
 // Remove major information from frontend if doesn't contain anything valuable
-if (document.getElementById("course-major").innerHTML == "Major: No major or specialisation available"){
+if (document.getElementById("course-major").innerHTML == "No major or specialisation available"){
   document.getElementById("course-major").style.display = "none";
 }
 
