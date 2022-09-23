@@ -26,7 +26,11 @@ The Study Planner project uses Flask as the backend framework and FlaskSQLAlchem
 ___
 
 ## How to run the project
-First you will want to cd to the project directory in which you want to host the Study Planner project and then clone the project files from GitHub: `git clone https://github.com/QianrXU/Study-Planner.git`
+First you will want to cd to the project directory in which you want to host the Study Planner project and then clone the project files from GitHub: `git clone https://github.com/QianrXU/Study-Planner.git`. Make sure you have installed python-tk in your computer before running the project. 
+- For Ubuntu or other distros with Apt:
+`sudo apt-get install python3-tk`
+- For Mac:
+`brew install python-tk`
 
 Follow the steps below to run the project on differetn operating systems:
 
