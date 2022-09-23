@@ -1,3 +1,4 @@
+from signal import valid_signals
 from app import app
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user, login_required
@@ -223,11 +224,13 @@ def createstudyplanSelectCourse():
             degrees=degrees, 
             title="Create study plan")
 
+
 def getMasterDegrees(data, selectedCourse):
     global masterCourses
     global m_specialisations_list
     global core
     global spec
+    global m_levelNames_list
 
     # get fields we're interested in
     masterCourses = data[["Year", "CourseID", "Title", "ListMajors2", "Faculty", "Structure", "Availability", "IntakePeriods", "StandardFullTimeCompletion"]] # only interested in these variables
@@ -237,14 +240,9 @@ def getMasterDegrees(data, selectedCourse):
     # Below starts the processing of the structure column.
     # this holds important information about specialisations, 
     # unit groups and units
-    
-    #pd.set_option("display.max_colwidth", 99999) # need to set to a very high value otherwise this pandas method truncates the string velow
-    #structureProcessing = structure.to_string(index = False) # unpack outer list layer so its valid json for getting thrown into the json loads method below
     structureProcessing = [str(x) for x in structure][0]
     structureProcessing = structureProcessing[1:-1]
     structureProcessing = json.loads(structureProcessing) # convert into json/list
-
-    #print(structureProcessing)
 
     # 'introduction', 'levelsspecials'; bottom layer of structure
     m_items = structureProcessing.items() # keys on this dict will provide bottom layer of information: ['introduction', 'levelsSpecials']
@@ -254,16 +252,11 @@ def getMasterDegrees(data, selectedCourse):
         if k == "introduction": 
             m_info.append(v) # if selected unit group has an introduction, save it to m_info variable
         if k == "levelsSpecials":
-            #print(v['levelName'])
             m_levelsSpecials.append(v)
-            #print(v)
-        #print(v)
-
-    print("###################")
-
 
     # levelnames, i.e., unit groups
     m_levelNames = [] # levelnames = unit group names - ALL, with unit data after append
+    m_levelNames_list = []
     m_levelNamesCore = [] # levelnames = unit group names - ONLY core/conversion, with unit data after append
     m_specialisations = [] # levelnames = unit group names - ONLY specialisations, with unit data after append
     m_specialisations_list = [] # levelnames = unit group names - ONLY specialisation names
@@ -275,7 +268,7 @@ def getMasterDegrees(data, selectedCourse):
             if k == "levelName":
                 #m_levelNames
                 m_levelNames.append(v) # v = 'conversion', 'core' etc., but also all specialisations, e.g., 'biomedical engineering specialisation'
-                
+                m_levelNames_list.append(v)
                 # m_specialisations
                 substring = "specialisation"
                 if substring in v:
@@ -296,18 +289,21 @@ def getMasterDegrees(data, selectedCourse):
             #     m_typeName.append(v)
             #     #print(v)
 
-
-    core = [] # this list will hold the core/conversion units for a degree with a major/specialisation
+    #core = [] # this list will hold the core/conversion units for a degree with a major/specialisation
+    core = {}
     for i in range(0, len(m_levelNamesCore), 2):
         x = str([m_levelNamesCore[i]])
         y = str([m_levelNamesCore[i+1]])
-        core.append(x + "***" + y) # need to add *** for something to split by
+        core[x] = y
+        #core.append(x + "***" + y) # need to add *** for something to split by
 
-    spec = [] # this list will hold the units for all unit groups under a major/specialisation
+    #spec = [] # this list will hold the units for all unit groups under a major/specialisation
+    spec = {}
     for i in range(0, len(m_specialisations), 2):
         x = str([m_specialisations[i]])
         y = str([m_specialisations[i+1]])
-        spec.append(x + "***" + y) # something to split by
+        spec[x] = y
+        #spec.append(x + "***" + y) # something to split by
 
     # will work for all degrees without nested units within units, e.g., Chemical Engineering specialisation may have 'Core', 'Option - Group A' etc 
     # typeNames
@@ -333,48 +329,12 @@ def getMasterDegrees(data, selectedCourse):
                 if k == "unitURL":
                     units.append(v)
 
-                #units.append(v)
-                #print(v)
-            
-    # x=spec[0].split('***')
-    # print(x[0])
-
-    #print(m_specialisations)
-
-
-    print("######  COMPLETE #######")
-
     print(len(core))
     print(len(spec))
     
-    return masterCourses, m_specialisations_list, core, spec
+    print("###### COMPLETE #######")
 
-
-
-
-""" 
-
-# process units based on course selection
-unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
-unitValues = [str(x) for x in unitValues][0] # convert to string
-unitValues = unitValues[1:-1]
-unitValues = json.loads(unitValues) # json file
-
-#courseInfo = unitValues['introduction'] #retrieve information from introduction (sometimes does not exists, may need to deal with somehow?)
-
-levelsSpecials = unitValues['levelsSpecials'] #retrieve levelsSpecials and place it in List
-lengthLS = len(levelsSpecials)
-typeNames = [] # extract all typesnames from 'Structure'
-for i in range(lengthLS): # loop through list
-    for key, val in levelsSpecials[i].items():
-        if key == 'unitTypes':
-            typeNames.append(val) 
-            
-"""
-
-
-
-
+    return masterCourses, m_specialisations_list, core, spec, m_levelNames_list
 
 # STUDY PLANNER - SELECT MAJOR
 @app.route('/createstudyplan-majors', methods=['GET', 'POST'])
@@ -412,8 +372,8 @@ def createstudyplanSelectMajor():
 
         # redirect for degrees with no majors/specialisations
         lengthOfMajorsList = len(majors) # the length of the majors list will be 1 for all degrees that do not contain majors. we'll want to redirect users to the third step if there is no majors
-        # if lengthOfMajorsList == 1:
-        #     return redirect(url_for('createstudyplanSelectUnits'), code=302)
+        if lengthOfMajorsList == 1:
+            return redirect(url_for('createstudyplanSelectUnits'), code=302)
 
         return render_template('2major-createstudyplan.html',
             masterCourses=masterCourses,
@@ -473,7 +433,10 @@ def createstudyplanSelectUnits():
                 for i in range(lengthoftypes): # loop through list
                     for key, val in types[i].items():
                         if key == 'typeName': # e.g., conversion, core, option, etc.
-                            units.append(val)
+                            if len(spec) != 0: # if the length of the spec variable is more than 0, there will be specialisations in this course
+                                units.append(m_levelNames_list[y])
+                            else: 
+                                units.append(val)
                             units.append("***") #something random to split by on the frontend
                         if key == 'typeInto': # if there is any typeInto field, include this
                             units.append(val)
