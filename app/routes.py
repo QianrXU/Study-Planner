@@ -218,7 +218,6 @@ def createstudyplanSelectCourse():
 
     return render_template('1course-createstudyplan.html',
             #faculty=SP_dict['faculty'],
-
             faculty=faculty,
             degrees_withID=degrees_withID,
             degrees=degrees, 
@@ -227,6 +226,7 @@ def createstudyplanSelectCourse():
 def getMasterDegrees(data, selectedCourse):
     global masterCourses
     global masterprocess # don't forget to remove redundant global vars !!
+    global m_specialisations_list
 
     # get fields we're interested in
     masterCourses = data[["Year", "CourseID", "Title", "ListMajors2", "Faculty", "Structure", "Availability", "IntakePeriods", "StandardFullTimeCompletion"]] # only interested in these variables
@@ -250,27 +250,55 @@ def getMasterDegrees(data, selectedCourse):
     m_items = structureProcessing.items() # keys on this dict will provide bottom layer of information: ['introduction', 'levelsSpecials']
     m_info = [] #'introduction'
     m_levelsSpecials = [] #'levelsSpecials'
-    for k, v in m_items:
+    for k, v in m_items: #
         if k == "introduction": 
             m_info.append(v) # if selected unit group has an introduction, save it to m_info variable
         if k == "levelsSpecials":
+            #print(v['levelName'])
             m_levelsSpecials.append(v)
-            #print(m_levelsSpecials)
+            #print(v)
+        #print(v)
 
     print("###################")
 
 
     # levelnames, i.e., unit groups
-    m_levelNames = [] # levelnames = unit group names
-    m_typeName = []
-    [unitgroup] = m_levelsSpecials # delist m_levelsSpecials (i.e., reduce by one list level). 
-    for i in range(len(unitgroup)): # count the amount of unitgroups that exist and pull out each one
+    m_levelNames = [] # levelnames = unit group names - ALL, with unit data after append
+    m_levelNamesCore = [] # levelnames = unit group names - ONLY core/conversion, with unit data after append
+    m_specialisations = [] # levelnames = unit group names - ONLY specialisations, with unit data after append
+    m_specialisations_list = [] # levelnames = unit group names - ONLY specialisation names
+    m_typeName = [] # POTENTIALLY UNECCESSARY NOW??? 
+    [unitgroup] = m_levelsSpecials # delist m_levelsSpecials (i.e., reduce by one list level), otherwhise the list length (used in range below) will not be correct. 
+    #print(unitgroup)
+    for i in range(len(unitgroup)): # count the amount of unitgroups that exist and process each one
         for k, v in unitgroup[i].items(): # keys are: ['levelName', 'typeInto', 'unitTypes']
             if k == "levelName":
-                m_levelNames.append(v) # v = 'conversion', 'core'm etc., but also all specialisations, e.g., 'biomedical engineering specialisation'
+                #m_levelNames
+                m_levelNames.append(v) # v = 'conversion', 'core' etc., but also all specialisations, e.g., 'biomedical engineering specialisation'
+                
+                # m_specialisations
+                substring = "specialisation"
+                if substring in v:
+                    m_specialisations_list.append(v) # to be used in major/specialisation selection
+                    m_specialisations.append(v) # append all specialisations in levelNames to m_specialisations
+                    for k, v in unitgroup[i].items():
+                         if k == "unitTypes":
+                            m_specialisations.append(v)
+
+                #m_levelNamesCore
+                else:
+                    m_levelNamesCore.append(v) # append all other levelNames to m_levelNamesCore
+                    for k, v in unitgroup[i].items():
+                         if k == "unitTypes":
+                            m_levelNamesCore.append(v)
             # process units under each unit group
-            if k == "unitTypes":
-                m_typeName.append(v)
+            # if k == "unitTypes":
+            #     m_typeName.append(v)
+            #     #print(v)
+
+    #print(m_levelNamesCore)
+    print(m_specialisations_list)
+    #print(m_typeName)
 
     # will work for all degrees without nested units within units, e.g., Chemical Engineering specialisation may have 'Core', 'Option - Group A' etc 
     # typeNames
@@ -299,21 +327,20 @@ def getMasterDegrees(data, selectedCourse):
                 #units.append(v)
                 #print(v)
             
-    print(units)
+    #print(units)
 
 
-
+    #print(m_specialisations)
 
 
     print("######  COMPLETE #######")
 
     print(len(m_levelNames))
-    print(len(m_typeName))
-
+    print(len(m_levelNamesCore))
+    print(len(m_specialisations))
     #print(m_levelNames)
     
-
-    return masterCourses, masterprocess
+    return masterCourses, m_specialisations_list
 
 
 
@@ -351,6 +378,8 @@ def createstudyplanSelectMajor():
         global selectedCourse
         global SP_dict
 
+        m_specialisations_list
+
         # process ListMajors column
         majors = getMajorValues['ListMajors'].dropna().values.tolist() # create dataframe of ListMajors column
         #majors2 = getMajorValues['ListMajors2'].dropna().values.tolist() # create dataframe of ListMajors2 column - SOMETIMES MAJORS ARE LISTED IN THIS COLUMN, WE'LL NEED TO RUN SOME CHECKS TO SEE WHICH ONE IS ACCURATE FOR SELECTED COURSE
@@ -362,6 +391,8 @@ def createstudyplanSelectMajor():
         majors = re.split(newpattern, majors)
         majors = ' '.join(str(e) for e in majors)
         majors = majors.split(" r>")
+        for specialisation in range(len(m_specialisations_list)):
+            majors.append(m_specialisations_list[specialisation])
         # would be nice to remove the unitcode before the major title, if we do this we would have to
         # make changes to majorCode below though as that splits the majors text (I believe) /C
 
@@ -460,6 +491,8 @@ def createstudyplanSelectUnits():
                         #     units1.append(val)
         except:
             units.append("No units")
+
+        print(units)
 
         #import and read unit list into unitscsv variable
         unitInfoCsv = os.path.join(app.static_folder, 'Unit list.csv')
