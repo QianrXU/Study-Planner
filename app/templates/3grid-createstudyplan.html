@@ -109,7 +109,6 @@
               <div class="target" id="year1sem2_2" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y1S2_2'] }}</div>
               <div class="target" id="year1sem2_3" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y1S2_3'] }}</div>
               <div class="target" id="year1sem2_4" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y1S2_4'] }}</div>
-              
               <div class="target" id="year1sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;">{{ SP_dict['Y1S2_5'] }}</div>  <!-- if overloading, unhide -->
           </div>
 
@@ -119,7 +118,6 @@
               <div class="target" id="year2sem1_2" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y2S1_2'] }}</div>
               <div class="target" id="year2sem1_3" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y2S1_3'] }}</div>
               <div class="target" id="year2sem1_4" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y2S1_4'] }}</div>
-              
               <div class="target" id="year2sem1_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;">{{ SP_dict['Y2S1_5'] }}</div>  <!-- if overloading, unhide -->
             </div>
 
@@ -129,17 +127,16 @@
               <div class="target" id="year2sem2_2" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y2S2_2'] }}</div>
               <div class="target" id="year2sem2_3" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y2S2_3'] }}</div>
               <div class="target" id="year2sem2_4" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y2S2_4'] }}</div>
-              
               <div class="target" id="year2sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;" >{{ SP_dict['Y2S2_5'] }}</div>  <!-- if overloading, unhide -->
-       </button>
             </div>
+
 
           </div>
       </div>
       
-      <a onClick="CreatePDFfromHTML()" class ="button_general" id="selectmajorbutton">Download<span class="arrow"><i class="fa-sharp fa-solid fa-angles-down" id="buttonarrow"></i></span></a>
-    
-      <br><br>
+      <a onClick="CreatePDFfromHTML()" class="button_general" id="selectmajorbutton">Download<span class="arrow"><i class="fa-sharp fa-solid fa-angles-down"></i></span></a>
+      <a id="reset" style="float:right;" class="button_general">Reset<span class="close"><i class="fa-solid fa-circle-xmark"></i></span></a>
+      
     </div>
 
   </div>
@@ -271,6 +268,59 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
   });
 
+  //Pop-up reminder function starts
+
+  //Add a pop-up reminder for the dragged course, showing the prerequisites of the course
+  var unitprerequist = document.getElementById("unitalert").innerHTML;
+
+  //var unitprerequist = "\'" + unitprerequist + "\'";
+  unitprerequist = JSON.parse(unitprerequist);
+
+  // This function needs to start after the page is loaded
+  const unitDiv = document.querySelectorAll('.target');
+  const dragg = document.querySelectorAll('.unit-ul li');
+  let target = null
+
+  dragg.forEach(item=> {
+      item.addEventListener('dragstart', (event) => {
+          target = event.target;
+          //console.log(target)
+      })
+  })
+
+  // for each action on the unit divs/target divs
+  unitDiv.forEach(item => {
+      // the below adds an event listener for dragover events on target divs - if a 
+      // target div already holds an element, the below will prevent a user from populating it with a second unit
+      item.addEventListener('dragover', (event) => {
+        var t = event.target;
+        while (t !== null && !t.classList.contains("target")) {
+          t = t.parentNode;
+        }
+        if (t && t.childNodes.length > 0) { // Return false if user tries to place more than 1 unit per unit div
+          return false;
+        }
+        event.preventDefault();
+      })
+
+      //add the drop event listener
+      item.addEventListener('drop',(event) => {
+        //Display prerequisites in the floating box
+        const warningtext = document.getElementById('warning'); 
+        warningtext.style.display = 'block'; 
+        var warinfo = document.getElementById("requistinfo");
+        warinfo.innerHTML="";
+          for (var key in unitprerequist){
+            if (target.innerHTML.includes(key)){
+              //window.alert(unitprerequist[key]);
+              var txt =document.createTextNode(key + " unit prerequisite: "+unitprerequist[key]);
+              warinfo.appendChild(txt);
+            }
+          } 
+        })
+    }) 
+  //Pop-up reminder function ends
+
 });
 
 
@@ -289,8 +339,7 @@ function closeModal(){
 
 }
 
-
-// /* Event listener - listens for changes to units content div */
+// // /* Event listener - listens for changes to units content div */
 // detect_units_changing = document.getElementById("conversionUL");
 // observer = new MutationObserver(function(mutationsList, observer) {detectedChange();});
 // observer.observe(detect_units_changing, {characterData: false, childList: true, attributes: false});
@@ -301,8 +350,6 @@ function closeModal(){
 //   detected_course = document.getElementById("course-title").innerHTML;
 //   console.log(detected_course);
 // }
-
-
 
 // Click event - Add modal on click?
 document.addEventListener('click',function(e){
@@ -321,26 +368,15 @@ document.addEventListener('click',function(e){
 
 // Grid system
 // Dragstart - save initial position somehow?
-document.addEventListener('dragstart',function(e){
-    if(e.target && e.target.classList == 'element'){
-      console.log("dragging")
-      id = event.target.id;
-     }
-     
- });
+// document.addEventListener('dragstart',function(e){
+//     if(e.target && e.target.classList == 'element'){
+//       console.log("dragging")
+//       id = event.target.id;
+//      }
+//  });
  
 let offset = [0, 0]
 
-function allowDrop(ev) {
-  var t = ev.target;
-  while (t !== null && !t.classList.contains("target")) {
-    t = t.parentNode;
-  }
-  if (t && t.childNodes.length > 0) { // Return false if user tries to place more than 1 unit per unit div
-    return false;
-  }
-  ev.preventDefault()
-}
 
 function drag(ev) {
   ev.dataTransfer.setData('dragID', ev.target.id)
@@ -356,30 +392,9 @@ function drop(ev) {
   ev.target.appendChild(document.getElementById(data));
 }
 
-// Removing units from grid
-
-// Click event - removes unit upon click. Have to change this to something else
-// e.g., at drop on bin icon, element is removed
-// alternative 1. if event id is removed, append clone to initial list?
-// document.addEventListener('click',function(e){
-//   if(e.target && e.target.classList == 'element'){
-//     event.target.parentNode.removeChild(event.target);
-//    }
-//  });
-
-// Resets all dragover activities - needed for trash to work, however, disables the constraint on only one unit per div. Find other way of dealing with trash? /C
-// document.addEventListener("dragover", function(event) {
-//   event.preventDefault();
-// });
-
-removedUnits = []
-function removeUnit(ev){
-  const data = ev.dataTransfer.getData('dragID');
-  removedUnits.push(document.getElementById(data)); // Removed unit data saved to removedUnits
-  document.getElementById(data).style.display = "none"; // Change style of element to none upon removal
-  console.log(removedUnits)
-}
-
+// reset button
+const reset = document.getElementById("reset");
+reset.addEventListener("click", () => window.location.reload());
 
 // function for downloading a pdf (whole page)
 // code based on the second answer from this page: https://stackoverflow.com/questions/17293135/download-a-div-in-a-html-page-as-pdf-using-javascript
@@ -467,47 +482,6 @@ function addSem22OverLoad(button) {
       x.style.display = "none"
     }
 }
-
-//Add a pop-up reminder for the dragged course, showing the prerequisites of the course
-var unitprerequist = document.getElementById("unitalert").innerHTML;
-//var unitprerequist = "\'" + unitprerequist + "\'";
-unitprerequist =JSON.parse(unitprerequist);
-//This function needs to start after the page is loaded
-window.onload = (event) => {
-const verify = document.querySelectorAll('.target');
-const dragg = document.querySelectorAll('.unit-ul li');
-let target = null
-
-dragg.forEach(item=> {
-    item.addEventListener('dragstart', (event) => {
-        target = event.target;
-        console.log(target)
-    })
-})
-
-verify.forEach(item => {
-    item.addEventListener('dragover', (event) => {
-    event.preventDefault();
-    })
-
-    //add the drop event listener
-    item.addEventListener('drop',(event) => {
-    //Display prerequisites in the floating box
-    const warningtext = document.getElementById('warning'); 
-    warningtext.style.display = 'block'; 
-    var warinfo = document.getElementById("requistinfo");
-    warinfo.innerHTML="";
-      for (var key in unitprerequist){
-        if (target.innerHTML.includes(key)){
-          //window.alert(unitprerequist[key]);
-          var txt =document.createTextNode(key + " unit prerequisite: "+unitprerequist[key]);
-          warinfo.appendChild(txt);
-        }
-      } 
-    })
-  }) 
-}
-//Pop-up reminder function ends
 
 </script>
 
