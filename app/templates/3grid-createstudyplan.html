@@ -272,14 +272,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 });
 
 
-// Click event - Add modal on click?
-document.addEventListener('click',function(e){
-    if(e.target && e.target.classList == 'element'){
-      id = event.target.id;
-      alert("You've clicked on " + id); 
-     }
- });
-
 // Functions to show and close the general-info modal - Done by Valerie
 //Modal - open general-info modal
 function openModal(){
@@ -308,6 +300,24 @@ function closeModal(){
 //   console.log(detected_course);
 // }
 
+
+
+// Click event - Add modal on click?
+document.addEventListener('click',function(e){
+    if(e.target && 
+        e.target.classList == 'element' | 
+        e.target.classList == 'sem1' | 
+        e.target.classList == 'sem2' |
+        e.target.classList == 'sem1and2' |
+        e.target.classList == 'not_available' |
+        e.target.classList == 'non_standard'        
+        ){
+      id = event.target.id;
+      alert("You've clicked on " + id); 
+     }
+ });
+
+// Grid system
 // Dragstart - save initial position somehow?
 document.addEventListener('dragstart',function(e){
     if(e.target && e.target.classList == 'element'){
@@ -316,9 +326,7 @@ document.addEventListener('dragstart',function(e){
      }
      
  });
-
-// Grid system
-
+ 
 let offset = [0, 0]
 
 function allowDrop(ev) {
