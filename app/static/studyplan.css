@@ -150,38 +150,102 @@
 }
 
 /* Colors need to be determined by availability. Will need to set one of these up for each unit header. */
-.sem1::marker {
-  content: '🟡 ';
-  /* content: url('../../media/examples/fire.png'); */
+#units-content li {
+  list-style-type: none;
+  position: relative;
 }
 
-.sem2::marker {
-  content: '🟢 ';
+.sem1::before {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 3px;
+  left: -20px;
+  background-image: url('pictures/bullets/lightorange.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
 }
 
-.sem1and2::marker {
-  content: '🟠 ';
+
+.sem2::before {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 3px;
+  left: -20px;
+  background-image: url('pictures/bullets/green.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
+}
+	
+.sem1and2::before {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 3px;
+  left: -20px;
+  background-image: url('pictures/bullets/pink.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
 }
 
-.not_available::marker {
-  content: '🔵 ';
+.not_available::before {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 3px;
+  left: -20px;
+  background-image: url('pictures/bullets/lightblue.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
 }
 
-.non_standard::marker {
-  content: '⭕ ';
+.non_standard::before {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 3px;
+  left: -20px;
+  background-image: url('pictures/bullets/darkorange.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
 }
 
-.element::marker {
-  content: '⚫ ';
+/* No information - if unit doesn't exist in unit list.csv file this will show */
+.element::before {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 3px;
+  left: -20px;
+  background-image: url('pictures/bullets/black.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
 }
 
 .no_marker::marker {
   content: "";
 }
 
+/* If element has no_marker class there will only be text in the element list.
+This needs to not have indent. */
 .no_marker {
-  margin-left: -32px !important;
+  margin-left: -22px !important;
 }
+
+
 
 /* Change cursor and allow for text highlighting/copying */
 li {
@@ -198,6 +262,15 @@ li {
   -moz-user-select: text;
   -webkit-user-select: text;
   user-select: text;
+}
+
+#units-bottom img {
+  margin-right: 5px;
+  margin-bottom: 2px;
+}
+
+#units-bottom p {
+  margin-bottom: 5px;
 }
 
 
@@ -220,6 +293,7 @@ li {
 #units-content ul {
   font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   font-size: 14px;
+  padding-left: 22px;
 }
 
 #units-bottom {

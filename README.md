@@ -284,11 +284,11 @@ This page consists of two windows. One where the user finds all unit groups and 
 
 On the left hand pane under the 'Select units' heading, the selected course or major/specialisation's unit group(s) (e.g., Core, Option, Conversion, etc.) and their associated units will appear. Each unit group has an information tooltip to the right of its header which, upon hover, describes the unit group based on information deducted from the *typeInto* field contained within the *Structure* attribute in *Json-export.csv*.
 
-Each unit has a color. This color explains when it is available to study (pulls from the *Availabilities* attribute contained in *Unit list.csv*). At the bottom of the left hand pane, each key is described to the user (Semester 1 only, Semester 2 only, etc.).
+Each unit has a color. This color explains when it is available to study (pulls from the *Availabilities* attribute contained in *Unit list.csv*). At the bottom of the left hand pane, each key is described to the user (Semester 1 only, Semester 2 only, etc.). The color palette that is used, 'Wong', has been developed with the intention of being accessible to people who are colorblind (source: https://bit.ly/3r4aukN).
 
 Upon click of a unit, the user currently gets an alert that says what unit they have clicked on. In Sprint 3, we wish to see how we can incorporate the *Content* and *Outcomes* attributes here. This would allow the user to read about individual units.
 
-Drag a unit onto the grid, a floater with prerequisites for the course appears at the bottom of the page. Remind the user of the prerequisites that need to be followed when selecting this unit.
+Drag a unit onto the grid, a floater with prerequisites for the course appears at the bottom of the page. This is to remind the user of the prerequisites that need to be fulfilled when selecting a unit.
 |![Prerequisites](./readmeImages/prerequisites.png)|
 |:--:|
 | <b> Figure 6</b>|
