@@ -218,6 +218,11 @@ def createstudyplanSelectCourse():
     global selectedMajor
     global df
     global coursecode
+    global SP_dict
+
+    #Clear any saved study plan data
+    for item in SP_dict.keys():
+        SP_dict[item]=''
 
     # Save csv file into dataframe
     targetcsv = os.path.join(app.static_folder, 'Json-export.csv')
