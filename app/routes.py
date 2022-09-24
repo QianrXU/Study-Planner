@@ -41,10 +41,7 @@ SP_dict['Y2S2_2']=""
 SP_dict['Y2S2_3']=""
 SP_dict['Y2S2_4']=""
 SP_dict['Y2S2_5']=""
-SP_dict['selectedCourse']=""
-SP_dict['selectedMajor']=""
-SP_dict['faculty']=""
-SP_dict['coursecode']=""
+
 
 # Index page
 @app.route('/')
@@ -99,14 +96,19 @@ def logout():
 def account():
     #Adapted code from https://python-adv-web-apps.readthedocs.io/en/latest/flask_db2.html
     
-    #declare global variable
+    #declare global variables (must be same as global variables for createstudyplanSelectUnits())
+    global selectedCourse 
+    global selectedMajor
+    global faculty
+    global coursecode
+    global getUnitValues
     global SP_dict
 
     #Get user account
     user=current_user.id
     #check if user has saved study plans. Saves query to variable name.
     saved_study_plans=Four_Sem_SP.query.filter_by(user_id=user).order_by(Four_Sem_SP.date_updated).all()
-    #initialize results and study plan array.
+    #initialize number of results gotten from query and study plan array. 
     results=0
     SP_array = []
     
@@ -129,20 +131,65 @@ def account():
 
             return ('', 204) # indicates post response has been done successfully
 
-
-        #If redir is true, then load study plan into 3grid-createstudyplan.html'
+        #If redir is true, then load study plan information
         else:
-            #Get all study plan values
-            study_plan=Four_Sem_SP.query.filter_by(study_plan_id=SP_id)
+            #Get study plan values
+            study_plan=Four_Sem_SP.query.filter_by(study_plan_id=SP_id).one()
+            
+            SP_dict['Y1S1_1']=study_plan.Y1S1_1
+            SP_dict['Y1S1_2']=study_plan.Y1S1_2
+            SP_dict['Y1S1_3']=study_plan.Y1S1_3
+            SP_dict['Y1S1_4']=study_plan.Y1S1_4
+            SP_dict['Y1S1_5']=study_plan.Y1S1_5
 
-            #Loop through SP_dict dictionary and use the key value to access the 
-            #correlating value in the study_plan query.
-            for value in SP_dict:
-                data=study_plan.value
-                #If statement to avoid null pointer exceptions.
-                if data is not None:    
-                    SP_dict[value]=data 
+            SP_dict['Y1S2_1']=study_plan.Y1S2_1
+            SP_dict['Y1S2_2']=study_plan.Y1S2_2
+            SP_dict['Y1S2_3']=study_plan.Y1S2_3
+            SP_dict['Y1S2_4']=study_plan.Y1S2_4
+            SP_dict['Y1S2_5']=study_plan.Y1S2_5
 
+            SP_dict['Y2S1_1']=study_plan.Y2S1_1
+            SP_dict['Y2S1_2']=study_plan.Y2S1_2
+            SP_dict['Y2S1_3']=study_plan.Y2S1_3
+            SP_dict['Y2S1_4']=study_plan.Y2S1_4
+            SP_dict['Y2S1_5']=study_plan.Y2S1_5
+
+            SP_dict['Y2S2_1']=study_plan.Y2S2_1
+            SP_dict['Y2S2_2']=study_plan.Y2S2_2
+            SP_dict['Y2S2_3']=study_plan.Y2S2_3
+            SP_dict['Y2S2_4']=study_plan.Y2S2_4
+            SP_dict['Y2S2_5']=study_plan.Y2S2_5 
+
+            #Assign values from study plan to global variables.
+            selectedCourse=study_plan.selectedCourse
+            selectedMajor=study_plan.selectedMajor
+            faculty=study_plan.faculty
+            coursecode=study_plan.coursecode
+
+            if len(selectedMajor)<1:
+                selectedMajor="No major or specialisation available"
+            
+            #create df
+            targetcsv = os.path.join(app.static_folder, 'Json-export.csv')
+            df = pd.read_csv(targetcsv, sep=",")
+            # Process data
+            selectedYear = 2022 # Filters courses by year determined on the left. Change value to other year if wanted/needed.
+            df = df[df.Year.eq(selectedYear)]
+            df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
+            df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
+
+            getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
+
+            #create df
+            targetcsv = os.path.join(app.static_folder, 'Json-export.csv')
+            df = pd.read_csv(targetcsv, sep=",")
+            # Process data
+            selectedYear = 2022 # Filters courses by year determined on the left. Change value to other year if wanted/needed.
+            df = df[df.Year.eq(selectedYear)]
+            df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
+            df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
+
+            getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
             return ('', 204) # indicates post response has been done successfully
 
     #If not post method and when saved_study_plans returns at least 1 row.
@@ -170,7 +217,6 @@ def createstudyplanSelectCourse():
     global getUnitValues
     global selectedMajor
     global df
-    global SP_dict
     global coursecode
 
     # Save csv file into dataframe
@@ -205,21 +251,19 @@ def createstudyplanSelectCourse():
         try:
             selectedCourse = request.form.get('name') # saves selected course into variable
             getMasterDegrees(df, selectedCourse) # send selected course and dataframe to function
-            SP_dict['selectedCourse'] = selectedCourse
             for key, value in degrees_withID.items(): # iterates through values to find course code
                 if selectedCourse == key:
                     coursecode=value
-                    SP_dict['coursecode'] = value
             for key, value in degrees_withFaculty.items(): # iterates through values to find course code
                 if selectedCourse == key:
                     faculty=value
-                    SP_dict['faculty'] = value
             getMajorValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Major 
             getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
+
         except:
             return render_template('404.html'), 404
         return ('', 204) # indicates post response has been done successfully
-
+    
     return render_template('1course-createstudyplan.html',
             #faculty=SP_dict['faculty'],
             faculty=faculty,
@@ -311,7 +355,6 @@ def createstudyplanSelectMajor():
         global selectedMajor
         global getMajorValues
         global selectedCourse
-        global SP_dict
 
         # process ListMajors column (i.e., potential majors) and potential specialisations if master is selected where specialisation is an option
         majors = getMajorValues['ListMajors'].dropna().values.tolist() # create dataframe of ListMajors column
@@ -333,7 +376,6 @@ def createstudyplanSelectMajor():
         if request.method == 'POST':
             try:
                 selectedMajor = request.form.get('name') # saves selected major into variable
-                SP_dict['selectedMajor'] = request.form.get('name') # saves selected major into variable
             except:
                 return render_template('404.html'), 404
             return ('', 204) # indicates post response has been done successfully
@@ -375,7 +417,6 @@ def createstudyplanSelectUnits():
             majorCode = selectedMajor.split() # need to split as unitCode in index first and then major title
             majorCode = majorCode[0]
             coursecode = majorCode
-            SP_dict['courseCode'] = majorCode
             getUnitValues = df[df.CourseID.eq(majorCode)] # change to selectedMajor
             #coursecode = majorCode
         
@@ -462,9 +503,9 @@ def createstudyplanSelectUnits():
             selectedCourse=selectedCourse, 
             selectedMajor=selectedMajor,
             faculty=faculty,
-            #coursecode= SP_dict['courseCode'],
             coursecode=coursecode,
             prerequists = prerequists,
+            SP_dict=SP_dict,
             title="Create study plan")
     except:
         return render_template('404.html'), 404

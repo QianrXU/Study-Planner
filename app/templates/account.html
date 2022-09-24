@@ -14,7 +14,8 @@
             {% else %}
                 <p style="font-family: TTNorms; font-weight: bold;"> Saved study plans: </p>
                 {% for SP in SP_array %}
-                    <button id="{{ SP[0] }}a" onClick="open_SP(this.id)" style="border: none; text-decoration: underline;" > <a style="color: black;" href="{{ url_for('createstudyplanSelectUnits') }}">{{ SP[1] }}</a></button> 
+                    <button id="{{ SP[0] }}a" onClick="open_SP(this.id)" style="border: none; text-decoration: underline;" > {{ SP[1] }}</button> 
+                    <div style="display:none" id="{{ SP[0] }}b"><a href="{{ url_for('createstudyplanSelectUnits') }}"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></a></div>
                     <button id="{{ SP[0] }}" onClick="delete_SP(this.id)" style="border: none;"><a style="color: black;" href="{{ url_for('account') }}"><i class="fas fa-trash"></i></a> </button>
                     <br>
                 {% endfor %}
@@ -28,7 +29,9 @@
 
 
 <script>
-    /* Function to delete study plan. */
+let lastSelected = '';
+
+/* Function to delete study plan. */
 function send_data(redir, SP_id){
   // sets up variable to track function success
   var response=''
@@ -49,10 +52,26 @@ function delete_SP(SP_id){
     send_data(redir, SP_id)
 }
 
+function show(id){
+    var SP_button = document.getElementById(id)
+    SP_button.style.display = 'inline-block';
+}
+_
+function hide(id){
+    var SP_button = document.getElementById(id);
+    SP_button.style.display = 'none';
+}
+
 function open_SP(SP_id){
-    var redir="True";
-    var SP=String(SP_id).slice(0, -1);
+    var redir="True"
+    var SP=String(SP_id).slice(0, -1)
+    var SP_button=SP + 'b'
     send_data(redir, SP)
+    show(SP_button)
+
+    if (lastSelected.length > 0) { hide(lastSelected);}       
+    lastSelected = SP_button;
+    
 }
 
 
