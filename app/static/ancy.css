@@ -69,6 +69,11 @@
   margin-left: 5px;
 }
 
+.close {
+  font-size: 0.8em;
+  margin-left: 5px;
+}
+
 #selectmajorbutton {
   padding: 14px 22px 15px 22px;
   margin-left: 30px;
@@ -79,6 +84,12 @@
   margin-top: 10px;
   margin-left: 0px;
   margin-bottom: 0px;
+}
+
+#reset {
+  padding: 14px 22px 15px 22px;
+  margin-right: 40px;
+  margin-bottom: 50px;
 }
 
 #loginsignupbutton {
