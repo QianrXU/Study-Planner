@@ -190,6 +190,9 @@ def account():
             df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
 
             getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
+
+            getMasterDegrees(df, selectedCourse) # assigns spec and core values
+
             return ('', 204) # indicates post response has been done successfully
 
     #If not post method and when saved_study_plans returns at least 1 row.
@@ -270,7 +273,6 @@ def createstudyplanSelectCourse():
         return ('', 204) # indicates post response has been done successfully
     
     return render_template('1course-createstudyplan.html',
-            #faculty=SP_dict['faculty'],
             faculty=faculty,
             degrees_withID=degrees_withID,
             degrees=degrees, 
@@ -514,6 +516,7 @@ def createstudyplanSelectUnits():
             title="Create study plan")
     except:
         return render_template('404.html'), 404
+
 
 
 # FAQ Page 
