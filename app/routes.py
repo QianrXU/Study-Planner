@@ -222,6 +222,7 @@ def createstudyplanSelectCourse():
     global df
     global coursecode
     global SP_dict
+    global selectedStart
 
     #Clear any saved study plan data
     for item in SP_dict.keys():
@@ -258,6 +259,8 @@ def createstudyplanSelectCourse():
     if request.method == 'POST':
         try:
             selectedCourse = request.form.get('name') # saves selected course into variable
+            selectedStart = request.form.get('selectedStart') # saves selected course into variable
+            
             getMasterDegrees(df, selectedCourse) # send selected course and dataframe to function
             for key, value in degrees_withID.items(): # iterates through values to find course code
                 if selectedCourse == key:
@@ -502,6 +505,7 @@ def createstudyplanSelectUnits():
         prerequists = dict(zip(unitInfoCsv.Code, unitInfoCsv.Prerequisites))
         prerequists=json.dumps(prerequists)
         return render_template('3grid-createstudyplan.html', 
+            selectedStart=selectedStart,
             getUnitValues=getUnitValues,
             unitCodeList=unitCodeList,
             availability=availability,

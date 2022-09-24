@@ -78,15 +78,6 @@ function detectedChange(){
   detected_course = document.getElementById("selectcourse").innerHTML;
   console.log(detected_course);
 
-  // if the course selection is changed, it sends the change to the backend
-  $.ajax({
-    type: "POST",
-    url: "{{ url_for('createstudyplanSelectCourse') }}",
-    data: {"name": detected_course}
-  })
-}
-
-
 // // Select beginning year/semester dropdown
 $("#selectedstart a").click(function(){
   event.preventDefault(); // prevents page scroll when button clicked
@@ -94,14 +85,15 @@ $("#selectedstart a").click(function(){
   document.getElementById("selectbeginning").innerHTML = selected_start;
   console.log(selected_start);
 
-// THE BELOW TAKES PRECEDENCE OVER AJAX REQUEST ABOVE, MAYBE REORDER? RELATED ISSUE HERE: https://github.com/QianrXU/Study-Planner/issues/107 /C
-//   $.ajax({
-//     type: "POST",
-//     url: "{{ url_for('createstudyplanSelectCourse') }}",
-//     data: {"start": selected_start}
-//   })
+  // if the course selection and start semester/year is changed, it sends the change to the backend
+  $.ajax({
+    type: "POST",
+    url: "{{ url_for('createstudyplanSelectCourse') }}",
+    data: {"name": detected_course,
+          "selectedStart": selected_start}
+  })
 })
-
+}
 
 
 
