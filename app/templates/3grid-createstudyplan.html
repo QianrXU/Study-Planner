@@ -93,41 +93,72 @@
             <!-- <div id="trash" ondrop="removeUnit(event)"><i class="fa fa-trash" aria-hidden="true" style="font-size: 2em; float: right;"></i></div> -->
 
             <!--  Start semester/year determined by what user selects in dropdown in previous window -->
-            <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester 1, 2023</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+            {% if SP_dict['Y1S1_5']|length <1 %}
+              <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester 1, 2023</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+            {% else %}
+              <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester 1, 2023</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+            {% endif %}
             <div class="semester-row" id="row1"> <!--  Add/delete row button to add/delete. -->
               <div class="target" id="year1sem1_1" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y1S1_1'] }}</div>
               <div class="target" id="year1sem1_2" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y1S1_2'] }}</div>
               <div class="target" id="year1sem1_3" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y1S1_3'] }}</div>
               <div class="target" id="year1sem1_4" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y1S1_4'] }}</div> 
-              <!--https://github.com/QianrXU/Study-Planner/issues/82-->
-              <div class="target" id="year1sem1_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;">{{ SP_dict['Y1S1_5'] }}</div>  <!-- if overloading, unhide -->
+              {% if SP_dict['Y1S1_5']|length <1 %}
+                <div class="target" id="year1sem1_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;">{{ SP_dict['Y1S1_5'] }}</div>  <!-- if overloading, unhide -->
+              {% else %}
+                <div class="target" id="year1sem1_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: block;">{{ SP_dict['Y1S1_5'] }}</div>  <!-- if overloading, unhide -->
+              {% endif %}
             </div>
 
-            <p class="semester-paragraph" id="year1semester2" style="float:left;">Semester 2, 2023</p> <button style="float:right;" onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+            {% if SP_dict['Y1S2_5']|length <1 %}
+              <p class="semester-paragraph" id="year1semester2" style="float:left;">Semester 2, 2023</p> <button style="float:right;" onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+            {% else %}
+              <p class="semester-paragraph" id="year1semester2" style="float:left;">Semester 2, 2023</p> <button style="float:right;" onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+            {% endif %}
             <div class="semester-row" id="row2">
               <div class="target" id="year1sem2_1" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y1S2_1'] }}</div>
               <div class="target" id="year1sem2_2" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y1S2_2'] }}</div>
               <div class="target" id="year1sem2_3" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y1S2_3'] }}</div>
               <div class="target" id="year1sem2_4" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y1S2_4'] }}</div>
-              <div class="target" id="year1sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;">{{ SP_dict['Y1S2_5'] }}</div>  <!-- if overloading, unhide -->
-          </div>
+              {% if SP_dict['Y1S2_5']|length <1 %}
+                <div class="target" id="year1sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;">{{ SP_dict['Y1S2_5'] }}</div>  <!-- if overloading, unhide -->
+              {% else %}
+                <div class="target" id="year1sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: block;">{{ SP_dict['Y1S2_5'] }}</div>  <!-- if overloading, unhide -->
+              {% endif %}
+            </div>
 
-            <p class="semester-paragraph" id="year2semester1" style="float:left;">Semester 1, 2024</p> <button style="float:right;" onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+            {% if SP_dict['Y2S1_5']|length <1 %}
+              <p class="semester-paragraph" id="year2semester1" style="float:left;">Semester 1, 2024</p> <button style="float:right;" onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+            {% else %}
+              <p class="semester-paragraph" id="year2semester1" style="float:left;">Semester 1, 2024</p> <button style="float:right;" onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+            {% endif %}
             <div class="semester-row" id="row3">
               <div class="target" id="year2sem1_1" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y2S1_1'] }}</div>
               <div class="target" id="year2sem1_2" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y2S1_2'] }}</div>
               <div class="target" id="year2sem1_3" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y2S1_3'] }}</div>
               <div class="target" id="year2sem1_4" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y2S1_4'] }}</div>
-              <div class="target" id="year2sem1_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;">{{ SP_dict['Y2S1_5'] }}</div>  <!-- if overloading, unhide -->
+              {% if SP_dict['Y1S2_5']|length <1 %}
+                <div class="target" id="year2sem1_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;">{{ SP_dict['Y2S1_5'] }}</div>  <!-- if overloading, unhide -->
+              {% else %}
+                <div class="target" id="year2sem1_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: block;">{{ SP_dict['Y2S1_5'] }}</div>  <!-- if overloading, unhide -->
+              {% endif %}
             </div>
 
-            <p class="semester-paragraph" id="year2semester2" style="float:left;">Semester 2, 2024</p> <button style="float:right;" onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+            {% if SP_dict['Y2S2_5']|length <1 %}
+              <p class="semester-paragraph" id="year2semester2" style="float:left;">Semester 2, 2024</p> <button style="float:right;" onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+            {% else %}
+              <p class="semester-paragraph" id="year2semester2" style="float:left;">Semester 2, 2024</p> <button style="float:right;" onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+            {% endif %}
             <div class="semester-row" id="row4">
               <div class="target" id="year2sem2_1" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y2S2_1'] }}</div>
               <div class="target" id="year2sem2_2" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y2S2_2'] }}</div>
               <div class="target" id="year2sem2_3" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y2S2_3'] }}</div>
               <div class="target" id="year2sem2_4" ondrop="drop(event)" ondragover="allowDrop(event)">{{ SP_dict['Y2S2_4'] }}</div>
-              <div class="target" id="year2sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;" >{{ SP_dict['Y2S2_5'] }}</div>  <!-- if overloading, unhide -->
+              {% if SP_dict['Y1S2_5']|length <1 %}
+                <div class="target" id="year2sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: none;">{{ SP_dict['Y2S2_5'] }}</div>  <!-- if overloading, unhide -->
+              {% else %}
+                <div class="target" id="year2sem2_5" ondrop="drop(event)" ondragover="allowDrop(event)" style="display: block;">{{ SP_dict['Y2S2_5'] }}</div>  <!-- if overloading, unhide -->
+              {% endif %}
             </div>
 
 
@@ -424,7 +455,6 @@ function CreatePDFfromHTML() {
 
 //Function for overloading - Ancy
 // This add one more grid to each semester if the user wants to do 5 units in a semester
-// I think we can simplify this so that there is only one function to add a unit and one function to remove - Georgia
 
 //Function that will display the fifth unit if user click '+' button and remove that grid when click '-' icon
 // https://github.com/QianrXU/Study-Planner/issues/85
