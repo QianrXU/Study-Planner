@@ -168,7 +168,6 @@
   background-size: 13px 13px;
 }
 
-
 .sem2::before {
   position: absolute;
   content: "";
@@ -287,6 +286,9 @@ li {
   background: #F2F2F2;
   width: 400px;
   padding: 30px;
+  overflow-y: scroll;
+  overflow-x: clip;
+  max-height: 700px;
 }
 
 /* This needs to be updated to reflect the different colors of different unit availability */
