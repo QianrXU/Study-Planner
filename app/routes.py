@@ -225,7 +225,7 @@ def createstudyplanSelectCourse():
 
     # Process data
     selectedYear = 2022 # Filters courses by year determined on the left. Change value to other year if wanted/needed.
-    df = df[df.Year.eq(selectedYear)]
+    #df = df[df.Year.eq(selectedYear)]
     df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
     df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
 
@@ -458,15 +458,15 @@ def createstudyplanSelectUnits():
 
                 for i in range(lengthoftypes): # loop through list
 
-                    if lengthoftypes == 1 or lengthoftypes > 1:
-                        for key, val in types[i].items():
-                            if key == 'typeName': # e.g., conversion, core, option, etc.
-                                units.append(val)
-                                units.append("***") #something random to split by on the frontend
-                            if key == 'typeInto': # if there is any typeInto field, include this
-                                units.append(val)
-                                units.append("***")
-                            typesOfunits = val # creates list with dictionary of units
+                    #if lengthoftypes == 1 or lengthoftypes > 1:
+                    for key, val in types[i].items():
+                        if key == 'typeName': # e.g., conversion, core, option, etc.
+                            units.append(val)
+                            units.append("***") #something random to split by on the frontend
+                        if key == 'typeInto': # if there is any typeInto field, include this
+                            units.append(val)
+                            units.append("***")
+                        typesOfunits = val # creates list with dictionary of units
 
                     lengthtype1 = len(typesOfunits)
                     for i in range(lengthtype1): # loop through list and take the following from Structure
