@@ -32,20 +32,9 @@ First you will want to cd to the project directory in which you want to host the
 - For Mac:
 `brew install python-tk`
 
-Follow the steps below to run the project on differetn operating systems:
+Follow the steps below to run the project on different operating systems:
 
-### Mac
-**If virtual environment not installed:** Use pip or another package manager to install the virtual environment package: `$ sudo apt-get install python3-venv`
-
-1. cd into project folder: `$ cd Study-Planner`
-2. Create a virtual environment: `$ python3 -m venv venv`
-3. Activate the python virtual environment: `$ source venv/bin/activate`
-4. Install prerequisites (requires python3, flask, venv, etc.): `$ pip3 install -r requirements.txt`.
-5. To run the app: `$ flask run`. This should start the app running on localhost at port 5000, i.e. http://localhost:5000/
-6. To deactivate the project on localhost: `$ ^C`
-7. To deactivate the virtual environment: `$ deactivate`
-
-### Unix
+### Unix (includes Mac)
 **If virtual environment not installed:** Use pip or another package manager to install the virtual environment package: `$ sudo apt-get install python3-venv`
 
 1. cd into project folder: `$ cd Study-Planner`
@@ -180,7 +169,7 @@ All course and unit data used in the Study Planner project has been exported fro
 ### Json-export.csv
 The *Json-export.csv* file contains information on all courses at UWA between the years of 2018 and 2022.
 
-Attributes used up to the end of Sprint 2 includes:
+Attributes used includes:
 * CourseID
 * Year
 * Structure (this attribute contains all units that belong to the selected course or major/specialisation)
