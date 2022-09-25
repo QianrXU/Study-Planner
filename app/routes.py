@@ -191,7 +191,7 @@ def account():
             df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
             df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
 
-            getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
+            getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course
 
             getMasterDegrees(df, selectedCourse) # assigns spec and core values
 
