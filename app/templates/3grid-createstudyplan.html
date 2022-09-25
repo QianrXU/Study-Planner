@@ -196,8 +196,6 @@
                 <div class="target" id="year2sem2_5" ondrop="drop(event)" style="display: block;"><li>{{ SP_dict['Y2S2_5'] }}</li></div>  <!-- if overloading, unhide -->
               {% endif %}
             </div>
-
-
           </div>
       </div>
       
@@ -226,6 +224,7 @@
 <div id="unitList" style="display: none;">{{ units }}</div>
 <div id="unitCodeList" style="display: none;">{{ availability }}</div>
 <div id="unitalert" style="display: none;">{{ prerequists }}</div>
+<div id="loadedUnits" style="display: none;">{{ SP_dict }}</div>
 
 <!--Script to support PDF conversion-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
@@ -254,6 +253,36 @@ unitInformation = unitInformation.map(elem => elem.replace(", ", ""));
 unitInformation = unitInformation.map(elem => elem.replace(": ", "")); 
 
 window.addEventListener('DOMContentLoaded', (event) => {
+  //Creates array to check for loaded units and omit them from select units sidebar.
+  var loadedUnits = document.getElementById("loadedUnits").innerHTML;
+  loadedUnits = loadedUnits.split(",");
+  var loadedArray = [];
+  var unit = '';
+  for(i = 0; i < loadedUnits.length; i++) {
+    if(i==0){
+      unit=loadedUnits[i].slice(1);
+      unit=unit.split(":");
+      unit=unit[1].slice(2);
+      unit=unit.slice(0,-1);
+      unit=unit.trim();
+      loadedArray.push(unit);
+    }
+    if(i==loadedUnits.length-1){
+      unit=loadedUnits[i].split(":");
+      unit=unit[1].slice(2);
+      unit=unit[1].slice(0,-2);
+      unit=unit.trim();
+      loadedArray.push(unit[1]);
+    }
+    else{
+      unit=loadedUnits[i].split(":");
+      unit=unit[1].slice(2);
+      unit=unit.slice(0,-1);
+      unit=unit.trim();
+      loadedArray.push(unit[1]);
+    }
+  }
+
   unitsArray.forEach(element => {
     unitRole = element.split(", ***, "); // This split stirng is decided in routes.py
     unitRole = unitRole.map(elem => elem.replace(", ***", "")); // if there would be any erronous split symbols (&amp;*:,) that have come across despite the split, clean those up
@@ -299,40 +328,42 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
       var unitArrLength = unitArr.length // grab length of each unit role list
       for (i = 0; i < unitArrLength; i++) {
-        var lielement = document.createElement("li"); // create list item
-        lielement.appendChild(document.createTextNode(unitArr[i].trim())); // create and append content of list item (i.e., unit)
-        lielement.setAttribute("id", unitArr[i].trim()); // set ID of new list item to 'Unit Code Unit Name'
-        if (unitArr[i].trim() == "No information to be displayed. Check with faculty.") {
-          unitRoleUl.appendChild(lielement);
-          lielement.setAttribute("class", "no_marker");
-        }
-        else {
-          lielement.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
-          lielement.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
-
-          // Find availability of units and attach the class (sem1, sem2 or sem1and2, to each li element)
-          var availabilityinfo = unitInformation.indexOf(unitArr[i].trim())
-          if (availabilityinfo != -1) { // if unit was found in unitInformation array, i.e., does not return -1
-            availability = unitInformation[availabilityinfo+1]
-            if (availability.includes("Semester 1")) {
-              lielement.setAttribute("class", "sem1");
-            }
-            if (availability.includes("Semester 2")) {
-                lielement.setAttribute("class", "sem2");
-            }
-            if (availability.includes("Semester 1") && availability.includes("Semester 2")) {
-                lielement.setAttribute("class", "sem1and2");
-            }
-            if (availability.includes("Not available")) {
-                lielement.setAttribute("class", "not_available");
-            }
-            if (availability.includes("Non-standard")) {
-                lielement.setAttribute("class", "non_standard");
-            }
+        if(!(loadedArray.includes(unitArr[i].trim()))){
+          var lielement = document.createElement("li"); // create list item
+          lielement.appendChild(document.createTextNode(unitArr[i].trim())); // create and append content of list item (i.e., unit)
+          lielement.setAttribute("id", unitArr[i].trim()); // set ID of new list item to 'Unit Code Unit Name'
+          if (unitArr[i].trim() == "No information to be displayed. Check with faculty.") {
+            unitRoleUl.appendChild(lielement);
+            lielement.setAttribute("class", "no_marker");
           }
-          else {lielement.setAttribute("class", "element")}
-          
-          unitRoleUl.appendChild(lielement); // append li element/unit
+          else {
+            lielement.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
+            lielement.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
+
+            // Find availability of units and attach the class (sem1, sem2 or sem1and2, to each li element)
+            var availabilityinfo = unitInformation.indexOf(unitArr[i].trim())
+            if (availabilityinfo != -1) { // if unit was found in unitInformation array, i.e., does not return -1
+              availability = unitInformation[availabilityinfo+1]
+              if (availability.includes("Semester 1")) {
+                lielement.setAttribute("class", "sem1");
+              }
+              if (availability.includes("Semester 2")) {
+                  lielement.setAttribute("class", "sem2");
+              }
+              if (availability.includes("Semester 1") && availability.includes("Semester 2")) {
+                  lielement.setAttribute("class", "sem1and2");
+              }
+              if (availability.includes("Not available")) {
+                  lielement.setAttribute("class", "not_available");
+              }
+              if (availability.includes("Non-standard")) {
+                  lielement.setAttribute("class", "non_standard");
+              }
+            }
+            else {lielement.setAttribute("class", "element")}
+            
+            unitRoleUl.appendChild(lielement); // append li element/unit
+          }
         }
       }
     }
