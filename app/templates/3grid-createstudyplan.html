@@ -94,9 +94,9 @@
 
             <!--  Start semester/year determined by what user selects in dropdown in previous window -->
             {% if SP_dict['Y1S1_5']|length <1 %}
-              <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester 1, 2023</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+              <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
             {% else %}
-              <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester 1, 2023</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+              <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
             <div class="semester-row" id="row1"> <!--  Add/delete row button to add/delete. -->
               <div class="target" id="year1sem1_1" ondrop="drop(event)">{{ SP_dict['Y1S1_1'] }}</div>
@@ -111,9 +111,21 @@
             </div>
 
             {% if SP_dict['Y1S2_5']|length <1 %}
-              <p class="semester-paragraph" id="year1semester2" style="float:left;">Semester 2, 2023</p> <button style="float:right;" onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+              <p class="semester-paragraph" id="year1semester2" style="float:left;">Semester 
+                {% if startSem == 1 %} 
+                  2, {{ startYear }}
+                {% else %} 
+                  1, {{ startYear + 1 }}
+                {% endif %}
+              </p> <button style="float:right;" onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
             {% else %}
-              <p class="semester-paragraph" id="year1semester2" style="float:left;">Semester 2, 2023</p> <button style="float:right;" onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+              <p class="semester-paragraph" id="year1semester2" style="float:left;">Semester 
+                {% if startSem == 1 %} 
+                  2, {{ startYear }}
+                {% else %} 
+                  1, {{ startYear + 1 }}
+                {% endif %}
+              </p> <button style="float:right;" onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
             <div class="semester-row" id="row2">
               <div class="target" id="year1sem2_1" ondrop="drop(event)">{{ SP_dict['Y1S2_1'] }}</div>
@@ -128,9 +140,21 @@
             </div>
 
             {% if SP_dict['Y2S1_5']|length <1 %}
-              <p class="semester-paragraph" id="year2semester1" style="float:left;">Semester 1, 2024</p> <button style="float:right;" onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+              <p class="semester-paragraph" id="year2semester1" style="float:left;">Semester 
+                {% if startSem == 1 %} 
+                  1, {{ startYear + 1 }}
+                {% else %} 
+                  2, {{ startYear + 1 }}
+                {% endif %}
+              </p> <button style="float:right;" onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
             {% else %}
-              <p class="semester-paragraph" id="year2semester1" style="float:left;">Semester 1, 2024</p> <button style="float:right;" onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+              <p class="semester-paragraph" id="year2semester1" style="float:left;">Semester 
+                {% if startSem == 1 %} 
+                  1, {{ startYear + 1 }}
+                {% else %} 
+                  2, {{ startYear + 1 }}
+                {% endif %}
+              </p> <button style="float:right;" onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
             <div class="semester-row" id="row3">
               <div class="target" id="year2sem1_1" ondrop="drop(event)">{{ SP_dict['Y2S1_1'] }}</div>
@@ -145,9 +169,21 @@
             </div>
 
             {% if SP_dict['Y2S2_5']|length <1 %}
-              <p class="semester-paragraph" id="year2semester2" style="float:left;">Semester 2, 2024</p> <button style="float:right;" onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+              <p class="semester-paragraph" id="year2semester2" style="float:left;">Semester 
+                {% if startSem == 1 %} 
+                  2, {{ startYear + 1 }}
+                {% else %} 
+                  1, {{ startYear + 2 }}
+                {% endif %}
+              </p> <button style="float:right;" onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
             {% else %}
-              <p class="semester-paragraph" id="year2semester2" style="float:left;">Semester 2, 2024</p> <button style="float:right;" onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+              <p class="semester-paragraph" id="year2semester2" style="float:left;">Semester 
+                {% if startSem == 1 %} 
+                  2, {{ startYear + 1 }}
+                {% else %} 
+                  1, {{ startYear + 2 }}
+                {% endif %}
+              </p> <button style="float:right;" onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
             <div class="semester-row" id="row4">
               <div class="target" id="year2sem2_1" ondrop="drop(event)">{{ SP_dict['Y2S2_1'] }}</div>
@@ -170,7 +206,6 @@
       
       <br><br>
 
-      {{selectedStart}}
 
     </div>
 

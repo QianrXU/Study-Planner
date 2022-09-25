@@ -97,6 +97,7 @@ def account():
     #Adapted code from https://python-adv-web-apps.readthedocs.io/en/latest/flask_db2.html
     
     #declare global variables (must be same as global variables for createstudyplanSelectUnits())
+    global selectedStart
     global selectedCourse 
     global selectedMajor
     global faculty
@@ -165,6 +166,7 @@ def account():
             selectedMajor=study_plan.selectedMajor
             faculty=study_plan.faculty
             coursecode=study_plan.coursecode
+            selectedStart=study_plan.startYearSem
 
             if len(selectedMajor)<1:
                 selectedMajor="No major or specialisation available"
@@ -504,8 +506,13 @@ def createstudyplanSelectUnits():
         #Add Code and Prerequisites from unit list.csv to dictinary
         prerequists = dict(zip(unitInfoCsv.Code, unitInfoCsv.Prerequisites))
         prerequists=json.dumps(prerequists)
+
+        startSem=int(selectedStart[9:10])
+        startYear=int(selectedStart[12:])
+
         return render_template('3grid-createstudyplan.html', 
-            selectedStart=selectedStart,
+            startSem=startSem,
+            startYear=startYear,
             getUnitValues=getUnitValues,
             unitCodeList=unitCodeList,
             availability=availability,
