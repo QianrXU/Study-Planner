@@ -218,7 +218,8 @@ def createstudyplanSelectCourse():
     global coursecode
     global getMajorValues
     global getUnitValues
-    global selectedMajor
+    global selectedMajor1
+    global selectedMajor2
     global df
     global coursecode
     global SP_dict
@@ -254,7 +255,7 @@ def createstudyplanSelectCourse():
     # TO DO - Need to check if selected degree ListMajors and ListMajors2 empty, 
     # Currently only checking ListMajors, not ListMajors2 (some courses seem to add them in there for some reason)
     # Maybe there is a way to concatenate them? /C
-    selectedMajor = "No major or specialisation available"
+    selectedMajor1 = "No major or specialisation available"
 
     if request.method == 'POST':
         try:
@@ -362,7 +363,8 @@ def getMasterDegrees(data, selectedCourse):
 @app.route('/createstudyplan-majors', methods=['GET', 'POST'])
 def createstudyplanSelectMajor():
     try:
-        global selectedMajor
+        global selectedMajor1
+        global selectedMajor2
         global getMajorValues
         global selectedCourse
 
@@ -385,7 +387,8 @@ def createstudyplanSelectMajor():
         # retrieve selected major
         if request.method == 'POST':
             try:
-                selectedMajor = request.form.get('name') # saves selected major into variable
+                selectedMajor1 = request.form.get('name')
+                selectedMajor2 = request.form.get('name')  # saves selected major into variable
             except:
                 return render_template('404.html'), 404
             return ('', 204) # indicates post response has been done successfully
@@ -407,7 +410,8 @@ def createstudyplanSelectMajor():
 def createstudyplanSelectUnits():
     try:
         global selectedCourse 
-        global selectedMajor
+        global selectedMajor1
+        global selectedMajor2
         global faculty
         global coursecode
         global getUnitValues
@@ -415,7 +419,7 @@ def createstudyplanSelectUnits():
 
         #replace unit selection for degree if the user has selected a major or specification - choose the values that are
         #in the structure column for this courseID instead
-        majorCode = selectedMajor
+        majorCode = selectedMajor1
 
         noMajor = "No major or specialisation available"
 
@@ -424,10 +428,10 @@ def createstudyplanSelectUnits():
             majorCode = noMajor
 
         if noMajor not in majorCode:
-            majorCode = selectedMajor.split() # need to split as unitCode in index first and then major title
+            majorCode = selectedMajor1.split() # need to split as unitCode in index first and then major title
             majorCode = majorCode[0]
             coursecode = majorCode
-            getUnitValues = df[df.CourseID.eq(majorCode)] # change to selectedMajor
+            getUnitValues = df[df.CourseID.eq(majorCode)] # change to selectedMajor1
             #coursecode = majorCode
         
         if len(spec) == 0:
@@ -453,8 +457,8 @@ def createstudyplanSelectUnits():
                 typeNames.append(m_levelNamesCore[y]) # the appended typenames from this variable will be core and conversion units that are mutual for all specialisations regardless of which one
 
             for i in range(len(m_specialisations)):
-                if selectedMajor == m_specialisations[i]: # if the selected major is in the m_specialisations variable ...
-                    index = m_specialisations.index(selectedMajor) # ... find the index of that variable and pop and ...
+                if selectedMajor1 == m_specialisations[i]: # if the selected major is in the m_specialisations variable ...
+                    index = m_specialisations.index(selectedMajor1) # ... find the index of that variable and pop and ...
                     typeNames.append(m_specialisations[index+1]) # ... append the specialisation data to typenames
 
         units = [] # all unit codes + unit titles to be saved into this list 
@@ -512,7 +516,7 @@ def createstudyplanSelectUnits():
             units=units,
             majorCode=majorCode,
             selectedCourse=selectedCourse, 
-            selectedMajor=selectedMajor,
+            selectedMajor1=selectedMajor1,
             faculty=faculty,
             coursecode=coursecode,
             prerequists = prerequists,
