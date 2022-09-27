@@ -80,9 +80,13 @@
           <div id="course-information">
             <!-- Pulled from prior selection pages -->
             <p id="course-title">{{ selectedCourse }}</p> 
-            <p id="course-major">{{ selectedMajor }}</p>
+            <p id="course-major">Major/Specialisation: {{ selectedMajor1 }}</p>
+            {% if "Select your second major or specialisation" in selectedMajor2 %}
+              <p id="course-major"></p>
+            {% else %}
+              <p id="course-major">Second Major/Specialisation: {{ selectedMajor2 }}</p>
+            {% endif %}
             <p id="administration">Faculty: {{ faculty }}</p>
-            <p id="course-code">Course code: {{ coursecode }}</p> 
           </div>
 
           <hr style="border-top: 1px solid #505050;">
@@ -188,9 +192,9 @@
 
 
 <!-- Units variable from back end -->
-<div id="unitList" style="display: none;">{{ units }}</div>
-<div id="unitCodeList" style="display: none;">{{ availability }}</div>
-<div id="unitalert" style="display: none;">{{ prerequists }}</div>
+<div id="unitList" style="display: none;">{{ units1 }}</div>
+<div id="unitCodeList" style="display: none;">{{ availability1 }}</div>
+<div id="unitalert" style="display: none;">{{ prerequists1 }}</div>
 
 <!--Script to support PDF conversion-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 

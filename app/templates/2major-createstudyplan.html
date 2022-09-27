@@ -23,13 +23,13 @@
         </div>
         <div class="selectcourse dropdown">
           <button class="btn btn-secondary dropdown-toggle" id="selectmajor2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Select your major or specialisation
+            Select your second major or specialisation
           </button>
           <!-- Pulls data from the ListMajors column -->
           <ul class="dropdown-menu" id="selectedmajor2" aria-labelledby="selectmajor2">
             <!-- <li><a class="dropdown-item" href="#">Not applicable</a></li>
             <div class="dropdown-divider"></div> -->
-            {% for value in majors %}
+            {% for value in majors2 %}
             <li><a class="dropdown-item" href="#">{{value}}</a></li>
             {% endfor %}
           </ul>
@@ -79,7 +79,7 @@ function detectedChange(){
   $.ajax({
     type: "POST",
     url: "{{ url_for('createstudyplanSelectMajor') }}",
-    data: {"name": detected_major1}
+    data: {"name": detected_major1, "name2": detected_major2}
   })
 }
 

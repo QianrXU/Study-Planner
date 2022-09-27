@@ -370,7 +370,7 @@ def createstudyplanSelectMajor():
 
         # process ListMajors column (i.e., potential majors) and potential specialisations if master is selected where specialisation is an option
         majors = getMajorValues['ListMajors'].dropna().values.tolist() # create dataframe of ListMajors column
-        #majors2 = getMajorValues['ListMajors2'].dropna().values.tolist() # create dataframe of ListMajors2 column - SOMETIMES MAJORS ARE LISTED IN THIS COLUMN, WE'LL NEED TO RUN SOME CHECKS TO SEE WHICH ONE IS ACCURATE FOR SELECTED COURSE
+        majors2 = getMajorValues['ListMajors2'].dropna().values.tolist() # create dataframe of ListMajors2 column - SOMETIMES MAJORS ARE LISTED IN THIS COLUMN, WE'LL NEED TO RUN SOME CHECKS TO SEE WHICH ONE IS ACCURATE FOR SELECTED COURSE
         pattern = r'[(\d)\'<b]+'
         majors = ' '.join(str(e) for e in majors)
         majors = re.split(pattern, majors)
@@ -381,6 +381,16 @@ def createstudyplanSelectMajor():
         majors = majors.split(" r>")
         for specialisation in range(len(m_specialisations_list)): # m_specialisations_list contains all specialisations for the selected course (if master with specialisation)
             majors.append(m_specialisations_list[specialisation])
+        
+        # process ListMajors2 column (i.e., potential majors) and potential specialisations if master is selected where specialisation is an option
+        majors2 = ' '.join(str(e) for e in majors2)
+        majors2 = re.split(pattern, majors2)
+        majors2 = ' '.join(str(e) for e in majors2)
+        majors2 = re.split(newpattern, majors2)
+        majors2 = ' '.join(str(e) for e in majors2)
+        majors2 = majors2.split(" r>")
+        for specialisation in range(len(m_specialisations_list)): # m_specialisations_list contains all specialisations for the selected course (if master with specialisation)
+            majors2.append(m_specialisations_list[specialisation])
         # would be nice to remove the unitcode before the major title, if we do this we would have to
         # make changes to majorCode below though as that splits the majors text (I believe) /C
 
@@ -388,7 +398,7 @@ def createstudyplanSelectMajor():
         if request.method == 'POST':
             try:
                 selectedMajor1 = request.form.get('name')
-                selectedMajor2 = request.form.get('name')  # saves selected major into variable
+                selectedMajor2 = request.form.get('name2')  # saves selected majors into variable
             except:
                 return render_template('404.html'), 404
             return ('', 204) # indicates post response has been done successfully
@@ -400,6 +410,7 @@ def createstudyplanSelectMajor():
 
         return render_template('2major-createstudyplan.html',
             majors=majors,
+            majors2=majors2,
             getMajorValues=getMajorValues,
             title="Create study plan")
     except:
@@ -415,24 +426,33 @@ def createstudyplanSelectUnits():
         global faculty
         global coursecode
         global getUnitValues
+        global getUnitValues2
         global SP_dict
 
         #replace unit selection for degree if the user has selected a major or specification - choose the values that are
         #in the structure column for this courseID instead
-        majorCode = selectedMajor1
+        majorCode1 = selectedMajor1
+        majorCode2 = selectedMajor2
 
         noMajor = "No major or specialisation available"
 
-        # if specialisation, change majorCode (what is displayed on frontend) to nocode (as it will show under Major: anyway!)
+        # if specialisation, change majorCode1 (what is displayed on frontend) to nocode (as it will show under Major: anyway!)
         if len(spec) != 0:
-            majorCode = noMajor
+            majorCode1 = noMajor
+            majorCode2 = noMajor
 
-        if noMajor not in majorCode:
-            majorCode = selectedMajor1.split() # need to split as unitCode in index first and then major title
-            majorCode = majorCode[0]
-            coursecode = majorCode
-            getUnitValues = df[df.CourseID.eq(majorCode)] # change to selectedMajor1
+        if noMajor not in majorCode1:
+            majorCode1 = selectedMajor1.split() # need to split as unitCode in index first and then major title
+            majorCode1 = majorCode1[0]
+            coursecode = majorCode1
+            getUnitValues = df[df.CourseID.eq(majorCode1)] # change to selectedMajor1
             #coursecode = majorCode
+
+        if noMajor not in majorCode2:
+            majorCode2 = selectedMajor2.split() # need to split as unitCode in index first and then major title
+            majorCode2 = majorCode2[0]
+            coursecode = majorCode2
+            getUnitValues2 = df[df.CourseID.eq(majorCode2)] # change to selectedMajor2
         
         if len(spec) == 0:
             # process units based on course selection
@@ -460,9 +480,14 @@ def createstudyplanSelectUnits():
                 if selectedMajor1 == m_specialisations[i]: # if the selected major is in the m_specialisations variable ...
                     index = m_specialisations.index(selectedMajor1) # ... find the index of that variable and pop and ...
                     typeNames.append(m_specialisations[index+1]) # ... append the specialisation data to typenames
+                if selectedMajor2 == m_specialisations[i]:
+                    index = m_specialisations.index(selectedMajor2)
+                    typeNames.append(m_specialisations[index+1])
 
-        units = [] # all unit codes + unit titles to be saved into this list 
-        unitCodeList = [] # all unit codes to be saved into this list (for connecting with unit list.csv on frontend)
+        units1 = [] # all unit codes + unit titles to be saved into this list 
+        units2 = []
+        unitCodeList1 = [] # all unit codes to be saved into this list (for connecting with unit list.csv on frontend)
+        unitCodeList2 = []
 
         try: 
             length = len(typeNames)
@@ -475,11 +500,15 @@ def createstudyplanSelectUnits():
                     #if lengthoftypes == 1 or lengthoftypes > 1:
                     for key, val in types[i].items():
                         if key == 'typeName': # e.g., conversion, core, option, etc.
-                            units.append(val)
-                            units.append("***") #something random to split by on the frontend
+                            units1.append(val)
+                            units1.append("***") #something random to split by on the frontend
+                            units2.append(val)
+                            units2.append("***")
                         if key == 'typeInto': # if there is any typeInto field, include this
-                            units.append(val)
-                            units.append("***")
+                            units1.append(val)
+                            units1.append("***")
+                            units2.append(val)
+                            units2.append("***")
                         typesOfunits = val # creates list with dictionary of units
 
                     lengthtype1 = len(typesOfunits)
@@ -487,39 +516,53 @@ def createstudyplanSelectUnits():
                         for key, val in typesOfunits[i].items():
                             if key == 'unitCode':
                                 unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
-                                unitCodeList.append(val)
+                                unitCodeList1.append(val)
+                                unitCodeList2.append(val)
                             if key == 'unitTitle':
-                                units.append(unitCode + " " + val + "***")
+                                units1.append(unitCode + " " + val + "***")
 
-                    units.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
+                    units1.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
+                    units2.append("NEXT_UNIT_ROLE")
                             # if key == 'unitPoints':
                             #     units1.append(val)
                             # if key == 'unitURL':
                             #     units1.append(val)
                     
         except:
-            units.append("No units")
+            units1.append("No units")
+            units2.append("No units")
 
         #import and read unit list into unitscsv variable
         unitInfoCsv = os.path.join(app.static_folder, 'Unit list.csv')
         unitInfoCsv = pd.read_csv(unitInfoCsv, sep=",")
-        unitInfoCsv = unitInfoCsv[unitInfoCsv.Code.isin(unitCodeList)] # filter 'Unit list.csv' by units in selected degree/major/specialisation
-        availability = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title + "***", unitInfoCsv.Availabilities + "***"))
-        #Add Code and Prerequisites from unit list.csv to dictinary
-        prerequists = dict(zip(unitInfoCsv.Code, unitInfoCsv.Prerequisites))
-        prerequists=json.dumps(prerequists)
+        unitInfoCsv1 = unitInfoCsv[unitInfoCsv.Code.isin(unitCodeList1)] # filter 'Unit list.csv' by units in selected degree/major/specialisation
+        unitInfoCsv2 = unitInfoCsv[unitInfoCsv.Code.isin(unitCodeList2)]
+        availability1 = dict(zip(unitInfoCsv1.Code + " " + unitInfoCsv1.Title + "***", unitInfoCsv1.Availabilities + "***"))
+        availability2 = dict(zip(unitInfoCsv2.Code + " " + unitInfoCsv2.Title + "***", unitInfoCsv2.Availabilities + "***"))
+        # Add Code and Prerequisites from unit list.csv to dictionary
+        prerequists1 = dict(zip(unitInfoCsv1.Code, unitInfoCsv1.Prerequisites))
+        prerequists1=json.dumps(prerequists1)
+        prerequists2 = dict(zip(unitInfoCsv2.Code, unitInfoCsv2.Prerequisites))
+        prerequists2=json.dumps(prerequists2)
         return render_template('3grid-createstudyplan.html', 
             selectedStart=selectedStart,
             getUnitValues=getUnitValues,
-            unitCodeList=unitCodeList,
-            availability=availability,
-            units=units,
-            majorCode=majorCode,
+            getUnitValue2=getUnitValues2,
+            unitCodeList1=unitCodeList1,
+            unitCodeList2=unitCodeList2,
+            availability1=availability1,
+            availability2=availability2,
+            units1=units1,
+            units2=units2,
+            majorCode1=majorCode1,
+            majorCode2=majorCode2,
             selectedCourse=selectedCourse, 
             selectedMajor1=selectedMajor1,
+            selectedMajor2=selectedMajor2,
             faculty=faculty,
             coursecode=coursecode,
-            prerequists = prerequists,
+            prerequists1 = prerequists1,
+            prerequists2 = prerequists2,
             SP_dict=SP_dict,
             title="Create study plan")
     except:
