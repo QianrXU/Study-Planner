@@ -104,11 +104,25 @@
   margin-bottom: 10px;
   width: fit-content;
   min-width: 200px;
-  margin-right: 1rem;
+  margin-right: 1.5rem;
+}
+
+#tolist1 {
+  margin-right:10px;
+}
+
+#tolist1, #tolist2 {
+  cursor: pointer;
 }
 
 #magnifyingglass {
   margin: .25rem 1rem;
+}
+
+#listToAnother {
+  text-align: right;
+  margin-top: 20px;
+  size: 1rem;
 }
 
 /* Tooltip container */

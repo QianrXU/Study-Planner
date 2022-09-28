@@ -452,8 +452,8 @@ def createstudyplanSelectUnits():
     if noMajor not in majorCode2:
         majorCode2 = selectedMajor2.split() # need to split as unitCode in index first and then major title
         majorCode2 = majorCode2[0]
-        coursecode = majorCode1
-        getUnitValues2 = df[df.CourseID.eq(majorCode2)] # change to selectedMajor2
+        coursecode = majorCode2
+        getUnitValues2 = df[df.CourseID.eq(majorCode2)] # change to selectedMajor1
         #coursecode = majorCode
     
     if len(spec) == 0:
@@ -482,10 +482,21 @@ def createstudyplanSelectUnits():
             if selectedMajor1 == m_specialisations[i]: # if the selected major is in the m_specialisations variable ...
                 index = m_specialisations.index(selectedMajor1) # ... find the index of that variable and pop and ...
                 typeNames.append(m_specialisations[index+1]) # ... append the specialisation data to typenames
+        
+        typeNames2 = []
+        for y in range(1, len(m_levelNamesCore), 2): # start from index 1 and increment by 2. m_levelNamesCore needs to be appended too as they are core regardless of specialisation
+            typeNames2.append(m_levelNamesCore[y]) # the appended typenames from this variable will be core and conversion units that are mutual for all specialisations regardless of which one
+
+        for i in range(len(m_specialisations)):
+            if selectedMajor2 == m_specialisations[i]: # if the selected major is in the m_specialisations variable ...
+                index = m_specialisations.index(selectedMajor1) # ... find the index of that variable and pop and ...
+                typeNames2.append(m_specialisations[index+1]) # ... append the specialisation data to typenames
+
 
     units1 = [] # all unit codes + unit titles to be saved into this list 
     unitCodeList1 = [] # all unit codes to be saved into this list (for connecting with unit list.csv on frontend)
-
+    units2 = []
+    unitCodeList2 = []
     try: 
         length = len(typeNames)
         for y in range(length):
@@ -504,8 +515,8 @@ def createstudyplanSelectUnits():
                         units1.append("***")
                     typesOfunits = val # creates list with dictionary of units
 
-                lengthtype1 = len(typesOfunits)
-                for i in range(lengthtype1): # loop through list and take the following from Structure
+                lengthtype = len(typesOfunits)
+                for i in range(lengthtype): # loop through list and take the following from Structure
                     for key, val in typesOfunits[i].items():
                         if key == 'unitCode':
                             unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
@@ -522,20 +533,59 @@ def createstudyplanSelectUnits():
     except:
         units1.append("No units")
 
+    try: 
+        length = len(typeNames2)
+        for y in range(length):
+            types = typeNames2[y]
+            lengthoftypes = length = len(types)
+
+            for i in range(lengthoftypes): # loop through list
+
+                #if lengthoftypes == 1 or lengthoftypes > 1:
+                for key, val in types[i].items():
+                    if key == 'typeName': # e.g., conversion, core, option, etc.
+                        units2.append(val)
+                        units2.append("***") #something random to split by on the frontend
+                    if key == 'typeInto': # if there is any typeInto field, include this
+                        units2.append(val)
+                        units2.append("***")
+                    typesOfunits = val # creates list with dictionary of units
+
+                lengthtype = len(typesOfunits)
+                for i in range(lengthtype): # loop through list and take the following from Structure
+                    for key, val in typesOfunits[i].items():
+                        if key == 'unitCode':
+                            unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
+                            unitCodeList2.append(val)
+                        if key == 'unitTitle':
+                            units2.append(unitCode + " " + val + "***")
+
+                units2.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
+                
+    except:
+        units2.append("No units")
+
     #import and read unit list into unitscsv variable
     unitInfoCsv = os.path.join(app.static_folder, 'Unit list.csv')
     unitInfoCsv = pd.read_csv(unitInfoCsv, sep=",")
     unitInfoCsv1 = unitInfoCsv[unitInfoCsv.Code.isin(unitCodeList1)] # filter 'Unit list.csv' by units in selected degree/major/specialisation
+    unitInfoCsv2 = unitInfoCsv[unitInfoCsv.Code.isin(unitCodeList2)] 
     availability1 = dict(zip(unitInfoCsv1.Code + " " + unitInfoCsv1.Title + "***", unitInfoCsv1.Availabilities + "***"))
+    availability2 = dict(zip(unitInfoCsv2.Code + " " + unitInfoCsv2.Title + "***", unitInfoCsv2.Availabilities + "***"))
     # Add Code and Prerequisites from unit list.csv to dictionary
     prerequists1 = dict(zip(unitInfoCsv1.Code, unitInfoCsv1.Prerequisites))
     prerequists1=json.dumps(prerequists1)
+    prerequists2 = dict(zip(unitInfoCsv2.Code, unitInfoCsv2.Prerequisites))
+    prerequists2=json.dumps(prerequists2)
     return render_template('3grid-createstudyplan.html', 
         selectedStart=selectedStart,
         getUnitValues=getUnitValues,
         unitCodeList1=unitCodeList1,
+        unitCodeList2=unitCodeList2,
         availability1=availability1,
+        availability2=availability2,
         units1=units1,
+        units2=units2,
         majorCode1=majorCode1,
         majorCode2=majorCode2,
         selectedCourse=selectedCourse, 
@@ -544,6 +594,7 @@ def createstudyplanSelectUnits():
         faculty=faculty,
         coursecode=coursecode,
         prerequists1 = prerequists1,
+        prerequists2 = prerequists2,
         SP_dict=SP_dict,
         title="Create study plan")
     #except:

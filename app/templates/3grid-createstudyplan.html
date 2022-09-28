@@ -10,6 +10,7 @@
 
           <h2 id="select-units-title">Select units</h2>
             <div id="unitsSelection">
+              <div id="listToAnother"><i class="fa-solid fa-square-caret-left" id="tolist1" onclick="showList1()"></i><i class="fa-solid fa-square-caret-right" id="tolist2" onclick="showList2()"></i></div>
               <p class="unit-heading" id="type1" draggable="false" style="display: none;">Type</p>
               <div class="unit-draggables" id="type1units" style="display: none;">
                 <ul id="type1unitsUL" style="display: none;"></ul>
@@ -93,7 +94,7 @@
             <p id="course-major2">Second Major/Specialisation: {{ selectedMajor2 }}</p>
             {% endif %}
             <p id="administration">Faculty: {{ faculty }}</p>
-            <p id="course-code">Course code: {{ coursecode }}</p> 
+            <p id="course-code">Course code: {{ coursecode }}</p> <!-- may need some changes here as the course code here only returns the code of the first major -->
           </div>
 
           <hr style="border-top: 1px solid #505050;">
@@ -200,7 +201,9 @@
 
 <!-- Units variable from back end -->
 <div id="unitList" style="display: none;">{{ units1 }}</div>
+<div id="unitList2" style="display: none;">{{ units2 }}</div>
 <div id="unitCodeList" style="display: none;">{{ availability1 }}</div>
+<div id="unitCodeList2" style="display: none;">{{ availability2 }}</div>
 <div id="unitalert" style="display: none;">{{ prerequists1 }}</div>
 
 <!--Script to support PDF conversion-->
@@ -219,6 +222,11 @@ var units = units.slice(1, -23); // slice off back of string and do some further
 var units = units.replace(/'/g, '');
 var units = units.replace(/"/g, '');
 var unitsArray = units.split(", NEXT_UNIT_ROLE, ") // Split into array when this test occurs
+var units2 = document.getElementById("unitList2").innerHTML;
+var units2 = units2.slice(1, -23); // slice off back of string and do some further processing below
+var units2 = units2.replace(/'/g, '');
+var units2 = units2.replace(/"/g, '');
+var unitsArray2 = units2.split(", NEXT_UNIT_ROLE, ") // Split into array when this test occurs
 
 // Process unitInformation variable to retrieve availability
 var unitInformation = document.getElementById("unitCodeList").innerHTML;
@@ -228,6 +236,16 @@ var unitInformation = unitInformation.replace(/"/g, '');
 unitInformation = unitInformation.split('***')
 unitInformation = unitInformation.map(elem => elem.replace(", ", "")); 
 unitInformation = unitInformation.map(elem => elem.replace(": ", "")); 
+var unitInformation2 = document.getElementById("unitCodeList2").innerHTML;
+var unitInformation2 = unitInformation2.slice(1, -2); // slice off back of string and do some further processing below
+var unitInformation2 = unitInformation2.replace(/'/g, '');
+var unitInformation2 = unitInformation2.replace(/"/g, '');
+unitInformation2 = unitInformation2.split('***')
+unitInformation2 = unitInformation2.map(elem => elem.replace(", ", "")); 
+unitInformation2 = unitInformation2.map(elem => elem.replace(": ", "")); 
+
+console.log(unitInformation)
+console.log(unitInformation2)
 
 window.addEventListener('DOMContentLoaded', (event) => {
   unitsArray.forEach(element => {
@@ -406,6 +424,17 @@ function closeModal(){
   modal.style.display = 'none'; //hide the modal after clicking the close button
   warningicon.style.display = 'none';
 
+}
+
+// Functions to show lists
+function showList1(){
+  const list2 = document.getElementById('unitList2')
+  list2.style.display = 'none';
+}
+
+function showList2(){
+  const list1 = document.getElementById('unitList');
+  list1.style.display = 'none';
 }
 
 // // /* Event listener - listens for changes to units content div */
