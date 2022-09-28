@@ -202,7 +202,7 @@
   height: 15px;
   top: 3px;
   left: -20px;
-  background-image: url('pictures/bullets/lightblue.png');
+  background-image: url('pictures/bullets/darkorange.png');
   background-repeat: no-repeat;
   background-size: 13px 13px;
 }
@@ -215,7 +215,7 @@
   height: 15px;
   top: 3px;
   left: -20px;
-  background-image: url('pictures/bullets/darkorange.png');
+  background-image: url('pictures/bullets/lightblue.png');
   background-repeat: no-repeat;
   background-size: 13px 13px;
 }
