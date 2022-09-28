@@ -80,11 +80,17 @@
           <div id="course-information">
             <!-- Pulled from prior selection pages -->
             <p id="course-title">{{ selectedCourse }}</p> 
-            <p id="course-major">Major/Specialisation: {{ selectedMajor1 }}</p>
-            {% if "Select your second major or specialisation" in selectedMajor2 %}
-              <p id="course-major"></p>
+            {% if "No major or specialisation available" in majorCode1 %}
+            <p id="course-major"></p>
             {% else %}
-              <p id="course-major">Second Major/Specialisation: {{ selectedMajor2 }}</p>
+            <p id="course-major">Major/Specialisation: {{ selectedMajor1 }}</p>
+            {% endif %}
+            {% if "No major or specialisation available" in majorCode2 %}
+            <p id="course-major2"></p>
+            {% elif "Select your second major or specialisation" in selectedMajor2 %}
+            <p id="course-major2"></p>
+            {% else %}
+            <p id="course-major2">Second Major/Specialisation: {{ selectedMajor2 }}</p>
             {% endif %}
             <p id="administration">Faculty: {{ faculty }}</p>
             <p id="course-code">Course code: {{ coursecode }}</p> 
@@ -203,9 +209,9 @@
 
 <script>
 // Remove major information from frontend if doesn't contain anything valuable
-if (document.getElementById("course-major").innerHTML == "No major or specialisation available"){
-  document.getElementById("course-major").style.display = "none";
-}
+//if (document.getElementById("course-major").innerHTML == "No major or specialisation available"){
+  //document.getElementById("course-major").style.display = "none";
+//}
 
 // Process units variable from backend in JS
 var units = document.getElementById("unitList").innerHTML;
