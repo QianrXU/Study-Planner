@@ -256,6 +256,7 @@ def createstudyplanSelectCourse():
     # Currently only checking ListMajors, not ListMajors2 (some courses seem to add them in there for some reason)
     # Maybe there is a way to concatenate them? /C
     selectedMajor1 = "No major or specialisation available"
+    selectedMajor2 = "No major or specialisation available"
 
     if request.method == 'POST':
         try:
