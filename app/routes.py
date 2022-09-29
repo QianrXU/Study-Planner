@@ -97,6 +97,7 @@ def account():
     #Adapted code from https://python-adv-web-apps.readthedocs.io/en/latest/flask_db2.html
     
     #declare global variables (must be same as global variables for createstudyplanSelectUnits())
+    global selectedStart
     global selectedCourse 
     global selectedMajor
     global faculty
@@ -165,6 +166,7 @@ def account():
             selectedMajor=study_plan.selectedMajor
             faculty=study_plan.faculty
             coursecode=study_plan.coursecode
+            selectedStart=study_plan.startYearSem
 
             if len(selectedMajor)<1:
                 selectedMajor="No major or specialisation available"
@@ -189,7 +191,7 @@ def account():
             df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
             df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
 
-            getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
+            getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course
 
             getMasterDegrees(df, selectedCourse) # assigns spec and core values
 
@@ -405,144 +407,147 @@ def createstudyplanSelectMajor():
 # STUDY PLANNER - SELECT UNITS
 @app.route('/createstudyplan-units', methods=['GET', 'POST'])
 def createstudyplanSelectUnits():
-    try:
-        global selectedCourse 
-        global selectedMajor
-        global faculty
-        global coursecode
-        global getUnitValues
-        global SP_dict
+#    try:
+    global selectedCourse 
+    global selectedMajor
+    global faculty
+    global coursecode
+    global getUnitValues
+    global SP_dict
 
-        #replace unit selection for degree if the user has selected a major or specification - choose the values that are
-        #in the structure column for this courseID instead
-        majorCode = selectedMajor
+    #replace unit selection for degree if the user has selected a major or specification - choose the values that are
+    #in the structure column for this courseID instead
+    majorCode = selectedMajor
 
-        noMajor = "No major or specialisation available"
+    noMajor = "No major or specialisation available"
 
-        # if specialisation, change majorCode (what is displayed on frontend) to nocode (as it will show under Major: anyway!)
-        if len(spec) != 0:
-            majorCode = noMajor
+    # if specialisation, change majorCode (what is displayed on frontend) to nocode (as it will show under Major: anyway!)
+    if len(spec) != 0:
+        majorCode = noMajor
 
-        if noMajor not in majorCode:
-            majorCode = selectedMajor.split() # need to split as unitCode in index first and then major title
-            majorCode = majorCode[0]
-            coursecode = majorCode
-            getUnitValues = df[df.CourseID.eq(majorCode)] # change to selectedMajor
-            #coursecode = majorCode
+    if noMajor not in majorCode:
+        majorCode = selectedMajor.split() # need to split as unitCode in index first and then major title
+        majorCode = majorCode[0]
+        coursecode = majorCode
+        getUnitValues = df[df.CourseID.eq(majorCode)] # change to selectedMajor
+        #coursecode = majorCode
+    
+    if len(spec) == 0:
+        # process units based on course selection
+        unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
+        unitValues = [str(x) for x in unitValues][0] # convert to string
+        unitValues = unitValues[1:-1]
+        unitValues = json.loads(unitValues) # json file
+
+        #courseInfo = unitValues['introduction'] #retrieve information from introduction (sometimes does not exists, may need to deal with somehow?)
         
-        if len(spec) == 0:
-            # process units based on course selection
-            unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
-            unitValues = [str(x) for x in unitValues][0] # convert to string
-            unitValues = unitValues[1:-1]
-            unitValues = json.loads(unitValues) # json file
+        levelsSpecials = unitValues['levelsSpecials'] #retrieve levelsSpecials and place it in List
+        lengthLS = len(levelsSpecials)
+        typeNames = [] # extract all typesnames from 'Structure'
+        for i in range(lengthLS): # loop through list
+            for key, val in levelsSpecials[i].items():
+                if key == 'unitTypes':
+                    typeNames.append(val)
 
-            #courseInfo = unitValues['introduction'] #retrieve information from introduction (sometimes does not exists, may need to deal with somehow?)
-            
-            levelsSpecials = unitValues['levelsSpecials'] #retrieve levelsSpecials and place it in List
-            lengthLS = len(levelsSpecials)
-            typeNames = [] # extract all typesnames from 'Structure'
-            for i in range(lengthLS): # loop through list
-                for key, val in levelsSpecials[i].items():
-                    if key == 'unitTypes':
-                        typeNames.append(val)
+    if len(spec) > 0: # if there are specialisations
+        typeNames = []
+        for y in range(1, len(m_levelNamesCore), 2): # start from index 1 and increment by 2. m_levelNamesCore needs to be appended too as they are core regardless of specialisation
+            typeNames.append(m_levelNamesCore[y]) # the appended typenames from this variable will be core and conversion units that are mutual for all specialisations regardless of which one
 
-        if len(spec) > 0: # if there are specialisations
-            typeNames = []
-            for y in range(1, len(m_levelNamesCore), 2): # start from index 1 and increment by 2. m_levelNamesCore needs to be appended too as they are core regardless of specialisation
-                typeNames.append(m_levelNamesCore[y]) # the appended typenames from this variable will be core and conversion units that are mutual for all specialisations regardless of which one
+        for i in range(len(m_specialisations)):
+            if selectedMajor == m_specialisations[i]: # if the selected major is in the m_specialisations variable ...
+                index = m_specialisations.index(selectedMajor) # ... find the index of that variable and pop and ...
+                typeNames.append(m_specialisations[index+1]) # ... append the specialisation data to typenames
 
-            for i in range(len(m_specialisations)):
-                if selectedMajor == m_specialisations[i]: # if the selected major is in the m_specialisations variable ...
-                    index = m_specialisations.index(selectedMajor) # ... find the index of that variable and pop and ...
-                    typeNames.append(m_specialisations[index+1]) # ... append the specialisation data to typenames
+    units = [] # all unit codes + unit titles to be saved into this list 
+    unitCodeList = [] # all unit codes to be saved into this list (for connecting with unit list.csv on frontend)
 
-        units = [] # all unit codes + unit titles to be saved into this list 
-        unitCodeList = [] # all unit codes to be saved into this list (for connecting with unit list.csv on frontend)
+    credits = {}
 
-        credits = {}
+    try: 
+        length = len(typeNames)
+        for y in range(length):
+            types = typeNames[y]
+            lengthoftypes = length = len(types)
 
-        try: 
-            length = len(typeNames)
-            for y in range(length):
-                types = typeNames[y]
-                lengthoftypes = length = len(types)
+            for i in range(lengthoftypes): # loop through list
 
-                for i in range(lengthoftypes): # loop through list
+                #if lengthoftypes == 1 or lengthoftypes > 1:
+                for key, val in types[i].items():
+                    if key == 'typeName': # e.g., conversion, core, option, etc.
+                        units.append(val)
+                        units.append("***") #something random to split by on the frontend
+                    if key == 'typeInto': # if there is any typeInto field, include this
+                        units.append(val)
+                        units.append("***")
+                    typesOfunits = val # creates list with dictionary of units
 
-                    #if lengthoftypes == 1 or lengthoftypes > 1:
-                    for key, val in types[i].items():
-                        if key == 'typeName': # e.g., conversion, core, option, etc.
-                            units.append(val)
-                            units.append("***") #something random to split by on the frontend
-                        if key == 'typeInto': # if there is any typeInto field, include this
-                            units.append(val)
-                            units.append("***")
-                        typesOfunits = val # creates list with dictionary of units
-
-                    lengthtype1 = len(typesOfunits)
-                    for i in range(lengthtype1): # loop through list and take the following from Structure
-                        for key, val in typesOfunits[i].items():
-                            if key == 'unitCode':
-                                unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
-                                unitCodeList.append(val)
-                            if key == 'unitTitle':
-                                unitTitle = val
-                                units.append(unitCode + " " + val + "***")
-                            if key == 'unitPoints':
-                                credits[unitCode + " " + unitTitle] = val
-                    units.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
-                    
-        except:
-            units.append("No units")
-
-        #import and read unit list into unitscsv variable
-        unitInfoCsv = os.path.join(app.static_folder, 'Unit list.csv')
-        unitInfoCsv = pd.read_csv(unitInfoCsv, sep=",")
-        unitInfoCsv = unitInfoCsv[unitInfoCsv.Code.isin(unitCodeList)] # filter 'Unit list.csv' by units in selected degree/major/specialisation
-        availability = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title + "***", unitInfoCsv.Availabilities + "***"))
-        
-        # variables for unit information modal (click on modal)
-        prereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Prerequisites))
-        prereq = json.dumps(prereq)
-        corereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Corequisites))
-        corereq = json.dumps(corereq)
-        incomp = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Incompatibilities))
-        incomp = json.dumps(incomp)
-        outcomes = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Outcomes))
-        outcomes = json.dumps(outcomes)
-        content = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Content))
-        content = json.dumps(content)
-        availabilitydict = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Availabilities))
-        availabilitydict = json.dumps(availabilitydict)
-        credits = json.dumps(credits)
-
-        #Add Code and Prerequisites from unit list.csv to dictinary
-        prerequists = dict(zip(unitInfoCsv.Code, unitInfoCsv.Prerequisites))
-        prerequists=json.dumps(prerequists)
-        return render_template('3grid-createstudyplan.html', 
-            selectedStart=selectedStart,
-            getUnitValues=getUnitValues,
-            unitCodeList=unitCodeList,
-            availability=availability,
-            units=units,
-            majorCode=majorCode,
-            selectedCourse=selectedCourse, 
-            selectedMajor=selectedMajor,
-            faculty=faculty,
-            coursecode=coursecode,
-            prerequists = prerequists,
-            prereq=prereq,
-            corereq=corereq,
-            incomp=incomp,
-            outcomes=outcomes,
-            content=content,
-            credits=credits,
-            availabilitydict=availabilitydict,
-            SP_dict=SP_dict,
-            title="Create study plan")
+                lengthtype1 = len(typesOfunits)
+                for i in range(lengthtype1): # loop through list and take the following from Structure
+                    for key, val in typesOfunits[i].items():
+                        if key == 'unitCode':
+                            unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
+                            unitCodeList.append(val)
+                        if key == 'unitTitle':
+                            unitTitle = val
+                            units.append(unitCode + " " + val + "***")
+                        if key == 'unitPoints':
+                            credits[unitCode + " " + unitTitle] = val
+                units.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
+                
     except:
-        return render_template('404.html'), 404
+        units.append("No units")
+
+    #import and read unit list into unitscsv variable
+    unitInfoCsv = os.path.join(app.static_folder, 'Unit list.csv')
+    unitInfoCsv = pd.read_csv(unitInfoCsv, sep=",")
+    unitInfoCsv = unitInfoCsv[unitInfoCsv.Code.isin(unitCodeList)] # filter 'Unit list.csv' by units in selected degree/major/specialisation
+    availability = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title + "***", unitInfoCsv.Availabilities + "***"))
+    
+    # variables for unit information modal (click on modal)
+    prereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Prerequisites))
+    prereq = json.dumps(prereq)
+    corereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Corequisites))
+    corereq = json.dumps(corereq)
+    incomp = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Incompatibilities))
+    incomp = json.dumps(incomp)
+    outcomes = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Outcomes))
+    outcomes = json.dumps(outcomes)
+    content = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Content))
+    content = json.dumps(content)
+    availabilitydict = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Availabilities))
+    availabilitydict = json.dumps(availabilitydict)
+    credits = json.dumps(credits)
+
+    #Add Code and Prerequisites from unit list.csv to dictinary
+    prerequists = dict(zip(unitInfoCsv.Code, unitInfoCsv.Prerequisites))
+    prerequists=json.dumps(prerequists)
+    startSem=int(selectedStart[9:10])
+    startYear=int(selectedStart[12:])
+    return render_template('3grid-createstudyplan.html', 
+        startSem=startSem,
+        startYear=startYear,
+        getUnitValues=getUnitValues,
+        unitCodeList=unitCodeList,
+        availability=availability,
+        units=units,
+        majorCode=majorCode,
+        selectedCourse=selectedCourse, 
+        selectedMajor=selectedMajor,
+        faculty=faculty,
+        coursecode=coursecode,
+        prerequists = prerequists,
+        prereq=prereq,
+        corereq=corereq,
+        incomp=incomp,
+        outcomes=outcomes,
+        content=content,
+        credits=credits,
+        availabilitydict=availabilitydict,
+        SP_dict=SP_dict,
+        title="Create study plan")
+    #except:
+    #    return render_template('404.html'), 404
 
 
 
