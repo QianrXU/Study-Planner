@@ -438,21 +438,21 @@ def createstudyplanSelectUnits():
     noMajor = "No major or specialisation available"
 
     # if specialisation, change majorCode1 (what is displayed on frontend) to nocode (as it will show under Major: anyway!)
-    if len(spec) != 0:
-        majorCode1 = noMajor
-        majorCode2 = noMajor
+    #if len(spec) != 0:
+        #majorCode1 = noMajor
+        #majorCode2 = noMajor
 
     if noMajor not in majorCode1:
         majorCode1 = selectedMajor1.split() # need to split as unitCode in index first and then major title
         majorCode1 = majorCode1[0]
-        coursecode = majorCode1
+        #coursecode = majorCode1
         getUnitValues = df[df.CourseID.eq(majorCode1)] # change to selectedMajor1
         #coursecode = majorCode
     
     if noMajor not in majorCode2:
         majorCode2 = selectedMajor2.split() # need to split as unitCode in index first and then major title
         majorCode2 = majorCode2[0]
-        coursecode = majorCode2
+        #coursecode = majorCode2
         getUnitValues2 = df[df.CourseID.eq(majorCode2)] # change to selectedMajor1
         #coursecode = majorCode
     
@@ -489,7 +489,7 @@ def createstudyplanSelectUnits():
 
         for i in range(len(m_specialisations)):
             if selectedMajor2 == m_specialisations[i]: # if the selected major is in the m_specialisations variable ...
-                index = m_specialisations.index(selectedMajor1) # ... find the index of that variable and pop and ...
+                index = m_specialisations.index(selectedMajor2) # ... find the index of that variable and pop and ...
                 typeNames2.append(m_specialisations[index+1]) # ... append the specialisation data to typenames
 
 
