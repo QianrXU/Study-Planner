@@ -9,7 +9,11 @@
         <div id="units-content">
 
           <h2 id="select-units-title">Select units</h2>
+            {% if "Select your second major or specialisation" in selectedMajor2 or "No major or specialisation available" in majorCode1 %}
+            <div></div>
+            {% else %}
             <div id="listToAnother"><i class="fa-solid fa-square-caret-left" id="tolist1" onclick="showList1()"></i><i class="fa-solid fa-square-caret-right" id="tolist2" onclick="showList2()"></i></div>
+            {% endif %}
             <div id="unitsSelection">
               <p class="unit-heading" id="type1" draggable="false" style="display: none;">Type</p>
               <div class="unit-draggables" id="type1units" style="display: none;">
