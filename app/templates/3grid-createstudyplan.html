@@ -258,6 +258,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   loadedUnits = loadedUnits.split(",");
   var loadedArray = [];
   var unit = '';
+  //Loop through to process the string and remove unneccessary characters before adding them to the array.
   for(i = 0; i < loadedUnits.length; i++) {
     if(i==0){
       unit=loadedUnits[i].slice(1);
@@ -272,14 +273,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
       unit=unit[1].slice(2);
       unit=unit[1].slice(0,-2);
       unit=unit.trim();
-      loadedArray.push(unit[1]);
+      loadedArray.push(unit);
     }
     else{
       unit=loadedUnits[i].split(":");
       unit=unit[1].slice(2);
       unit=unit.slice(0,-1);
       unit=unit.trim();
-      loadedArray.push(unit[1]);
+      loadedArray.push(unit);
     }
   }
 
