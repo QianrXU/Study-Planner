@@ -367,9 +367,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     item.addEventListener('dragstart', function (e) {
         // Create the ghost element (gets dragged on dragstart)
         ghostEle = document.createElement('div');
-        ghostEle.classList.add('dragging');
+        ghostEle.classList.add('ghostelementdiv');
         ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element     
-        document.body.appendChild(ghostEle); // Append it to `body`
+        //document.body.appendChild(ghostEle); // Append it to `body`
         e.dataTransfer.setDragImage(ghostEle, 0, 0); // Customize the drag image to be the sourceInfo variable's id
     });
 
