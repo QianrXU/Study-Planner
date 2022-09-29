@@ -16,7 +16,7 @@
                 <ul id="type1unitsUL" style="display: none;"></ul>
               </div>
             </div>
-            <div id="unitsSelection2">
+            <div id="unitsSelection2" style="display: none;">
               <p class="unit-heading" id="type1" draggable="false" style="display: none;">Type</p>
               <div class="unit-draggables" id="type1units" style="display: none;">
                 <ul id="type1unitsUL" style="display: none;"></ul>
@@ -252,8 +252,7 @@ unitInformation2 = unitInformation2.split('***')
 unitInformation2 = unitInformation2.map(elem => elem.replace(", ", "")); 
 unitInformation2 = unitInformation2.map(elem => elem.replace(": ", "")); 
 
-console.log(units2)
-
+// This loads the units1 data 
 window.addEventListener('DOMContentLoaded', (event) => {
   unitsArray.forEach(element => {
     unitRole = element.split(", ***, "); // This split stirng is decided in routes.py
@@ -416,8 +415,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
   //Pop-up reminder function ends
 
 });
+
+// This loads the units2 data
 window.addEventListener('DOMContentLoaded', (event) => {
-  unitsArray.forEach(element => {
+  unitsArray2.forEach(element => {
     unitRole = element.split(", ***, "); // This split stirng is decided in routes.py
     unitRole = unitRole.map(elem => elem.replace(", ***", "")); // if there would be any erronous split symbols (&amp;*:,) that have come across despite the split, clean those up
 
