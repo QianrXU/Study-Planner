@@ -242,6 +242,7 @@
 This needs to not have indent. */
 .no_marker {
   margin-left: -22px !important;
+  cursor: auto !important;
 }
 
 
@@ -313,6 +314,7 @@ li {
   flex-direction: row;
   justify-content: end;
 }
+
 /* this is the info icon that can trigger the general info modal */
 #myModal {
   color: #003087;
@@ -322,10 +324,7 @@ li {
 }
 
 /* the general info modal */
-.modal-container { 
-  width: 100%;
-  display: inline-block;
-}
+
 .modal {
   z-index: 999 !important;
   left: 0;
@@ -336,6 +335,7 @@ li {
   overflow: scroll !important; 
   background-color: rgba(0, 0, 0, 0.5);
 }
+
 .modal-content {
   width: 70% !important;
   display: flex;
@@ -345,10 +345,12 @@ li {
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
   text-align: justify;
 }
+
 .modal-header {
   display: flex !important;
   flex-direction: row !important;
   background: #003087;
+  padding: 0.5rem 0.5rem !important;
   color: #000;
   justify-content: flex-end !important;
 }
@@ -358,8 +360,28 @@ li {
   margin: 30px 50px ; 
 }
 
+.modal-body p {
+  letter-spacing: 0.2px;
+}
+
+.modal-body h5 {
+  font-family: 'TTNorms';
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.modal-body h3 {
+  font-family: 'TTNorms';
+  font-size: 17px;
+}
+
+.modal-body p {
+  font-family: 'TTNorms';
+  font-size: 14px;
+}
+
 .general li {
-  font-family: TTNorms;
+  font-family: 'TTNorms';
   font-size: 14px;
 }
 
@@ -369,6 +391,22 @@ li {
   font-size: 30px;  
 }
 
+/* specific to unit information modal */
+.unitrules {
+  margin-bottom: 0px;
+}
+
+.unitsrulesheader {
+  text-decoration: underline;
+}
+
+#title {
+  text-transform: uppercase;
+}
+
+.creditpoints {
+  font-weight: bold;
+}
 
 @media only screen and (max-width: 800px) {
   #units {
