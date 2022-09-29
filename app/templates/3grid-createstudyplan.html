@@ -218,8 +218,8 @@
 
 <div id="prereq" style="display: none;">{{ prereq }}</div>
 <div id="corereq" style="display: none;">{{ corereq }}</div>
-<div id="incomp" style="display: none;">{{ incomp }}</div>
-<div id="outcomes" style="display: none;">{{ outcomes }}</div>
+<div id="incompatibilities" style="display: none;">{{ incomp }}</div>
+<div id="unitoutcomes" style="display: none;">{{ outcomes }}</div>
 <div id="content" style="display: none;">{{ content }}</div>
 
 <!--Script to support PDF conversion-->
@@ -229,8 +229,8 @@
 <script>
 var prereq = document.getElementById("prereq").innerHTML;
 var corereq = document.getElementById("corereq").innerHTML;
-var incomp = document.getElementById("incomp").innerHTML;
-var outcomes = document.getElementById("outcomes").innerHTML;
+var incompatibilities = document.getElementById("incompatibilities").innerHTML;
+var unitoutcomes = document.getElementById("unitoutcomes").innerHTML;
 var content = document.getElementById("content").innerHTML;
 
 // Remove major information from frontend if doesn't contain anything valuable
@@ -473,11 +473,13 @@ window.onclick = function(event) {
 // }
 
 content = JSON.parse(content);
+unitoutcomes = JSON.parse(unitoutcomes);
 prereq = JSON.parse(prereq);
 corereq = JSON.parse(corereq);
+incompatibilities = JSON.parse(incompatibilities);
 // credits
 
-// // Click event - Add modal on click?
+// Click event - modal opens and populates on unit click
 document.addEventListener('click',function(e){
     if(e.target && 
         e.target.classList == 'element' | 
@@ -491,34 +493,13 @@ document.addEventListener('click',function(e){
 
       document.getElementById("title").innerHTML = id; // change innerhtml of id to unit code + title
       for (var key in content){if (key == id) {document.getElementById("description").innerHTML = content[key];}} // change innerhtml to unit description
+      for (var key in unitoutcomes){if (key == id) {document.getElementById("outcomes").innerHTML = unitoutcomes[key];}} // change innerhtml to unit outcome
       for (var key in prereq){if (key == id) {document.getElementById("prereqs").innerHTML = prereq[key];}} // change innerhtml to prereq
       for (var key in corereq){if (key == id) {document.getElementById("coreqs").innerHTML = corereq[key];}} // change innerhtml to corereq
+      for (var key in incompatibilities){if (key == id) {document.getElementById("incomp").innerHTML = incompatibilities[key];}} // change innerhtml to incompatibility
       openUnitModal();
      }
  });
-
- incomp = JSON.parse(incomp);
-// outcomes = JSON.parse(outcomes);
-
- //     id = e.target.id; // get the id of the element clicked
-
-    //   //  <h3 id="title"></h3>
-    //   //   <p id="administeredby"></p>
-    //   //   <p id="credits"></p>
-    //   //   <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
-    //   //   <h3>Outcomes</h3>
-    //   //   <p id="outcomes"></p>
-    //   //   <p id="incomp"></p>
-
-    //   // var prereq = document.getElementById("prereq").innerHTML;
-    //   // var corereq = document.getElementById("corereq").innerHTML;
-    //   // var incomp = document.getElementById("incomp").innerHTML;
-    //   // var outcomes = document.getElementById("outcomes").innerHTML;
-    //   // var content = document.getElementById("content").innerHTML;
-
-
-
-
 
 // Grid system
 // Dragstart - save initial position somehow?
