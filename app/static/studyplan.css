@@ -404,7 +404,9 @@ li {
   text-transform: uppercase;
 }
 
-
+.creditpoints {
+  font-weight: bold;
+}
 
 @media only screen and (max-width: 800px) {
   #units {

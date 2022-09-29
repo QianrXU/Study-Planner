@@ -460,7 +460,7 @@ def createstudyplanSelectUnits():
         units = [] # all unit codes + unit titles to be saved into this list 
         unitCodeList = [] # all unit codes to be saved into this list (for connecting with unit list.csv on frontend)
 
-        credits = []
+        credits = {}
 
         try: 
             length = len(typeNames)
@@ -490,12 +490,8 @@ def createstudyplanSelectUnits():
                                 unitTitle = val
                                 units.append(unitCode + " " + val + "***")
                             if key == 'unitPoints':
-                                credits.append(unitCode + " " + unitTitle + " " + val)
+                                credits[unitCode + " " + unitTitle] = val
                     units.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
-                            # if key == 'unitPoints':
-                            #     units1.append(val)
-                            # if key == 'unitURL':
-                            #     units1.append(val)
                     
         except:
             units.append("No units")
@@ -517,6 +513,7 @@ def createstudyplanSelectUnits():
         outcomes = json.dumps(outcomes)
         content = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Content))
         content = json.dumps(content)
+        credits = json.dumps(credits)
 
         #Add Code and Prerequisites from unit list.csv to dictinary
         prerequists = dict(zip(unitInfoCsv.Code, unitInfoCsv.Prerequisites))

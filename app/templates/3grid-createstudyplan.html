@@ -192,7 +192,7 @@
       </div>
       <div class="modal-body">
         <h3 id="title"></h3>
-        <p>Credits: <span id="credits"></span></p>
+        <p class="creditpoints">Credit points: <span id="creditpoints"></span></p>
         <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
         <h3>Decription</h3>
         <p id="description"></p>
@@ -219,6 +219,7 @@
 <div id="incompatibilities" style="display: none;">{{ incomp }}</div>
 <div id="unitoutcomes" style="display: none;">{{ outcomes }}</div>
 <div id="content" style="display: none;">{{ content }}</div>
+<div id="structurecredits" style="display: none;">{{ credits }}</div>
 
 <!--Script to support PDF conversion-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
@@ -230,6 +231,7 @@ var corereq = document.getElementById("corereq").innerHTML;
 var incompatibilities = document.getElementById("incompatibilities").innerHTML;
 var unitoutcomes = document.getElementById("unitoutcomes").innerHTML;
 var content = document.getElementById("content").innerHTML;
+var creditpoints = document.getElementById("structurecredits").innerHTML;
 
 // Remove major information from frontend if doesn't contain anything valuable
 if (document.getElementById("course-major").innerHTML == "No major or specialisation available"){
@@ -475,7 +477,7 @@ unitoutcomes = JSON.parse(unitoutcomes);
 prereq = JSON.parse(prereq);
 corereq = JSON.parse(corereq);
 incompatibilities = JSON.parse(incompatibilities);
-// credits
+creditpoints = JSON.parse(creditpoints);
 
 // Click event - modal opens and populates on unit click
 document.addEventListener('click',function(e){
@@ -490,6 +492,7 @@ document.addEventListener('click',function(e){
       id = event.target.id;
 
       document.getElementById("title").innerHTML = id; // change innerhtml of id to unit code + title
+      for (var key in creditpoints){if (key == id) {document.getElementById("creditpoints").innerHTML = creditpoints[key];}} // change innerhtml to credit points
       for (var key in content){if (key == id) {document.getElementById("description").innerHTML = content[key];}} // change innerhtml to unit description
       for (var key in unitoutcomes){if (key == id) {document.getElementById("outcomes").innerHTML = unitoutcomes[key];}} // change innerhtml to unit outcome
       for (var key in prereq){if (key == id) {document.getElementById("prereqs").innerHTML = prereq[key];}} // change innerhtml to prereq
