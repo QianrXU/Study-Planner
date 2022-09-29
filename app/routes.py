@@ -460,6 +460,8 @@ def createstudyplanSelectUnits():
         units = [] # all unit codes + unit titles to be saved into this list 
         unitCodeList = [] # all unit codes to be saved into this list (for connecting with unit list.csv on frontend)
 
+        credits = {}
+
         try: 
             length = len(typeNames)
             for y in range(length):
@@ -485,13 +487,11 @@ def createstudyplanSelectUnits():
                                 unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
                                 unitCodeList.append(val)
                             if key == 'unitTitle':
+                                unitTitle = val
                                 units.append(unitCode + " " + val + "***")
-
+                            if key == 'unitPoints':
+                                credits[unitCode + " " + unitTitle] = val
                     units.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
-                            # if key == 'unitPoints':
-                            #     units1.append(val)
-                            # if key == 'unitURL':
-                            #     units1.append(val)
                     
         except:
             units.append("No units")
@@ -501,6 +501,20 @@ def createstudyplanSelectUnits():
         unitInfoCsv = pd.read_csv(unitInfoCsv, sep=",")
         unitInfoCsv = unitInfoCsv[unitInfoCsv.Code.isin(unitCodeList)] # filter 'Unit list.csv' by units in selected degree/major/specialisation
         availability = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title + "***", unitInfoCsv.Availabilities + "***"))
+        
+        # variables for unit information modal (click on modal)
+        prereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Prerequisites))
+        prereq = json.dumps(prereq)
+        corereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Corequisites))
+        corereq = json.dumps(corereq)
+        incomp = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Incompatibilities))
+        incomp = json.dumps(incomp)
+        outcomes = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Outcomes))
+        outcomes = json.dumps(outcomes)
+        content = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Content))
+        content = json.dumps(content)
+        credits = json.dumps(credits)
+
         #Add Code and Prerequisites from unit list.csv to dictinary
         prerequists = dict(zip(unitInfoCsv.Code, unitInfoCsv.Prerequisites))
         prerequists=json.dumps(prerequists)
@@ -516,6 +530,12 @@ def createstudyplanSelectUnits():
             faculty=faculty,
             coursecode=coursecode,
             prerequists = prerequists,
+            prereq=prereq,
+            corereq=corereq,
+            incomp=incomp,
+            outcomes=outcomes,
+            content=content,
+            credits=credits,
             SP_dict=SP_dict,
             title="Create study plan")
     except:

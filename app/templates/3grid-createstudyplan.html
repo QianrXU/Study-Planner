@@ -32,8 +32,9 @@
             <!-- the icon listens to a click function to show the modal -->
             <i class="fa-solid fa-circle-info" onclick="openModal()" id="myModal"></i>
           </div>
+
           <!-- General info modal that can triggered by clicking the large info icon at the bottom of availability key lists -Valerie -->
-          <div id="modal-container">
+          <div class="modal-container">
             <div class="modal" id="my-modal">
               <div class="modal-content">
                 <div class="modal-header">
@@ -42,11 +43,10 @@
                 </div>
                 <div class="modal-body">
                   <h3>GENERAL INFORMATION</h3>
-                  <br>
-                  <H5>Core Units</H5>
+                  <H5>Core units</H5>
                   <p>Core units are the compulsory units in your chosen course. In the Study Planner tool, you must allocate these units before allocating optional units.</p>
                   <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
-                  <h3>BACHELOR'S DEGREE</h3>
+                  <h3>BACHELOR'S DEGREE'S</h3>
                   <p>UWA's three-year undergraduate courses each comprise 24 units. The units you study must include:
                     <ul class="general">
                       <li>a degree-specific major; and</li>
@@ -59,18 +59,19 @@
                       <li>you must pass at least 3 units at Level 3.</li>
                     </ul>
                   </p>
-                  <H5>Broadening Units</H5>
+                  <H5>Broadening units</H5>
                   <p>All students towards a Bachelor's Degree at UWA are required to broaden their studies by completing a minimum of four units (24 points) of study outside their degree specific major.</p>
-                  <H5>Bridging Units</H5>
+                  <H5>Bridging units</H5>
                   <p>Bridging units are designed for students who have not met the relevant ATAR level (or equivalent qualification) required as prerequisites for their major. Bridging units must be successfully completed within the first 48 points of study.</p>
                   <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
-                  <h3>MASTER'S DEGREE</h3>
-                  <h5>Conversion Units</h5>
+                  <h3>MASTER'S DEGREE'S</h3>
+                  <h5>Conversion units</h5>
                   <p>For some courses, there may be special conditions on admission. Students who have completed degree studies in a non-cognate area or equivalenet (as recognised by the University), must complete relevant conversion units. This is determined upon offer of admission and by the scope of a students's prior study.</p>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
     </div>
 
@@ -171,11 +172,11 @@
       <br><br>
 
       {{selectedStart}}
-
     </div>
 
   </div>
 </div>
+
 <div id="warning" style="display:none;">
   <div id = "warningbox">
     <p id="requistinfo"></p>
@@ -183,8 +184,29 @@
   </div>
 </div>
 
+<div class="modal-container">
+  <div class="modal" id="unit-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <i class="fa-solid fa-rectangle-xmark" id="close-info" onclick="closeUnitModal()"></i>
+      </div>
+      <div class="modal-body">
+        <h3 id="title"></h3>
+        <p class="creditpoints">Credit points: <span id="creditpoints"></span></p>
+        <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
+        <h3>Decription</h3>
+        <p id="description"></p>
+        <h3>Outcomes</h3>
+        <p id="outcomes"></p>
+        <h3>Unit rules</h3>
+        <p class="unitrules"><span class="unitsrulesheader">Prerequisites:</span> <span id="prereqs"></span></p>
+        <p class="unitrules"><span class="unitsrulesheader">Co-requisites:</span> <span id="coreqs"></span></p> 
+        <p class="unitrules"><span class="unitsrulesheader">Incompatibilities</span> <span id="incomp"></span></p>
+      </div>
+    </div>
+  </div>
+</div>
 
-    
 
 
 <!-- Units variable from back end -->
@@ -192,11 +214,25 @@
 <div id="unitCodeList" style="display: none;">{{ availability }}</div>
 <div id="unitalert" style="display: none;">{{ prerequists }}</div>
 
+<div id="prereq" style="display: none;">{{ prereq }}</div>
+<div id="corereq" style="display: none;">{{ corereq }}</div>
+<div id="incompatibilities" style="display: none;">{{ incomp }}</div>
+<div id="unitoutcomes" style="display: none;">{{ outcomes }}</div>
+<div id="content" style="display: none;">{{ content }}</div>
+<div id="structurecredits" style="display: none;">{{ credits }}</div>
+
 <!--Script to support PDF conversion-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
 <script>
+var prereq = document.getElementById("prereq").innerHTML;
+var corereq = document.getElementById("corereq").innerHTML;
+var incompatibilities = document.getElementById("incompatibilities").innerHTML;
+var unitoutcomes = document.getElementById("unitoutcomes").innerHTML;
+var content = document.getElementById("content").innerHTML;
+var creditpoints = document.getElementById("structurecredits").innerHTML;
+
 // Remove major information from frontend if doesn't contain anything valuable
 if (document.getElementById("course-major").innerHTML == "No major or specialisation available"){
   document.getElementById("course-major").style.display = "none";
@@ -303,6 +339,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
   });
 
+
   //Pop-up reminder function starts
 
   //Add a pop-up reminder for the dragged course, showing the prerequisites of the course
@@ -324,7 +361,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //console.log(target)
         sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
         })
-    })
+
+      });
 
   // for each action on the unit divs/target divs
   unitDiv.forEach(item => {
@@ -362,7 +400,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     })
 
     //add the drop event listener
-    item.addEventListener('drop',(event) => {
+    item.addEventListener('drop', (event) => {
       //Display prerequisites in the floating box
       const warningtext = document.getElementById('warning'); 
       warningtext.style.display = 'block'; 
@@ -384,6 +422,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 // Functions to show and close the general-info modal - Done by Valerie
 //Modal - open general-info modal
+const modal = document.getElementById('my-modal'); 
+
 function openModal(){
   const modal = document.getElementById('my-modal'); // get the modal that needs to be showed
   modal.style.display = 'block'; //show the modal after click action
@@ -394,8 +434,31 @@ function closeModal(){
   const warningicon = document.getElementById("warning");
   modal.style.display = 'none'; //hide the modal after clicking the close button
   warningicon.style.display = 'none';
-
 }
+
+// unit modal
+var unitmodal = document.getElementById('unit-modal'); 
+
+function openUnitModal(){
+  unitmodal.style.display = 'block'; //show the modal after click action
+}
+
+function closeUnitModal(){
+  const warningicon = document.getElementById("warning");
+  unitmodal.style.display = 'none'; //hide the modal after clicking the close button
+  warningicon.style.display = 'none';
+}
+
+// when user clicks anywhere outside of modal window when modal window is open, close the modal
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+  if (event.target == unitmodal) {
+    unitmodal.style.display = "none";
+  }
+}
+
 
 // // /* Event listener - listens for changes to units content div */
 // detect_units_changing = document.getElementById("conversionUL");
@@ -409,7 +472,14 @@ function closeModal(){
 //   console.log(detected_course);
 // }
 
-// Click event - Add modal on click?
+content = JSON.parse(content);
+unitoutcomes = JSON.parse(unitoutcomes);
+prereq = JSON.parse(prereq);
+corereq = JSON.parse(corereq);
+incompatibilities = JSON.parse(incompatibilities);
+creditpoints = JSON.parse(creditpoints);
+
+// Click event - modal opens and populates on unit click
 document.addEventListener('click',function(e){
     if(e.target && 
         e.target.classList == 'element' | 
@@ -420,7 +490,15 @@ document.addEventListener('click',function(e){
         e.target.classList == 'non_standard'        
         ){
       id = event.target.id;
-      alert("You've clicked on " + id); 
+
+      document.getElementById("title").innerHTML = id; // change innerhtml of id to unit code + title
+      for (var key in creditpoints){if (key == id) {document.getElementById("creditpoints").innerHTML = creditpoints[key];}} // change innerhtml to credit points
+      for (var key in content){if (key == id) {document.getElementById("description").innerHTML = content[key];}} // change innerhtml to unit description
+      for (var key in unitoutcomes){if (key == id) {document.getElementById("outcomes").innerHTML = unitoutcomes[key];}} // change innerhtml to unit outcome
+      for (var key in prereq){if (key == id) {document.getElementById("prereqs").innerHTML = prereq[key];}} // change innerhtml to prereq
+      for (var key in corereq){if (key == id) {document.getElementById("coreqs").innerHTML = corereq[key];}} // change innerhtml to corereq
+      for (var key in incompatibilities){if (key == id) {document.getElementById("incomp").innerHTML = incompatibilities[key];}} // change innerhtml to incompatibility
+      openUnitModal();
      }
  });
 
