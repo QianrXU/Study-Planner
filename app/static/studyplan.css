@@ -242,6 +242,7 @@
 This needs to not have indent. */
 .no_marker {
   margin-left: -22px !important;
+  cursor: auto !important;
 }
 
 
@@ -349,6 +350,7 @@ li {
   display: flex !important;
   flex-direction: row !important;
   background: #003087;
+  padding: 0.5rem 0.5rem !important;
   color: #000;
   justify-content: flex-end !important;
 }
@@ -356,6 +358,26 @@ li {
 .modal-body {
   background: #fff;
   margin: 30px 50px ; 
+}
+
+.modal-body p {
+  letter-spacing: 0.2px;
+}
+
+.modal-body h5 {
+  font-family: 'TTNorms';
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.modal-body h3 {
+  font-family: 'TTNorms';
+  font-size: 17px;
+}
+
+.modal-body p {
+  font-family: 'TTNorms';
+  font-size: 14px;
 }
 
 .general li {
@@ -368,6 +390,20 @@ li {
   cursor: pointer;
   font-size: 30px;  
 }
+
+/* specific to unit information modal */
+.unitrules {
+  margin-bottom: 0px;
+}
+
+.unitsrulesheader {
+  text-decoration: underline;
+}
+
+#title {
+  text-transform: uppercase;
+}
+
 
 
 @media only screen and (max-width: 800px) {
