@@ -353,21 +353,33 @@ window.addEventListener('DOMContentLoaded', (event) => {
   const unitListElement = document.querySelectorAll('.unit-ul li');
   let target = null
 
+  // The ghost element (holds what gets dragged on dragstart)
+  let ghostEle;
+
   // for each action on the individual unit list elements
   unitListElement.forEach(item=> {
     // event listener for dragstart events
     item.addEventListener('dragstart', (event) => {
-        target = event.target;
-        //console.log(target)
-        sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
-        })
+      target = event.target;
+      sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
+      })
 
-      });
+    item.addEventListener('dragstart', function (e) {
+        // Create the ghost element (gets dragged on dragstart)
+        ghostEle = document.createElement('div');
+        ghostEle.classList.add('dragging');
+        ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element     
+        document.body.appendChild(ghostEle); // Append it to `body`
+        e.dataTransfer.setDragImage(ghostEle, 0, 0); // Customize the drag image to be the sourceInfo variable's id
+    });
+
+  });
 
   // for each action on the unit divs/target divs
   unitDiv.forEach(item => {
     // event listener for dragover events 
     item.addEventListener('dragover', (event) => {
+      
       // Unit availability constraint on unit divs - row 1 and row 2 (semester 1 constraint on sem2 units)
       const row1 = document.getElementById("row1").childNodes // row 1
       const row3 = document.getElementById("row3").childNodes // row 3
@@ -401,11 +413,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     //add the drop event listener
     item.addEventListener('drop', (event) => {
+
       //Display prerequisites in the floating box
       const warningtext = document.getElementById('warning'); 
       warningtext.style.display = 'block'; 
       var warinfo = document.getElementById("requistinfo");
       warinfo.innerHTML="";
+
+
         for (var key in unitprerequist){
           if (target.innerHTML.includes(key)){
             //window.alert(unitprerequist[key]);
@@ -511,15 +526,8 @@ document.addEventListener('click',function(e){
 //      }
 //  });
  
-let offset = [0, 0]
-
-
 function drag(ev) {
   ev.dataTransfer.setData('dragID', ev.target.id)
-  offset = [
-    ev.target.offsetLeft - ev.clientX,
-    ev.target.offsetTop - ev.clientY
-  ]
 }
 
 function drop(ev) {
