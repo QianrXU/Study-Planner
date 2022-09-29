@@ -513,6 +513,8 @@ def createstudyplanSelectUnits():
         outcomes = json.dumps(outcomes)
         content = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Content))
         content = json.dumps(content)
+        availabilitydict = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Availabilities))
+        availabilitydict = json.dumps(availabilitydict)
         credits = json.dumps(credits)
 
         #Add Code and Prerequisites from unit list.csv to dictinary
@@ -536,6 +538,7 @@ def createstudyplanSelectUnits():
             outcomes=outcomes,
             content=content,
             credits=credits,
+            availabilitydict=availabilitydict,
             SP_dict=SP_dict,
             title="Create study plan")
     except:
