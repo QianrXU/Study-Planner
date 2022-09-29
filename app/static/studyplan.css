@@ -543,10 +543,10 @@ li {
   text-align:center;
 }
 
-#requistinfo{
-  margin:0; 
-  display:inline;
-  position:relative; 
+#alertinfo{
+  margin: 0; 
+  display: inline;
+  position: relative; 
   display: inline-block;
 }
 
