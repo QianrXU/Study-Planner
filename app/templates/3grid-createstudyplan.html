@@ -226,6 +226,8 @@
       <div class="modal-body">
         <h3 id="title"></h3>
         <p class="creditpoints">Credit points: <span id="creditpoints"></span></p>
+        <div id="nonstandardteachingperioddiv"><div><i class="fa-solid fa-circle-info" class="availinfo"></i><p id="nonstandardteachingperiod"></p></div></div>
+        <div id="notavailablediv"><div><i class="fa-solid fa-circle-info" class="availinfo"></i><p id="notavailabledivtext"></p></div></div>
         <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
         <h3>Decription</h3>
         <p id="description"></p>
@@ -241,7 +243,6 @@
 </div>
 
 
-
 <!-- Units variable from back end -->
 <div id="unitList" style="display: none;">{{ units }}</div>
 <div id="unitCodeList" style="display: none;">{{ availability }}</div>
@@ -254,6 +255,7 @@
 <div id="unitoutcomes" style="display: none;">{{ outcomes }}</div>
 <div id="content" style="display: none;">{{ content }}</div>
 <div id="structurecredits" style="display: none;">{{ credits }}</div>
+<div id="availabilityofunits" style="display: none;">{{ availabilitydict }}</div>
 
 <!--Script to support PDF conversion-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
@@ -266,6 +268,7 @@ var incompatibilities = document.getElementById("incompatibilities").innerHTML;
 var unitoutcomes = document.getElementById("unitoutcomes").innerHTML;
 var content = document.getElementById("content").innerHTML;
 var creditpoints = document.getElementById("structurecredits").innerHTML;
+var availabilityofunits = document.getElementById("availabilityofunits").innerHTML;
 
 // Remove major information from frontend if doesn't contain anything valuable
 if (document.getElementById("course-major").innerHTML == "No major or specialisation available"){
@@ -365,7 +368,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
       var unitArrLength = unitArr.length // grab length of each unit role list
       for (i = 0; i < unitArrLength; i++) {
-        if(!(loadedArray.includes(unitArr[i].trim()))){
+        if(!(loadedArray.includes(unitArr[i].trim()))){          
           var lielement = document.createElement("li"); // create list item
           lielement.appendChild(document.createTextNode(unitArr[i].trim())); // create and append content of list item (i.e., unit)
           lielement.setAttribute("id", unitArr[i].trim()); // set ID of new list item to 'Unit Code Unit Name'
@@ -381,6 +384,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
             var availabilityinfo = unitInformation.indexOf(unitArr[i].trim())
             if (availabilityinfo != -1) { // if unit was found in unitInformation array, i.e., does not return -1
               availability = unitInformation[availabilityinfo+1]
+
+              if (availability.includes("Not available")) {
+                  lielement.setAttribute("class", "not_available");
+                  lielement.setAttribute("draggable", "false"); // prevent dragging of units with class not_available
+                  lielement.style.cursor = "pointer"; // change cursor of units with class not_available to pointer rather than 'grabbing'
+              }
+              if (availability.includes("Non-standard")) {
+                  lielement.setAttribute("class", "non_standard");
+                  lielement.setAttribute("draggable", "false"); // prevent dragging of units with class non_standard
+                  lielement.style.cursor = "pointer"; // change cursor of units with class non_standard to pointer, rather than 'grabbing'
+              }
               if (availability.includes("Semester 1")) {
                 lielement.setAttribute("class", "sem1");
               }
@@ -390,22 +404,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
               if (availability.includes("Semester 1") && availability.includes("Semester 2")) {
                   lielement.setAttribute("class", "sem1and2");
               }
-              if (availability.includes("Not available")) {
-                  lielement.setAttribute("class", "not_available");
-              }
-              if (availability.includes("Non-standard")) {
-                  lielement.setAttribute("class", "non_standard");
-              }
             }
-            else {lielement.setAttribute("class", "element")}
-            
-            unitRoleUl.appendChild(lielement); // append li element/unit
           }
         }
       }
     }
-  });
-
+});
 
   //Pop-up reminder function starts
 
@@ -420,21 +424,33 @@ window.addEventListener('DOMContentLoaded', (event) => {
   const unitListElement = document.querySelectorAll('.unit-ul li');
   let target = null
 
+  // The ghost element (holds what gets dragged on dragstart)
+  let ghostEle;
+
   // for each action on the individual unit list elements
   unitListElement.forEach(item=> {
     // event listener for dragstart events
     item.addEventListener('dragstart', (event) => {
-        target = event.target;
-        //console.log(target)
-        sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
-        })
+      target = event.target;
+      sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
+      })
 
-      });
+    item.addEventListener('dragstart', function (e) {
+        // Create the ghost element (gets dragged on dragstart)
+        ghostEle = document.createElement('div');
+        ghostEle.classList.add('ghostelementdiv');
+        ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element     
+        //document.body.appendChild(ghostEle); // Append it to `body`
+        e.dataTransfer.setDragImage(ghostEle, 0, 0); // Customize the drag image to be the sourceInfo variable's id
+    });
+
+  });
 
   // for each action on the unit divs/target divs
   unitDiv.forEach(item => {
     // event listener for dragover events 
     item.addEventListener('dragover', (event) => {
+      
       // Unit availability constraint on unit divs - row 1 and row 2 (semester 1 constraint on sem2 units)
       const row1 = document.getElementById("row1").childNodes // row 1
       const row3 = document.getElementById("row3").childNodes // row 3
@@ -468,11 +484,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     //add the drop event listener
     item.addEventListener('drop', (event) => {
+
       //Display prerequisites in the floating box
       const warningtext = document.getElementById('warning'); 
       warningtext.style.display = 'block'; 
       var warinfo = document.getElementById("requistinfo");
       warinfo.innerHTML="";
+
+
         for (var key in unitprerequist){
           if (target.innerHTML.includes(key)){
             //window.alert(unitprerequist[key]);
@@ -545,6 +564,7 @@ prereq = JSON.parse(prereq);
 corereq = JSON.parse(corereq);
 incompatibilities = JSON.parse(incompatibilities);
 creditpoints = JSON.parse(creditpoints);
+availabilityofunits = JSON.parse(availabilityofunits);
 
 // Click event - modal opens and populates on unit click
 document.addEventListener('click',function(e){
@@ -560,6 +580,23 @@ document.addEventListener('click',function(e){
 
       document.getElementById("title").innerHTML = id; // change innerhtml of id to unit code + title
       for (var key in creditpoints){if (key == id) {document.getElementById("creditpoints").innerHTML = creditpoints[key];}} // change innerhtml to credit points
+      for (var key in availabilityofunits){if (key == id) {
+        if (availabilityofunits[key].includes("Non-standard")) {
+          document.getElementById("nonstandardteachingperioddiv").style.display = "flex";
+          document.getElementById("nonstandardteachingperiod").innerHTML = availabilityofunits[key];
+        }
+        else {
+          document.getElementById("nonstandardteachingperioddiv").style.display = "none";
+        }
+        if (availabilityofunits[key].includes("Not available")) {
+          document.getElementById("notavailablediv").style.display = "flex";
+          document.getElementById("notavailabledivtext").innerHTML = availabilityofunits[key];
+        }
+        else {
+          document.getElementById("notavailablediv").style.display = "none";
+        }
+      }} 
+
       for (var key in content){if (key == id) {document.getElementById("description").innerHTML = content[key];}} // change innerhtml to unit description
       for (var key in unitoutcomes){if (key == id) {document.getElementById("outcomes").innerHTML = unitoutcomes[key];}} // change innerhtml to unit outcome
       for (var key in prereq){if (key == id) {document.getElementById("prereqs").innerHTML = prereq[key];}} // change innerhtml to prereq
@@ -578,15 +615,8 @@ document.addEventListener('click',function(e){
 //      }
 //  });
  
-let offset = [0, 0]
-
-
 function drag(ev) {
   ev.dataTransfer.setData('dragID', ev.target.id)
-  offset = [
-    ev.target.offsetLeft - ev.clientX,
-    ev.target.offsetTop - ev.clientY
-  ]
 }
 
 function drop(ev) {
