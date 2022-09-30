@@ -42,7 +42,6 @@ SP_dict['Y2S2_3']=""
 SP_dict['Y2S2_4']=""
 SP_dict['Y2S2_5']=""
 
-
 # Index page
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
@@ -606,6 +605,31 @@ def createstudyplanSelectUnits():
     startSem=int(selectedStart[9:10])
     startYear=int(selectedStart[12:])
 
+    if current_user.is_authenticated:
+        return render_template('3grid-createstudyplan.html', 
+            startSem=startSem,
+            startYear=startYear,
+            getUnitValues=getUnitValues,
+            unitCodeList1=unitCodeList1,
+            unitCodeList2=unitCodeList2,
+            availability1=availability1,
+            availability2=availability2,
+            units1=units1,
+            units2=units2,
+            majorCode1=majorCode1,
+            majorCode2=majorCode2,
+            selectedCourse=selectedCourse, 
+            selectedMajor1=selectedMajor1,
+            selectedMajor2=selectedMajor2,
+            faculty=faculty,
+            coursecode=coursecode,
+            prerequists1 = prerequists1,
+            prerequists2 = prerequists2,
+            SP_dict=SP_dict,
+            loggedin=True,
+            title="Create study plan")
+    #except:
+        #return render_template('404.html'), 404
     return render_template('3grid-createstudyplan.html', 
         startSem=startSem,
         startYear=startYear,
@@ -626,6 +650,7 @@ def createstudyplanSelectUnits():
         prerequists1 = prerequists1,
         prerequists2 = prerequists2,
         SP_dict=SP_dict,
+        oggedin=False,
         title="Create study plan")
     #except:
         #return render_template('404.html'), 404

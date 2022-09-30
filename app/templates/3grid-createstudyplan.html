@@ -231,7 +231,14 @@
       
       <a onClick="CreatePDFfromHTML()" class="button_general" id="selectmajorbutton">Download<span class="arrow"><i class="fa-sharp fa-solid fa-angles-down"></i></span></a>
       <a id="reset" style="float:right;" class="button_general">Reset<span class="close"><i class="fa-solid fa-circle-xmark"></i></span></a>
-      
+     
+      <!--Save button-->
+     
+      {% if loggedin %}
+      <a onClick="AlertTrigger()" class ="button_general" id="selectmajorbutton">Save<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right"></i></span></a>
+      {% else %}
+      <a onClick="AlertTrigger()" class ="button_general" style="display:none;"  id="selectmajorbutton">Save<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right"></i></span></a>
+      {% endif %}
       <br><br>
     </div>
 
