@@ -10,17 +10,23 @@
 
           <h2 id="select-units-title">Select units</h2>
             {% if "Select your second major or specialisation" in selectedMajor2 or "No major or specialisation available" in majorCode1 %}
-            <div></div>
+              <div></div>
             {% else %}
-            <div id="listToAnother"><i class="fa-solid fa-square-caret-left" id="tolist1" onclick="showList1()"></i><i class="fa-solid fa-square-caret-right" id="tolist2" onclick="showList2()"></i></div>
+              <div id="listToAnother"><i class="fa-solid fa-square-caret-left" id="tolist1" onclick="showList1()"></i><i class="fa-solid fa-square-caret-right" id="tolist2" onclick="showList2()"></i></div>
             {% endif %}
             <div id="unitsSelection">
+              {% if "Select your second major or specialisation" in selectedMajor2 or "No major or specialisation available" in majorCode1 %}
+                <h6></h6>
+              {% else %}
+                <h6 id="specialisation">{{ selectedMajor1 }}</h6>
+              {% endif %}
               <p class="unit-heading" id="type1" draggable="false" style="display: none;">Type</p>
               <div class="unit-draggables" id="type1units" style="display: none;">
                 <ul id="type1unitsUL" style="display: none;"></ul>
               </div>
             </div>
             <div id="unitsSelection2" style="display: none;">
+              <h6 id="specialisation2">{{ selectedMajor2 }}</h6>
               <p class="unit-heading" id="type1" draggable="false" style="display: none;">Type</p>
               <div class="unit-draggables" id="type1units" style="display: none;">
                 <ul id="type1unitsUL" style="display: none;"></ul>
@@ -341,87 +347,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
       }
     }
   });
-
-  //Pop-up reminder function starts
-
-  //Add a pop-up reminder for the dragged course, showing the prerequisites of the course
-  var unitprerequist = document.getElementById("unitalert").innerHTML;
-
-  //var unitprerequist = "\'" + unitprerequist + "\'";
-  unitprerequist = JSON.parse(unitprerequist);
-
-  // This function needs to start after the page is loaded
-  const unitDiv = document.querySelectorAll('.target');
-  const unitListElement = document.querySelectorAll('.unit-ul li');
-  let target = null
-
-  // for each action on the individual unit list elements
-  unitListElement.forEach(item=> {
-    // event listener for dragstart events
-    item.addEventListener('dragstart', (event) => {
-        target = event.target;
-        //console.log(target)
-        sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
-        })
-    })
-
-  // for each action on the unit divs/target divs
-  unitDiv.forEach(item => {
-    // event listener for dragover events 
-    item.addEventListener('dragover', (event) => {
-      // Unit availability constraint on unit divs - row 1 and row 2 (semester 1 constraint on sem2 units)
-      const row1 = document.getElementById("row1").childNodes // row 1
-      const row3 = document.getElementById("row3").childNodes // row 3
-      // if the added overload to one but not the other, we have to check which one's the longest
-      maxlength = 0
-      if (row1.length > row3.length) {maxlength = row1.length;} else {maxlength = row3.length;}
-      for (let i = 0; i < maxlength; i++) {if (item == row1[i] | item == row3[i]) {
-        if (sourceInfo.className == "sem2") {return false;} // if variable sourceinfo class is exactly 'sem2' then don't allow in sem 1 divs (return false)
-      }}
-
-      // Unit availability constraint on unit divs - row 2 and row 4 (semester 2 constraint on sem1 units)
-      const row2 = document.getElementById("row2").childNodes // row 2
-      const row4 = document.getElementById("row4").childNodes // row 4
-      if (row2.length > row4.length) {maxlength = row2.length;} else {maxlength = row4.length;}
-      for (let i = 0; i < maxlength; i++) {if (item == row2[i] | item == row4[i]) {
-        if (sourceInfo.className == "sem1") {return false;} // if variable sourceinfo class is exactly 'sem1' then don't allow in sem 2 divs (return false)
-      }}
-
-      // the below adds an event listener for dragover events on target divs - if a target div already holds a unit, 
-      // the below will prevent a user from populating it with a second unit
-      var t = event.target;
-      while (t !== null && !t.classList.contains("target")) {
-        t = t.parentNode;
-      }
-      if (t && t.childNodes.length > 0) { // Return false if user tries to place more than 1 unit per unit div
-        return false;
-      }
-      event.preventDefault();
-
-    })
-
-    //add the drop event listener
-    item.addEventListener('drop',(event) => {
-      //Display prerequisites in the floating box
-      const warningtext = document.getElementById('warning'); 
-      warningtext.style.display = 'block'; 
-      var warinfo = document.getElementById("requistinfo");
-      warinfo.innerHTML="";
-        for (var key in unitprerequist){
-          if (target.innerHTML.includes(key)){
-            //window.alert(unitprerequist[key]);
-            var txt =document.createTextNode(key + " unit prerequisite: "+unitprerequist[key]);
-            warinfo.appendChild(txt);
-          }
-        } 
-      })
-    }) 
-  //Pop-up reminder function ends
-
-});
-
-// This loads the units2 data
-window.addEventListener('DOMContentLoaded', (event) => {
+  
+  // This loads the units 2 data
   unitsArray2.forEach(element => {
     unitRole = element.split(", ***, "); // This split stirng is decided in routes.py
     unitRole = unitRole.map(elem => elem.replace(", ***", "")); // if there would be any erronous split symbols (&amp;*:,) that have come across despite the split, clean those up
@@ -478,7 +405,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
           lielement.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
           lielement.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
 
-          // Find availability of units and attach the class (sem1, sem2 or sem1and2, to each li element)
+          // Find availability of units2 and attach the class (sem1, sem2 or sem1and2, to each li element)
           var availabilityinfo = unitInformation2.indexOf(unitArr[i].trim())
           if (availabilityinfo != -1) { // if unit was found in unitInformation array, i.e., does not return -1
             availability2 = unitInformation[availabilityinfo+1]
@@ -583,7 +510,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
   //Pop-up reminder function ends
 
 });
-
 
 // Functions to show and close the general-info modal - Done by Valerie
 //Modal - open general-info modal
