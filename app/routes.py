@@ -499,6 +499,8 @@ def createstudyplanSelectUnits():
     unitCodeList1 = [] # all unit codes to be saved into this list (for connecting with unit list.csv on frontend)
     units2 = []
     unitCodeList2 = []
+    credits = {}
+
     try: 
         length = len(typeNames)
         for y in range(length):
@@ -524,7 +526,10 @@ def createstudyplanSelectUnits():
                             unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
                             unitCodeList1.append(val)
                         if key == 'unitTitle':
+                            unitTitle = val
                             units1.append(unitCode + " " + val + "***")
+                        if key == 'unitPoints':
+                            credits[unitCode + " " + unitTitle] = val
 
                 units1.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
                         # if key == 'unitPoints':
@@ -560,7 +565,10 @@ def createstudyplanSelectUnits():
                             unitCode = val # save in variable to append to below for the correct output (formatting - do not want any commas between these two appends)
                             unitCodeList2.append(val)
                         if key == 'unitTitle':
+                            unitTitle = val
                             units2.append(unitCode + " " + val + "***")
+                        if key == 'unitPoints':
+                            credits[unitCode + " " + unitTitle] = val
 
                 units2.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
                 
@@ -574,13 +582,33 @@ def createstudyplanSelectUnits():
     unitInfoCsv2 = unitInfoCsv[unitInfoCsv.Code.isin(unitCodeList2)] 
     availability1 = dict(zip(unitInfoCsv1.Code + " " + unitInfoCsv1.Title + "***", unitInfoCsv1.Availabilities + "***"))
     availability2 = dict(zip(unitInfoCsv2.Code + " " + unitInfoCsv2.Title + "***", unitInfoCsv2.Availabilities + "***"))
+    
+    # variables for unit information modal (click on modal)
+    prereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Prerequisites))
+    prereq = json.dumps(prereq)
+    corereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Corequisites))
+    corereq = json.dumps(corereq)
+    incomp = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Incompatibilities))
+    incomp = json.dumps(incomp)
+    outcomes = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Outcomes))
+    outcomes = json.dumps(outcomes)
+    content = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Content))
+    content = json.dumps(content)
+    availabilitydict = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Availabilities))
+    availabilitydict = json.dumps(availabilitydict)
+    credits = json.dumps(credits)
+
     # Add Code and Prerequisites from unit list.csv to dictionary
     prerequists1 = dict(zip(unitInfoCsv1.Code, unitInfoCsv1.Prerequisites))
     prerequists1=json.dumps(prerequists1)
     prerequists2 = dict(zip(unitInfoCsv2.Code, unitInfoCsv2.Prerequisites))
     prerequists2=json.dumps(prerequists2)
+    startSem=int(selectedStart[9:10])
+    startYear=int(selectedStart[12:])
+
     return render_template('3grid-createstudyplan.html', 
-        selectedStart=selectedStart,
+        startSem=startSem,
+        startYear=startYear,
         getUnitValues=getUnitValues,
         unitCodeList1=unitCodeList1,
         unitCodeList2=unitCodeList2,
