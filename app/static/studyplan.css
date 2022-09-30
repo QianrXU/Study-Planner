@@ -14,11 +14,6 @@
   width: 805px;
 }
 
-#returnHome {
-  text-decoration: none !important;
-  color: #003087 !important;
-}
-
 /* //////////////////////// */
 
 /* Step 1 CSS */
@@ -27,8 +22,7 @@
 }
 
 #selectcourse,
-#selectmajor1,
-#selectmajor2,
+#selectmajor,
 #selectbeginning {
   width: 100% !important;
   background-color: #E7E7E7;
@@ -54,16 +48,14 @@
 
 /* Dropdowns text */
 #selectcourse a,
-#selectmajor1 a,
-#selectmajor2 a,
+#selectmajor a,
 #selectbeginning a {
   font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   font-size: 15px;
 }
 
 #selectcourse,
-#selectmajor1,
-#selectmajor2,
+#selectmajor,
 #selectbeginning {
   text-align: left;
   font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
@@ -104,25 +96,11 @@
   margin-bottom: 10px;
   width: fit-content;
   min-width: 200px;
-  margin-right: 1.5rem;
-}
-
-#tolist1 {
-  margin-right:10px;
-}
-
-#tolist1, #tolist2 {
-  cursor: pointer;
+  margin-right: 1rem;
 }
 
 #magnifyingglass {
   margin: .25rem 1rem;
-}
-
-#listToAnother {
-  text-align: right;
-  margin-top: 20px;
-  size: 1rem;
 }
 
 /* Tooltip container */
