@@ -408,7 +408,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
           // Find availability of units2 and attach the class (sem1, sem2 or sem1and2, to each li element)
           var availabilityinfo = unitInformation2.indexOf(unitArr[i].trim())
           if (availabilityinfo != -1) { // if unit was found in unitInformation array, i.e., does not return -1
-            availability2 = unitInformation[availabilityinfo+1]
+            availability2 = unitInformation2[availabilityinfo+1]
             if (availability2.includes("Semester 1")) {
               lielement.setAttribute("class", "sem1");
             }
