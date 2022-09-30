@@ -9,14 +9,27 @@
       <p>Select the major or specialisation you wish to pursue within your course.</p>
 
         <div class="selectcourse dropdown">
-          <button class="btn btn-secondary dropdown-toggle" id="selectmajor" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-secondary dropdown-toggle" id="selectmajor1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Select your major or specialisation
           </button>
           <!-- Pulls data from the ListMajors column -->
-          <ul class="dropdown-menu" id="selectedmajor" aria-labelledby="selectmajor">
+          <ul class="dropdown-menu" id="selectedmajor1" aria-labelledby="selectmajor1">
             <!-- <li><a class="dropdown-item" href="#">Not applicable</a></li>
             <div class="dropdown-divider"></div> -->
             {% for value in majors %}
+            <li><a class="dropdown-item" href="#">{{value}}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="selectcourse dropdown">
+          <button class="btn btn-secondary dropdown-toggle" id="selectmajor2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Select your second major or specialisation
+          </button>
+          <!-- Pulls data from the ListMajors column -->
+          <ul class="dropdown-menu" id="selectedmajor2" aria-labelledby="selectmajor2">
+            <!-- <li><a class="dropdown-item" href="#">Not applicable</a></li>
+            <div class="dropdown-divider"></div> -->
+            {% for value in majors2 %}
             <li><a class="dropdown-item" href="#">{{value}}</a></li>
             {% endfor %}
           </ul>
@@ -30,29 +43,43 @@
 
 <script>
 
-// MAJOR DROPDOWN
-$("#selectedmajor a").click(function(){
+// MAJOR1 DROPDOWN
+$("#selectedmajor1 a").click(function(){
   event.preventDefault(); // prevents page scroll when button clicked
   selected_major = $(this).text();
-  document.getElementById("selectmajor").innerHTML = selected_major;
+  document.getElementById("selectmajor1").innerHTML = selected_major;
 })
 
-/* Event listener - listens for changes to major dropdown (detects whenever a user changes a major) */
-changed_selected_major = document.getElementById("selectmajor");
+/* Event listener - listens for changes to major1 dropdown (detects whenever a user changes a major) */
+changed_selected_major = document.getElementById("selectmajor1");
+observer = new MutationObserver(function(mutationsList, observer) {detectedChange();});
+observer.observe(changed_selected_major, {characterData: false, childList: true, attributes: false});
+
+// MAJOR2 DROPDOWN
+$("#selectedmajor2 a").click(function(){
+  event.preventDefault(); // prevents page scroll when button clicked
+  selected_major = $(this).text();
+  document.getElementById("selectmajor2").innerHTML = selected_major;
+})
+
+/* Event listener - listens for changes to major2 dropdown (detects whenever a user changes a major) */
+changed_selected_major = document.getElementById("selectmajor2");
 observer = new MutationObserver(function(mutationsList, observer) {detectedChange();});
 observer.observe(changed_selected_major, {characterData: false, childList: true, attributes: false});
 
 /* Function when major is changed */
 function detectedChange(){
   // posts new major selection to console log
-  detected_major = document.getElementById("selectmajor").innerHTML;
-  console.log(detected_major);
+  detected_major1 = document.getElementById("selectmajor1").innerHTML;
+  console.log(detected_major1);
+  detected_major2 = document.getElementById("selectmajor2").innerHTML;
+  console.log(detected_major2);
 
   // if the major selection is changed, it sends the change to the backend
   $.ajax({
     type: "POST",
     url: "{{ url_for('createstudyplanSelectMajor') }}",
-    data: {"name": detected_major}
+    data: {"name": detected_major1, "name2": detected_major2}
   })
 }
 
