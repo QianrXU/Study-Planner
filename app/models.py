@@ -57,6 +57,7 @@ class Four_Sem_SP(db.Model):
   Y2S2_3 = db.Column(db.String(200))
   Y2S2_4 = db.Column(db.String(200))
   Y2S2_5 = db.Column(db.String(200))
+  
 
   startYearSem = db.Column(db.String(200), nullable=False)
   selectedCourse = db.Column(db.String(200), nullable=False)
@@ -67,4 +68,49 @@ class Four_Sem_SP(db.Model):
   date_updated=db.Column(db.DATETIME(timezone=True), nullable=False, default=func.now())
 
 
+class Three_year_SP(db.Model):
+  study_plan_id = db.Column(db.Integer, primary_key=True)
 
+  startYearSem = db.Column(db.String(200), nullable=False)
+  selectedCourse = db.Column(db.String(200), nullable=False)
+  selectedMajor = db.Column(db.String(200))
+  faculty = db.Column(db.String(200), nullable=False)
+  coursecode = db.Column(db.String(200), nullable=False)
+  user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # Reference to user id in user table
+  date_updated=db.Column(db.DATETIME(timezone=True), nullable=False, default=func.now())
+
+  Y1S1_1 = db.Column(db.String(200))
+  Y1S1_2 = db.Column(db.String(200))
+  Y1S1_3 = db.Column(db.String(200))
+  Y1S1_4 = db.Column(db.String(200))
+  Y1S1_5 = db.Column(db.String(200))
+
+  Y1S2_1 = db.Column(db.String(200))
+  Y1S2_2 = db.Column(db.String(200))
+  Y1S2_3 = db.Column(db.String(200))
+  Y1S2_4 = db.Column(db.String(200))
+  Y1S2_5 = db.Column(db.String(200))
+  
+  Y2S1_1 = db.Column(db.String(200))
+  Y2S1_2 = db.Column(db.String(200))
+  Y2S1_3 = db.Column(db.String(200))
+  Y2S1_4 = db.Column(db.String(200))
+  Y2S1_5 = db.Column(db.String(200))
+
+  Y2S2_1 = db.Column(db.String(200))
+  Y2S2_2 = db.Column(db.String(200))
+  Y2S2_3 = db.Column(db.String(200))
+  Y2S2_4 = db.Column(db.String(200))
+  Y2S2_5 = db.Column(db.String(200))
+
+  Y3S1_1 = db.Column(db.String(200))
+  Y3S1_2 = db.Column(db.String(200))
+  Y3S1_3 = db.Column(db.String(200))
+  Y3S1_4 = db.Column(db.String(200))
+  Y3S1_5 = db.Column(db.String(200))
+
+  Y3S2_1 = db.Column(db.String(200))
+  Y3S2_2 = db.Column(db.String(200))
+  Y3S2_3 = db.Column(db.String(200))
+  Y3S2_4 = db.Column(db.String(200))
+  Y3S2_5 = db.Column(db.String(200))
