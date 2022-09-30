@@ -97,6 +97,7 @@ def account():
     #Adapted code from https://python-adv-web-apps.readthedocs.io/en/latest/flask_db2.html
     
     #declare global variables (must be same as global variables for createstudyplanSelectUnits())
+    global selectedStart
     global selectedCourse 
     global selectedMajor
     global faculty
@@ -165,6 +166,7 @@ def account():
             selectedMajor=study_plan.selectedMajor
             faculty=study_plan.faculty
             coursecode=study_plan.coursecode
+            selectedStart=study_plan.startYearSem
 
             if len(selectedMajor)<1:
                 selectedMajor="No major or specialisation available"
@@ -189,7 +191,7 @@ def account():
             df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
             df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
 
-            getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
+            getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course
 
             getMasterDegrees(df, selectedCourse) # assigns spec and core values
 

@@ -49,8 +49,9 @@
             <!-- the icon listens to a click function to show the modal -->
             <i class="fa-solid fa-circle-info" onclick="openModal()" id="myModal"></i>
           </div>
+
           <!-- General info modal that can triggered by clicking the large info icon at the bottom of availability key lists -Valerie -->
-          <div id="modal-container">
+          <div class="modal-container">
             <div class="modal" id="my-modal">
               <div class="modal-content">
                 <div class="modal-header">
@@ -59,11 +60,10 @@
                 </div>
                 <div class="modal-body">
                   <h3>GENERAL INFORMATION</h3>
-                  <br>
-                  <H5>Core Units</H5>
+                  <H5>Core units</H5>
                   <p>Core units are the compulsory units in your chosen course. In the Study Planner tool, you must allocate these units before allocating optional units.</p>
                   <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
-                  <h3>BACHELOR'S DEGREE</h3>
+                  <h3>BACHELOR'S DEGREE'S</h3>
                   <p>UWA's three-year undergraduate courses each comprise 24 units. The units you study must include:
                     <ul class="general">
                       <li>a degree-specific major; and</li>
@@ -76,18 +76,19 @@
                       <li>you must pass at least 3 units at Level 3.</li>
                     </ul>
                   </p>
-                  <H5>Broadening Units</H5>
+                  <H5>Broadening units</H5>
                   <p>All students towards a Bachelor's Degree at UWA are required to broaden their studies by completing a minimum of four units (24 points) of study outside their degree specific major.</p>
-                  <H5>Bridging Units</H5>
+                  <H5>Bridging units</H5>
                   <p>Bridging units are designed for students who have not met the relevant ATAR level (or equivalent qualification) required as prerequisites for their major. Bridging units must be successfully completed within the first 48 points of study.</p>
                   <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
-                  <h3>MASTER'S DEGREE</h3>
-                  <h5>Conversion Units</h5>
+                  <h3>MASTER'S DEGREE'S</h3>
+                  <h5>Conversion units</h5>
                   <p>For some courses, there may be special conditions on admission. Students who have completed degree studies in a non-cognate area or equivalenet (as recognised by the University), must complete relevant conversion units. This is determined upon offer of admission and by the scope of a students's prior study.</p>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
     </div>
 
@@ -122,9 +123,9 @@
 
             <!--  Start semester/year determined by what user selects in dropdown in previous window -->
             {% if SP_dict['Y1S1_5']|length <1 %}
-              <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester 1, 2023</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+              <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
             {% else %}
-              <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester 1, 2023</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+              <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
             <div class="semester-row" id="row1"> <!--  Add/delete row button to add/delete. -->
               <div class="target" id="year1sem1_1" ondrop="drop(event)">{{ SP_dict['Y1S1_1'] }}</div>
@@ -132,16 +133,28 @@
               <div class="target" id="year1sem1_3" ondrop="drop(event)">{{ SP_dict['Y1S1_3'] }}</div>
               <div class="target" id="year1sem1_4" ondrop="drop(event)">{{ SP_dict['Y1S1_4'] }}</div> 
               {% if SP_dict['Y1S1_5']|length <1 %}
-                <div class="target" id="year1sem1_5" ondrop="drop(event)" style="display: none;">{{ SP_dict['Y1S1_5'] }}</div>  <!-- if overloading, unhide -->
+                <div class="target" id="year1sem1_5" ondrop="drop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
               {% else %}
                 <div class="target" id="year1sem1_5" ondrop="drop(event)" style="display: block;">{{ SP_dict['Y1S1_5'] }}</div>  <!-- if overloading, unhide -->
               {% endif %}
             </div>
 
             {% if SP_dict['Y1S2_5']|length <1 %}
-              <p class="semester-paragraph" id="year1semester2" style="float:left;">Semester 2, 2023</p> <button style="float:right;" onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+              <p class="semester-paragraph" id="year1semester2" style="float:left;">Semester 
+                {% if startSem == 1 %} 
+                  2, {{ startYear }}
+                {% else %} 
+                  1, {{ startYear + 1 }}
+                {% endif %}
+              </p> <button style="float:right;" onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
             {% else %}
-              <p class="semester-paragraph" id="year1semester2" style="float:left;">Semester 2, 2023</p> <button style="float:right;" onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+              <p class="semester-paragraph" id="year1semester2" style="float:left;">Semester 
+                {% if startSem == 1 %} 
+                  2, {{ startYear }}
+                {% else %} 
+                  1, {{ startYear + 1 }}
+                {% endif %}
+              </p> <button style="float:right;" onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
             <div class="semester-row" id="row2">
               <div class="target" id="year1sem2_1" ondrop="drop(event)">{{ SP_dict['Y1S2_1'] }}</div>
@@ -149,33 +162,58 @@
               <div class="target" id="year1sem2_3" ondrop="drop(event)">{{ SP_dict['Y1S2_3'] }}</div>
               <div class="target" id="year1sem2_4" ondrop="drop(event)">{{ SP_dict['Y1S2_4'] }}</div>
               {% if SP_dict['Y1S2_5']|length <1 %}
-                <div class="target" id="year1sem2_5" ondrop="drop(event)" style="display: none;">{{ SP_dict['Y1S2_5'] }}</div>  <!-- if overloading, unhide -->
+                <div class="target" id="year1sem2_5" ondrop="drop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
               {% else %}
                 <div class="target" id="year1sem2_5" ondrop="drop(event)" style="display: block;">{{ SP_dict['Y1S2_5'] }}</div>  <!-- if overloading, unhide -->
               {% endif %}
             </div>
 
             {% if SP_dict['Y2S1_5']|length <1 %}
-              <p class="semester-paragraph" id="year2semester1" style="float:left;">Semester 1, 2024</p> <button style="float:right;" onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+              <p class="semester-paragraph" id="year2semester1" style="float:left;">Semester 
+                {% if startSem == 1 %} 
+                  1, {{ startYear + 1 }}
+                {% else %} 
+                  2, {{ startYear + 1 }}
+                {% endif %}
+              </p> <button style="float:right;" onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
             {% else %}
-              <p class="semester-paragraph" id="year2semester1" style="float:left;">Semester 1, 2024</p> <button style="float:right;" onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+              <p class="semester-paragraph" id="year2semester1" style="float:left;">Semester 
+                {% if startSem == 1 %} 
+                  1, {{ startYear + 1 }}
+                {% else %} 
+                  2, {{ startYear + 1 }}
+                {% endif %}
+              </p> <button style="float:right;" onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
+
             <div class="semester-row" id="row3">
               <div class="target" id="year2sem1_1" ondrop="drop(event)">{{ SP_dict['Y2S1_1'] }}</div>
               <div class="target" id="year2sem1_2" ondrop="drop(event)">{{ SP_dict['Y2S1_2'] }}</div>
               <div class="target" id="year2sem1_3" ondrop="drop(event)">{{ SP_dict['Y2S1_3'] }}</div>
               <div class="target" id="year2sem1_4" ondrop="drop(event)">{{ SP_dict['Y2S1_4'] }}</div>
               {% if SP_dict['Y1S2_5']|length <1 %}
-                <div class="target" id="year2sem1_5" ondrop="drop(event)" style="display: none;">{{ SP_dict['Y2S1_5'] }}</div>  <!-- if overloading, unhide -->
+                <div class="target" id="year2sem1_5" ondrop="drop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
               {% else %}
                 <div class="target" id="year2sem1_5" ondrop="drop(event)" style="display: block;">{{ SP_dict['Y2S1_5'] }}</div>  <!-- if overloading, unhide -->
               {% endif %}
             </div>
 
             {% if SP_dict['Y2S2_5']|length <1 %}
-              <p class="semester-paragraph" id="year2semester2" style="float:left;">Semester 2, 2024</p> <button style="float:right;" onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+              <p class="semester-paragraph" id="year2semester2" style="float:left;">Semester 
+                {% if startSem == 1 %} 
+                  2, {{ startYear + 1 }}
+                {% else %} 
+                  1, {{ startYear + 2 }}
+                {% endif %}
+              </p> <button style="float:right;" onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>            
             {% else %}
-              <p class="semester-paragraph" id="year2semester2" style="float:left;">Semester 2, 2024</p> <button style="float:right;" onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+              <p class="semester-paragraph" id="year2semester2" style="float:left;">Semester 
+                {% if startSem == 1 %} 
+                  2, {{ startYear + 1 }}
+                {% else %} 
+                  1, {{ startYear + 2 }}
+                {% endif %}
+              </p> <button style="float:right;" onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
             <div class="semester-row" id="row4">
               <div class="target" id="year2sem2_1" ondrop="drop(event)">{{ SP_dict['Y2S2_1'] }}</div>
@@ -183,13 +221,11 @@
               <div class="target" id="year2sem2_3" ondrop="drop(event)">{{ SP_dict['Y2S2_3'] }}</div>
               <div class="target" id="year2sem2_4" ondrop="drop(event)">{{ SP_dict['Y2S2_4'] }}</div>
               {% if SP_dict['Y1S2_5']|length <1 %}
-                <div class="target" id="year2sem2_5" ondrop="drop(event)" style="display: none;">{{ SP_dict['Y2S2_5'] }}</div>  <!-- if overloading, unhide -->
+                <div class="target" id="year2sem2_5" ondrop="drop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
               {% else %}
                 <div class="target" id="year2sem2_5" ondrop="drop(event)" style="display: block;">{{ SP_dict['Y2S2_5'] }}</div>  <!-- if overloading, unhide -->
               {% endif %}
             </div>
-
-
           </div>
       </div>
       
@@ -197,22 +233,42 @@
       <a id="reset" style="float:right;" class="button_general">Reset<span class="close"><i class="fa-solid fa-circle-xmark"></i></span></a>
       
       <br><br>
-
-      {{selectedStart}}
-
     </div>
 
   </div>
 </div>
+
 <div id="warning" style="display:none;">
-  <div id = "warningbox">
-    <p id="requistinfo"></p>
-    <i class="fa-solid fa-rectangle-xmark" style="display:inline;" onclick="closeModal()"></i>
+  <div id="warningbox">
+    <p id="alertinfo"></p>
+    <i class="fa-solid fa-rectangle-xmark" style="display:inline;" onclick="closeWarningModal()"></i>
   </div>
 </div>
 
-
-    
+<div class="modal-container">
+  <div class="modal" id="unit-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <i class="fa-solid fa-rectangle-xmark" id="close-info" onclick="closeUnitModal()"></i>
+      </div>
+      <div class="modal-body">
+        <h3 id="title"></h3>
+        <p class="creditpoints">Credit points: <span id="creditpoints"></span></p>
+        <div id="nonstandardteachingperioddiv"><div><i class="fa-solid fa-circle-info" class="availinfo"></i><p id="nonstandardteachingperiod"></p></div></div>
+        <div id="notavailablediv"><div><i class="fa-solid fa-circle-info" class="availinfo"></i><p id="notavailabledivtext"></p></div></div>
+        <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
+        <h3>Decription</h3>
+        <p id="description"></p>
+        <h3>Outcomes</h3>
+        <p id="outcomes"></p>
+        <h3>Unit rules</h3>
+        <p class="unitrules"><span class="unitsrulesheader">Prerequisites:</span> <span id="prereqs"></span></p>
+        <p class="unitrules"><span class="unitsrulesheader">Co-requisites:</span> <span id="coreqs"></span></p> 
+        <p class="unitrules"><span class="unitsrulesheader">Incompatibilities</span> <span id="incomp"></span></p>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <!-- Units variable from back end -->
@@ -222,11 +278,28 @@
 <div id="unitCodeList2" style="display: none;">{{ availability2 }}</div>
 <div id="unitalert" style="display: none;">{{ prerequists1 }}</div>
 
+<div id="prereq" style="display: none;">{{ prereq }}</div>
+<div id="corereq" style="display: none;">{{ corereq }}</div>
+<div id="incompatibilities" style="display: none;">{{ incomp }}</div>
+<div id="unitoutcomes" style="display: none;">{{ outcomes }}</div>
+<div id="content" style="display: none;">{{ content }}</div>
+<div id="structurecredits" style="display: none;">{{ credits }}</div>
+<div id="availabilityofunits" style="display: none;">{{ availabilitydict }}</div>
+<div id="loadedUnits" style="display: none;">{{ SP_dict }}</div>
+
 <!--Script to support PDF conversion-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
 <script>
+var prereq = document.getElementById("prereq").innerHTML;
+var corereq = document.getElementById("corereq").innerHTML;
+var incompatibilities = document.getElementById("incompatibilities").innerHTML;
+var unitoutcomes = document.getElementById("unitoutcomes").innerHTML;
+var content = document.getElementById("content").innerHTML;
+var creditpoints = document.getElementById("structurecredits").innerHTML;
+var availabilityofunits = document.getElementById("availabilityofunits").innerHTML;
+
 // Remove major information from frontend if doesn't contain anything valuable
 //if (document.getElementById("course-major").innerHTML == "No major or specialisation available"){
   //document.getElementById("course-major").style.display = "none";
@@ -264,6 +337,37 @@ unitInformation2 = unitInformation2.map(elem => elem.replace(": ", ""));
 
 // This loads the units1 data 
 window.addEventListener('DOMContentLoaded', (event) => {
+  //Creates array to check for loaded units and omit them from select units sidebar.
+  var loadedUnits = document.getElementById("loadedUnits").innerHTML;
+  loadedUnits = loadedUnits.split(",");
+  var loadedArray = [];
+  var unit = '';
+  //Loop through to process the string and remove unneccessary characters before adding them to the array.
+  for(i = 0; i < loadedUnits.length; i++) {
+    if(i==0){
+      unit=loadedUnits[i].slice(1);
+      unit=unit.split(":");
+      unit=unit[1].slice(2);
+      unit=unit.slice(0,-1);
+      unit=unit.trim();
+      loadedArray.push(unit);
+    }
+    if(i==loadedUnits.length-1){
+      unit=loadedUnits[i].split(":");
+      unit=unit[1].slice(2);
+      unit=unit[1].slice(0,-2);
+      unit=unit.trim();
+      loadedArray.push(unit);
+    }
+    else{
+      unit=loadedUnits[i].split(":");
+      unit=unit[1].slice(2);
+      unit=unit.slice(0,-1);
+      unit=unit.trim();
+      loadedArray.push(unit);
+    }
+  }
+
   unitsArray.forEach(element => {
     unitRole = element.split(", ***, "); // This split stirng is decided in routes.py
     unitRole = unitRole.map(elem => elem.replace(", ***", "")); // if there would be any erronous split symbols (&amp;*:,) that have come across despite the split, clean those up
@@ -309,40 +413,47 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
       var unitArrLength = unitArr.length // grab length of each unit role list
       for (i = 0; i < unitArrLength; i++) {
-        var lielement = document.createElement("li"); // create list item
-        lielement.appendChild(document.createTextNode(unitArr[i].trim())); // create and append content of list item (i.e., unit)
-        lielement.setAttribute("id", unitArr[i].trim()); // set ID of new list item to 'Unit Code Unit Name'
-        if (unitArr[i].trim() == "No information to be displayed. Check with faculty.") {
-          unitRoleUl.appendChild(lielement);
-          lielement.setAttribute("class", "no_marker");
-        }
-        else {
-          lielement.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
-          lielement.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
-
-          // Find availability of units and attach the class (sem1, sem2 or sem1and2, to each li element)
-          var availabilityinfo = unitInformation.indexOf(unitArr[i].trim())
-          if (availabilityinfo != -1) { // if unit was found in unitInformation array, i.e., does not return -1
-            availability = unitInformation[availabilityinfo+1]
-            if (availability.includes("Semester 1")) {
-              lielement.setAttribute("class", "sem1");
-            }
-            if (availability.includes("Semester 2")) {
-                lielement.setAttribute("class", "sem2");
-            }
-            if (availability.includes("Semester 1") && availability.includes("Semester 2")) {
-                lielement.setAttribute("class", "sem1and2");
-            }
-            if (availability.includes("Not available")) {
-                lielement.setAttribute("class", "not_available");
-            }
-            if (availability.includes("Non-standard")) {
-                lielement.setAttribute("class", "non_standard");
-            }
+        if(!(loadedArray.includes(unitArr[i].trim()))){ 
+          var lielement = document.createElement("li"); // create list item
+          lielement.appendChild(document.createTextNode(unitArr[i].trim())); // create and append content of list item (i.e., unit)
+          lielement.setAttribute("id", unitArr[i].trim()); // set ID of new list item to 'Unit Code Unit Name'
+          if (unitArr[i].trim() == "No information to be displayed. Check with faculty.") {
+            unitRoleUl.appendChild(lielement);
+            lielement.setAttribute("class", "no_marker");
           }
-          else {lielement.setAttribute("class", "element")}
-          
-          unitRoleUl.appendChild(lielement); // append li element/unit
+          else {
+            lielement.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
+            lielement.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
+
+            // Find availability of units and attach the class (sem1, sem2 or sem1and2, to each li element)
+            var availabilityinfo = unitInformation.indexOf(unitArr[i].trim())
+            if (availabilityinfo != -1) { // if unit was found in unitInformation array, i.e., does not return -1
+              availability = unitInformation[availabilityinfo+1]
+
+              if (availability.includes("Not available")) {
+                  lielement.setAttribute("class", "not_available");
+                  lielement.setAttribute("draggable", "false"); // prevent dragging of units with class not_available
+                  lielement.style.cursor = "pointer"; // change cursor of units with class not_available to pointer rather than 'grabbing'
+              }
+              if (availability.includes("Non-standard")) {
+                  lielement.setAttribute("class", "non_standard");
+                  lielement.setAttribute("draggable", "false"); // prevent dragging of units with class non_standard
+                  lielement.style.cursor = "pointer"; // change cursor of units with class non_standard to pointer, rather than 'grabbing'
+              }
+              if (availability.includes("Semester 1")) {
+                lielement.setAttribute("class", "sem1");
+              }
+              if (availability.includes("Semester 2")) {
+                  lielement.setAttribute("class", "sem2");
+              }
+              if (availability.includes("Semester 1") && availability.includes("Semester 2")) {
+                  lielement.setAttribute("class", "sem1and2");
+              }
+            }
+            else {lielement.setAttribute("class", "element")}
+            
+            unitRoleUl.appendChild(lielement); // append li element/unit
+          }
         }
       }
     }
@@ -446,15 +557,27 @@ window.addEventListener('DOMContentLoaded', (event) => {
   const unitListElement = document.querySelectorAll('.unit-ul li');
   let target = null
 
+  // The ghost element (holds what gets dragged on dragstart)
+  let ghostEle;
+
   // for each action on the individual unit list elements
   unitListElement.forEach(item=> {
     // event listener for dragstart events
     item.addEventListener('dragstart', (event) => {
-        target = event.target;
-        //console.log(target)
-        sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
-        })
-    })
+      target = event.target;
+      sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
+      })
+
+    item.addEventListener('dragstart', function (e) {
+        // Create the ghost element (gets dragged on dragstart)
+        ghostEle = document.createElement('div');
+        ghostEle.classList.add('ghostelementdiv');
+        ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element     
+        //document.body.appendChild(ghostEle); // Append it to `body`
+        e.dataTransfer.setDragImage(ghostEle, 0, 0); // Customize the drag image to be the sourceInfo variable's id
+    });
+
+  });
 
   // for each action on the unit divs/target divs
   unitDiv.forEach(item => {
@@ -467,7 +590,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
       maxlength = 0
       if (row1.length > row3.length) {maxlength = row1.length;} else {maxlength = row3.length;}
       for (let i = 0; i < maxlength; i++) {if (item == row1[i] | item == row3[i]) {
-        if (sourceInfo.className == "sem2") {return false;} // if variable sourceinfo class is exactly 'sem2' then don't allow in sem 1 divs (return false)
+        if (sourceInfo.className == "sem2") {
+          alert("This unit is only available in Semester 2.");
+          return false;
+        } // if variable sourceinfo class is exactly 'sem2' then don't allow in sem 1 divs (return false)
       }}
 
       // Unit availability constraint on unit divs - row 2 and row 4 (semester 2 constraint on sem1 units)
@@ -475,7 +601,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
       const row4 = document.getElementById("row4").childNodes // row 4
       if (row2.length > row4.length) {maxlength = row2.length;} else {maxlength = row4.length;}
       for (let i = 0; i < maxlength; i++) {if (item == row2[i] | item == row4[i]) {
-        if (sourceInfo.className == "sem1") {return false;} // if variable sourceinfo class is exactly 'sem1' then don't allow in sem 2 divs (return false)
+        if (sourceInfo.className == "sem1") {
+          alert("This unit is only available in Semester 1.");
+          return false;
+          } // if variable sourceinfo class is exactly 'sem1' then don't allow in sem 2 divs (return false)
       }}
 
       // the below adds an event listener for dragover events on target divs - if a target div already holds a unit, 
@@ -488,31 +617,44 @@ window.addEventListener('DOMContentLoaded', (event) => {
         return false;
       }
       event.preventDefault();
-
     })
 
     //add the drop event listener
-    item.addEventListener('drop',(event) => {
-      //Display prerequisites in the floating box
-      const warningtext = document.getElementById('warning'); 
-      warningtext.style.display = 'block'; 
-      var warinfo = document.getElementById("requistinfo");
-      warinfo.innerHTML="";
-        for (var key in unitprerequist){
-          if (target.innerHTML.includes(key)){
-            //window.alert(unitprerequist[key]);
-            var txt =document.createTextNode(key + " unit prerequisite: "+unitprerequist[key]);
-            warinfo.appendChild(txt);
-          }
-        } 
+    item.addEventListener('drop', (event) => {
+
+        // alerts for all prerequisites - rachel's old function
+        // for (var key in unitprerequist){
+        //   if (target.innerHTML.includes(key)){
+        //     //window.alert(unitprerequist[key]);
+        //     alert(key + " unit prerequisite: "+unitprerequist[key]);
+        //   }
+        // } 
+
       })
+
     }) 
   //Pop-up reminder function ends
 
 });
 
+// This is the alert function - pass a string to the alert function as that string is what will be rendered in the alert box (bottom warning bar)
+function alert(alerttext){
+  var alert = alerttext;
+
+  //Display prerequisites in the floating box
+  const warningelement = document.getElementById('warning'); 
+  warningelement.style.display = 'block'; 
+  var warningtext = document.getElementById("alertinfo");
+  warningtext.innerHTML = "";
+
+  var txt = document.createTextNode(alert);
+  warningtext.appendChild(txt);
+}
+
 // Functions to show and close the general-info modal - Done by Valerie
 //Modal - open general-info modal
+const modal = document.getElementById('my-modal'); 
+
 function openModal(){
   const modal = document.getElementById('my-modal'); // get the modal that needs to be showed
   modal.style.display = 'block'; //show the modal after click action
@@ -520,10 +662,35 @@ function openModal(){
 // Modal - close general-info modal
 function closeModal(){
   const modal = document.getElementById('my-modal'); // get the modal that needs to be closed
-  const warningicon = document.getElementById("warning");
   modal.style.display = 'none'; //hide the modal after clicking the close button
-  warningicon.style.display = 'none';
+}
 
+function closeWarningModal(){
+  const warningicon = document.getElementById("warning");
+  warningicon.style.display = 'none';
+}
+
+// unit modal
+var unitmodal = document.getElementById('unit-modal'); 
+
+function openUnitModal(){
+  unitmodal.style.display = 'block'; //show the modal after click action
+}
+
+function closeUnitModal(){
+  const warningicon = document.getElementById("warning");
+  unitmodal.style.display = 'none'; //hide the modal after clicking the close button
+  warningicon.style.display = 'none';
+}
+
+// when user clicks anywhere outside of modal window when modal window is open, close the modal
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+  if (event.target == unitmodal) {
+    unitmodal.style.display = "none";
+  }
 }
 
 // Functions to show lists
@@ -554,7 +721,15 @@ function showList2(){
 //   console.log(detected_course);
 // }
 
-// Click event - Add modal on click?
+content = JSON.parse(content);
+unitoutcomes = JSON.parse(unitoutcomes);
+prereq = JSON.parse(prereq);
+corereq = JSON.parse(corereq);
+incompatibilities = JSON.parse(incompatibilities);
+creditpoints = JSON.parse(creditpoints);
+availabilityofunits = JSON.parse(availabilityofunits);
+
+// Click event - modal opens and populates on unit click
 document.addEventListener('click',function(e){
     if(e.target && 
         e.target.classList == 'element' | 
@@ -565,7 +740,32 @@ document.addEventListener('click',function(e){
         e.target.classList == 'non_standard'        
         ){
       id = event.target.id;
-      alert("You've clicked on " + id); 
+
+      document.getElementById("title").innerHTML = id; // change innerhtml of id to unit code + title
+      for (var key in creditpoints){if (key == id) {document.getElementById("creditpoints").innerHTML = creditpoints[key];}} // change innerhtml to credit points
+      for (var key in availabilityofunits){if (key == id) {
+        if (availabilityofunits[key].includes("Non-standard")) {
+          document.getElementById("nonstandardteachingperioddiv").style.display = "flex";
+          document.getElementById("nonstandardteachingperiod").innerHTML = availabilityofunits[key];
+        }
+        else {
+          document.getElementById("nonstandardteachingperioddiv").style.display = "none";
+        }
+        if (availabilityofunits[key].includes("Not available")) {
+          document.getElementById("notavailablediv").style.display = "flex";
+          document.getElementById("notavailabledivtext").innerHTML = availabilityofunits[key];
+        }
+        else {
+          document.getElementById("notavailablediv").style.display = "none";
+        }
+      }} 
+
+      for (var key in content){if (key == id) {document.getElementById("description").innerHTML = content[key];}} // change innerhtml to unit description
+      for (var key in unitoutcomes){if (key == id) {document.getElementById("outcomes").innerHTML = unitoutcomes[key];}} // change innerhtml to unit outcome
+      for (var key in prereq){if (key == id) {document.getElementById("prereqs").innerHTML = prereq[key];}} // change innerhtml to prereq
+      for (var key in corereq){if (key == id) {document.getElementById("coreqs").innerHTML = corereq[key];}} // change innerhtml to corereq
+      for (var key in incompatibilities){if (key == id) {document.getElementById("incomp").innerHTML = incompatibilities[key];}} // change innerhtml to incompatibility
+      openUnitModal();
      }
  });
 
@@ -578,15 +778,8 @@ document.addEventListener('click',function(e){
 //      }
 //  });
  
-let offset = [0, 0]
-
-
 function drag(ev) {
   ev.dataTransfer.setData('dragID', ev.target.id)
-  offset = [
-    ev.target.offsetLeft - ev.clientX,
-    ev.target.offsetTop - ev.clientY
-  ]
 }
 
 function drop(ev) {

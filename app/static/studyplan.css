@@ -134,35 +134,24 @@
 /* Tooltip text */
 .tooltipinfo .tooltiptextinfo {
   visibility: hidden;
-  width: 350px;
   background-color: #555;
-  color: #fff;
-  text-align: center;
   padding: 15px;
-  border-radius: 6px;
-
-  /* Position the tooltip text */
   position: absolute;
   z-index: 9999;
   bottom: 125%;
   left: 50%;
   margin-left: -60px;
+  display: block;
+  top: 2em;
+  width: 270px;
+  height: max-content;
+  color: #FFFFFF;
+  text-align: center;
+  border-radius: 6px;
 
   /* Fade in tooltip */
   opacity: 0;
-  transition: opacity 0.3s;
-}
-
-/* Tooltip arrow */
-.tooltipinfo .tooltiptextinfo::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
+  transition: opacity 0.3s;  
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
@@ -224,7 +213,7 @@
   height: 15px;
   top: 3px;
   left: -20px;
-  background-image: url('pictures/bullets/lightblue.png');
+  background-image: url('pictures/bullets/darkorange.png');
   background-repeat: no-repeat;
   background-size: 13px 13px;
 }
@@ -237,7 +226,7 @@
   height: 15px;
   top: 3px;
   left: -20px;
-  background-image: url('pictures/bullets/darkorange.png');
+  background-image: url('pictures/bullets/lightblue.png');
   background-repeat: no-repeat;
   background-size: 13px 13px;
 }
@@ -264,6 +253,7 @@
 This needs to not have indent. */
 .no_marker {
   margin-left: -22px !important;
+  cursor: auto !important;
 }
 
 
@@ -335,6 +325,7 @@ li {
   flex-direction: row;
   justify-content: end;
 }
+
 /* this is the info icon that can trigger the general info modal */
 #myModal {
   color: #003087;
@@ -344,10 +335,7 @@ li {
 }
 
 /* the general info modal */
-.modal-container { 
-  width: 100%;
-  display: inline-block;
-}
+
 .modal {
   z-index: 999 !important;
   left: 0;
@@ -358,6 +346,7 @@ li {
   overflow: scroll !important; 
   background-color: rgba(0, 0, 0, 0.5);
 }
+
 .modal-content {
   width: 70% !important;
   display: flex;
@@ -367,10 +356,12 @@ li {
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
   text-align: justify;
 }
+
 .modal-header {
   display: flex !important;
   flex-direction: row !important;
   background: #003087;
+  padding: 0.5rem 0.5rem !important;
   color: #000;
   justify-content: flex-end !important;
 }
@@ -380,8 +371,28 @@ li {
   margin: 30px 50px ; 
 }
 
+.modal-body p {
+  letter-spacing: 0.2px;
+}
+
+.modal-body h5 {
+  font-family: 'TTNorms';
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.modal-body h3 {
+  font-family: 'TTNorms';
+  font-size: 17px;
+}
+
+.modal-body p {
+  font-family: 'TTNorms';
+  font-size: 14px;
+}
+
 .general li {
-  font-family: TTNorms;
+  font-family: 'TTNorms';
   font-size: 14px;
 }
 
@@ -391,6 +402,22 @@ li {
   font-size: 30px;  
 }
 
+/* specific to unit information modal */
+.unitrules {
+  margin-bottom: 0px;
+}
+
+.unitsrulesheader {
+  text-decoration: underline;
+}
+
+#title {
+  text-transform: uppercase;
+}
+
+.creditpoints {
+  font-weight: bold;
+}
 
 @media only screen and (max-width: 800px) {
   #units {
@@ -538,10 +565,38 @@ li {
   text-align:center;
 }
 
-#requistinfo{
-  margin:0; 
-  display:inline;
-  position:relative; 
+#alertinfo{
+  margin: 0; 
+  display: inline;
+  position: relative; 
   display: inline-block;
+}
+
+#nonstandardteachingperioddiv {
+  background-color: #FFF3CD;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.availinfo {
+  font-size: 25px;
+}
+
+#nonstandardteachingperiod {
+  width: 96%;
+  float: right;
+  margin-bottom: 0px;
+}
+
+#notavailablediv {
+  background-color: #FFF3CD;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+#notavailabledivtext {
+  width: 96%;
+  float: right;
+  margin-bottom: 0px;
 }
 
