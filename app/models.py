@@ -61,7 +61,8 @@ class Four_Sem_SP(db.Model):
 
   startYearSem = db.Column(db.String(200), nullable=False)
   selectedCourse = db.Column(db.String(200), nullable=False)
-  selectedMajor = db.Column(db.String(200))
+  selectedMajor1 = db.Column(db.String(200))
+  selectedMajor2 = db.Column(db.String(200))
   faculty = db.Column(db.String(200), nullable=False)
   coursecode = db.Column(db.String(200), nullable=False)
   user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # Reference to user id in user table
@@ -73,7 +74,8 @@ class Three_year_SP(db.Model):
 
   startYearSem = db.Column(db.String(200), nullable=False)
   selectedCourse = db.Column(db.String(200), nullable=False)
-  selectedMajor = db.Column(db.String(200))
+  selectedMajor1 = db.Column(db.String(200))
+  selectedMajor2 = db.Column(db.String(200))
   faculty = db.Column(db.String(200), nullable=False)
   coursecode = db.Column(db.String(200), nullable=False)
   user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # Reference to user id in user table
@@ -114,3 +116,4 @@ class Three_year_SP(db.Model):
   Y3S2_3 = db.Column(db.String(200))
   Y3S2_4 = db.Column(db.String(200))
   Y3S2_5 = db.Column(db.String(200))
+

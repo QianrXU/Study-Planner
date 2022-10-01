@@ -98,7 +98,8 @@ def account():
     #declare global variables (must be same as global variables for createstudyplanSelectUnits())
     global selectedStart
     global selectedCourse 
-    global selectedMajor
+    global selectedMajor1
+    global selectedMajor2
     global faculty
     global coursecode
     global getUnitValues
@@ -162,13 +163,16 @@ def account():
 
             #Assign values from study plan to global variables.
             selectedCourse=study_plan.selectedCourse
-            selectedMajor=study_plan.selectedMajor
+            selectedMajor1=study_plan.selectedMajor1
+            selectedMajor2=study_plan.selectedMajor2
             faculty=study_plan.faculty
             coursecode=study_plan.coursecode
             selectedStart=study_plan.startYearSem
 
-            if len(selectedMajor)<1:
-                selectedMajor="No major or specialisation available"
+            if len(selectedMajor1)<1:
+                selectedMajor1="No major or specialisation available"
+            if len(selectedMajor2)<1:
+                selectedMajor2="No major or specialisation available"
             
             #create df
             targetcsv = os.path.join(app.static_folder, 'Json-export.csv')
@@ -431,6 +435,7 @@ def createstudyplanSelectUnits():
     global getUnitValues2
     global SP_dict
 
+    print(selectedMajor1, selectedMajor2)
     #replace unit selection for degree if the user has selected a major or specification - choose the values that are
     #in the structure column for this courseID instead
     majorCode1 = selectedMajor1
