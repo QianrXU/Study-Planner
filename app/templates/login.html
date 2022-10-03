@@ -33,17 +33,17 @@
           </div>
          <br>
          <!--Remember me functionality-->
-          {{ form.remember_me() }} {{ form.remember_me.label }} 
+         <div style="float: left;">{{ form.remember_me() }} {{ form.remember_me.label }}</div>
+
+         <!-- Link to Register page-->
+         <div style="float: right;"><a class="regularlink" href="{{ url_for('signup') }}">Don't have an account?</a></div>
+          
           <br>
          <!--Login submit button-->
           <button type="submit" class="button_general" id="loginsignupbutton">Log in<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></button>
          
-    <!--Forgot password functionality need to be added- sprint 3-->
       </form>
-        <!-- Link to Register  page-->
-        <br>
-        <p ><a href="{{ url_for('signup') }}">Don't have an account?</a></p>
-            
+
    </div>
 </div> 
 

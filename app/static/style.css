@@ -20,6 +20,11 @@ p {
   color: black;
 }
 
+.regularlink {
+  color: #27348B;
+  text-decoration: underline;
+}
+
 /* H1 class for the headings within divs */
 .divheading {
   margin-bottom: 30px;
