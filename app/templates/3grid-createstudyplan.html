@@ -430,12 +430,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
       })
 
     item.addEventListener('dragstart', function (e) {
-        // Create the ghost element (gets dragged on dragstart)
-        ghostEle = document.createElement('div');
-        ghostEle.classList.add('ghostelementdiv');
-        ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element     
-        //document.body.appendChild(ghostEle); // Append it to `body`
-        e.dataTransfer.setDragImage(ghostEle, 0, 0); // Customize the drag image to be the sourceInfo variable's id
+      // Create the ghost element (gets dragged on dragstart)
+      ghostEle = document.createElement('div');
+      ghostEle.classList.add('ghostelementdiv');
+      ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element     
+      //document.body.appendChild(ghostEle); // Append it to `body`
+      e.dataTransfer.setDragImage(ghostEle, 0, 0); // Customize the drag image to be the sourceInfo variable's id
+    });
+
+    item.addEventListener('dragover', (event) => {
+      itemID = item.id;
+      liID = document.getElementById(itemID);
+      liID.style.border = "";
     });
 
   });
@@ -452,26 +458,28 @@ window.addEventListener('DOMContentLoaded', (event) => {
       if (startSemester.includes("Semester 1")) { // if semester heading containes 'Semester 1'
         if (targetID.includes("sem1") && sourceInfo.className == "sem2") { // checks if target div has sem1 in id, and if source li has sem2 in classname
           alert("This unit is only available in Semester 2.");
-          changeBg(targetID);
+          changeBorderRed(targetID);
           return false;
         }
         if (targetID.includes("sem2") && sourceInfo.className == "sem1") {
           alert("This unit is only available in Semester 1.");
-          changeBg(targetID);
+          changeBorderRed(targetID);
           return false;
         }
+        else {changeBorderGreen(targetID);}
       }
       if (startSemester.includes("Semester 2")) { // if semester heading containes 'Semester 2'
         if (targetID.includes("sem2") && sourceInfo.className == "sem2") { // this is going to look strange as we're only changing the semester headings if the user selects sem 2, nothing else. standard is sem 1 start and grid has been set up according to this. 
           alert("This unit is only available in Semester 2.");
-          changeBg(targetID);
+          changeBorderRed(targetID);
           return false;
         }
         if (targetID.includes("sem1") && sourceInfo.className == "sem1") {
           alert("This unit is only available in Semester 1.");
-          changeBg(targetID);
+          changeBorderRed(targetID);
           return false;
         }
+        else {changeBorderGreen(targetID);}
       }
       
       // the below adds an event listener for dragover events on target divs - if a target div already holds a unit, 
@@ -491,13 +499,52 @@ window.addEventListener('DOMContentLoaded', (event) => {
 }); // EVENT LISTENER ON WINDOW DOM ENDS HERE
 
 // this function changes the background of target zones where a unit is not permitted
-function changeBg(targetid){
+function changeBorderRed(targetid){
   id = document.getElementById(targetid);
-  id.style.border = "3px solid #ff8282";
+  idClass = id.className;
 
-  id.addEventListener("dragleave", function(event) {
-        id.style.border = "";
+  // if target div is unavailable
+  if (idClass == "target") {
+    id.style.border = "3px solid #ff8282";
+  }
+
+  id.addEventListener("dragleave", (event) => { // no border on leave
+      id.style.border = "";
+  });
+}
+
+// this function changes the background of target zones where a unit is permitted
+function changeBorderGreen(targetid){
+  id = document.getElementById(targetid); 
+  idClass = id.className;
+
+  // if target already contains a unit and the user hovers on this
+  if (idClass.includes("sem")) {
+    var parentofli = $(id).closest("div");
+    parentofli[0].style.border = "3px solid #ff8282"; // change border color of parent div to red
+    alert("You have already placed a unit in this box.");
+  }
+
+  // if target div is empty and available
+  checkifhaschildren = false; // check if id has any units in it already
+  if ( id.hasChildNodes() ) {checkifhaschildren = true;}
+  if (idClass == "target" && checkifhaschildren == false) { // if target div class name is 'target' and it has no units in it already
+    id.style.border = "3px solid rgb(160 209 160)"; // change border of target div to green
+  }
+
+  // on dragleave, remove border
+  id.addEventListener("dragleave", (event) => { // no border on leave
+      id.style.border = ""; 
+      if (idClass.includes("sem")) { 
+        var parentofli = $(id).closest("div");
+        parentofli[0].style.border = "";
+      }
     });
+
+  // on drop, remove border
+  id.addEventListener("drop", (event) => { // no border on drop
+      id.style.border = "";
+  });
 }
 
 // This is the alert function - pass a string to the alert function as that string is what will be rendered in the alert box (bottom warning bar)
