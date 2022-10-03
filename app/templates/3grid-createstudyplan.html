@@ -123,8 +123,7 @@
 
             <!--  Start semester/year determined by what user selects in dropdown in previous window -->
             {% if SP_dict['Y1S1_5']|length <1 %}
-              <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> 
-              <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+              <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
             {% else %}
               <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
@@ -833,20 +832,15 @@ function CreatePDFfromHTML() {
 // https://github.com/QianrXU/Study-Planner/issues/85
 // https://github.com/QianrXU/Study-Planner/issues/79
 function addSem11OverLoad(button) {
-  var x = document.getElementById("year1sem1_5");
+  var year1sem1_5 = document.getElementById("year1sem1_5");
    $(button).find('i').remove();
    if ($(button).text().trim() == 'Add overload') {
-     $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-     x.style.display = "block";}
+     $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append(' Remove overload');
+     year1sem1_5.style.display = "block";
+    }
     else {
-      if (confirm("Do you want to remove the unit?") == true) {
-        $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
-        x.style.display = "none"
-
-      } else {
-          $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-          x.style.display = "block";
-        }
+      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append(' Add overload');
+      year1sem1_5.style.display = "none"
     }
   
 }
@@ -856,16 +850,11 @@ function addSem12OverLoad(button) {
    $(button).find('i').remove();
    if ($(button).text().trim() == 'Add overload') {
      $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-     x.style.display = "block";}
+     x.style.display = "block";
+    }
     else {
-      if (confirm("Do you want to remove the unit?") == true) {
-        $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
-        x.style.display = "none"
-
-      } else {
-          $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-          x.style.display = "block";
-        }
+      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
+      x.style.display = "none"
     }
   
 }
@@ -877,14 +866,8 @@ function addSem21OverLoad(button) {
      $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
      x.style.display = "block";}
     else {
-      if (confirm("Do you want to remove the unit?") == true) {
-        $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
-        x.style.display = "none"
-
-      } else {
-          $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-          x.style.display = "block";
-        }
+      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
+      x.style.display = "none"
     }
   
 }
@@ -897,19 +880,11 @@ function addSem22OverLoad(button) {
      x.style.display = "block";
     }
     else {
-
-      if (confirm("Do you want to remove the unit?") == true) {
-        $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
-        x.style.display = "none"
-
-      } else {
-          $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-          x.style.display = "block";
-        }
-      
-
+      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
+      x.style.display = "none";
     }
 }
+
 </script>
 
 
