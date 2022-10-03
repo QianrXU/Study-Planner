@@ -9,7 +9,24 @@
         <div id="units-content">
 
           <h2 id="select-units-title">Select units</h2>
+            {% if "Select your second major or specialisation" in selectedMajor2 or "No major or specialisation available" in majorCode1 %}
+              <div></div>
+            {% else %}
+              <div id="listToAnother"><i class="fa-solid fa-square-caret-left" id="tolist1" onclick="showList1()"></i><i class="fa-solid fa-square-caret-right" id="tolist2" onclick="showList2()"></i></div>
+            {% endif %}
             <div id="unitsSelection">
+              {% if "Select your second major or specialisation" in selectedMajor2 or "No major or specialisation available" in majorCode1 %}
+                <h6></h6>
+              {% else %}
+                <h6 id="specialisation">{{ selectedMajor1 }}</h6>
+              {% endif %}
+              <p class="unit-heading" id="type1" draggable="false" style="display: none;">Type</p>
+              <div class="unit-draggables" id="type1units" style="display: none;">
+                <ul id="type1unitsUL" style="display: none;"></ul>
+              </div>
+            </div>
+            <div id="unitsSelection2" style="display: none;">
+              <h6 id="specialisation2">{{ selectedMajor2 }}</h6>
               <p class="unit-heading" id="type1" draggable="false" style="display: none;">Type</p>
               <div class="unit-draggables" id="type1units" style="display: none;">
                 <ul id="type1unitsUL" style="display: none;"></ul>
@@ -81,9 +98,20 @@
           <div id="course-information">
             <!-- Pulled from prior selection pages -->
             <p id="course-title">{{ selectedCourse }}</p> 
-            <p id="course-major">{{ selectedMajor }}</p>
+            {% if "No major or specialisation available" in majorCode1 %}
+            <p id="course-major"></p>
+            {% else %}
+            <p id="course-major">Major/Specialisation: {{ selectedMajor1 }}</p>
+            {% endif %}
+            {% if "No major or specialisation available" in majorCode2 %}
+            <p id="course-major2"></p>
+            {% elif "Select your second major or specialisation" in selectedMajor2 %}
+            <p id="course-major2"></p>
+            {% else %}
+            <p id="course-major2">Second Major/Specialisation: {{ selectedMajor2 }}</p>
+            {% endif %}
             <p id="administration">Faculty: {{ faculty }}</p>
-            <p id="course-code">Course code: {{ coursecode }}</p> 
+            <p id="course-code">Course code: {{ coursecode }}</p> <!-- may need some changes here as the course code here only returns the code of the first major -->
           </div>
 
           <hr style="border-top: 1px solid #505050;">
@@ -204,7 +232,14 @@
       
       <a onClick="CreatePDFfromHTML()" class="button_general" id="selectmajorbutton">Download<span class="arrow"><i class="fa-sharp fa-solid fa-angles-down"></i></span></a>
       <a id="reset" style="float:right;" class="button_general">Reset<span class="close"><i class="fa-solid fa-circle-xmark"></i></span></a>
-      
+     
+      <!--Save button-->
+     
+      {% if loggedin %}
+      <a onClick="AlertTrigger()" class ="button_general" id="selectmajorbutton">Save<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right"></i></span></a>
+      {% else %}
+      <a onClick="AlertTrigger()" class ="button_general" style="display:none;"  id="selectmajorbutton">Save<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right"></i></span></a>
+      {% endif %}
       <br><br>
     </div>
 
@@ -245,8 +280,11 @@
 
 
 <!-- Units variable from back end -->
-<div id="unitList" style="display: none;">{{ units }}</div>
-<div id="unitCodeList" style="display: none;">{{ availability }}</div>
+<div id="unitList" style="display: none;">{{ units1 }}</div>
+<div id="unitList2" style="display: none;">{{ units2 }}</div>
+<div id="unitCodeList" style="display: none;">{{ availability1 }}</div>
+<div id="unitCodeList2" style="display: none;">{{ availability2 }}</div>
+<div id="unitalert" style="display: none;">{{ prerequists1 }}</div>
 
 <div id="prereq" style="display: none;">{{ prereq }}</div>
 <div id="corereq" style="display: none;">{{ corereq }}</div>
@@ -271,9 +309,9 @@ var creditpoints = document.getElementById("structurecredits").innerHTML;
 var availabilityofunits = document.getElementById("availabilityofunits").innerHTML;
 
 // Remove major information from frontend if doesn't contain anything valuable
-if (document.getElementById("course-major").innerHTML == "No major or specialisation available"){
-  document.getElementById("course-major").style.display = "none";
-}
+//if (document.getElementById("course-major").innerHTML == "No major or specialisation available"){
+  //document.getElementById("course-major").style.display = "none";
+//}
 
 // Process units variable from backend in JS
 var units = document.getElementById("unitList").innerHTML;
@@ -281,6 +319,12 @@ var units = units.slice(1, -23); // slice off back of string and do some further
 var units = units.replace(/'/g, '');
 var units = units.replace(/"/g, '');
 var unitsArray = units.split(", NEXT_UNIT_ROLE, ") // Split into array when this test occurs
+// Process units of a second major/specialisation from backend 
+var units2 = document.getElementById("unitList2").innerHTML;
+var units2 = units2.slice(1, -23); // slice off back of string and do some further processing below
+var units2 = units2.replace(/'/g, '');
+var units2 = units2.replace(/"/g, '');
+var unitsArray2 = units2.split(", NEXT_UNIT_ROLE, ") // Split into array when this test occurs
 
 // Process unitInformation variable to retrieve availability
 var unitInformation = document.getElementById("unitCodeList").innerHTML;
@@ -290,7 +334,16 @@ var unitInformation = unitInformation.replace(/"/g, '');
 unitInformation = unitInformation.split('***')
 unitInformation = unitInformation.map(elem => elem.replace(", ", "")); 
 unitInformation = unitInformation.map(elem => elem.replace(": ", "")); 
+// Process unitInformation2 variable to retrieve availability2 of the second major/specialisation 
+var unitInformation2 = document.getElementById("unitCodeList2").innerHTML;
+var unitInformation2 = unitInformation2.slice(1, -2); // slice off back of string and do some further processing below
+var unitInformation2 = unitInformation2.replace(/'/g, '');
+var unitInformation2 = unitInformation2.replace(/"/g, '');
+unitInformation2 = unitInformation2.split('***')
+unitInformation2 = unitInformation2.map(elem => elem.replace(", ", "")); 
+unitInformation2 = unitInformation2.map(elem => elem.replace(": ", "")); 
 
+// This loads the units1 data 
 window.addEventListener('DOMContentLoaded', (event) => {
   //Creates array to check for loaded units and omit them from select units sidebar.
   var loadedUnits = document.getElementById("loadedUnits").innerHTML;
@@ -413,6 +466,99 @@ window.addEventListener('DOMContentLoaded', (event) => {
       }
     }
   });
+  
+  // This loads the units 2 data
+  unitsArray2.forEach(element => {
+    unitRole = element.split(", ***, "); // This split stirng is decided in routes.py
+    unitRole = unitRole.map(elem => elem.replace(", ***", "")); // if there would be any erronous split symbols (&amp;*:,) that have come across despite the split, clean those up
+
+    unitlists2 = {} // Dictionary for unit roles and units
+
+    var unitRoleUnits = unitRole[2] // take index 2 are the units that belong to the unit role.
+    if (unitRole[2] == null) { // test if the units belonging to this unit role is empty, in which case, don't display the role, replace with text below
+    unitRoleUnits = "No information to be displayed. Check with faculty.";
+    }
+    unitlists2[unitRole[0]] = unitRoleUnits; // place in unitlists dictionary: key is index 0 (unit code) and value is index 2 (units belonging to this unit role) from unitRole list
+
+    // Extract information about unit roles
+    var unitInfo = unitRole[1] 
+    
+    // Process key-value pairs in unitlists dictionary
+    for (const [key, value] of Object.entries(unitlists2)) {
+      const unitRoleHeader = document.createElement("p"); // create unit headers for each unit role
+      const keyNode = document.createTextNode(key + " ");
+      unitRoleHeader.appendChild(keyNode);
+      unitRoleHeader.setAttribute("class", "unit-heading");
+      const heading = document.getElementById("unitsSelection2");
+      heading.appendChild(unitRoleHeader);
+      const unitRoleUl = document.createElement("ul"); // create and append unit-draggables div to each unit role
+      heading.appendChild(unitRoleUl);
+      unitRoleUl.setAttribute("class", "unit-ul");
+      
+      // appends tooltip icon to header
+      const infoDiv = document.createElement("div");
+      unitRoleHeader.appendChild(infoDiv);
+      infoDiv.setAttribute('class', 'tooltipinfo');
+      infoDiv.insertAdjacentHTML("afterbegin", '<i class="fa-solid fa-circle-info"></i>');
+
+      // appends unit info to tooltip icon
+      const infotext = document.createElement("span");
+      infotext.setAttribute('class', 'tooltiptextinfo');
+      infoDiv.appendChild(infotext);
+      infotext.insertAdjacentHTML("afterbegin", unitInfo);
+
+      // The below splits each unit role list and dynamically creates li's under the correct heading (key)
+      var unitArr = (`${value}`).split('***, '); // split conversion units into list (split by comma)
+      unitArr = unitArr.map(elem => elem.replace("***", "")); 
+
+      var unitArrLength = unitArr.length // grab length of each unit role list
+      for (i = 0; i < unitArrLength; i++) {
+        var lielement = document.createElement("li"); // create list item
+        lielement.appendChild(document.createTextNode(unitArr[i].trim())); // create and append content of list item (i.e., unit)
+        lielement.setAttribute("id", unitArr[i].trim()); // set ID of new list item to 'Unit Code Unit Name'
+        if (unitArr[i].trim() == "No information to be displayed. Check with faculty.") {
+          unitRoleUl.appendChild(lielement);
+          lielement.setAttribute("class", "no_marker");
+        }
+        else {
+          lielement.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
+          lielement.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
+
+          // Find availability of units2 and attach the class (sem1, sem2 or sem1and2, to each li element)
+          var availabilityinfo = unitInformation2.indexOf(unitArr[i].trim())
+          if (availabilityinfo != -1) { // if unit was found in unitInformation array, i.e., does not return -1
+            availability2 = unitInformation2[availabilityinfo+1]
+            if (availability2.includes("Semester 1")) {
+              lielement.setAttribute("class", "sem1");
+            }
+            if (availability2.includes("Semester 2")) {
+                lielement.setAttribute("class", "sem2");
+            }
+            if (availability2.includes("Semester 1") && availability2.includes("Semester 2")) {
+                lielement.setAttribute("class", "sem1and2");
+            }
+            if (availability2.includes("Not available")) {
+                lielement.setAttribute("class", "not_available");
+            }
+            if (availability2.includes("Non-standard")) {
+                lielement.setAttribute("class", "non_standard");
+            }
+          }
+          else {lielement.setAttribute("class", "element")}
+          
+          unitRoleUl.appendChild(lielement); // append li element/unit
+        }
+      }
+    }
+  });
+
+  //Pop-up reminder function starts
+
+  //Add a pop-up reminder for the dragged course, showing the prerequisites of the course
+  var unitprerequist = document.getElementById("unitalert").innerHTML;
+
+  //var unitprerequist = "\'" + unitprerequist + "\'";
+  unitprerequist = JSON.parse(unitprerequist);
 
   // This function needs to start after the page is loaded
   const unitDiv = document.querySelectorAll('.target');
@@ -431,58 +577,44 @@ window.addEventListener('DOMContentLoaded', (event) => {
       })
 
     item.addEventListener('dragstart', function (e) {
-      // Create the ghost element (gets dragged on dragstart)
-      ghostEle = document.createElement('div');
-      ghostEle.classList.add('ghostelementdiv');
-      ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element     
-      //document.body.appendChild(ghostEle); // Append it to `body`
-      e.dataTransfer.setDragImage(ghostEle, 0, 0); // Customize the drag image to be the sourceInfo variable's id
-    });
-
-    item.addEventListener('dragover', (event) => {
-      itemID = item.id;
-      liID = document.getElementById(itemID);
-      liID.style.border = "";
+        // Create the ghost element (gets dragged on dragstart)
+        ghostEle = document.createElement('div');
+        ghostEle.classList.add('ghostelementdiv');
+        ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element     
+        //document.body.appendChild(ghostEle); // Append it to `body`
+        e.dataTransfer.setDragImage(ghostEle, 0, 0); // Customize the drag image to be the sourceInfo variable's id
     });
 
   });
-
-  var startSemester = document.getElementById('year1semester1').innerHTML;
 
   // for each action on the unit divs/target divs
   unitDiv.forEach(item => {
     // event listener for dragover events 
     item.addEventListener('dragover', (event) => {
+      // Unit availability constraint on unit divs - row 1 and row 2 (semester 1 constraint on sem2 units)
+      const row1 = document.getElementById("row1").childNodes // row 1
+      const row3 = document.getElementById("row3").childNodes // row 3
+      // if the added overload to one but not the other, we have to check which one's the longest
+      maxlength = 0
+      if (row1.length > row3.length) {maxlength = row1.length;} else {maxlength = row3.length;}
+      for (let i = 0; i < maxlength; i++) {if (item == row1[i] | item == row3[i]) {
+        if (sourceInfo.className == "sem2") {
+          alert("This unit is only available in Semester 2.");
+          return false;
+        } // if variable sourceinfo class is exactly 'sem2' then don't allow in sem 1 divs (return false)
+      }}
 
-      //Unit availability constraint on grid/unit divs
-      targetID = event.target.id; // grabs id from target div
-      if (startSemester.includes("Semester 1")) { // if semester heading containes 'Semester 1'
-        if (targetID.includes("sem1") && sourceInfo.className == "sem2") { // checks if target div has sem1 in id, and if source li has sem2 in classname
-          alert("This unit is only available in Semester 2.");
-          changeBorderRed(targetID);
-          return false;
-        }
-        if (targetID.includes("sem2") && sourceInfo.className == "sem1") {
+      // Unit availability constraint on unit divs - row 2 and row 4 (semester 2 constraint on sem1 units)
+      const row2 = document.getElementById("row2").childNodes // row 2
+      const row4 = document.getElementById("row4").childNodes // row 4
+      if (row2.length > row4.length) {maxlength = row2.length;} else {maxlength = row4.length;}
+      for (let i = 0; i < maxlength; i++) {if (item == row2[i] | item == row4[i]) {
+        if (sourceInfo.className == "sem1") {
           alert("This unit is only available in Semester 1.");
-          changeBorderRed(targetID);
           return false;
-        }
-        else {changeBorderGreen(targetID);}
-      }
-      if (startSemester.includes("Semester 2")) { // if semester heading containes 'Semester 2'
-        if (targetID.includes("sem2") && sourceInfo.className == "sem2") { // this is going to look strange as we're only changing the semester headings if the user selects sem 2, nothing else. standard is sem 1 start and grid has been set up according to this. 
-          alert("This unit is only available in Semester 2.");
-          changeBorderRed(targetID);
-          return false;
-        }
-        if (targetID.includes("sem1") && sourceInfo.className == "sem1") {
-          alert("This unit is only available in Semester 1.");
-          changeBorderRed(targetID);
-          return false;
-        }
-        else {changeBorderGreen(targetID);}
-      }
-      
+          } // if variable sourceinfo class is exactly 'sem1' then don't allow in sem 2 divs (return false)
+      }}
+
       // the below adds an event listener for dragover events on target divs - if a target div already holds a unit, 
       // the below will prevent a user from populating it with a second unit
       var t = event.target;
@@ -495,58 +627,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
       event.preventDefault();
     })
 
-  }) 
+    //add the drop event listener
+    item.addEventListener('drop', (event) => {
 
-}); // EVENT LISTENER ON WINDOW DOM ENDS HERE
+        // alerts for all prerequisites - rachel's old function
+        // for (var key in unitprerequist){
+        //   if (target.innerHTML.includes(key)){
+        //     //window.alert(unitprerequist[key]);
+        //     alert(key + " unit prerequisite: "+unitprerequist[key]);
+        //   }
+        // } 
 
-// this function changes the background of target zones where a unit is not permitted
-function changeBorderRed(targetid){
-  id = document.getElementById(targetid);
-  idClass = id.className;
+      })
 
-  // if target div is unavailable
-  if (idClass == "target") {
-    id.style.border = "3px solid #ff8282";
-  }
+    }) 
+  //Pop-up reminder function ends
 
-  id.addEventListener("dragleave", (event) => { // no border on leave
-      id.style.border = "";
-  });
-}
-
-// this function changes the background of target zones where a unit is permitted
-function changeBorderGreen(targetid){
-  id = document.getElementById(targetid); 
-  idClass = id.className;
-
-  // if target already contains a unit and the user hovers on this
-  if (idClass.includes("sem")) {
-    var parentofli = $(id).closest("div");
-    parentofli[0].style.border = "3px solid #ff8282"; // change border color of parent div to red
-    alert("You have already placed a unit in this box.");
-  }
-
-  // if target div is empty and available
-  checkifhaschildren = false; // check if id has any units in it already
-  if ( id.hasChildNodes() ) {checkifhaschildren = true;}
-  if (idClass == "target" && checkifhaschildren == false) { // if target div class name is 'target' and it has no units in it already
-    id.style.border = "3px solid rgb(160 209 160)"; // change border of target div to green
-  }
-
-  // on dragleave, remove border
-  id.addEventListener("dragleave", (event) => { // no border on leave
-      id.style.border = ""; 
-      if (idClass.includes("sem")) { 
-        var parentofli = $(id).closest("div");
-        parentofli[0].style.border = "";
-      }
-    });
-
-  // on drop, remove border
-  id.addEventListener("drop", (event) => { // no border on drop
-      id.style.border = "";
-  });
-}
+});
 
 // This is the alert function - pass a string to the alert function as that string is what will be rendered in the alert box (bottom warning bar)
 function alert(alerttext){
@@ -604,6 +701,21 @@ window.onclick = function(event) {
   }
 }
 
+// Functions to show lists
+
+function showList1(){
+  const list2 = document.getElementById('unitsSelection2');
+  const list1 = document.getElementById('unitsSelection');
+  list1.style.display = 'block';
+  list2.style.display = 'none';
+}
+
+function showList2(){
+  const list2 = document.getElementById('unitsSelection2');
+  const list1 = document.getElementById('unitsSelection');
+  list1.style.display = 'none';
+  list2.style.display = 'block';
+}
 
 // // /* Event listener - listens for changes to units content div */
 // detect_units_changing = document.getElementById("conversionUL");
@@ -785,6 +897,7 @@ function addSem22OverLoad(button) {
      x.style.display = "block";
     }
     else {
+
       if (confirm("Do you want to remove the unit?") == true) {
         $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
         x.style.display = "none"
@@ -794,6 +907,7 @@ function addSem22OverLoad(button) {
           x.style.display = "block";
         }
       
+
     }
 }
 </script>

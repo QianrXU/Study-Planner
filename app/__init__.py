@@ -21,7 +21,6 @@ login = LoginManager(app)
 login.init_app(app)
 login.login_view = 'login'
 
-
 from app import routes, models, forms
 
 if __name__ == '__main__':

@@ -4,30 +4,25 @@
 <!--FAQ-->
 <!--https://github.com/QianrXU/Study-Planner/issues/14-->
 <div style="width:50%;">
-  <div class = "signup_div">
-    <h3 class="signup_h3">FAQ</h3>
+  <div style="height: 70px; background-color: #EBEBEB; width: 100%;">
+      <h3 style="padding: 25px; padding-left: 60px;">FAQ</h3>
   </div>
-  <div class="form-container-generic" id="faqcontainer">
+  <div class="form-container-generic">
    <!--FAQ temperory text need to be replaced with the original content-still need to get it from client-->       
     <div >
-      <button class="accordion-faq"><p>What is the Study Planner?</p></button>
+      <button class="accordion-faq">What is Study Planner?</button>
       <div class="panel-faq">
-        <p>The Study Planner is a UWA tool that allows students to create study plans.</p>
+        <p>The Study Planner is a UWA tool that allows students to create study plans for their future studies.</p>
       </div>
 
-      <button class="accordion-faq"><p>How do I use the Study Planner tool?</p></button>
+      <button class="accordion-faq">How do i use study planner tool?</button>
       <div class="panel-faq">
-        <p>The Study Planner tool is a two or three step process depending on whether the course you are interested in planning has majors or specialisations.</p>
-        <p>On the first page, you will be asked to select a course. The course you select may have different availability, this will be reflected in the dropdown for selecting your beginning year and semester.</p>
-        <p>If the course you have selected has the option of selecting a major or specialisation, you will be asked to select one once you click continue.</p>
-        <p>When you have arrived to the Study Planner page, units will appear on the left and a grid will appear on the right (if you are on a desktop - the layout may look different if you are using your mobile).</p>
-        <p>Drag units from the left and pull them out to the grid on the right. Watch out for potential conflicts on the grid. If there are any constraints related to the units you select, a text explaining what has gone wrong will appear in the alert bar at the bottom of the page.</p>
-        <p>Click <a class="regularlink" href="{{ url_for('createstudyplanSelectCourse') }}">here</a> to create a study plan.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
       </div>
 
-      <button class="accordion-faq"><p>Why do I need to sign up?</p></button>
+      <button class="accordion-faq">Do i need to sign up?</button>
       <div class="panel-faq">
-        <p>Signing up comes with benefits like being able to save study plans to your user's dashboard for review at a later point.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
       </div>
     </div>
  
@@ -45,14 +40,12 @@
     acc[i].addEventListener("click", function() {
       this.classList.toggle("active-faq");
       var panel = this.nextElementSibling;
-      if (panel.style.display === "block") {
-        panel.style.display = "none";
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
       } else {
-        panel.style.display = "block";
+        panel.style.maxHeight = panel.scrollHeight + "px";
       } 
     });
   }
-
-
 </script>
  {% endblock %}
