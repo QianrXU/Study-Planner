@@ -28,8 +28,7 @@
             Select your beginning year and semester
           </button>
           <ul class="dropdown-menu" id="selectedstart" aria-labelledby="selectbeginning">
-            <li><a class="dropdown-item" href="#">Semester 1, 2023</a></li>
-            <li><a class="dropdown-item" href="#">Semester 2, 2023</a></li>
+            <!-- Options will be appended dynamically via JS -->
           </ul>
         </div>
       </div>
@@ -39,7 +38,11 @@
 </div>
 </div>
 
+<div id="courseIntakePeriods" style="display: none;">{{ degrees_start }}</div>
+
 <script>
+// save intake periods to variable
+var intakeperiods = document.getElementById("courseIntakePeriods").innerHTML; 
 
 // COURSE DROPDOWN
 
@@ -75,27 +78,68 @@ observer.observe(changed_selected_course, {characterData: false, childList: true
 /* Function when course is changed */
 function detectedChange(){
   // posts new course selection to console log
-  detected_course = document.getElementById("selectcourse").innerHTML;
+  var detected_course = document.getElementById("selectcourse").innerHTML;
   console.log(detected_course);
 
-// // Select beginning year/semester dropdown
-$("#selectedstart a").click(function(){
-  event.preventDefault(); // prevents page scroll when button clicked
-  selected_start = $(this).text();
+  // find intake period of selected course
+  intakeperiodSelectedCourse = JSON.parse(intakeperiods);
+  console.log(intakeperiodSelectedCourse[detected_course])
+
+  // initialise intakeOptions array
+  intakeOptions = [];
+
+  // reset dropdown between course selections
+  var selectStartDropdown = document.getElementById("selectedstart");
+  while (selectStartDropdown.firstChild) {
+    selectStartDropdown.removeChild(selectStartDropdown.lastChild);
+  }
+    
+  if (intakeperiodSelectedCourse[detected_course] == "Beginning of year only") {
+    intakeOptions[0] = "Semester 1, 2023";
+  }
+
+  else if (intakeperiodSelectedCourse[detected_course] == "Mid-year only") {
+    intakeOptions[0] = "Semester 2, 2023";
+  }
+
+  else if (intakeperiodSelectedCourse[detected_course] == "Beginning of year and mid-year") {
+    intakeOptions[0] = "Semester 1, 2023";
+    intakeOptions[1] = "Semester 2, 2023";
+  }
+
+  // Reset the text that is within the dropdown
+  selected_start = "Select your beginning year and semester.";
   document.getElementById("selectbeginning").innerHTML = selected_start;
-  console.log(selected_start);
 
-  // if the course selection and start semester/year is changed, it sends the change to the backend
-  $.ajax({
-    type: "POST",
-    url: "{{ url_for('createstudyplanSelectCourse') }}",
-    data: {"name": detected_course,
-          "selectedStart": selected_start}
+  // loop through intakeOptions array and dynamically add intake periods
+  for(var i = 0; i < intakeOptions.length; i++) {
+    var option = intakeOptions[i];
+    var li = document.createElement("li");
+    var a = document.createElement("a");
+    a.setAttribute("class", "dropdown-item");
+    a.setAttribute("href", "#");
+    li.appendChild(a);
+    a.textContent = option;
+    a.value = option;
+    selectStartDropdown.appendChild(li);
+  }
+
+  // // Select beginning year/semester dropdown
+  $("#selectedstart a").click(function(){
+    event.preventDefault(); // prevents page scroll when button clicked
+    selected_start = $(this).text();
+    document.getElementById("selectbeginning").innerHTML = selected_start;
+    console.log(selected_start);
+
+    // if the course selection and start semester/year is changed, it sends the change to the backend
+    $.ajax({
+      type: "POST",
+      url: "{{ url_for('createstudyplanSelectCourse') }}",
+      data: {"name": detected_course,
+            "selectedStart": selected_start}
+    })
   })
-})
 }
-
-
 
 </script>
 
