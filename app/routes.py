@@ -505,7 +505,7 @@ def createstudyplanSelectUnits():
     availability = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title + "***", unitInfoCsv.Availabilities + "***"))
     
     # variables for unit information modal (click on modal)
-    prereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Prerequisites))
+    prereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Prerequisites)) #Add Code and Prerequisites from unit list.csv to dictinary
     prereq = json.dumps(prereq)
     corereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Corequisites))
     corereq = json.dumps(corereq)
@@ -519,9 +519,6 @@ def createstudyplanSelectUnits():
     availabilitydict = json.dumps(availabilitydict)
     credits = json.dumps(credits)
 
-    #Add Code and Prerequisites from unit list.csv to dictinary
-    prerequists = dict(zip(unitInfoCsv.Code, unitInfoCsv.Prerequisites))
-    prerequists=json.dumps(prerequists)
     startSem=int(selectedStart[9:10])
     startYear=int(selectedStart[12:])
     return render_template('3grid-createstudyplan.html', 
@@ -536,7 +533,6 @@ def createstudyplanSelectUnits():
         selectedMajor=selectedMajor,
         faculty=faculty,
         coursecode=coursecode,
-        prerequists = prerequists,
         prereq=prereq,
         corereq=corereq,
         incomp=incomp,

@@ -246,7 +246,7 @@ li {
 }
 
 .unit-ul li {
-  cursor: grabbing;
+  cursor: grab;
   -o-user-select: text;
   -moz-user-select: text;
   -webkit-user-select: text;
@@ -473,7 +473,7 @@ li {
 }
 
 #grid-content li {
-  cursor: grabbing;
+  cursor: grab;
 }
 
 .semester-paragraph {

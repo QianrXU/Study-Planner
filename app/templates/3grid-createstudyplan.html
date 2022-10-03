@@ -246,7 +246,6 @@
 <!-- Units variable from back end -->
 <div id="unitList" style="display: none;">{{ units }}</div>
 <div id="unitCodeList" style="display: none;">{{ availability }}</div>
-<div id="unitalert" style="display: none;">{{ prerequists }}</div>
 
 <div id="prereq" style="display: none;">{{ prereq }}</div>
 <div id="corereq" style="display: none;">{{ corereq }}</div>
@@ -414,14 +413,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
   });
 
-  //Pop-up reminder function starts
-
-  //Add a pop-up reminder for the dragged course, showing the prerequisites of the course
-  var unitprerequist = document.getElementById("unitalert").innerHTML;
-
-  //var unitprerequist = "\'" + unitprerequist + "\'";
-  unitprerequist = JSON.parse(unitprerequist);
-
   // This function needs to start after the page is loaded
   const unitDiv = document.querySelectorAll('.target');
   const unitListElement = document.querySelectorAll('.unit-ul li');
@@ -462,6 +453,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       for (let i = 0; i < maxlength; i++) {if (item == row1[i] | item == row3[i]) {
         if (sourceInfo.className == "sem2") {
           alert("This unit is only available in Semester 2.");
+          changeBg(item.id);
           return false;
         } // if variable sourceinfo class is exactly 'sem2' then don't allow in sem 1 divs (return false)
       }}
@@ -473,6 +465,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       for (let i = 0; i < maxlength; i++) {if (item == row2[i] | item == row4[i]) {
         if (sourceInfo.className == "sem1") {
           alert("This unit is only available in Semester 1.");
+          changeBg(item.id);
           return false;
           } // if variable sourceinfo class is exactly 'sem1' then don't allow in sem 2 divs (return false)
       }}
@@ -503,9 +496,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
       })
 
     }) 
-  //Pop-up reminder function ends
 
-});
+}); // EVENT LISTENER ON WINDOW DOM ENDS HERE
+
+// this function changes the background of target zones where a unit is not permitted
+function changeBg(targetid){
+  console.log(targetid);
+  id = document.getElementById(targetid);
+  id.style.border = "3px solid #ff8282";
+
+  id.addEventListener("dragleave", function(event) {
+        id.style.border = "";
+    });
+}
 
 // This is the alert function - pass a string to the alert function as that string is what will be rendered in the alert box (bottom warning bar)
 function alert(alerttext){
