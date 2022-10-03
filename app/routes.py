@@ -8,6 +8,7 @@ from .models import User, Four_Sem_SP
 from . import db
 from werkzeug.urls import url_parse
 import pandas as pd
+import numpy as np
 import os
 import re
 import json
@@ -240,6 +241,10 @@ def createstudyplanSelectCourse():
     df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
     df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
 
+    degrees_withID = dict(zip(df.Title, df.CourseID))
+    degrees_withFaculty = dict(zip(df.Title, df.Faculty))
+    faculty = dict(zip(df.Faculty, df.CourseID))
+
     # filter out combined bachelors/masters and doctorates
     #df = df[df.Title.str.contains("Master")] # Filter out all master's degrees
     #df = df[~df.Title.str.contains("Bachelor|Doctor")] # Filter out all combined masters/bachelors and dmasters/octorates from df (~ means inverse)
@@ -249,9 +254,11 @@ def createstudyplanSelectCourse():
     degrees = dict(zip(degrees.Title, degrees.CourseID))
     degrees = sorted(degrees.keys())
 
-    degrees_withID = dict(zip(df.Title, df.CourseID))
-    degrees_withFaculty = dict(zip(df.Title, df.Faculty))
-    faculty = dict(zip(df.Faculty, df.CourseID))
+    # Degrees variable processing - this is the dataframe that the IntakePeriod selection dropdown will get its values from.
+    intakePeriod = df[df['IntakePeriods'].notna()] # Removes all options from dataframe where IntakePeriods cell is empty
+    intakePeriod = intakePeriod[intakePeriod.IntakePeriods.str.contains("Beginning of year only|Mid-year only|Beginning of year and mid-year")] # filtering the df based on value in IntakePeriods column
+    degrees_start = dict(zip(intakePeriod.Title, intakePeriod.IntakePeriods)) 
+    degrees_start = json.dumps(degrees_start)
 
     # TO DO - Need to check if selected degree ListMajors and ListMajors2 empty, 
     # Currently only checking ListMajors, not ListMajors2 (some courses seem to add them in there for some reason)
@@ -276,8 +283,9 @@ def createstudyplanSelectCourse():
         except:
             return render_template('404.html'), 404
         return ('', 204) # indicates post response has been done successfully
-    
+
     return render_template('1course-createstudyplan.html',
+            degrees_start=degrees_start,
             faculty=faculty,
             degrees_withID=degrees_withID,
             degrees=degrees, 
