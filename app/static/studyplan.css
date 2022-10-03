@@ -556,16 +556,6 @@ li {
   border-radius: 10px;
 }
 
-.availinfo {
-  font-size: 25px;
-}
-
-#nonstandardteachingperiod {
-  width: 96%;
-  float: right;
-  margin-bottom: 0px;
-}
-
 #notavailablediv {
   background-color: #FFF3CD;
   padding: 15px;
@@ -573,8 +563,11 @@ li {
 }
 
 #notavailabledivtext {
-  width: 96%;
-  float: right;
   margin-bottom: 0px;
+  margin-top: 3px;
+  float: right;
 }
 
+#nonstandardteachingperiod {
+  margin-bottom: 0px;
+}

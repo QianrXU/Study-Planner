@@ -226,8 +226,8 @@
       <div class="modal-body">
         <h3 id="title"></h3>
         <p class="creditpoints">Credit points: <span id="creditpoints"></span></p>
-        <div id="nonstandardteachingperioddiv"><div><i class="fa-solid fa-circle-info" class="availinfo"></i><p id="nonstandardteachingperiod"></p></div></div>
-        <div id="notavailablediv"><div><i class="fa-solid fa-circle-info" class="availinfo"></i><p id="notavailabledivtext"></p></div></div>
+        <div id="nonstandardteachingperioddiv"><div><i class="fa-solid fa-circle-info"  style="font-size: 25px; margin-right: 15px; float: left;"></i><p id="nonstandardteachingperiod"></p></div></div>
+        <div id="notavailablediv"><div><i class="fa-solid fa-circle-info" style="font-size: 25px; margin-right: 15px;"></i><p id="notavailabledivtext"></p></div></div>
         <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
         <h3>Decription</h3>
         <p id="description"></p>
@@ -384,15 +384,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (availabilityinfo != -1) { // if unit was found in unitInformation array, i.e., does not return -1
               availability = unitInformation[availabilityinfo+1]
 
-              if (availability.includes("Not available")) {
+              if (availability.includes("Not available 2022")) { // NOTE THIS YEAR WILL NEED TO CHANGE IF DATA CHANGES
                   lielement.setAttribute("class", "not_available");
                   lielement.setAttribute("draggable", "false"); // prevent dragging of units with class not_available
                   lielement.style.cursor = "pointer"; // change cursor of units with class not_available to pointer rather than 'grabbing'
-              }
-              if (availability.includes("Non-standard")) {
-                  lielement.setAttribute("class", "non_standard");
-                  lielement.setAttribute("draggable", "false"); // prevent dragging of units with class non_standard
-                  lielement.style.cursor = "pointer"; // change cursor of units with class non_standard to pointer, rather than 'grabbing'
               }
               if (availability.includes("Semester 1")) {
                 lielement.setAttribute("class", "sem1");
@@ -402,6 +397,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
               }
               if (availability.includes("Semester 1") && availability.includes("Semester 2")) {
                   lielement.setAttribute("class", "sem1and2");
+              }
+              if (availability.includes("Non-standard")) {
+                  lielement.setAttribute("class", "non_standard");
+                  lielement.setAttribute("draggable", "false"); // prevent dragging of units with class non_standard
+                  lielement.style.cursor = "pointer"; // change cursor of units with class non_standard to pointer, rather than 'grabbing'
               }
             }
             else {lielement.setAttribute("class", "element")}
@@ -438,6 +438,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       e.dataTransfer.setDragImage(ghostEle, 0, 0); // Customize the drag image to be the sourceInfo variable's id
     });
 
+    // Prevent list items from getting a border
     item.addEventListener('dragover', (event) => {
       itemID = item.id;
       liID = document.getElementById(itemID);
@@ -675,6 +676,7 @@ document.addEventListener('click',function(e){
  
 function drag(ev) {
   ev.dataTransfer.setData('dragID', ev.target.id)
+  clone = ev.target.cloneNode(true);
 }
 
 function drop(ev) {
