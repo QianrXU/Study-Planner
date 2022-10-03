@@ -427,15 +427,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
     item.addEventListener('dragstart', (event) => {
       target = event.target;
       sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
+
+      item.style.opacity = '0.3';
       })
 
+    item.addEventListener('dragend', (event) => {
+      item.style.opacity = '1';
+    })
+
     item.addEventListener('dragstart', function (e) {
-      // Create the ghost element (gets dragged on dragstart)
-      ghostEle = document.createElement('div');
-      ghostEle.classList.add('ghostelementdiv');
-      ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element     
-      //document.body.appendChild(ghostEle); // Append it to `body`
-      e.dataTransfer.setDragImage(ghostEle, 0, 0); // Customize the drag image to be the sourceInfo variable's id
+      // Set drag image (gets dragged on dragstart)
+      // ghostEle = document.createElement('div');
+      // ghostEle.classList.add('ghostelementdiv');
+      // ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element     
+      e.dataTransfer.setDragImage(sourceInfo.id, 0, 0); // Customize the drag image to be the sourceInfo variable's id
     });
 
     // Prevent list items from getting a border
@@ -498,6 +503,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   }) 
 
 }); // EVENT LISTENER ON WINDOW DOM ENDS HERE
+
 
 // this function changes the background of target zones where a unit is not permitted
 function changeBorderRed(targetid){
@@ -676,7 +682,6 @@ document.addEventListener('click',function(e){
  
 function drag(ev) {
   ev.dataTransfer.setData('dragID', ev.target.id)
-  clone = ev.target.cloneNode(true);
 }
 
 function drop(ev) {
