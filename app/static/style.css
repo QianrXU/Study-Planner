@@ -54,5 +54,26 @@ p {
   height: 100%;
 }
 
+.info-div {
+  margin-bottom: 0;
+  padding-bottom: 20px;
+}
 
+#footer-icon {
+  margin-bottom: 0;
+  align-items: center;
+  padding: 0;
+}
 
+.footer-li {
+  align-items: center;
+  list-style: none;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.endinfo {
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 20px;
+}
