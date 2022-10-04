@@ -95,21 +95,22 @@
 
             <!--  Start semester/year determined by what user selects in dropdown in previous window -->
             {% if SP_dict['Y1S1_5']|length <1 %}
-              <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+            <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> 
+            <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+          {% else %}
+            <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+          {% endif %}
+          <div class="semester-row" id="row1"> <!--  Add/delete row button to add/delete. -->
+            <div class="target" id="year1sem1_1" ondrop="drop(event)">{{ SP_dict['Y1S1_1'] }}</div>
+            <div class="target" id="year1sem1_2" ondrop="drop(event)">{{ SP_dict['Y1S1_2'] }}</div>
+            <div class="target" id="year1sem1_3" ondrop="drop(event)">{{ SP_dict['Y1S1_3'] }}</div>
+            <div class="target" id="year1sem1_4" ondrop="drop(event)">{{ SP_dict['Y1S1_4'] }}</div> 
+            {% if SP_dict['Y1S1_5']|length <1 %}
+              <div class="target" id="year1sem1_5" ondrop="drop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
             {% else %}
-              <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+              <div class="target" id="year1sem1_5" ondrop="drop(event)" style="display: block;">{{ SP_dict['Y1S1_5'] }}</div>  <!-- if overloading, unhide -->
             {% endif %}
-            <div class="semester-row" id="row1"> <!--  Add/delete row button to add/delete. -->
-              <div class="target" id="year1sem1_1" ondrop="drop(event)">{{ SP_dict['Y1S1_1'] }}</div>
-              <div class="target" id="year1sem1_2" ondrop="drop(event)">{{ SP_dict['Y1S1_2'] }}</div>
-              <div class="target" id="year1sem1_3" ondrop="drop(event)">{{ SP_dict['Y1S1_3'] }}</div>
-              <div class="target" id="year1sem1_4" ondrop="drop(event)">{{ SP_dict['Y1S1_4'] }}</div> 
-              {% if SP_dict['Y1S1_5']|length <1 %}
-                <div class="target" id="year1sem1_5" ondrop="drop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
-              {% else %}
-                <div class="target" id="year1sem1_5" ondrop="drop(event)" style="display: block;">{{ SP_dict['Y1S1_5'] }}</div>  <!-- if overloading, unhide -->
-              {% endif %}
-            </div>
+          </div>
 
             {% if SP_dict['Y1S2_5']|length <1 %}
               <p class="semester-paragraph" id="year1semester2" style="float:left;">Semester 
@@ -722,15 +723,20 @@ function CreatePDFfromHTML() {
 // https://github.com/QianrXU/Study-Planner/issues/85
 // https://github.com/QianrXU/Study-Planner/issues/79
 function addSem11OverLoad(button) {
-  var year1sem1_5 = document.getElementById("year1sem1_5");
+  var x = document.getElementById("year1sem1_5");
    $(button).find('i').remove();
    if ($(button).text().trim() == 'Add overload') {
-     $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append(' Remove overload');
-     year1sem1_5.style.display = "block";
-    }
+     $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
+     x.style.display = "block";}
     else {
-      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append(' Add overload');
-      year1sem1_5.style.display = "none"
+      if (confirm("Do you want to remove the unit?") == true) {
+        $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
+        x.style.display = "none"
+
+      } else {
+          $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
+          x.style.display = "block";
+        }
     }
   
 }
@@ -740,11 +746,16 @@ function addSem12OverLoad(button) {
    $(button).find('i').remove();
    if ($(button).text().trim() == 'Add overload') {
      $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-     x.style.display = "block";
-    }
+     x.style.display = "block";}
     else {
-      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
-      x.style.display = "none"
+      if (confirm("Do you want to remove the unit?") == true) {
+        $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
+        x.style.display = "none"
+
+      } else {
+          $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
+          x.style.display = "block";
+        }
     }
   
 }
@@ -756,8 +767,14 @@ function addSem21OverLoad(button) {
      $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
      x.style.display = "block";}
     else {
-      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
-      x.style.display = "none"
+      if (confirm("Do you want to remove the unit?") == true) {
+        $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
+        x.style.display = "none"
+
+      } else {
+          $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
+          x.style.display = "block";
+        }
     }
   
 }
@@ -770,10 +787,19 @@ function addSem22OverLoad(button) {
      x.style.display = "block";
     }
     else {
-      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
-      x.style.display = "none"
+      if (confirm("Do you want to remove the unit?") == true) {
+        $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
+        x.style.display = "none"
+
+      } else {
+          $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
+          x.style.display = "block";
+        }
+      
     }
 }
+
+
 
 </script>
 
