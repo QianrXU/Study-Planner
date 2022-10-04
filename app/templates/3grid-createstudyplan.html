@@ -728,6 +728,8 @@ reset.addEventListener("click", () => window.location.reload());
 // code based on the second answer from this page: https://stackoverflow.com/questions/17293135/download-a-div-in-a-html-page-as-pdf-using-javascript
 
 function CreatePDFfromHTML() {
+    var course = document.getElementById('course-title').innerHTML
+    var specialisation = document.getElementById('course-major').innerHTML
     var div_Width = $("#grid-content").width();
     var div_Height = $("#grid-content").height();
     var top_left_margin = 15;
@@ -746,7 +748,11 @@ function CreatePDFfromHTML() {
             pdf.addPage(PDF_Width, PDF_Height);
             pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
         }
-        pdf.save("study-plan.pdf");
+        if (specialisation == "No major or specialisation available"){
+          pdf.save(course + ".pdf");
+        } else {
+          pdf.save(course + " " + specialisation + ".pdf");
+        }     
     });
 }
 
