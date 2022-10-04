@@ -85,7 +85,7 @@
             <p id="administration">Faculty: {{ faculty }}</p>
             <p id="course-code">Course code: {{ coursecode }}</p> 
 
-            <div class="trashbin" ondrop="drop(event)"><i class="fa fa-trash" aria-hidden="true" style="font-size: 2em; float: right;"></i></div>
+            <!-- <div class="trashbin" ondrop="drop(event)"><i class="fa fa-trash" aria-hidden="true" style="font-size: 2em; float: right;"></i></div> -->
           </div>
 
           <hr style="border-top: 1px solid #505050;">
@@ -372,6 +372,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
           var lielement = document.createElement("li"); // create list item
           lielement.appendChild(document.createTextNode(unitArr[i].trim())); // create and append content of list item (i.e., unit)
           lielement.setAttribute("id", unitArr[i].trim()); // set ID of new list item to 'Unit Code Unit Name'
+          lielement.setAttribute("tag", ulClass); // set tag of each list item to their original ul element
           if (unitArr[i].trim() == "No information to be displayed. Check with faculty.") {
             unitRoleUl.appendChild(lielement);
             lielement.setAttribute("class", "no_marker");
@@ -432,9 +433,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
       sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
       item.style.opacity = '0.3';
 
-
-      parents.push(target.parentNode);
-      console.log(parents)
+      // parentnode = item.parentNode;
+      // parents.push(parentnode);
+      // console.log(parents)
       })
 
       
@@ -511,23 +512,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   })
   
-  // functionality for removing units
-  removedUnits = []
-  const trash = document.querySelectorAll('.trashbin');
-  trash.forEach(item => { 
-    console.log(trash);
+  // functionality for trashbin
+  // removedUnits = []
+  // const trash = document.querySelectorAll('.trashbin');
+  // trash.forEach(item => { 
+  //   console.log(trash);
 
-    item.addEventListener("dragover", function(event) { // for drop event to work this must be prevented
-      event.preventDefault();
-    });
+  //   item.addEventListener("dragover", function(event) { // for drop event to work this must be prevented
+  //     event.preventDefault();
+  //   });
 
-    item.addEventListener("drop", (ev) => { // no border on drop
-      const data = ev.dataTransfer.getData('dragID');
-      removedUnits.push(document.getElementById(data)); // Removed unit data saved to removedUnits
-      document.getElementById(data).style.display = "none"; // Change style of element to none upon removal
-      console.log(removedUnits)
-    })
-  })
+  //   item.addEventListener("drop", (ev) => { // no border on drop
+  //     const data = ev.dataTransfer.getData('dragID');
+  //     removedUnits.push(document.getElementById(data)); // Removed unit data saved to removedUnits
+  //     document.getElementById(data).style.display = "none"; // Change style of element to none upon removal
+  //     console.log(removedUnits)
+  //   })
+  // })
 
 
 }); // EVENT LISTENER ON WINDOW DOM ENDS HERE
