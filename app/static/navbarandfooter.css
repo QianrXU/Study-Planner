@@ -114,9 +114,7 @@
   background-color: #EBEBEB;
   background-position: center;
   background-repeat: no-repeat;
-  background-size:cover;
-
-
+  background-size: auto;
   padding-left: 24px;
   padding-right: 24px;
   box-sizing: border-box;
@@ -177,6 +175,8 @@
 }
 
 .info-div{
+  margin-bottom: 0;
+  padding-bottom: 20px;
   width: 50%; 
   margin:0px; 
   vertical-align: bottom; 
@@ -185,37 +185,27 @@
   position:relative;
 }
 
-.icon{
+#footer-icon{
+  margin-bottom: 0;
+  align-items: center;
   margin-right: 0px;
   list-style:none;
   margin-left: 0;
   padding: 0;
 }
 
-.icon li { 
-  display:block;
-  left: 0em;
-  line-height: inherit;
-  padding-left: 25px;
-  margin-bottom: 5px;
-  text-align:justify;
-  font-size: 13px;
-  min-height: 24px;
-}
-
-.icon i{
-  font-size: 13px;
-  line-height: 1;
-  text-rendering:initial;
-  margin-left: -20px;
-  text-align: center;
-  position:absolute;
+.footer-li {
+  align-items: center;
+  list-style: none;
+  margin-bottom: 0;
+  padding: 0;
 }
 
 .endinfo{
   width: 50%; 
   margin: 0px; 
-  padding:15px; 
+  padding-top:0;
+  padding-bottom: 20px;
   vertical-align: bottom; 
   display: inline-block;
   position:absolute;
