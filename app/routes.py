@@ -533,9 +533,9 @@ def createstudyplanSelectUnits():
 
     #### Save button ####
     #Get user account
-    user=current_user.id
 
     if request.method == 'POST':
+        user=current_user.id
         new_study_plan=Four_Sem_SP(
             user_id = user,
             Y1S1_1=request.form.get('year1sem1_1'),
