@@ -12,6 +12,7 @@ engine = db.create_engine('sqlite:///app/db.sqlite')
 connection = engine.connect()
 metadata = db.MetaData() 
 user = db.Table('User', metadata, autoload=True, autoload_with=engine) 
+studyplan = db.Table('Four_Sem_SP', metadata, autoload=True, autoload_with=engine)
 
 # Check out the Schema of User Table
 print(user.columns.keys())

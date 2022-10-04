@@ -416,6 +416,7 @@ def createstudyplanSelectMajor():
 @app.route('/createstudyplan-units', methods=['GET', 'POST'])
 def createstudyplanSelectUnits():
 #    try:
+    global selectedStart
     global selectedCourse 
     global selectedMajor
     global faculty
@@ -529,6 +530,73 @@ def createstudyplanSelectUnits():
 
     startSem=int(selectedStart[9:10])
     startYear=int(selectedStart[12:])
+
+    #### Save button ####
+    #Get user account
+
+    if request.method == 'POST':
+        user=current_user.id
+        new_study_plan=Four_Sem_SP(
+            user_id = user,
+            Y1S1_1=request.form.get('year1sem1_1'),
+            Y1S1_2=request.form.get('year1sem1_1'),
+            Y1S1_3=request.form.get('year1sem1_1'),
+            Y1S1_4=request.form.get('year1sem1_1'),
+            Y1S1_5=request.form.get('year1sem1_1'),
+
+            Y1S2_1=request.form.get('year1sem1_1'),
+            Y1S2_2=request.form.get('year1sem1_1'),
+            Y1S2_3=request.form.get('year1sem1_1'),
+            Y1S2_4=request.form.get('year1sem1_1'),
+            Y1S2_5=request.form.get('year1sem1_1'),
+
+            Y2S1_1=request.form.get('year1sem1_1'),
+            Y2S1_2=request.form.get('year1sem1_1'),
+            Y2S1_3=request.form.get('year1sem1_1'),
+            Y2S1_4=request.form.get('year1sem1_1'),
+            Y2S1_5=request.form.get('year1sem1_1'),
+
+            Y2S2_1=request.form.get('year1sem1_1'),
+            Y2S2_2=request.form.get('year1sem1_1'),
+            Y2S2_3=request.form.get('year1sem1_1'),
+            Y2S2_4=request.form.get('year1sem1_1'),
+            Y2S2_5=request.form.get('year1sem1_1'),
+            startYearSem = selectedStart,
+            selectedCourse=selectedCourse,
+            selectedMajor=selectedMajor,
+            faculty=faculty,
+            coursecode=coursecode
+        )
+
+        db.session.add(new_study_plan) # Add new study plan into the database model
+        db.session.commit()
+        flash('Your study plan has been saved!')
+
+
+    if current_user.is_authenticated:
+        return render_template('3grid-createstudyplan.html', 
+        startSem=startSem,
+        startYear=startYear,
+        getUnitValues=getUnitValues,
+        unitCodeList=unitCodeList,
+        availability=availability,
+        units=units,
+        majorCode=majorCode,
+        selectedCourse=selectedCourse, 
+        selectedMajor=selectedMajor,
+        faculty=faculty,
+        coursecode=coursecode,
+        prereq=prereq,
+        corereq=corereq,
+        incomp=incomp,
+        outcomes=outcomes,
+        content=content,
+        credits=credits,
+        availabilitydict=availabilitydict,
+        SP_dict=SP_dict,
+        loggedin=True,
+        title="Create study plan")
+
     return render_template('3grid-createstudyplan.html', 
         startSem=startSem,
         startYear=startYear,
@@ -549,10 +617,10 @@ def createstudyplanSelectUnits():
         credits=credits,
         availabilitydict=availabilitydict,
         SP_dict=SP_dict,
+        loggedin=False,
         title="Create study plan")
     #except:
     #    return render_template('404.html'), 404
-
 
 
 # FAQ Page 
