@@ -84,14 +84,14 @@
             <p id="course-major">{{ selectedMajor }}</p>
             <p id="administration">Faculty: {{ faculty }}</p>
             <p id="course-code">Course code: {{ coursecode }}</p> 
+
+            <!-- <div class="trashbin" ondrop="drop(event)"><i class="fa fa-trash" aria-hidden="true" style="font-size: 2em; float: right;"></i></div> -->
           </div>
 
           <hr style="border-top: 1px solid #505050;">
 
           <!--  Grid system. --> 
           <div class="container" id="gridcontainer">
-
-            <!-- <div id="trash" ondrop="removeUnit(event)"><i class="fa fa-trash" aria-hidden="true" style="font-size: 2em; float: right;"></i></div> -->
 
             <!--  Start semester/year determined by what user selects in dropdown in previous window -->
             {% if SP_dict['Y1S1_5']|length <1 %}
@@ -337,7 +337,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     // Extract information about unit roles
     var unitInfo = unitRole[1] 
-    
+
     // Process key-value pairs in unitlists dictionary
     for (const [key, value] of Object.entries(unitlists)) {
       const unitRoleHeader = document.createElement("p"); // create unit headers for each unit role
@@ -348,7 +348,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
       heading.appendChild(unitRoleHeader);
       const unitRoleUl = document.createElement("ul"); // create and append unit-draggables div to each unit role
       heading.appendChild(unitRoleUl);
-      unitRoleUl.setAttribute("class", "unit-ul");
+      var ulClass = "unit-ul " + key + " " + $('.unit-ul').length // create string for class of unit-ul's. the unit-ul length variable adds the index of each ul
+      unitRoleUl.setAttribute("class", ulClass);
       
       // appends tooltip icon to header
       const infoDiv = document.createElement("div");
@@ -372,6 +373,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
           var lielement = document.createElement("li"); // create list item
           lielement.appendChild(document.createTextNode(unitArr[i].trim())); // create and append content of list item (i.e., unit)
           lielement.setAttribute("id", unitArr[i].trim()); // set ID of new list item to 'Unit Code Unit Name'
+          lielement.setAttribute("tag", ulClass); // set tag of each list item to their original ul element
           if (unitArr[i].trim() == "No information to be displayed. Check with faculty.") {
             unitRoleUl.appendChild(lielement);
             lielement.setAttribute("class", "no_marker");
@@ -422,21 +424,34 @@ window.addEventListener('DOMContentLoaded', (event) => {
   // The ghost element (holds what gets dragged on dragstart)
   let ghostEle;
 
+  var parents = [];
+
   // for each action on the individual unit list elements
   unitListElement.forEach(item=> {
     // event listener for dragstart events
     item.addEventListener('dragstart', (event) => {
       target = event.target;
       sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
+      item.style.opacity = '0.3';
+
+      // parentnode = item.parentNode;
+      // parents.push(parentnode);
+      // console.log(parents)
       })
 
+      
+
+
+    item.addEventListener('dragend', (event) => {
+      item.style.opacity = '1';
+    })
+
     item.addEventListener('dragstart', function (e) {
-      // Create the ghost element (gets dragged on dragstart)
-      ghostEle = document.createElement('div');
-      ghostEle.classList.add('ghostelementdiv');
-      ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element     
-      //document.body.appendChild(ghostEle); // Append it to `body`
-      e.dataTransfer.setDragImage(ghostEle, 0, 0); // Customize the drag image to be the sourceInfo variable's id
+      // Set drag image (gets dragged on dragstart)
+      // ghostEle = document.createElement('div');
+      // ghostEle.classList.add('ghostelementdiv');
+      // ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element     
+      //e.dataTransfer.setDragImage(sourceInfo.id, 0, 0); // Customize the drag image to be the sourceInfo variable's id - this overrides the browser's innate drag image
     });
 
     // Prevent list items from getting a border
@@ -496,9 +511,29 @@ window.addEventListener('DOMContentLoaded', (event) => {
       event.preventDefault();
     })
 
-  }) 
+  })
+  
+  // functionality for trashbin
+  // removedUnits = []
+  // const trash = document.querySelectorAll('.trashbin');
+  // trash.forEach(item => { 
+  //   console.log(trash);
+
+  //   item.addEventListener("dragover", function(event) { // for drop event to work this must be prevented
+  //     event.preventDefault();
+  //   });
+
+  //   item.addEventListener("drop", (ev) => { // no border on drop
+  //     const data = ev.dataTransfer.getData('dragID');
+  //     removedUnits.push(document.getElementById(data)); // Removed unit data saved to removedUnits
+  //     document.getElementById(data).style.display = "none"; // Change style of element to none upon removal
+  //     console.log(removedUnits)
+  //   })
+  // })
+
 
 }); // EVENT LISTENER ON WINDOW DOM ENDS HERE
+
 
 // this function changes the background of target zones where a unit is not permitted
 function changeBorderRed(targetid){
@@ -677,7 +712,6 @@ document.addEventListener('click',function(e){
  
 function drag(ev) {
   ev.dataTransfer.setData('dragID', ev.target.id)
-  clone = ev.target.cloneNode(true);
 }
 
 function drop(ev) {
