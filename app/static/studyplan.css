@@ -571,3 +571,9 @@ li {
 #nonstandardteachingperiod {
   margin-bottom: 0px;
 }
+
+/* Remove unit */
+.removeunitbutton {
+  color: #999999;
+  cursor: pointer;
+}
