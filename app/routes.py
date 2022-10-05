@@ -236,18 +236,19 @@ def createstudyplanSelectCourse():
     df = pd.read_csv(targetcsv, sep=",")
 
     # Process data
-    selectedYear = 2022 # Filters courses by year determined on the left. Change value to other year if wanted/needed.
-    #df = df[df.Year.eq(selectedYear)]
+    selectedYear = 2022 # Filters courses by year determined on the left. Change value to other year if wanted/needed. Please note, if this is changed, change value in JS of 1course-createstudyplan.html too.
     df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
     df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
+    df = df[df['IntakePeriods'].notna()] # Removes all options from df where IntakePeriods is empty
 
     degrees_withID = dict(zip(df.Title, df.CourseID))
     degrees_withFaculty = dict(zip(df.Title, df.Faculty))
     faculty = dict(zip(df.Faculty, df.CourseID))
 
-    # filter out combined bachelors/masters and doctorates
-    #df = df[df.Title.str.contains("Master")] # Filter out all master's degrees
-    #df = df[~df.Title.str.contains("Bachelor|Doctor")] # Filter out all combined masters/bachelors and dmasters/octorates from df (~ means inverse)
+    # filter df
+    df = df[df.Title.str.contains("Master")] # Filter by master's degrees only (~ means inverse)
+    df = df[df.IntakePeriods.str.contains("Beginning of year only|Beginning of year and mid-year|Mid-year only")] # Filter by courses that have valid intake periods
+    df = df[~df.Title.str.contains("Bachelor|Doctor")] # Filter out all combined masters/bachelors and mastersd/octorates
 
     # Degrees variable processing - this is the dataframe that the Course selection dropdown will get its values from.
     degrees = df[~df.CourseID.str.contains('MJD|MJS')] # remove any course IDs that start with MJD or MJS (majors or second majors).
