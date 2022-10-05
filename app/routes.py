@@ -206,10 +206,13 @@ def account():
             SP_key=SP.study_plan_id
             #Save data so that it can be named in the study plan list.
             SP_time= SP.date_updated.strftime( "%d/%m/%Y" )
+            # Save selected course name so it can be seen in the study plan list
             SP_course= SP.selectedCourse
-            SP_spec= SP.selectedMajor
+            #SP_spec= SP.selectedMajor 
+            SP_name = SP_time + ' ' + SP_course
             # Add to the study plan array so it can easily be sent to the web page.
-            SP_array.append( (SP_key, SP_time, SP_course, SP_spec) )
+            SP_array.append( (SP_key, SP_name) )
+        
     return render_template('account.html', title="My Account", SP_array=SP_array, results=results)
 
 
@@ -432,7 +435,7 @@ def createstudyplanSelectUnits():
     majorCode = selectedMajor
 
     noMajor = "No major or specialisation available"
-
+    
     # if specialisation, change majorCode (what is displayed on frontend) to nocode (as it will show under Major: anyway!)
     if len(spec) != 0:
         majorCode = noMajor

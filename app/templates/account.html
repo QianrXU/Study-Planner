@@ -14,21 +14,12 @@
             {% else %}
                 <p style="font-family: TTNorms; font-weight: bold;"> Saved study plans: </p>
                 {% for SP in SP_array %}
-                    {% if 'No major or specialisation available' in SP[3] %}
-                        <div class="plans">
-                            <button id="{{ SP[0] }}a" onClick="open_SP(this.id)" style="border: none; text-decoration: underline;" > {{ SP[1] + ' ' + SP[2] }}</button> 
-                            <div id="{{ SP[0] }}b"><a href="{{ url_for('createstudyplanSelectUnits') }}"><i class="fa-solid fa-up-right-from-square" id="buttonarrow"></i></a></div>
-                            <button id="{{ SP[0] }}" onClick="delete_SP(this.id)" style="border: none;"><a style="color: black;" href="{{ url_for('account') }}"><i class="fas fa-trash"></i></a> </button>
-                            <br>
-                        </div>
-                    {% else %}
-                        <div class="plans">
-                            <button id="{{ SP[0] }}a" onClick="open_SP(this.id)" style="border: none; text-decoration: underline;" > {{ SP[1] + ' ' + SP[2] + ' ' + SP[3] }}</button> 
-                            <div id="{{ SP[0] }}b"><a href="{{ url_for('createstudyplanSelectUnits') }}"><i class="fa-solid fa-up-right-from-square" id="buttonarrow"></i></a></div>
-                            <button id="{{ SP[0] }}" onClick="delete_SP(this.id)" style="border: none;"><a style="color: black;" href="{{ url_for('account') }}"><i class="fas fa-trash"></i></a> </button>
-                            <br>
-                        </div>
-                    {% endif %}
+                    <div class="plans">
+                        <button id="{{ SP[0] }}a" onClick="open_SP(this.id)" style="border: none; text-decoration: underline;" > {{ SP[1] }}</button> 
+                        <div style="display:none" id="{{ SP[0] }}b"><a href="{{ url_for('createstudyplanSelectUnits') }}"><i class="fa-solid fa-up-right-from-square" id="buttonarrow"></i></a></div>
+                        <button id="{{ SP[0] }}" onClick="delete_SP(this.id)" style="border: none;"><a style="color: black;" href="{{ url_for('account') }}"><i class="fas fa-trash"></i></a> </button>
+                        <br>
+                    </div>
                 {% endfor %}
             {% endif %}
               
