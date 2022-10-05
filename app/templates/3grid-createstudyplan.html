@@ -518,15 +518,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
       const node = document.createElement('span');
       nodeID = item.id + " node";
       node.setAttribute("id", nodeID);
+      node.setAttribute("class", "removeunitbutton");
       document.getElementById(item.id).appendChild(node);
       closebutton = document.getElementById(nodeID);
-      closebutton.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>';
+      closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
       removeUnit(nodeID, sourceInfo, item, closebutton);
     })
 
     item.addEventListener('dragstart', (event) => { 
       //remove remove unit x upon lift of unit
-      closebutton.remove();
+      closebutton.remove();      
     })
 
     // event listener for dragover events 
@@ -610,15 +611,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 // when li elements are created, they will get an 'ondragstart = drag(event)' attribute dynamically
 function drag(event) {
-sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
-event.dataTransfer.setData('dragID', sourceInfo.id)
+  sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
+  event.dataTransfer.setData('dragID', sourceInfo.id)
+
+  // Set drag image (what the browser sets as the drag image on dragstart)
+  ghostEle = document.createElement('div');
+  ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element
+  event.dataTransfer.setDragImage(ghostEle, 0, 0); // Customize the drag image to be the sourceInfo variable's id - this overrides the browser's innate drag image
 }
 
 // drop makes sure that the id of the dropped element gets appended to the div, so when there's a drop, the unit's ID will appear in the div
 function drop(event) {
-event.preventDefault();
-const data = event.dataTransfer.getData('dragID');
-event.target.appendChild(document.getElementById(data));
+  event.preventDefault();
+  const data = event.dataTransfer.getData('dragID');
+  event.target.appendChild(document.getElementById(data));
 }
 
 // reset button for clearing screen
