@@ -266,23 +266,26 @@ def createstudyplanSelectCourse():
     selectedMajor = "No major or specialisation available"
 
     if request.method == 'POST':
-        try:
-            selectedCourse = request.form.get('name') # saves selected course into variable
-            selectedStart = request.form.get('selectedStart') # saves selected course into variable
-            
-            getMasterDegrees(df, selectedCourse) # send selected course and dataframe to function
-            for key, value in degrees_withID.items(): # iterates through values to find course code
-                if selectedCourse == key:
-                    coursecode=value
-            for key, value in degrees_withFaculty.items(): # iterates through values to find course code
-                if selectedCourse == key:
-                    faculty=value
-            getMajorValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Major 
-            getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
+        #try:
+        selectedCourse = request.form.get('name') # saves selected course into variable
+        selectedStart = request.form.get('selectedStart') # saves selected course into variable
+        
+        getMasterDegrees(df, selectedCourse) # send selected course and dataframe to function
+        for key, value in degrees_withID.items(): # iterates through values to find course code
+            if selectedCourse == key:
+                coursecode=value
+        for key, value in degrees_withFaculty.items(): # iterates through values to find course code
+            if selectedCourse == key:
+                faculty=value
+        getMajorValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Major 
+        getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
 
-        except:
-            return render_template('404.html'), 404
+        #except:
+            #flash('Please select all the fields.')
+            #return redirect(url_for('createstudyplanSelectCourse'))
         return ('', 204) # indicates post response has been done successfully
+    else:
+        flash('Please select all the fields.')
 
     return render_template('1course-createstudyplan.html',
             degrees_start=degrees_start,
@@ -371,46 +374,46 @@ def getMasterDegrees(data, selectedCourse):
 # STUDY PLANNER - SELECT MAJOR
 @app.route('/createstudyplan-majors', methods=['GET', 'POST'])
 def createstudyplanSelectMajor():
-    try:
-        global selectedMajor
-        global getMajorValues
-        global selectedCourse
+    #try:
+    global selectedMajor
+    global getMajorValues
+    global selectedCourse
 
-        # process ListMajors column (i.e., potential majors) and potential specialisations if master is selected where specialisation is an option
-        majors = getMajorValues['ListMajors'].dropna().values.tolist() # create dataframe of ListMajors column
-        #majors2 = getMajorValues['ListMajors2'].dropna().values.tolist() # create dataframe of ListMajors2 column - SOMETIMES MAJORS ARE LISTED IN THIS COLUMN, WE'LL NEED TO RUN SOME CHECKS TO SEE WHICH ONE IS ACCURATE FOR SELECTED COURSE
-        pattern = r'[(\d)\'<b]+'
-        majors = ' '.join(str(e) for e in majors)
-        majors = re.split(pattern, majors)
-        majors = ' '.join(str(e) for e in majors)
-        newpattern = r'[\']+'
-        majors = re.split(newpattern, majors)
-        majors = ' '.join(str(e) for e in majors)
-        majors = majors.split(" r>")
-        for specialisation in range(len(m_specialisations_list)): # m_specialisations_list contains all specialisations for the selected course (if master with specialisation)
-            majors.append(m_specialisations_list[specialisation])
-        # would be nice to remove the unitcode before the major title, if we do this we would have to
-        # make changes to majorCode below though as that splits the majors text (I believe) /C
+    # process ListMajors column (i.e., potential majors) and potential specialisations if master is selected where specialisation is an option
+    majors = getMajorValues['ListMajors'].dropna().values.tolist() # create dataframe of ListMajors column
+    #majors2 = getMajorValues['ListMajors2'].dropna().values.tolist() # create dataframe of ListMajors2 column - SOMETIMES MAJORS ARE LISTED IN THIS COLUMN, WE'LL NEED TO RUN SOME CHECKS TO SEE WHICH ONE IS ACCURATE FOR SELECTED COURSE
+    pattern = r'[(\d)\'<b]+'
+    majors = ' '.join(str(e) for e in majors)
+    majors = re.split(pattern, majors)
+    majors = ' '.join(str(e) for e in majors)
+    newpattern = r'[\']+'
+    majors = re.split(newpattern, majors)
+    majors = ' '.join(str(e) for e in majors)
+    majors = majors.split(" r>")
+    for specialisation in range(len(m_specialisations_list)): # m_specialisations_list contains all specialisations for the selected course (if master with specialisation)
+        majors.append(m_specialisations_list[specialisation])
+    # would be nice to remove the unitcode before the major title, if we do this we would have to
+    # make changes to majorCode below though as that splits the majors text (I believe) /C
 
-        # retrieve selected major
-        if request.method == 'POST':
-            try:
-                selectedMajor = request.form.get('name') # saves selected major into variable
-            except:
-                return render_template('404.html'), 404
+    # retrieve selected major
+    if request.method == 'POST':
+        #try:
+            selectedMajor = request.form.get('name') # saves selected major into variable
+        #except:
+            #return render_template('404.html'), 404
             return ('', 204) # indicates post response has been done successfully
 
-        # redirect for degrees with no majors/specialisations
-        lengthOfMajorsList = len(majors) # the length of the majors list will be 1 for all degrees that do not contain majors. we'll want to redirect users to the third step if there is no majors
-        if lengthOfMajorsList == 1:
-            return redirect(url_for('createstudyplanSelectUnits'), code=302)
+    # redirect for degrees with no majors/specialisations
+    lengthOfMajorsList = len(majors) # the length of the majors list will be 1 for all degrees that do not contain majors. we'll want to redirect users to the third step if there is no majors
+    if lengthOfMajorsList == 1:
+        return redirect(url_for('createstudyplanSelectUnits'), code=302)
 
-        return render_template('2major-createstudyplan.html',
-            majors=majors,
-            getMajorValues=getMajorValues,
-            title="Create study plan")
-    except:
-        return render_template('404.html'), 404
+    return render_template('2major-createstudyplan.html',
+        majors=majors,
+        getMajorValues=getMajorValues,
+        title="Create study plan")
+    #except:
+        #return render_template('404.html'), 404
 
 # STUDY PLANNER - SELECT UNITS
 @app.route('/createstudyplan-units', methods=['GET', 'POST'])

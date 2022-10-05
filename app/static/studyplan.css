@@ -550,6 +550,10 @@ li {
   display: inline-block;
 }
 
+#closeicon {
+  cursor: pointer;
+}
+
 #nonstandardteachingperioddiv {
   background-color: #FFF3CD;
   padding: 15px;
