@@ -205,9 +205,14 @@ def account():
             #Save study plan id so that it can be identified in the webpage.
             SP_key=SP.study_plan_id
             #Save data so that it can be named in the study plan list.
-            SP_name= SP.date_updated.strftime( "%d/%m/%Y" )
-            #Add to the study plan array so it can easily be sent to the web page.
+            SP_time= SP.date_updated.strftime( "%d/%m/%Y" )
+            # Save selected course name so it can be seen in the study plan list
+            SP_course= SP.selectedCourse
+            #SP_spec= SP.selectedMajor 
+            SP_name = SP_time + ' ' + SP_course
+            # Add to the study plan array so it can easily be sent to the web page.
             SP_array.append( (SP_key, SP_name) )
+        
     return render_template('account.html', title="My Account", SP_array=SP_array, results=results)
 
 
@@ -236,18 +241,19 @@ def createstudyplanSelectCourse():
     df = pd.read_csv(targetcsv, sep=",")
 
     # Process data
-    selectedYear = 2022 # Filters courses by year determined on the left. Change value to other year if wanted/needed.
-    #df = df[df.Year.eq(selectedYear)]
+    selectedYear = 2022 # Filters courses by year determined on the left. Change value to other year if wanted/needed. Please note, if this is changed, change value in JS of 1course-createstudyplan.html too.
     df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
     df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
+    df = df[df['IntakePeriods'].notna()] # Removes all options from df where IntakePeriods is empty
 
     degrees_withID = dict(zip(df.Title, df.CourseID))
     degrees_withFaculty = dict(zip(df.Title, df.Faculty))
     faculty = dict(zip(df.Faculty, df.CourseID))
 
-    # filter out combined bachelors/masters and doctorates
-    #df = df[df.Title.str.contains("Master")] # Filter out all master's degrees
-    #df = df[~df.Title.str.contains("Bachelor|Doctor")] # Filter out all combined masters/bachelors and dmasters/octorates from df (~ means inverse)
+    # filter df
+    df = df[df.Title.str.contains("Master")] # Filter by master's degrees only (~ means inverse)
+    df = df[df.IntakePeriods.str.contains("Beginning of year only|Beginning of year and mid-year|Mid-year only")] # Filter by courses that have valid intake periods
+    df = df[~df.Title.str.contains("Bachelor|Doctor")] # Filter out all combined masters/bachelors and mastersd/octorates
 
     # Degrees variable processing - this is the dataframe that the Course selection dropdown will get its values from.
     degrees = df[~df.CourseID.str.contains('MJD|MJS')] # remove any course IDs that start with MJD or MJS (majors or second majors).
@@ -429,7 +435,7 @@ def createstudyplanSelectUnits():
     majorCode = selectedMajor
 
     noMajor = "No major or specialisation available"
-
+    
     # if specialisation, change majorCode (what is displayed on frontend) to nocode (as it will show under Major: anyway!)
     if len(spec) != 0:
         majorCode = noMajor
