@@ -830,17 +830,30 @@ function addSem11OverLoad(button) {
      $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
      x.style.display = "block";}
     else {
-      if (confirm("Do you want to remove the unit?") == true) {
+      document.getElementById("show_hide_bt1").addEventListener('click', function handleClick(event) {
+      unit = document.getElementById(sourceInfo.id) 
+      ul_of_unit = unit.getAttribute('tag');
+      console.log("ulof unit", ul_of_unit)
+      ul = document.getElementById(ul_of_unit); 
+      div = document.getElementById(x.id);
+      div.childNodes[0].remove();
+      closebutton.remove();
+      var new_li = document.createElement("li");
+      new_li.appendChild(document.createTextNode(unit.id));
+      new_li.setAttribute("id", unit.id);
+      new_li.setAttribute("tag", (ul_of_unit));
+      new_li.setAttribute("draggable", "true");
+      new_li.setAttribute("ondragstart", "drag(event)");
+      new_li.setAttribute("class", unit.className);
+      ul.append(new_li);
+
+      })
         $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
         x.style.display = "none"
-
-      } else {
-          $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-          x.style.display = "block";
         }
     }
   
-}
+
 //Function that will display the fifth unit if user click '+' button and remove that grid when click '-' icon
 function addSem12OverLoad(button) {
   var x = document.getElementById("year1sem2_5");
@@ -849,14 +862,26 @@ function addSem12OverLoad(button) {
      $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
      x.style.display = "block";}
     else {
-      if (confirm("Do you want to remove the unit?") == true) {
-        $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
-        x.style.display = "none"
+      document.getElementById("show_hide_bt2").addEventListener('click', function handleClick(event) {
+      unit = document.getElementById(sourceInfo.id) 
+      ul_of_unit = unit.getAttribute('tag');
+      console.log("ulof unit", ul_of_unit)
+      ul = document.getElementById(ul_of_unit); 
+      div = document.getElementById(x.id); 
+      div.childNodes[0].remove();
+      closebutton.remove();
+      var new_li = document.createElement("li");
+      new_li.appendChild(document.createTextNode(unit.id));
+      new_li.setAttribute("id", unit.id);
+      new_li.setAttribute("tag", (ul_of_unit));
+      new_li.setAttribute("draggable", "true");
+      new_li.setAttribute("ondragstart", "drag(event)");
+      new_li.setAttribute("class", unit.className);
+      ul.append(new_li);
 
-      } else {
-          $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-          x.style.display = "block";
-        }
+      })
+      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
+      x.style.display = "none"
     }
   
 }
@@ -864,18 +889,30 @@ function addSem12OverLoad(button) {
 function addSem21OverLoad(button) {
   var x = document.getElementById("year2sem1_5");
    $(button).find('i').remove();
-   if ($(button).text().trim() == 'Add overload') {
-     $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-     x.style.display = "block";}
+    if ($(button).text().trim() == 'Add overload') {
+      $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
+      x.style.display = "block";}
     else {
-      if (confirm("Do you want to remove the unit?") == true) {
-        $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
-        x.style.display = "none"
+      document.getElementById("show_hide_bt3").addEventListener('click', function handleClick(event) {
+      unit = document.getElementById(sourceInfo.id) 
+      ul_of_unit = unit.getAttribute('tag'); 
+      console.log("ulof unit", ul_of_unit)
+      ul = document.getElementById(ul_of_unit);
+      div = document.getElementById(x.id); 
+      div.childNodes[0].remove();
+      closebutton.remove();
+      var new_li = document.createElement("li");
+      new_li.appendChild(document.createTextNode(unit.id));
+      new_li.setAttribute("id", unit.id);
+      new_li.setAttribute("tag", (ul_of_unit));
+      new_li.setAttribute("draggable", "true");
+      new_li.setAttribute("ondragstart", "drag(event)");
+      new_li.setAttribute("class", unit.className);
+      ul.append(new_li);
 
-      } else {
-          $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-          x.style.display = "block";
-        }
+      })
+      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
+      x.style.display = "none"
     }
   
 }
@@ -883,20 +920,31 @@ function addSem21OverLoad(button) {
 function addSem22OverLoad(button) {
    var x = document.getElementById("year2sem2_5");
    $(button).find('i').remove();
-   if ($(button).text().trim() == 'Add overload') {
-     $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-     x.style.display = "block";
-    }
+    if ($(button).text().trim() == 'Add overload') {
+      $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
+      x.style.display = "block";
+      }
     else {
-      if (confirm("Do you want to remove the unit?") == true) {
-        $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
-        x.style.display = "none"
+      document.getElementById("show_hide_bt4").addEventListener('click', function handleClick(event) {
+      unit = document.getElementById(sourceInfo.id) 
+      ul_of_unit = unit.getAttribute('tag');
+      console.log("ulof unit", ul_of_unit)
+      ul = document.getElementById(ul_of_unit); 
+      div = document.getElementById(x.id); 
+      div.childNodes[0].remove();
+      closebutton.remove();
+      var new_li = document.createElement("li");
+      new_li.appendChild(document.createTextNode(unit.id));
+      new_li.setAttribute("id", unit.id);
+      new_li.setAttribute("tag", (ul_of_unit));
+      new_li.setAttribute("draggable", "true");
+      new_li.setAttribute("ondragstart", "drag(event)");
+      new_li.setAttribute("class", unit.className);
+      ul.append(new_li);
 
-      } else {
-          $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-          x.style.display = "block";
-        }
-      
+      })
+      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
+      x.style.display = "none"
     }
 }
 
