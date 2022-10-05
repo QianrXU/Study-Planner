@@ -205,9 +205,11 @@ def account():
             #Save study plan id so that it can be identified in the webpage.
             SP_key=SP.study_plan_id
             #Save data so that it can be named in the study plan list.
-            SP_name= SP.date_updated.strftime( "%d/%m/%Y" )
-            #Add to the study plan array so it can easily be sent to the web page.
-            SP_array.append( (SP_key, SP_name) )
+            SP_time= SP.date_updated.strftime( "%d/%m/%Y" )
+            SP_course= SP.selectedCourse
+            SP_spec= SP.selectedMajor
+            # Add to the study plan array so it can easily be sent to the web page.
+            SP_array.append( (SP_key, SP_time, SP_course, SP_spec) )
     return render_template('account.html', title="My Account", SP_array=SP_array, results=results)
 
 

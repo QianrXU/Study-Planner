@@ -50,30 +50,21 @@ p {
 
 .MyStudyPlans {
   padding: 40px;
-  width: 30%;
+  width: 50%;
   height: 100%;
 }
 
-.info-div {
-  margin-bottom: 0;
-  padding-bottom: 20px;
+button {
+  text-align: left !important;
 }
 
-#footer-icon {
-  margin-bottom: 0;
+.plans {
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  padding: 0;
 }
 
-.footer-li {
-  align-items: center;
-  list-style: none;
-  margin-bottom: 0;
-  padding: 0;
-}
-
-.endinfo {
-  margin: 0;
-  padding-top: 0;
-  padding-bottom: 20px;
+#buttonarrow {
+  color: black;
+  margin-left: 10px;
 }
