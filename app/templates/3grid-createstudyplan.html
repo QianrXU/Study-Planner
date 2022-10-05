@@ -338,6 +338,7 @@ availabilityofunits = JSON.parse(availabilityofunits);
 
 var unitsTaken = []; //This array tracks how many units are in the study plan grid from each group.	
 var unitlists1= {}; //Global units list.
+var coreComplete = false; //Boolean to track if core units are completed.
 
 // Remove major information from frontend if doesn't contain anything valuable
 if (document.getElementById("course-major").innerHTML == "No major or specialisation available"){
@@ -496,12 +497,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
                   lielement.style.cursor = "pointer"; // change cursor of units with class non_standard to pointer, rather than 'grabbing'
               }
               //TODO: Figure out how to handle loaded study plans where all core units have been assigned.	
+              //alert(unitsTaken);
               if (key!='Core'){ //&& unitsTaken[1][1] != unitsTaken[1][2]) {	
                 //lielement.setAttribute("class", "non_core"); //set this to apply element warning.	
-                //alert(unitsTaken[1][1] + '/' + unitsTaken[1][2]);
-                lielement.setAttribute("class", "non_standard");	
                 lielement.setAttribute("draggable", "false"); // prevent dragging of units with class non_standard	
                 lielement.style.cursor = "pointer";	
+              }
+              if (key=='Core' && parseInt(unitsTaken[x][1]) == parseInt(unitsTaken[x][2])){ 	
+                coreComplete = true;
               }
             }
             else {lielement.setAttribute("class", "element")}
