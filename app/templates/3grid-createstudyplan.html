@@ -328,6 +328,9 @@ var content = document.getElementById("content").innerHTML;
 var creditpoints = document.getElementById("structurecredits").innerHTML;
 var availabilityofunits = document.getElementById("availabilityofunits").innerHTML;
 
+var unitsTaken = []; //This array tracks how many units are in the study plan grid from each group.	
+var unitlists1= {}; //Global units list.
+
 // Remove major information from frontend if doesn't contain anything valuable
 if (document.getElementById("course-major").innerHTML == "No major or specialisation available"){
   document.getElementById("course-major").style.display = "none";
@@ -381,6 +384,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
   }
 
+  var x=0
+
   unitsArray.forEach(element => {
     unitRole = element.split(", ***, "); // This split stirng is decided in routes.py
     unitRole = unitRole.map(elem => elem.replace(", ***", "")); // if there would be any erronous split symbols (&amp;*:,) that have come across despite the split, clean those up
@@ -392,9 +397,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
     unitRoleUnits = "No information to be displayed. Check with faculty.";
     }
     unitlists[unitRole[0]] = unitRoleUnits; // place in unitlists dictionary: key is index 0 (unit code) and value is index 2 (units belonging to this unit role) from unitRole list
+    unitlists1[unitRole[0]] = unitRoleUnits; // place in global unitlists1 dictionary.
 
     // Extract information about unit roles
     var unitInfo = unitRole[1] 
+
+    //Extracts the points needed for the unit group.
+    var groupPoints = unitInfo.replace(/[^0-9.]/g, ''); //removes all non-numeric characters.	
+    groupPoints = groupPoints.slice(0,2); 	
+    unitsTaken[x]= ['M1', 0, parseInt(groupPoints)];	
+    groupPoints = '<span id=group'+ x +'> ' + unitsTaken[x][1] + '/' + unitsTaken[x][2] + '  </span>';
 
     // Process key-value pairs in unitlists dictionary
     for (const [key, value] of Object.entries(unitlists)) {
@@ -415,6 +427,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
       unitRoleHeader.appendChild(infoDiv);
       infoDiv.setAttribute('class', 'tooltipinfo');
       infoDiv.insertAdjacentHTML("afterbegin", '<i class="fa-solid fa-circle-info"></i>');
+      
+      // appends unit group points to header
+      infoDiv.insertAdjacentHTML("afterbegin", groupPoints);
 
       // appends unit info to tooltip icon
       const infotext = document.createElement("span");
@@ -428,6 +443,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
       var unitArrLength = unitArr.length // grab length of each unit role list
       for (i = 0; i < unitArrLength; i++) {
+        //TODO: For each element not in unitArr, add point value to unitsTaken[x][1] Then reassign innerhtml after loop finishes.
         if(!(loadedArray.includes(unitArr[i].trim()))){ 
           var lielement = document.createElement("li"); // create list item
           lielement.appendChild(document.createTextNode(unitArr[i].trim())); // create and append content of list item (i.e., unit)
@@ -465,14 +481,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
                   lielement.setAttribute("draggable", "false"); // prevent dragging of units with class non_standard
                   lielement.style.cursor = "pointer"; // change cursor of units with class non_standard to pointer, rather than 'grabbing'
               }
+              //TODO: Figure out how to handle loaded study plans where all core units have been assigned.	
+              if (key!='Core') {	
+                //lielement.setAttribute("class", "non_core"); //set this to apply element warning.	
+                lielement.setAttribute("class", "non_standard");	
+                lielement.setAttribute("draggable", "false"); // prevent dragging of units with class non_standard	
+                lielement.style.cursor = "pointer";	
+              }
             }
             else {lielement.setAttribute("class", "element")}
             
             unitRoleUl.appendChild(lielement); // append li element/unit
           }
         }
+        //else{ }
       }
     }
+    x+=1;
   });
 
   // This function needs to start after the page is loaded
@@ -625,6 +650,18 @@ function drop(event) {
   event.preventDefault();
   const data = event.dataTransfer.getData('dragID');
   event.target.appendChild(document.getElementById(data));
+  //Code to track credit points	
+  var unit=document.getElementById(data).innerHTML;	
+  var points=creditpoints[unit];	
+  var i=0;	
+  //for (const [key, value] of Object.entries(unitlists1)) {	
+    //var unitArr = (`${value}`).split('***, '); 	
+    //unitArr = unitArr.map(elem => elem.replace("***", "")); 	
+    //if(unitArr.includes(unit)){	
+    //  console.log(unitsTaken);	
+    //  counter=unitsTaken[i][1];	
+    //  counter+= parseInt(points);	
+    //  console.log(counter);
 }
 
 // reset button for clearing screen
