@@ -84,8 +84,6 @@
             <p id="course-major">{{ selectedMajor }}</p>
             <p id="administration">Faculty: {{ faculty }}</p>
             <p id="course-code">Course code: {{ coursecode }}</p> 
-
-            <!-- <div class="trashbin" ondrop="drop(event)"><i class="fa fa-trash" aria-hidden="true" style="font-size: 2em; float: right;"></i></div> -->
           </div>
 
           <hr style="border-top: 1px solid #505050;">
@@ -408,8 +406,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
       heading.appendChild(unitRoleHeader);
       const unitRoleUl = document.createElement("ul"); // create and append unit-draggables div to each unit role
       heading.appendChild(unitRoleUl);
+      unitRoleUl.setAttribute("class", 'unit-ul');
       var ulClass = "unit-ul " + key + " " + $('.unit-ul').length // create string for class of unit-ul's. the unit-ul length variable adds the index of each ul
-      unitRoleUl.setAttribute("class", ulClass);
+      unitRoleUl.setAttribute("id", ulClass);
       
       // appends tooltip icon to header
       const infoDiv = document.createElement("div");
@@ -492,27 +491,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
     item.addEventListener('dragstart', (event) => {
       target = event.target;
       sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
+
       item.style.opacity = '0.3';
-
-      // parentnode = item.parentNode;
-      // parents.push(parentnode);
-      // console.log(parents)
       })
-
-      
-
 
     item.addEventListener('dragend', (event) => {
       item.style.opacity = '1';
     })
-
-    item.addEventListener('dragstart', function (e) {
-      // Set drag image (gets dragged on dragstart)
-      // ghostEle = document.createElement('div');
-      // ghostEle.classList.add('ghostelementdiv');
-      // ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element     
-      //e.dataTransfer.setDragImage(sourceInfo.id, 0, 0); // Customize the drag image to be the sourceInfo variable's id - this overrides the browser's innate drag image
-    });
 
     // Prevent list items from getting a border
     item.addEventListener('dragover', (event) => {
@@ -527,6 +512,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   // for each action on the unit divs/target divs
   unitDiv.forEach(item => {
+    // event listener for drop events
+    item.addEventListener('drop', (event) => {
+      // create remove unit x dynamically
+      const node = document.createElement('span');
+      nodeID = item.id + " node";
+      node.setAttribute("id", nodeID);
+      document.getElementById(item.id).appendChild(node);
+      closebutton = document.getElementById(nodeID);
+      closebutton.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>';
+      removeUnit(nodeID, sourceInfo, item, closebutton);
+    })
+
+    item.addEventListener('dragstart', (event) => { 
+      //remove remove unit x upon lift of unit
+      closebutton.remove();
+    })
+
     // event listener for dragover events 
     item.addEventListener('dragover', (event) => {
 
@@ -573,27 +575,55 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   })
   
-  // functionality for trashbin
-  // removedUnits = []
-  // const trash = document.querySelectorAll('.trashbin');
-  // trash.forEach(item => { 
-  //   console.log(trash);
+  // function for removing a unit
+  function removeUnit(nodeID, sourceInfo, item, closebutton) {
+    // add eventlistener on the nodeID, i.e., the ID of the removal unit button
+    document.getElementById(nodeID).addEventListener('click', function handleClick(event) {
+      //remove remove unit x upon lift of unit
+      unit = document.getElementById(sourceInfo.id) // get unit info from the unit/li's ID
+      //console.log(nodeID);
+      //console.log(sourceInfo.id);
+      ul_of_unit = unit.getAttribute('tag'); // get tag value from unit, which will be its initial 
+      ul = document.getElementById(ul_of_unit); // get the ul
 
-  //   item.addEventListener("dragover", function(event) { // for drop event to work this must be prevented
-  //     event.preventDefault();
-  //   });
+      // remove old elements
+      div = document.getElementById(item.id); // get old li, i.e., li that is in the unitdiv
+      div.childNodes[0].remove();
+      closebutton.remove();
 
-  //   item.addEventListener("drop", (ev) => { // no border on drop
-  //     const data = ev.dataTransfer.getData('dragID');
-  //     removedUnits.push(document.getElementById(data)); // Removed unit data saved to removedUnits
-  //     document.getElementById(data).style.display = "none"; // Change style of element to none upon removal
-  //     console.log(removedUnits)
-  //   })
-  // })
+      // recreate element item and append to initial ul
+      var new_li = document.createElement("li");
+      new_li.appendChild(document.createTextNode(unit.id));
+      new_li.setAttribute("id", unit.id);
+      new_li.setAttribute("tag", (ul_of_unit));
+      new_li.setAttribute("draggable", "true");
+      new_li.setAttribute("ondragstart", "drag(event)");
+      new_li.setAttribute("class", unit.className);
+      ul.append(new_li);
+
+      })
+    }
 
 
 }); // EVENT LISTENER ON WINDOW DOM ENDS HERE
 
+
+// when li elements are created, they will get an 'ondragstart = drag(event)' attribute dynamically
+function drag(event) {
+sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
+event.dataTransfer.setData('dragID', sourceInfo.id)
+}
+
+// drop makes sure that the id of the dropped element gets appended to the div, so when there's a drop, the unit's ID will appear in the div
+function drop(event) {
+event.preventDefault();
+const data = event.dataTransfer.getData('dragID');
+event.target.appendChild(document.getElementById(data));
+}
+
+// reset button for clearing screen
+const reset = document.getElementById("reset");
+reset.addEventListener("click", () => window.location.reload());
 
 // this function changes the background of target zones where a unit is not permitted
 function changeBorderRed(targetid){
@@ -666,7 +696,7 @@ function openModal(){
   const modal = document.getElementById('my-modal'); // get the modal that needs to be showed
   modal.style.display = 'block'; //show the modal after click action
 }
-// Modal - close general-info modal
+
 function closeModal(){
   const modal = document.getElementById('my-modal'); // get the modal that needs to be closed
   modal.style.display = 'none'; //hide the modal after clicking the close button
@@ -690,7 +720,7 @@ function closeUnitModal(){
   warningicon.style.display = 'none';
 }
 
-// when user clicks anywhere outside of modal window when modal window is open, close the modal
+// when user clicks anywhere outside of a modal window when a modal window is open, close the modal
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
@@ -700,19 +730,7 @@ window.onclick = function(event) {
   }
 }
 
-
-// // /* Event listener - listens for changes to units content div */
-// detect_units_changing = document.getElementById("conversionUL");
-// observer = new MutationObserver(function(mutationsList, observer) {detectedChange();});
-// observer.observe(detect_units_changing, {characterData: false, childList: true, attributes: false});
-
-// /* Function when course is changed */
-// function detectedChange(){
-//   // posts new course selection to console log
-//   detected_course = document.getElementById("course-title").innerHTML;
-//   console.log(detected_course);
-// }
-
+// Functionality for clicking on units
 content = JSON.parse(content);
 unitoutcomes = JSON.parse(unitoutcomes);
 prereq = JSON.parse(prereq);
@@ -760,29 +778,6 @@ document.addEventListener('click',function(e){
       openUnitModal();
      }
  });
-
-// Grid system
-// Dragstart - save initial position somehow?
-// document.addEventListener('dragstart',function(e){
-//     if(e.target && e.target.classList == 'element'){
-//       console.log("dragging")
-//       id = event.target.id;
-//      }
-//  });
- 
-function drag(ev) {
-  ev.dataTransfer.setData('dragID', ev.target.id)
-}
-
-function drop(ev) {
-  ev.preventDefault();
-  const data = ev.dataTransfer.getData('dragID');
-  ev.target.appendChild(document.getElementById(data));
-}
-
-// reset button
-const reset = document.getElementById("reset");
-reset.addEventListener("click", () => window.location.reload());
 
 // function for downloading a pdf (whole page)
 // code based on the second answer from this page: https://stackoverflow.com/questions/17293135/download-a-div-in-a-html-page-as-pdf-using-javascript
