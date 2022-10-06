@@ -11,9 +11,7 @@
       <!-- This dropdown group iterates through the variable 'degrees' (specified in routes.py). -->
       <div class="dropdowngroup">
         <div class="selectcourse dropdown">
-          <button class="btn btn-secondary dropdown-toggle" id="selectcourse" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Select your course
-          </button>
+          <button class="btn btn-secondary dropdown-toggle" id="selectcourse" type="button" data-bs-toggle="dropdown" aria-expanded="false">Select your course</button>
           <!-- Pulls data from the Title column -->
           <ul class="dropdown-menu" id="selecteddegree" aria-labelledby="selectcourse">
             <span><i id="magnifyingglass" class="fa fa-search" aria-hidden="true"></i></span><input type="text" paceholder="Search" id="courseInput" onkeyup="filterFunction()">
@@ -24,20 +22,14 @@
         </div>
 
         <div class="selectcourse dropdown">
-          <button class="btn btn-secondary dropdown-toggle" id="selectbeginning" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Select your beginning year and semester
-          </button>
-          <ul class="dropdown-menu" id="selectedstart" aria-labelledby="selectbeginning">
-            <!-- Options will be appended dynamically via JS -->
-          </ul>
+          <button class="btn btn-secondary dropdown-toggle" id="selectbeginning" type="button" data-bs-toggle="dropdown" aria-expanded="false">Select your beginning year and semester</button>
+          <ul class="dropdown-menu" id="selectedstart" aria-labelledby="selectbeginning"></ul><!-- Options will be appended dynamically via JS -->
         </div>
       </div>
     
-      <a href="{{ url_for('createstudyplanSelectMajor') }}" class ="button_general" id="selectcoursebutton">Continue<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></a>
-      <div class="warning-div">
-        <!-- will set the p element's display to none when the bugs are sorted out -->
-        <p id="warning-course">Please select all the fields before continuing.</p>
-      </div>
+      <a class="button_general" id="selectcoursebutton">Continue<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right"></i></span></a>
+      <p id="warning-course" style="display: none;">Please select values in the dropdowns before pressing continue.</p>
+
     </div>
 </div>
 
@@ -48,7 +40,7 @@
 var intakeperiods = document.getElementById("courseIntakePeriods").innerHTML; 
 
 // COURSE DROPDOWN
-
+// filter function on course dropdown
 function filterFunction() {
   var input, filter, ul, li, a, i;
   input = document.getElementById("courseInput");
@@ -66,7 +58,6 @@ function filterFunction() {
 }
 
 // click function
-
 $("#selecteddegree a").click(function(){
   event.preventDefault(); // prevents page scroll when button clicked
   var selected_degree = $(this).text();
@@ -86,7 +77,6 @@ function detectedChange(){
 
   // find intake period of selected course
   intakeperiodSelectedCourse = JSON.parse(intakeperiods);
-  console.log(intakeperiodSelectedCourse[detected_course])
 
   // initialise intakeOptions array
   intakeOptions = [];
@@ -111,7 +101,7 @@ function detectedChange(){
   }
 
   // Reset the text that is within the dropdown
-  selected_start = "Select your beginning year and semester.";
+  selected_start = "Select your beginning year and semester";
   document.getElementById("selectbeginning").innerHTML = selected_start;
 
   // loop through intakeOptions array and dynamically add intake periods
@@ -127,36 +117,50 @@ function detectedChange(){
     selectStartDropdown.appendChild(li);
   }
 
-  // // Select beginning year/semester dropdown
-  $("#selectedstart a").click(function(){
-    event.preventDefault(); // prevents page scroll when button clicked
-    selected_start = $(this).text();
-    document.getElementById("selectbeginning").innerHTML = selected_start;
-    console.log(selected_start);
+  // reset the border colors if they're red
+  if (document.getElementById("selectcourse").style.border = 'solid 1px #fb8585e3') {document.getElementById("selectcourse").style.border = 'solid 1px #C9C9C9';}
+  if (document.getElementById("selectbeginning").style.border = 'solid 1px #fb8585e3') {document.getElementById("selectbeginning").style.border = 'solid 1px #C9C9C9';}
 
-    // if the course selection and start semester/year is changed, it sends the change to the backend
-    $.ajax({
-      type: "POST",
-      url: "{{ url_for('createstudyplanSelectCourse') }}",
-      data: {"name": detected_course,
-            "selectedStart": selected_start}
+  // Post to backend
+  $("#selectedstart a").click(function(){
+  event.preventDefault(); // prevents page scroll when button clicked
+  var selected_start = $(this).text();
+  document.getElementById("selectbeginning").innerHTML = selected_start;
+  console.log(selected_start);
+
+  // if the course selection and start semester/year is changed, it sends the change to the backend
+  $.ajax({
+    type: "POST",
+    url: "{{ url_for('createstudyplanSelectCourse') }}",
+    data: {"name": detected_course,
+          "selectedStart": selected_start}
     })
   })
+
 }
 
-/* validation of the two dropdowns, not working right now so commented out.
-var selected_course = document.getElementById('selectcourse').innerHTML;
-var selected_start = document.getElementById('selectedstart').innerHTML;
-var continuebutton = document.getElementById('selectcoursebutton');
+// check that values of dropdowns are valid upon click of button before allowing to continue
+document.getElementById('selectcoursebutton').addEventListener("click", function() {
+  coursestring = 'Select your course'
+  startstring = 'Select your beginning year and semester'
 
-function validation() {
-  if (selected_course != 'Select your course' && selected_start != 'Select your beginning year and semester') {
-    continuebutton.setAttribute("href", "{{ url_for('createstudyplanSelectMajor') }}");
-  } else {
-    var alert = document.getElementById('warning-course');
-    alert.style.display = 'block';
+  dropdowns = document.querySelectorAll('button');
+  course = dropdowns[0].innerHTML
+  start = dropdowns[1].innerHTML
+
+  if (course == coursestring || start == startstring ) {
+    document.getElementById("warning-course").style.display = "block";
+    if (course == coursestring) {
+      document.getElementById("selectcourse").style.border = 'solid 1px #fb8585e3';
+    }
+    if (start == startstring) {
+      document.getElementById("selectbeginning").style.border = 'solid 1px #fb8585e3';
+    }
   }
-} */
+  else {
+    document.getElementById('selectcoursebutton').setAttribute('href', " {{ url_for('createstudyplanSelectMajor') }} ");
+  }
+});
 
 </script>
 
