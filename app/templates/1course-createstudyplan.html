@@ -33,10 +33,10 @@
         </div>
       </div>
     
-      <a href="{{ url_for('createstudyplanSelectMajor') }}" class ="button_general" id="selectcoursebutton">Continue<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></a>
+      <a class ="button_general" id="selectcoursebutton">Continue<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></a>
       <div class="warning-div">
         <!-- will set the p element's display to none when the bugs are sorted out -->
-        <p id="warning-course">Please select all the fields before continuing.</p>
+        <p id="warning-course" style="display: none;">Please select all the fields before continuing.</p>
       </div>
     </div>
 </div>
@@ -111,7 +111,7 @@ function detectedChange(){
   }
 
   // Reset the text that is within the dropdown
-  selected_start = "Select your beginning year and semester.";
+  selected_start = "Select your beginning year and semester";
   document.getElementById("selectbeginning").innerHTML = selected_start;
 
   // loop through intakeOptions array and dynamically add intake periods
@@ -133,30 +133,26 @@ function detectedChange(){
     selected_start = $(this).text();
     document.getElementById("selectbeginning").innerHTML = selected_start;
     console.log(selected_start);
-
-    // if the course selection and start semester/year is changed, it sends the change to the backend
-    $.ajax({
-      type: "POST",
-      url: "{{ url_for('createstudyplanSelectCourse') }}",
-      data: {"name": detected_course,
-            "selectedStart": selected_start}
-    })
   })
+  
+
+  $("#selectcoursebutton").click(function(){ 
+    if (detected_course != 'Select your course' && selected_start != 'Select your beginning year and semester')  {
+      $.ajax({
+        type: "POST",
+        url: "{{ url_for('createstudyplanSelectCourse') }}",
+        data: {"name": detected_course,
+              "selectedStart": selected_start}
+      })
+      var continuebutton = document.getElementById('selectcoursebutton');
+      continuebutton.setAttribute("href", "{{ url_for('createstudyplanSelectMajor') }}");
+    } else {
+      var alert = document.getElementById('warning-course');
+      alert.style.display = 'block';
+    }
+  }) 
 }
 
-/* validation of the two dropdowns, not working right now so commented out.
-var selected_course = document.getElementById('selectcourse').innerHTML;
-var selected_start = document.getElementById('selectedstart').innerHTML;
-var continuebutton = document.getElementById('selectcoursebutton');
-
-function validation() {
-  if (selected_course != 'Select your course' && selected_start != 'Select your beginning year and semester') {
-    continuebutton.setAttribute("href", "{{ url_for('createstudyplanSelectMajor') }}");
-  } else {
-    var alert = document.getElementById('warning-course');
-    alert.style.display = 'block';
-  }
-} */
 
 </script>
 
