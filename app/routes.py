@@ -459,6 +459,21 @@ def createstudyplanSelectUnits():
                     if key == 'unitTypes':
                         typeNames.append(val)
 
+        # for bachelors courses (no majors), graduate certs or doctorates
+        if len(spec) == 0:
+            unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
+            unitValues = [str(x) for x in unitValues][0] # convert to string
+            unitValues = unitValues[1:-1]
+            unitValues = json.loads(unitValues) # json file
+            #courseInfo = unitValues['introduction'] #retrieve information from introduction (sometimes does not exists, may need to deal with somehow?)
+            levelsSpecials = unitValues['levelsSpecials'] #retrieve levelsSpecials and place it in List
+            lengthLS = len(levelsSpecials)
+            typeNames = [] # extract all typesnames from 'Structure'
+            for i in range(lengthLS): # loop through list
+                for key, val in levelsSpecials[i].items():
+                    if key == 'unitTypes':
+                        typeNames.append(val)
+
         # for masters courses with no specialisations, process units based on course selection
         if len(spec) == 0 and 'Master' in selectedCourse:
             unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
@@ -527,6 +542,7 @@ def createstudyplanSelectUnits():
     except:
         units.append("No units")
 
+    # Processing 'unit list.csv' below
     try:
         #import and read unit list into unitscsv variable
         unitInfoCsv = os.path.join(app.static_folder, 'Unit list.csv')
@@ -535,7 +551,7 @@ def createstudyplanSelectUnits():
         availability = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title + "***", unitInfoCsv.Availabilities + "***"))
         
         # variables for unit information modal (click on modal)
-        prereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Prerequisites)) #Add Code and Prerequisites from unit list.csv to dictinary
+        prereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Prerequisites)) #Add Code and Prerequisites from unit list.csv to dictionary
         prereq = json.dumps(prereq)
         corereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Corequisites))
         corereq = json.dumps(corereq)
