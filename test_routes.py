@@ -58,7 +58,6 @@ class FlaskTestCase(unittest.TestCase):
         # There should be no message shown when users log out
         self.assertTrue(b'' in response.data) 
 
-    """
     # Needs modifications: right now the status_code is 500 rather than 200
     def test_account(self):
         tester = app.test_client(self)
@@ -70,9 +69,14 @@ class FlaskTestCase(unittest.TestCase):
         response = tester.get('/account', content_type='html/text')
         self.assertEqual(response.status_code, 200)
     
-    # returns a 404 at the moment
+    # Ensure users can get to the course selection page
     def test_loading_course_selection(self):
         tester = app.test_client(self)
+        tester.post(
+            '/createstudyplan-courses', 
+            data=dict(selectedCourse='master of IT', selectedStart='semester 2, 2023'), 
+            follow_redirects=True
+        )
         # this will get the login url and retrieve an html content
         response = tester.get('/createstudyplan-courses', content_type='html/text')
         # compare the status code we get from the response with the status code we should have 
@@ -81,6 +85,16 @@ class FlaskTestCase(unittest.TestCase):
     # returns a 404 at the moment
     def test_loading_major_selection(self):
         tester = app.test_client(self)
+        tester.post(
+            '/createstudyplan-courses', 
+            data=dict(selectedCourse='master of IT', selectedStart='semester 2, 2023'), 
+            follow_redirects=True
+        )
+        tester.post(
+            '/createstudyplan-majors', 
+            data=dict(selectedMajor='software engineering specialisation'), 
+            follow_redirects=True
+        )
         # this will get the login url and retrieve an html content
         response = tester.get('/createstudyplan-majors', content_type='html/text')
         # compare the status code we get from the response with the status code we should have 
@@ -93,7 +107,6 @@ class FlaskTestCase(unittest.TestCase):
         response = tester.get('/createstudyplan-units', content_type='html/text')
         # compare the status code we get from the response with the status code we should have 
         self.assertEqual(response.status_code, 200) 
-    """
 
 if __name__ == '__main__':
     unittest.main()
