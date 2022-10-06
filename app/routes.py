@@ -231,6 +231,7 @@ def createstudyplanSelectCourse():
     global coursecode
     global SP_dict
     global selectedStart
+    global majorDf
 
     #Clear any saved study plan data
     for item in SP_dict.keys():
@@ -244,6 +245,7 @@ def createstudyplanSelectCourse():
     selectedYear = 2022 # Filters courses by year determined on the left. Change value to other year if wanted/needed. Please note, if this is changed, change value in JS of 1course-createstudyplan.html too.
     df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
     df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
+    majorDf = df[df.CourseID.str.contains('MJD|MJS')] # Create dataframe for majors (bachelors degrees) only
     df = df[df['IntakePeriods'].notna()] # Removes all options from df where IntakePeriods is empty
 
     degrees_withID = dict(zip(df.Title, df.CourseID))
@@ -251,13 +253,12 @@ def createstudyplanSelectCourse():
     faculty = dict(zip(df.Faculty, df.CourseID))
 
     # Degrees variable processing - this is the dataframe that the Course selection dropdown will get its values from.
-    degrees = df[~df.CourseID.str.contains('MJD|MJS')] # remove any course IDs that start with MJD or MJS (majors or second majors).
-    degrees = degrees[degrees.IntakePeriods.str.contains("Beginning of year only|Beginning of year and mid-year|Mid-year only")] # Filter by courses that have valid intake periods
+    #degrees = df[~df.CourseID.str.contains('MJD|MJS')] # remove any course IDs that start with MJD or MJS (majors or second majors).
+    degrees = df[df.IntakePeriods.str.contains("Beginning of year only|Beginning of year and mid-year|Mid-year only")] # Filter by courses that have valid intake periods
     #degrees = df[df.Title.str.contains("Master")] # Filter by master's degrees only 
     #degrees = degrees[~degrees.Title.str.contains("Bachelor|Doctor")] # Filter out all combined masters/bachelors and masters/doctorates (~ means inverse)
     degrees = dict(zip(degrees.Title, degrees.CourseID))
     degrees = sorted(degrees.keys()) # sort output my name of key
-
 
     # Degrees variable processing - this is the dataframe that the IntakePeriod selection dropdown will get its values from.
     # intakePeriod = df[df['IntakePeriods'].notna()] # Removes all options from dataframe where IntakePeriods cell is empty
@@ -429,54 +430,63 @@ def createstudyplanSelectUnits():
     global getUnitValues
     global SP_dict
 
-    #replace unit selection for degree if the user has selected a major or specification - choose the values that are
-    #in the structure column for this courseID (bachelors) or structure field (masters)
-    majorCode = selectedMajor
+    try:
 
-    noMajor = "No major or specialisation available"
+        #replace unit selection for degree if the user has selected a major or specification - choose the values that are
+        #in the structure column for this courseID (bachelors) or structure field (masters)
+        majorCode = selectedMajor
+
+        noMajor = "No major or specialisation available"
+        
+        # if specialisation or major, change majorCode (what is displayed on frontend) to noMajor (as it will show under Major: anyway!)
+        if len(spec) != 0:
+            majorCode = noMajor
     
-    #return render_template('404.html'), 404
+        # for bachelors courses with majors
+        if noMajor not in majorCode:
+            majorCode = selectedMajor.split() # need to split as unitCode in index first and then major title
+            majorCode = majorCode[0]
+            getUnitValues = majorDf[majorDf.CourseID.eq(majorCode)] # change value in dataframe to filter courseID by major code
+            unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
+            unitValues = [str(x) for x in unitValues][0] # convert to string
+            unitValues = unitValues[1:-1]
+            unitValues = json.loads(unitValues) # json file
+            levelsSpecials = unitValues['levelsSpecials'] #retrieve levelsSpecials and place it in List
+            lengthLS = len(levelsSpecials)
+            typeNames = [] # extract all typesnames from 'Structure'
+            for i in range(lengthLS): # loop through list
+                for key, val in levelsSpecials[i].items():
+                    if key == 'unitTypes':
+                        typeNames.append(val)
 
-    print(getUnitValues)
+        # for masters courses with no specialisations, process units based on course selection
+        if len(spec) == 0 and 'Master' in selectedCourse:
+            unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
+            unitValues = [str(x) for x in unitValues][0] # convert to string
+            unitValues = unitValues[1:-1]
+            unitValues = json.loads(unitValues) # json file
+            #courseInfo = unitValues['introduction'] #retrieve information from introduction (sometimes does not exists, may need to deal with somehow?)
+            levelsSpecials = unitValues['levelsSpecials'] #retrieve levelsSpecials and place it in List
+            lengthLS = len(levelsSpecials)
+            typeNames = [] # extract all typesnames from 'Structure'
+            for i in range(lengthLS): # loop through list
+                for key, val in levelsSpecials[i].items():
+                    if key == 'unitTypes':
+                        typeNames.append(val)
 
-    # if specialisation or major, change majorCode (what is displayed on frontend) to noMajor (as it will show under Major: anyway!)
-    if len(spec) != 0:
-        majorCode = noMajor
- 
-    # for bachelors courses with majors
-    if noMajor not in majorCode: 
-        majorCode = selectedMajor.split() # need to split as unitCode in index first and then major title
-        majorCode = majorCode[0]
-        print(majorCode)
-        getUnitValues = df[df.CourseID.eq(majorCode)] # change value in dataframe to filter courseID by major code
-        print(getUnitValues)
+        # for masters courses with specialisations, process units based on structure field
+        if len(spec) > 0:  
+            typeNames = []
+            for y in range(1, len(m_levelNamesCore), 2): # start from index 1 and increment by 2. m_levelNamesCore needs to be appended too as they are core regardless of specialisation
+                typeNames.append(m_levelNamesCore[y]) # the appended typenames from this variable will be core and conversion units that are mutual for all specialisations regardless of which one
 
-     # for masters courses with no specialisations, process units based on course selection
-    if len(spec) == 0 and 'Master' in selectedCourse:
-        unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
-        print(unitValues)
-        unitValues = [str(x) for x in unitValues][0] # convert to string
-        unitValues = unitValues[1:-1]
-        unitValues = json.loads(unitValues) # json file
-        #courseInfo = unitValues['introduction'] #retrieve information from introduction (sometimes does not exists, may need to deal with somehow?)
-        levelsSpecials = unitValues['levelsSpecials'] #retrieve levelsSpecials and place it in List
-        lengthLS = len(levelsSpecials)
-        typeNames = [] # extract all typesnames from 'Structure'
-        for i in range(lengthLS): # loop through list
-            for key, val in levelsSpecials[i].items():
-                if key == 'unitTypes':
-                    typeNames.append(val)
+            for i in range(len(m_specialisations)):
+                if selectedMajor == m_specialisations[i]: # if the selected major is in the m_specialisations variable ...
+                    index = m_specialisations.index(selectedMajor) # ... find the index of that variable and pop and ...
+                    typeNames.append(m_specialisations[index+1]) # ... append the specialisation data to typenames
 
-    # for masters courses with specialisations, process units based on structure field
-    if len(spec) > 0:  
-        typeNames = []
-        for y in range(1, len(m_levelNamesCore), 2): # start from index 1 and increment by 2. m_levelNamesCore needs to be appended too as they are core regardless of specialisation
-            typeNames.append(m_levelNamesCore[y]) # the appended typenames from this variable will be core and conversion units that are mutual for all specialisations regardless of which one
-
-        for i in range(len(m_specialisations)):
-            if selectedMajor == m_specialisations[i]: # if the selected major is in the m_specialisations variable ...
-                index = m_specialisations.index(selectedMajor) # ... find the index of that variable and pop and ...
-                typeNames.append(m_specialisations[index+1]) # ... append the specialisation data to typenames
+    except:
+        return render_template('404.html'), 404
 
     units = [] # all unit codes + unit titles to be saved into this list 
     unitCodeList = [] # all unit codes to be saved into this list (for connecting with unit list.csv on frontend)
@@ -490,7 +500,7 @@ def createstudyplanSelectUnits():
             lengthoftypes = length = len(types)
 
             for i in range(lengthoftypes): # loop through list
-
+                
                 #if lengthoftypes == 1 or lengthoftypes > 1:
                 for key, val in types[i].items():
                     if key == 'typeName': # e.g., conversion, core, option, etc.
@@ -517,95 +527,98 @@ def createstudyplanSelectUnits():
     except:
         units.append("No units")
 
-    #import and read unit list into unitscsv variable
-    unitInfoCsv = os.path.join(app.static_folder, 'Unit list.csv')
-    unitInfoCsv = pd.read_csv(unitInfoCsv, sep=",")
-    unitInfoCsv = unitInfoCsv[unitInfoCsv.Code.isin(unitCodeList)] # filter 'Unit list.csv' by units in selected degree/major/specialisation
-    availability = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title + "***", unitInfoCsv.Availabilities + "***"))
-    
-    # variables for unit information modal (click on modal)
-    prereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Prerequisites)) #Add Code and Prerequisites from unit list.csv to dictinary
-    prereq = json.dumps(prereq)
-    corereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Corequisites))
-    corereq = json.dumps(corereq)
-    incomp = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Incompatibilities))
-    incomp = json.dumps(incomp)
-    outcomes = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Outcomes))
-    outcomes = json.dumps(outcomes)
-    content = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Content))
-    content = json.dumps(content)
-    availabilitydict = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Availabilities))
-    availabilitydict = json.dumps(availabilitydict)
-    credits = json.dumps(credits)
+    try:
+        #import and read unit list into unitscsv variable
+        unitInfoCsv = os.path.join(app.static_folder, 'Unit list.csv')
+        unitInfoCsv = pd.read_csv(unitInfoCsv, sep=",")
+        unitInfoCsv = unitInfoCsv[unitInfoCsv.Code.isin(unitCodeList)] # filter 'Unit list.csv' by units in selected degree/major/specialisation
+        availability = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title + "***", unitInfoCsv.Availabilities + "***"))
+        
+        # variables for unit information modal (click on modal)
+        prereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Prerequisites)) #Add Code and Prerequisites from unit list.csv to dictinary
+        prereq = json.dumps(prereq)
+        corereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Corequisites))
+        corereq = json.dumps(corereq)
+        incomp = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Incompatibilities))
+        incomp = json.dumps(incomp)
+        outcomes = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Outcomes))
+        outcomes = json.dumps(outcomes)
+        content = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Content))
+        content = json.dumps(content)
+        availabilitydict = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Availabilities))
+        availabilitydict = json.dumps(availabilitydict)
+        credits = json.dumps(credits)
 
-    startSem=int(selectedStart[9:10])
-    startYear=int(selectedStart[12:])
+        startSem=int(selectedStart[9:10])
+        startYear=int(selectedStart[12:])
 
-    #### Save button ####
-    #Get user account
+        #### Save button ####
+        #Get user account
 
-    if request.method == 'POST':
-        user=current_user.id
-        new_study_plan=Four_Sem_SP(
-            user_id = user,
-            Y1S1_1=request.form.get('year1sem1_1'),
-            Y1S1_2=request.form.get('year1sem1_1'),
-            Y1S1_3=request.form.get('year1sem1_1'),
-            Y1S1_4=request.form.get('year1sem1_1'),
-            Y1S1_5=request.form.get('year1sem1_1'),
+        if request.method == 'POST':
+            user=current_user.id
+            new_study_plan=Four_Sem_SP(
+                user_id = user,
+                Y1S1_1=request.form.get('year1sem1_1'),
+                Y1S1_2=request.form.get('year1sem1_1'),
+                Y1S1_3=request.form.get('year1sem1_1'),
+                Y1S1_4=request.form.get('year1sem1_1'),
+                Y1S1_5=request.form.get('year1sem1_1'),
 
-            Y1S2_1=request.form.get('year1sem1_1'),
-            Y1S2_2=request.form.get('year1sem1_1'),
-            Y1S2_3=request.form.get('year1sem1_1'),
-            Y1S2_4=request.form.get('year1sem1_1'),
-            Y1S2_5=request.form.get('year1sem1_1'),
+                Y1S2_1=request.form.get('year1sem1_1'),
+                Y1S2_2=request.form.get('year1sem1_1'),
+                Y1S2_3=request.form.get('year1sem1_1'),
+                Y1S2_4=request.form.get('year1sem1_1'),
+                Y1S2_5=request.form.get('year1sem1_1'),
 
-            Y2S1_1=request.form.get('year1sem1_1'),
-            Y2S1_2=request.form.get('year1sem1_1'),
-            Y2S1_3=request.form.get('year1sem1_1'),
-            Y2S1_4=request.form.get('year1sem1_1'),
-            Y2S1_5=request.form.get('year1sem1_1'),
+                Y2S1_1=request.form.get('year1sem1_1'),
+                Y2S1_2=request.form.get('year1sem1_1'),
+                Y2S1_3=request.form.get('year1sem1_1'),
+                Y2S1_4=request.form.get('year1sem1_1'),
+                Y2S1_5=request.form.get('year1sem1_1'),
 
-            Y2S2_1=request.form.get('year1sem1_1'),
-            Y2S2_2=request.form.get('year1sem1_1'),
-            Y2S2_3=request.form.get('year1sem1_1'),
-            Y2S2_4=request.form.get('year1sem1_1'),
-            Y2S2_5=request.form.get('year1sem1_1'),
-            startYearSem = selectedStart,
-            selectedCourse=selectedCourse,
+                Y2S2_1=request.form.get('year1sem1_1'),
+                Y2S2_2=request.form.get('year1sem1_1'),
+                Y2S2_3=request.form.get('year1sem1_1'),
+                Y2S2_4=request.form.get('year1sem1_1'),
+                Y2S2_5=request.form.get('year1sem1_1'),
+                startYearSem = selectedStart,
+                selectedCourse=selectedCourse,
+                selectedMajor=selectedMajor,
+                faculty=faculty,
+                coursecode=coursecode
+            )
+
+            db.session.add(new_study_plan) # Add new study plan into the database model
+            db.session.commit()
+            flash('Your study plan has been saved!')
+
+        if current_user.is_authenticated:
+            return render_template('3grid-createstudyplan.html', 
+            startSem=startSem,
+            startYear=startYear,
+            getUnitValues=getUnitValues,
+            unitCodeList=unitCodeList,
+            availability=availability,
+            units=units,
+            majorCode=majorCode,
+            selectedCourse=selectedCourse, 
             selectedMajor=selectedMajor,
             faculty=faculty,
-            coursecode=coursecode
-        )
+            coursecode=coursecode,
+            prereq=prereq,
+            corereq=corereq,
+            incomp=incomp,
+            outcomes=outcomes,
+            content=content,
+            credits=credits,
+            availabilitydict=availabilitydict,
+            SP_dict=SP_dict,
+            loggedin=True,
+            title="Create study plan")
 
-        db.session.add(new_study_plan) # Add new study plan into the database model
-        db.session.commit()
-        flash('Your study plan has been saved!')
-
-
-    if current_user.is_authenticated:
-        return render_template('3grid-createstudyplan.html', 
-        startSem=startSem,
-        startYear=startYear,
-        getUnitValues=getUnitValues,
-        unitCodeList=unitCodeList,
-        availability=availability,
-        units=units,
-        majorCode=majorCode,
-        selectedCourse=selectedCourse, 
-        selectedMajor=selectedMajor,
-        faculty=faculty,
-        coursecode=coursecode,
-        prereq=prereq,
-        corereq=corereq,
-        incomp=incomp,
-        outcomes=outcomes,
-        content=content,
-        credits=credits,
-        availabilitydict=availabilitydict,
-        SP_dict=SP_dict,
-        loggedin=True,
-        title="Create study plan")
+    except:
+        return render_template('404.html'), 404
 
     return render_template('3grid-createstudyplan.html', 
         startSem=startSem,
