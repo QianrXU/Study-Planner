@@ -542,12 +542,12 @@ def createstudyplanSelectUnits():
     except:
         units.append("No units")
 
-    # Processing 'unit list.csv' below
-    try:
+    try: # Processing 'unit list.csv'
         #import and read unit list into unitscsv variable
         unitInfoCsv = os.path.join(app.static_folder, 'Unit list.csv')
         unitInfoCsv = pd.read_csv(unitInfoCsv, sep=",")
         unitInfoCsv = unitInfoCsv[unitInfoCsv.Code.isin(unitCodeList)] # filter 'Unit list.csv' by units in selected degree/major/specialisation
+        unitInfoCsv.fillna('No information to be displayed. Find unit in the UWA handbook at https://handbooks.uwa.edu.au.', inplace = True) # if there are null or empty cells, fill these with specified string
         availability = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title + "***", unitInfoCsv.Availabilities + "***"))
         
         # variables for unit information modal (click on modal)
@@ -568,9 +568,12 @@ def createstudyplanSelectUnits():
         startSem=int(selectedStart[9:10])
         startYear=int(selectedStart[12:])
 
+    except:
+        return render_template('404.html'), 404
+
+    try:      
         #### Save button ####
         #Get user account
-
         if request.method == 'POST':
             user=current_user.id
             new_study_plan=Four_Sem_SP(
@@ -632,7 +635,6 @@ def createstudyplanSelectUnits():
             SP_dict=SP_dict,
             loggedin=True,
             title="Create study plan")
-
     except:
         return render_template('404.html'), 404
 
