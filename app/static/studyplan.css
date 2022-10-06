@@ -109,6 +109,7 @@
 
 #warning-course, #warning-major {
   color: red;
+  margin-top: 15px;
 }
 
 /* Tooltip container */
