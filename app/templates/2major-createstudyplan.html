@@ -23,8 +23,10 @@
         </div>
 
         <a href="{{ url_for('createstudyplanSelectUnits') }}" class ="button_general" id="selectcoursebutton">Continue<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></a>
-        
-  </div>
+        <div class="warning-div">
+          <p id="warning-major">Please select your major/specialisation before continuing.</p>
+        </div>
+    </div>
 </div>
 
 
@@ -55,6 +57,19 @@ function detectedChange(){
     data: {"name": detected_major}
   })
 }
+
+/* validation of the two dropdowns, not working right now so commented out.
+var selected_major = document.getElementById('selectedmajor').innerHTML;
+var continuebutton = document.getElementById('selectcoursebutton');
+
+function validation() {
+  if (selected_major != 'Select your major or specialisation') {
+    continuebutton.setAttribute("href", "{{ url_for('createstudyplanSelectUnits') }}");
+  } else {
+    var alert = document.getElementById('warning-major');
+    alert.style.display = 'block';
+  }
+} */
 
 </script>
 
