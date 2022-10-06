@@ -34,8 +34,11 @@
       </div>
     
       <a href="{{ url_for('createstudyplanSelectMajor') }}" class ="button_general" id="selectcoursebutton">Continue<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></a>
-  
-</div>
+      <div class="warning-div">
+        <!-- will set the p element's display to none when the bugs are sorted out -->
+        <p id="warning-course">Please select all the fields before continuing.</p>
+      </div>
+    </div>
 </div>
 
 <div id="courseIntakePeriods" style="display: none;">{{ degrees_start }}</div>
@@ -140,6 +143,20 @@ function detectedChange(){
     })
   })
 }
+
+/* validation of the two dropdowns, not working right now so commented out.
+var selected_course = document.getElementById('selectcourse').innerHTML;
+var selected_start = document.getElementById('selectedstart').innerHTML;
+var continuebutton = document.getElementById('selectcoursebutton');
+
+function validation() {
+  if (selected_course != 'Select your course' && selected_start != 'Select your beginning year and semester') {
+    continuebutton.setAttribute("href", "{{ url_for('createstudyplanSelectMajor') }}");
+  } else {
+    var alert = document.getElementById('warning-course');
+    alert.style.display = 'block';
+  }
+} */
 
 </script>
 
