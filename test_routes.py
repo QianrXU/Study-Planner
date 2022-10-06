@@ -10,10 +10,6 @@ class FlaskTestCase(unittest.TestCase):
         response = tester.get('/', content_type='html/text')
         # compare the status code we get from the response with the status code we should have 
         self.assertEqual(response.status_code, 200)
-        # compare the content we get from the response with the content we should have 
-        self.assertIn(b'GAIN AN EXPERIENCE RICH EDUCATION', response.data)
-        self.assertIn(b'Ready to plan your', response.data)
-        self.assertIn(b'future at UWA?', response.data)
 
     # Ensure the faq page shows up correctly using the url
     def test_faq(self):
@@ -22,13 +18,7 @@ class FlaskTestCase(unittest.TestCase):
         response = tester.get('/faq', content_type='html/text')
         # compare the status code we get from the response with the status code we should have 
         self.assertEqual(response.status_code, 200) 
-        # compare the content we get from the response with the content we should have 
-        self.assertIn(b'What is Study Planner?', response.data) 
-        self.assertIn(b'The Study Planner is a UWA tool that allows students to create study plans for their future studies.', response.data)
-        self.assertIn(b'How do i use study planner tool?', response.data)
-        self.assertIn(b'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', response.data)
-        self.assertIn(b'Do i need to sign up?', response.data)
-        self.assertIn(b'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', response.data)
+    
     
     # Ensure a 404 page will return when a page is not found.
     def test_page_not_found(self):
@@ -67,6 +57,56 @@ class FlaskTestCase(unittest.TestCase):
         response = tester.get('/logout', follow_redirects=True) 
         # There should be no message shown when users log out
         self.assertTrue(b'' in response.data) 
+
+    # Needs modifications: right now the status_code is 500 rather than 200
+    def test_account(self):
+        tester = app.test_client(self)
+        tester.post(
+            '/login', 
+            data=dict(email='apple@mail.com', password='123456'), 
+            follow_redirects=True
+        )
+        response = tester.get('/account', content_type='html/text')
+        self.assertEqual(response.status_code, 200)
+    
+    # Ensure users can get to the course selection page
+    def test_loading_course_selection(self):
+        tester = app.test_client(self)
+        tester.post(
+            '/createstudyplan-courses', 
+            data=dict(selectedCourse='master of IT', selectedStart='semester 2, 2023'), 
+            follow_redirects=True
+        )
+        # this will get the login url and retrieve an html content
+        response = tester.get('/createstudyplan-courses', content_type='html/text')
+        # compare the status code we get from the response with the status code we should have 
+        self.assertEqual(response.status_code, 200)
+
+    # returns a 404 at the moment
+    def test_loading_major_selection(self):
+        tester = app.test_client(self)
+        tester.post(
+            '/createstudyplan-courses', 
+            data=dict(selectedCourse='master of IT', selectedStart='semester 2, 2023'), 
+            follow_redirects=True
+        )
+        tester.post(
+            '/createstudyplan-majors', 
+            data=dict(selectedMajor='software engineering specialisation'), 
+            follow_redirects=True
+        )
+        # this will get the login url and retrieve an html content
+        response = tester.get('/createstudyplan-majors', content_type='html/text')
+        # compare the status code we get from the response with the status code we should have 
+        self.assertEqual(response.status_code, 200)
+
+    # returns a 404 at the moment
+    def test_loading_unit_selection(self):
+        tester = app.test_client(self)
+        # this will get the login url and retrieve an html content
+        response = tester.get('/createstudyplan-units', content_type='html/text')
+        # compare the status code we get from the response with the status code we should have 
+        self.assertEqual(response.status_code, 200) 
 
 if __name__ == '__main__':
     unittest.main()
