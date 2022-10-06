@@ -265,57 +265,38 @@
 <script>
 
 // Save button function
-var year1sem1_1 = document.getElementById("year1sem1_1").innerHTML;
-var year1sem1_2 = document.getElementById("year1sem1_2").innerHTML;
-var year1sem1_3 = document.getElementById("year1sem1_3").innerHTML;
-var year1sem1_4 = document.getElementById("year1sem1_4").innerHTML;
-var year1sem1_5 = document.getElementById("year1sem1_5").innerHTML;
-var year1sem2_1 = document.getElementById("year1sem2_1").innerHTML;
-var year1sem2_2 = document.getElementById("year1sem2_2").innerHTML;
-var year1sem2_3 = document.getElementById("year1sem2_3").innerHTML;
-var year1sem2_4 = document.getElementById("year1sem2_4").innerHTML;
-var year1sem2_5 = document.getElementById("year1sem2_5").innerHTML;
-var year2sem1_1 = document.getElementById("year2sem1_1").innerHTML;
-var year2sem1_2 = document.getElementById("year2sem1_2").innerHTML;
-var year2sem1_3 = document.getElementById("year2sem1_3").innerHTML;
-var year2sem1_4 = document.getElementById("year2sem1_4").innerHTML;
-var year2sem1_5 = document.getElementById("year2sem1_5").innerHTML;
-var year2sem2_1 = document.getElementById("year2sem2_1").innerHTML;
-var year2sem2_2 = document.getElementById("year2sem2_2").innerHTML;
-var year2sem2_3 = document.getElementById("year2sem2_3").innerHTML;
-var year2sem2_4 = document.getElementById("year2sem2_4").innerHTML;
-var year2sem2_5 = document.getElementById("year2sem2_5").innerHTML;
 
 function SaveSP(){
 // if button pressed, it sends all the Study Plan values to the backend.
 $.ajax({
   type: "POST",
-  url: "{{ url_for('createstudyplanSelectUnits') }}",
+  url: "{{ url_for('saveSP') }}",
   data: {
-    "year1sem1_1":year1sem1_1,
-    "year1sem1_2":year1sem1_2,
-    "year1sem1_3":year1sem1_3,
-    "year1sem1_4":year1sem1_4,
-    "year1sem1_5":year1sem1_5,
-    "year1sem2_1":year1sem2_1,
-    "year1sem2_2":year1sem2_2,
-    "year1sem2_3":year1sem2_3,
-    "year1sem2_4":year1sem2_4,
-    "year1sem2_5":year1sem2_5,
-    "year2sem1_1":year2sem1_1,
-    "year2sem1_2":year2sem1_2,
-    "year2sem1_3":year2sem1_3,
-    "year2sem1_4":year2sem1_4,
-    "year2sem1_5":year2sem1_5,
-    "year2sem2_1":year2sem2_1,
-    "year2sem2_2":year2sem2_2,
-    "year2sem2_3":year2sem2_3,
-    "year2sem2_4":year2sem2_4,
-    "year2sem2_5":year2sem2_5,
+    "year1sem1_1":document.getElementById("year1sem1_1").textContent,
+    "year1sem1_2":document.getElementById("year1sem1_2").textContent,
+    "year1sem1_3":document.getElementById("year1sem1_3").textContent,
+    "year1sem1_4":document.getElementById("year1sem1_4").textContent,
+    "year1sem1_5":document.getElementById("year1sem1_5").textContent,
+    "year1sem2_1":document.getElementById("year1sem2_1").textContent,
+    "year1sem2_2":document.getElementById("year1sem2_2").textContent,
+    "year1sem2_3":document.getElementById("year1sem2_3").textContent,
+    "year1sem2_4":document.getElementById("year1sem2_4").textContent,
+    "year1sem2_5":document.getElementById("year1sem2_5").textContent,
+    "year2sem1_1":document.getElementById("year2sem1_1").textContent,
+    "year2sem1_2":document.getElementById("year2sem1_2").textContent,
+    "year2sem1_3":document.getElementById("year2sem1_3").textContent,
+    "year2sem1_4":document.getElementById("year2sem1_4").textContent,
+    "year2sem1_5":document.getElementById("year2sem1_5").textContent,
+    "year2sem2_1":document.getElementById("year2sem2_1").textContent,
+    "year2sem2_2":document.getElementById("year2sem2_2").textContent,
+    "year2sem2_3":document.getElementById("year2sem2_3").textContent,
+    "year2sem2_4":document.getElementById("year2sem2_4").textContent,
+    "year2sem2_5":document.getElementById("year2sem2_5").textContent
   },
   success: function( data ) {response=data;},
   error: function(xhr, status, error) {response = status;}
 })}
+
 
 // end of save func
 
