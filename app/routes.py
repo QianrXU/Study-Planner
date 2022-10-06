@@ -250,19 +250,18 @@ def createstudyplanSelectCourse():
     degrees_withFaculty = dict(zip(df.Title, df.Faculty))
     faculty = dict(zip(df.Faculty, df.CourseID))
 
-    # filter df
-    df = df[df.Title.str.contains("Master")] # Filter by master's degrees only (~ means inverse)
-    df = df[df.IntakePeriods.str.contains("Beginning of year only|Beginning of year and mid-year|Mid-year only")] # Filter by courses that have valid intake periods
-    df = df[~df.Title.str.contains("Bachelor|Doctor")] # Filter out all combined masters/bachelors and mastersd/octorates
-
     # Degrees variable processing - this is the dataframe that the Course selection dropdown will get its values from.
     degrees = df[~df.CourseID.str.contains('MJD|MJS')] # remove any course IDs that start with MJD or MJS (majors or second majors).
+    degrees = degrees[degrees.IntakePeriods.str.contains("Beginning of year only|Beginning of year and mid-year|Mid-year only")] # Filter by courses that have valid intake periods
+    #degrees = df[df.Title.str.contains("Master")] # Filter by master's degrees only 
+    #degrees = degrees[~degrees.Title.str.contains("Bachelor|Doctor")] # Filter out all combined masters/bachelors and masters/doctorates (~ means inverse)
     degrees = dict(zip(degrees.Title, degrees.CourseID))
-    degrees = sorted(degrees.keys())
+    degrees = sorted(degrees.keys()) # sort output my name of key
+
 
     # Degrees variable processing - this is the dataframe that the IntakePeriod selection dropdown will get its values from.
-    intakePeriod = df[df['IntakePeriods'].notna()] # Removes all options from dataframe where IntakePeriods cell is empty
-    intakePeriod = intakePeriod[intakePeriod.IntakePeriods.str.contains("Beginning of year only|Mid-year only|Beginning of year and mid-year")] # filtering the df based on value in IntakePeriods column
+    # intakePeriod = df[df['IntakePeriods'].notna()] # Removes all options from dataframe where IntakePeriods cell is empty
+    intakePeriod = df[df.IntakePeriods.str.contains("Beginning of year only|Mid-year only|Beginning of year and mid-year")] # filtering the df based on value in IntakePeriods column
     degrees_start = dict(zip(intakePeriod.Title, intakePeriod.IntakePeriods)) 
     degrees_start = json.dumps(degrees_start)
 
@@ -436,18 +435,23 @@ def createstudyplanSelectUnits():
 
     noMajor = "No major or specialisation available"
     
+    print(majorCode)
+
     # if specialisation, change majorCode (what is displayed on frontend) to nocode (as it will show under Major: anyway!)
+
+    # if majorcode in df for majors proceed with using structure as source of information
+
     if len(spec) != 0:
         majorCode = noMajor
 
-    if noMajor not in majorCode:
+    if noMajor not in majorCode or 'MJD' in majorCode:
         majorCode = selectedMajor.split() # need to split as unitCode in index first and then major title
         majorCode = majorCode[0]
         coursecode = majorCode
         getUnitValues = df[df.CourseID.eq(majorCode)] # change to selectedMajor
         #coursecode = majorCode
     
-    if len(spec) == 0:
+    if len(spec) == 0 and 'MJD' not in majorCode: #
         # process units based on course selection
         unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
         unitValues = [str(x) for x in unitValues][0] # convert to string
