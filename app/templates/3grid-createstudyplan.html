@@ -813,11 +813,13 @@ function addSem11OverLoad(button) {
       document.getElementById("show_hide_bt1").addEventListener('click', function handleClick(event) {
       unit = document.getElementById(sourceInfo.id) 
       ul_of_unit = unit.getAttribute('tag');
-   
+      
+ 
       ul = document.getElementById(ul_of_unit); 
       div = document.getElementById(x.id);
       if (div.hasChildNodes()){
-          
+         var closebutton = document.getElementById(nodeID);
+         closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
           div.childNodes[0].remove();
           closebutton.remove();
           var new_li = document.createElement("li");
@@ -852,7 +854,8 @@ function addSem12OverLoad(button) {
       ul = document.getElementById(ul_of_unit); 
       div = document.getElementById(x.id); 
       if (div.hasChildNodes()){
-          
+         var closebutton = document.getElementById(nodeID);
+         closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
           div.childNodes[0].remove();
           closebutton.remove();
           var new_li = document.createElement("li");
@@ -886,7 +889,8 @@ function addSem21OverLoad(button) {
       ul = document.getElementById(ul_of_unit);
       div = document.getElementById(x.id); 
       if (div.hasChildNodes()){
-          
+         var closebutton = document.getElementById(nodeID);
+         closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
           div.childNodes[0].remove();
           closebutton.remove();
           var new_li = document.createElement("li");
@@ -924,7 +928,8 @@ function addSem22OverLoad(button) {
           ul = document.getElementById(ul_of_unit); 
           div = document.getElementById(x.id); 
           if (div.hasChildNodes()){
-          
+            var closebutton = document.getElementById(nodeID);
+            closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
             div.childNodes[0].remove();
             closebutton.remove();
             var new_li = document.createElement("li");
