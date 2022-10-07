@@ -66,8 +66,8 @@ class UserModelCase(unittest.TestCase):
     data=dict(username=username, password=password),
     follow_redirects=True)
 
-##### UNIT TESTS FOR LOGIN - Ancy####
-# https://github.com/QianrXU/Study-Planner/issues/65
+##### UNIT TESTS FOR LOGIN ####
+
 #Unit test to check if it displays login page
   def test_login_form_displays(self):
     response = self.app.get('/login')
