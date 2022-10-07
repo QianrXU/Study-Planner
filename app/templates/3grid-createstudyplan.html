@@ -484,7 +484,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
       target = event.target;
       sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
       item.style.opacity = '0.3'; // set opacity of initial element during dragstart
-      checkPrerequisites(item, sourceInfo); // prerequisite constraint
       })
 
     item.addEventListener('dragend', (event) => {
@@ -523,7 +522,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     })
 
     // event listener for dragover events 
-    item.addEventListener('dragover', (event) => {
+    item.addEventListener('dragover', (event) => {     
       //Unit availability constraint on grid/unit divs
       targetID = event.target.id; // grabs id from target div
       if (startSemester.includes("Semester 1")) { // if semester heading containes 'Semester 1'
@@ -552,7 +551,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         else {changeBorderGreen(targetID);}
       }
-      
+     
+      // prerequisite constraint
+      invalid = checkPrerequisites(sourceInfo); // run function and save result in variable: invalid. invalid will hold all id's of unit divs where unit cannot be placed
+      invalidDrops = invalid[0];
+      triggerunit = invalid[1];
+      preqrequnit = invalid[2]
+      if (invalidDrops.toString().includes(targetID)) {
+        alert("You must take " + preqrequnit + " before you can take " + triggerunit);
+        changeBorderRed(targetID);
+        return false;
+      }
+        else {changeBorderGreen(targetID);
+      }
+
       // the below adds an event listener for dragover events on target divs - if a target div already holds a unit, 
       // the below will prevent a user from populating it with a second unit
       var t = event.target;
@@ -599,35 +611,35 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 }); // EVENT LISTENER ON WINDOW DOM ENDS HERE
 
-
-function checkPrerequisites(targetdiv, sourceInfo) {
-  //console.log(targetdiv.id);
-  getunitgrid();
-  unitselected = sourceInfo.id // User selects CITS4401 Software Requirements and Design
-    for (var key in prereq){if (key == unitselected) {unitprereq = prereq[key];}} // get prereq of selected unit, save into variable called unitprereq
-    prerequisiteunitlist = [] 
-    for (var unit in prereq){if (unitprereq.includes(unit)) {prerequisiteunitlist.push(unit)}} // if a selected a.k.a triggering unit has been selected, push its prerequisite units into prerequisiteunitlist
-
-    console.log(prerequisiteunitlist);
-
-    //check if prerequisite unit on grid
-    unitdiv = document.querySelectorAll('.target')
-    count = 0;
-
-
-    if (units.includes(unitselected)) {
-      // console.log(prereq);
-    }
-}
-
-// gets the state of the grid, i.e., what units in what divs, in a dictionary
+// function for getting the state of the grid, i.e., what units in what divs, in a dictionary where key == id of target div, and value == id of any li element that is potentially in there. will return undefined as value if empty.
 function getunitgrid() {
   stateofGrid = {}
   divs = document.querySelectorAll('.target');
   for (i = 0; i < divs.length; i++) {stateofGrid[divs[i].id] = divs[i].childNodes[0]?.innerHTML;}
-  console.log(stateofGrid)
+  return(stateofGrid);
 }
 
+function checkPrerequisites(sourceInfo) {
+  gridstate = getunitgrid(); // get the current state of the grid as of dragstart of li/unit
+  unitselected = sourceInfo.id // User selects CITS4401 Software Requirements and Design
+  invalidfordrop = [];
+    for (var key in prereq){if (key == unitselected) {unitprereq = prereq[key];}} // get prereq of selected unit, save into variable called unitprereq
+    prerequisiteunitlist = [] 
+    for (var unit in prereq){if (unitprereq.includes(unit)) {prerequisiteunitlist.push(unit)}} // if a selected a.k.a triggering unit has been selected, push its prerequisite units into prerequisiteunitlist
+    // check if prerequisite unit on grid
+    for (const [key, value] of Object.entries(gridstate)) { // key == id of target div and value == id of potential unit (undefined if empty)
+      // NEED TO CHECK FOR  more than one element in prerequisiteunitlist
+      if (value !== undefined && value == prerequisiteunitlist[0]) { // returns position in grid of prerequisite unit
+        prereqPositionOnGrid = key
+        index = Object.keys(gridstate).indexOf(prereqPositionOnGrid) // index will hold length of below
+        divs = document.querySelectorAll('.target');
+        for (i = 0; i < index; i++) {
+          invalidfordrop.push(divs[i].id);
+        }
+      }
+    }
+    return [invalidfordrop, unitselected, prerequisiteunitlist[0]];
+}
 
 // when li elements are created, they will get an 'ondragstart = drag(event)' attribute dynamically
 function drag(event) {
