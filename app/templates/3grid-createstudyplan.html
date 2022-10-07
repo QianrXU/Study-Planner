@@ -245,63 +245,6 @@
   </div>
 </div>
 
-<!--Save button function-->
-<script>
-  var year1sem1_1 = document.getElementById("year1sem1_1").innerHTML;
-  var year1sem1_2 = document.getElementById("year1sem1_2").innerHTML;
-  var year1sem1_3 = document.getElementById("year1sem1_3").innerHTML;
-  var year1sem1_4 = document.getElementById("year1sem1_4").innerHTML;
-  var year1sem1_5 = document.getElementById("year1sem1_5").innerHTML;
-  var year1sem2_1 = document.getElementById("year1sem2_1").innerHTML;
-  var year1sem2_2 = document.getElementById("year1sem2_2").innerHTML;
-  var year1sem2_3 = document.getElementById("year1sem2_3").innerHTML;
-  var year1sem2_4 = document.getElementById("year1sem2_4").innerHTML;
-  var year1sem2_5 = document.getElementById("year1sem2_5").innerHTML;
-  var year2sem1_1 = document.getElementById("year2sem1_1").innerHTML;
-  var year2sem1_2 = document.getElementById("year2sem1_2").innerHTML;
-  var year2sem1_3 = document.getElementById("year2sem1_3").innerHTML;
-  var year2sem1_4 = document.getElementById("year2sem1_4").innerHTML;
-  var year2sem1_5 = document.getElementById("year2sem1_5").innerHTML;
-  var year2sem2_1 = document.getElementById("year2sem2_1").innerHTML;
-  var year2sem2_2 = document.getElementById("year2sem2_2").innerHTML;
-  var year2sem2_3 = document.getElementById("year2sem2_3").innerHTML;
-  var year2sem2_4 = document.getElementById("year2sem2_4").innerHTML;
-  var year2sem2_5 = document.getElementById("year2sem2_5").innerHTML;
-
-  function SaveSP(){
-    // if button pressed, it sends all the Study Plan values to the backend.
-    $.ajax({
-      type: "POST",
-      url: "{{ url_for('createstudyplanSelectUnits') }}",
-      data: {
-        "year1sem1_1":year1sem1_1,
-        "year1sem1_2":year1sem1_2,
-        "year1sem1_3":year1sem1_3,
-        "year1sem1_4":year1sem1_4,
-        "year1sem1_5":year1sem1_5,
-        "year1sem2_1":year1sem2_1,
-        "year1sem2_2":year1sem2_2,
-        "year1sem2_3":year1sem2_3,
-        "year1sem2_4":year1sem2_4,
-        "year1sem2_5":year1sem2_5,
-        "year2sem1_1":year2sem1_1,
-        "year2sem1_2":year2sem1_2,
-        "year2sem1_3":year2sem1_3,
-        "year2sem1_4":year2sem1_4,
-        "year2sem1_5":year2sem1_5,
-        "year2sem2_1":year2sem2_1,
-        "year2sem2_2":year2sem2_2,
-        "year2sem2_3":year2sem2_3,
-        "year2sem2_4":year2sem2_4,
-        "year2sem2_5":year2sem2_5,
-      },
-      success: function( data ) {response=data;},
-      error: function(xhr, status, error) {response = status;}
-    })
-  }
-
-</script>
-
 <!-- Units variable from back end -->
 <div id="unitList" style="display: none;">{{ units }}</div>
 <div id="unitCodeList" style="display: none;">{{ availability }}</div>
@@ -315,11 +258,48 @@
 <div id="availabilityofunits" style="display: none;">{{ availabilitydict }}</div>
 <div id="loadedUnits" style="display: none;">{{ SP_dict }}</div>
 
-<!--Script to support PDF conversion-->
+<!--Scripts to support PDF conversion-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
 <script>
+
+// Save button function
+
+function SaveSP(){
+// if button pressed, it sends all the Study Plan values to the backend.
+$.ajax({
+  type: "POST",
+  url: "{{ url_for('saveSP') }}",
+  data: {
+    "year1sem1_1":document.getElementById("year1sem1_1").textContent,
+    "year1sem1_2":document.getElementById("year1sem1_2").textContent,
+    "year1sem1_3":document.getElementById("year1sem1_3").textContent,
+    "year1sem1_4":document.getElementById("year1sem1_4").textContent,
+    "year1sem1_5":document.getElementById("year1sem1_5").textContent,
+    "year1sem2_1":document.getElementById("year1sem2_1").textContent,
+    "year1sem2_2":document.getElementById("year1sem2_2").textContent,
+    "year1sem2_3":document.getElementById("year1sem2_3").textContent,
+    "year1sem2_4":document.getElementById("year1sem2_4").textContent,
+    "year1sem2_5":document.getElementById("year1sem2_5").textContent,
+    "year2sem1_1":document.getElementById("year2sem1_1").textContent,
+    "year2sem1_2":document.getElementById("year2sem1_2").textContent,
+    "year2sem1_3":document.getElementById("year2sem1_3").textContent,
+    "year2sem1_4":document.getElementById("year2sem1_4").textContent,
+    "year2sem1_5":document.getElementById("year2sem1_5").textContent,
+    "year2sem2_1":document.getElementById("year2sem2_1").textContent,
+    "year2sem2_2":document.getElementById("year2sem2_2").textContent,
+    "year2sem2_3":document.getElementById("year2sem2_3").textContent,
+    "year2sem2_4":document.getElementById("year2sem2_4").textContent,
+    "year2sem2_5":document.getElementById("year2sem2_5").textContent
+  },
+  success: function( data ) {response=data;},
+  error: function(xhr, status, error) {response = status;}
+})}
+
+
+// end of save func
+
 var prereq = document.getElementById("prereq").innerHTML;
 var corereq = document.getElementById("corereq").innerHTML;
 var incompatibilities = document.getElementById("incompatibilities").innerHTML;
@@ -878,26 +858,29 @@ function addSem11OverLoad(button) {
    $(button).find('i').remove();
    if ($(button).text().trim() == 'Add overload') {
      $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-     x.style.display = "block";}
-    else {
+     x.style.display = "block";
       document.getElementById("show_hide_bt1").addEventListener('click', function handleClick(event) {
       unit = document.getElementById(sourceInfo.id) 
       ul_of_unit = unit.getAttribute('tag');
-      console.log("ulof unit", ul_of_unit)
+   
       ul = document.getElementById(ul_of_unit); 
       div = document.getElementById(x.id);
-      div.childNodes[0].remove();
-      closebutton.remove();
-      var new_li = document.createElement("li");
-      new_li.appendChild(document.createTextNode(unit.id));
-      new_li.setAttribute("id", unit.id);
-      new_li.setAttribute("tag", (ul_of_unit));
-      new_li.setAttribute("draggable", "true");
-      new_li.setAttribute("ondragstart", "drag(event)");
-      new_li.setAttribute("class", unit.className);
-      ul.append(new_li);
+      if (div.hasChildNodes()){
+          
+          div.childNodes[0].remove();
+          closebutton.remove();
+          var new_li = document.createElement("li");
+          new_li.appendChild(document.createTextNode(unit.id));
+          new_li.setAttribute("id", unit.id);
+          new_li.setAttribute("tag", (ul_of_unit));
+          new_li.setAttribute("draggable", "true");
+          new_li.setAttribute("ondragstart", "drag(event)");
+          new_li.setAttribute("class", unit.className);
+          ul.append(new_li);
+      }
 
-      })
+      })}
+    else {
         $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
         x.style.display = "none"
         }
@@ -910,26 +893,29 @@ function addSem12OverLoad(button) {
    $(button).find('i').remove();
    if ($(button).text().trim() == 'Add overload') {
      $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-     x.style.display = "block";}
-    else {
+     x.style.display = "block";
       document.getElementById("show_hide_bt2").addEventListener('click', function handleClick(event) {
       unit = document.getElementById(sourceInfo.id) 
       ul_of_unit = unit.getAttribute('tag');
-      console.log("ulof unit", ul_of_unit)
+      
       ul = document.getElementById(ul_of_unit); 
       div = document.getElementById(x.id); 
-      div.childNodes[0].remove();
-      closebutton.remove();
-      var new_li = document.createElement("li");
-      new_li.appendChild(document.createTextNode(unit.id));
-      new_li.setAttribute("id", unit.id);
-      new_li.setAttribute("tag", (ul_of_unit));
-      new_li.setAttribute("draggable", "true");
-      new_li.setAttribute("ondragstart", "drag(event)");
-      new_li.setAttribute("class", unit.className);
-      ul.append(new_li);
+      if (div.hasChildNodes()){
+          
+          div.childNodes[0].remove();
+          closebutton.remove();
+          var new_li = document.createElement("li");
+          new_li.appendChild(document.createTextNode(unit.id));
+          new_li.setAttribute("id", unit.id);
+          new_li.setAttribute("tag", (ul_of_unit));
+          new_li.setAttribute("draggable", "true");
+          new_li.setAttribute("ondragstart", "drag(event)");
+          new_li.setAttribute("class", unit.className);
+          ul.append(new_li);
+      }
 
-      })
+      })}
+    else {
       $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
       x.style.display = "none"
     }
@@ -941,26 +927,29 @@ function addSem21OverLoad(button) {
    $(button).find('i').remove();
     if ($(button).text().trim() == 'Add overload') {
       $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-      x.style.display = "block";}
-    else {
+      x.style.display = "block";
       document.getElementById("show_hide_bt3").addEventListener('click', function handleClick(event) {
       unit = document.getElementById(sourceInfo.id) 
       ul_of_unit = unit.getAttribute('tag'); 
-      console.log("ulof unit", ul_of_unit)
+   
       ul = document.getElementById(ul_of_unit);
       div = document.getElementById(x.id); 
-      div.childNodes[0].remove();
-      closebutton.remove();
-      var new_li = document.createElement("li");
-      new_li.appendChild(document.createTextNode(unit.id));
-      new_li.setAttribute("id", unit.id);
-      new_li.setAttribute("tag", (ul_of_unit));
-      new_li.setAttribute("draggable", "true");
-      new_li.setAttribute("ondragstart", "drag(event)");
-      new_li.setAttribute("class", unit.className);
-      ul.append(new_li);
+      if (div.hasChildNodes()){
+          
+          div.childNodes[0].remove();
+          closebutton.remove();
+          var new_li = document.createElement("li");
+          new_li.appendChild(document.createTextNode(unit.id));
+          new_li.setAttribute("id", unit.id);
+          new_li.setAttribute("tag", (ul_of_unit));
+          new_li.setAttribute("draggable", "true");
+          new_li.setAttribute("ondragstart", "drag(event)");
+          new_li.setAttribute("class", unit.className);
+          ul.append(new_li);
+      }
 
-      })
+      })}
+      else {
       $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
       x.style.display = "none"
     }
@@ -973,26 +962,34 @@ function addSem22OverLoad(button) {
     if ($(button).text().trim() == 'Add overload') {
       $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
       x.style.display = "block";
-      }
-    else {
+      
       document.getElementById("show_hide_bt4").addEventListener('click', function handleClick(event) {
-      unit = document.getElementById(sourceInfo.id) 
-      ul_of_unit = unit.getAttribute('tag');
-      console.log("ulof unit", ul_of_unit)
-      ul = document.getElementById(ul_of_unit); 
-      div = document.getElementById(x.id); 
-      div.childNodes[0].remove();
-      closebutton.remove();
-      var new_li = document.createElement("li");
-      new_li.appendChild(document.createTextNode(unit.id));
-      new_li.setAttribute("id", unit.id);
-      new_li.setAttribute("tag", (ul_of_unit));
-      new_li.setAttribute("draggable", "true");
-      new_li.setAttribute("ondragstart", "drag(event)");
-      new_li.setAttribute("class", unit.className);
-      ul.append(new_li);
+        var element =  document.getElementById('year2sem2_5');
+        if (typeof(element) != 'undefined' && element != null)
+        {
+          unit = document.getElementById(sourceInfo.id) 
+          ul_of_unit = unit.getAttribute('tag');
+      
+          ul = document.getElementById(ul_of_unit); 
+          div = document.getElementById(x.id); 
+          if (div.hasChildNodes()){
+          
+            div.childNodes[0].remove();
+            closebutton.remove();
+            var new_li = document.createElement("li");
+            new_li.appendChild(document.createTextNode(unit.id));
+            new_li.setAttribute("id", unit.id);
+            new_li.setAttribute("tag", (ul_of_unit));
+            new_li.setAttribute("draggable", "true");
+            new_li.setAttribute("ondragstart", "drag(event)");
+            new_li.setAttribute("class", unit.className);
+            ul.append(new_li);
+        }
+      
 
-      })
+      }})
+    }
+    else {
       $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
       x.style.display = "none"
     }

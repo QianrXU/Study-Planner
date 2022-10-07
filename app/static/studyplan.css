@@ -103,6 +103,15 @@
   margin: .25rem 1rem;
 }
 
+.warning-div {
+  margin-top: 15px;
+}
+
+#warning-course, #warning-major {
+  color: red;
+  margin-top: 15px;
+}
+
 /* Tooltip container */
 .tooltipinfo {
   position: relative;

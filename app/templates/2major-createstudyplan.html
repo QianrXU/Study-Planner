@@ -9,9 +9,7 @@
       <p>Select the major or specialisation you wish to pursue within your course.</p>
 
         <div class="selectcourse dropdown">
-          <button class="btn btn-secondary dropdown-toggle" id="selectmajor" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Select your major or specialisation
-          </button>
+          <button class="btn btn-secondary dropdown-toggle" id="selectmajor" type="button" data-bs-toggle="dropdown" aria-expanded="false">Select your major or specialisation</button>
           <!-- Pulls data from the ListMajors column -->
           <ul class="dropdown-menu" id="selectedmajor" aria-labelledby="selectmajor">
             <!-- <li><a class="dropdown-item" href="#">Not applicable</a></li>
@@ -22,9 +20,10 @@
           </ul>
         </div>
 
-        <a href="{{ url_for('createstudyplanSelectUnits') }}" class ="button_general" id="selectcoursebutton">Continue<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></a>
-        
-  </div>
+        <a class="button_general" id="selectcoursebutton">Continue<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right"></i></span></a>
+        <p id="warning-major" style="display: none;">Please select your major/specialisation before continuing.</p>
+
+    </div>
 </div>
 
 
@@ -55,6 +54,21 @@ function detectedChange(){
     data: {"name": detected_major}
   })
 }
+
+// check that values of dropdowns are valid upon click of button before allowing to continue
+document.getElementById('selectcoursebutton').addEventListener("click", function() {
+  major_or_spec_string = 'Select your major or specialisation'
+  major_or_spec = document.getElementById('selectmajor').innerHTML
+
+  console.log(major_or_spec)
+  if (major_or_spec == major_or_spec_string ) {
+    document.getElementById("warning-major").style.display = "block";
+    document.getElementById("selectmajor").style.border = 'solid 1px #fb8585e3';
+  }
+  else {
+    document.getElementById('selectcoursebutton').setAttribute('href', " {{ url_for('createstudyplanSelectUnits') }} ");
+  }
+});
 
 </script>
 
