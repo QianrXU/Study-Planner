@@ -808,26 +808,29 @@ function addSem11OverLoad(button) {
    $(button).find('i').remove();
    if ($(button).text().trim() == 'Add overload') {
      $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-     x.style.display = "block";}
-    else {
+     x.style.display = "block";
       document.getElementById("show_hide_bt1").addEventListener('click', function handleClick(event) {
       unit = document.getElementById(sourceInfo.id) 
       ul_of_unit = unit.getAttribute('tag');
-      console.log("ulof unit", ul_of_unit)
+   
       ul = document.getElementById(ul_of_unit); 
       div = document.getElementById(x.id);
-      div.childNodes[0].remove();
-      closebutton.remove();
-      var new_li = document.createElement("li");
-      new_li.appendChild(document.createTextNode(unit.id));
-      new_li.setAttribute("id", unit.id);
-      new_li.setAttribute("tag", (ul_of_unit));
-      new_li.setAttribute("draggable", "true");
-      new_li.setAttribute("ondragstart", "drag(event)");
-      new_li.setAttribute("class", unit.className);
-      ul.append(new_li);
+      if (div.hasChildNodes()){
+          
+          div.childNodes[0].remove();
+          closebutton.remove();
+          var new_li = document.createElement("li");
+          new_li.appendChild(document.createTextNode(unit.id));
+          new_li.setAttribute("id", unit.id);
+          new_li.setAttribute("tag", (ul_of_unit));
+          new_li.setAttribute("draggable", "true");
+          new_li.setAttribute("ondragstart", "drag(event)");
+          new_li.setAttribute("class", unit.className);
+          ul.append(new_li);
+      }
 
-      })
+      })}
+    else {
         $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
         x.style.display = "none"
         }
@@ -840,26 +843,29 @@ function addSem12OverLoad(button) {
    $(button).find('i').remove();
    if ($(button).text().trim() == 'Add overload') {
      $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-     x.style.display = "block";}
-    else {
+     x.style.display = "block";
       document.getElementById("show_hide_bt2").addEventListener('click', function handleClick(event) {
       unit = document.getElementById(sourceInfo.id) 
       ul_of_unit = unit.getAttribute('tag');
-      console.log("ulof unit", ul_of_unit)
+      
       ul = document.getElementById(ul_of_unit); 
       div = document.getElementById(x.id); 
-      div.childNodes[0].remove();
-      closebutton.remove();
-      var new_li = document.createElement("li");
-      new_li.appendChild(document.createTextNode(unit.id));
-      new_li.setAttribute("id", unit.id);
-      new_li.setAttribute("tag", (ul_of_unit));
-      new_li.setAttribute("draggable", "true");
-      new_li.setAttribute("ondragstart", "drag(event)");
-      new_li.setAttribute("class", unit.className);
-      ul.append(new_li);
+      if (div.hasChildNodes()){
+          
+          div.childNodes[0].remove();
+          closebutton.remove();
+          var new_li = document.createElement("li");
+          new_li.appendChild(document.createTextNode(unit.id));
+          new_li.setAttribute("id", unit.id);
+          new_li.setAttribute("tag", (ul_of_unit));
+          new_li.setAttribute("draggable", "true");
+          new_li.setAttribute("ondragstart", "drag(event)");
+          new_li.setAttribute("class", unit.className);
+          ul.append(new_li);
+      }
 
-      })
+      })}
+    else {
       $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
       x.style.display = "none"
     }
@@ -871,26 +877,29 @@ function addSem21OverLoad(button) {
    $(button).find('i').remove();
     if ($(button).text().trim() == 'Add overload') {
       $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-      x.style.display = "block";}
-    else {
+      x.style.display = "block";
       document.getElementById("show_hide_bt3").addEventListener('click', function handleClick(event) {
       unit = document.getElementById(sourceInfo.id) 
       ul_of_unit = unit.getAttribute('tag'); 
-      console.log("ulof unit", ul_of_unit)
+   
       ul = document.getElementById(ul_of_unit);
       div = document.getElementById(x.id); 
-      div.childNodes[0].remove();
-      closebutton.remove();
-      var new_li = document.createElement("li");
-      new_li.appendChild(document.createTextNode(unit.id));
-      new_li.setAttribute("id", unit.id);
-      new_li.setAttribute("tag", (ul_of_unit));
-      new_li.setAttribute("draggable", "true");
-      new_li.setAttribute("ondragstart", "drag(event)");
-      new_li.setAttribute("class", unit.className);
-      ul.append(new_li);
+      if (div.hasChildNodes()){
+          
+          div.childNodes[0].remove();
+          closebutton.remove();
+          var new_li = document.createElement("li");
+          new_li.appendChild(document.createTextNode(unit.id));
+          new_li.setAttribute("id", unit.id);
+          new_li.setAttribute("tag", (ul_of_unit));
+          new_li.setAttribute("draggable", "true");
+          new_li.setAttribute("ondragstart", "drag(event)");
+          new_li.setAttribute("class", unit.className);
+          ul.append(new_li);
+      }
 
-      })
+      })}
+      else {
       $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
       x.style.display = "none"
     }
@@ -903,26 +912,34 @@ function addSem22OverLoad(button) {
     if ($(button).text().trim() == 'Add overload') {
       $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
       x.style.display = "block";
-      }
-    else {
+      
       document.getElementById("show_hide_bt4").addEventListener('click', function handleClick(event) {
-      unit = document.getElementById(sourceInfo.id) 
-      ul_of_unit = unit.getAttribute('tag');
-      console.log("ulof unit", ul_of_unit)
-      ul = document.getElementById(ul_of_unit); 
-      div = document.getElementById(x.id); 
-      div.childNodes[0].remove();
-      closebutton.remove();
-      var new_li = document.createElement("li");
-      new_li.appendChild(document.createTextNode(unit.id));
-      new_li.setAttribute("id", unit.id);
-      new_li.setAttribute("tag", (ul_of_unit));
-      new_li.setAttribute("draggable", "true");
-      new_li.setAttribute("ondragstart", "drag(event)");
-      new_li.setAttribute("class", unit.className);
-      ul.append(new_li);
+        var element =  document.getElementById('year2sem2_5');
+        if (typeof(element) != 'undefined' && element != null)
+        {
+          unit = document.getElementById(sourceInfo.id) 
+          ul_of_unit = unit.getAttribute('tag');
+      
+          ul = document.getElementById(ul_of_unit); 
+          div = document.getElementById(x.id); 
+          if (div.hasChildNodes()){
+          
+            div.childNodes[0].remove();
+            closebutton.remove();
+            var new_li = document.createElement("li");
+            new_li.appendChild(document.createTextNode(unit.id));
+            new_li.setAttribute("id", unit.id);
+            new_li.setAttribute("tag", (ul_of_unit));
+            new_li.setAttribute("draggable", "true");
+            new_li.setAttribute("ondragstart", "drag(event)");
+            new_li.setAttribute("class", unit.className);
+            ul.append(new_li);
+        }
+      
 
-      })
+      }})
+    }
+    else {
       $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
       x.style.display = "none"
     }
