@@ -507,6 +507,7 @@ def createstudyplanSelectUnits():
     unitCodeList = [] # all unit codes to be saved into this list (for connecting with unit list.csv on frontend)
 
     credits = {}
+    unitURL = {}
 
     try: 
         length = len(typeNames)
@@ -537,6 +538,8 @@ def createstudyplanSelectUnits():
                             units.append(unitCode + " " + val + "***")
                         if key == 'unitPoints':
                             credits[unitCode + " " + unitTitle] = val
+                        if key == 'unitURL':
+                            unitURL[unitCode + " " + unitTitle] = val
                 units.append("NEXT_UNIT_ROLE") #something random to split by on the frontend
                 
     except:
@@ -564,6 +567,7 @@ def createstudyplanSelectUnits():
         availabilitydict = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Availabilities))
         availabilitydict = json.dumps(availabilitydict)
         credits = json.dumps(credits)
+        unitURL = json.dumps(unitURL)
 
         startSem=int(selectedStart[9:10])
         startYear=int(selectedStart[12:])
@@ -575,6 +579,7 @@ def createstudyplanSelectUnits():
 
         if current_user.is_authenticated:
             return render_template('3grid-createstudyplan.html', 
+            unitURL=unitURL,
             startSem=startSem,
             startYear=startYear,
             getUnitValues=getUnitValues,
