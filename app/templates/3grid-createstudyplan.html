@@ -258,12 +258,15 @@
 <div id="availabilityofunits" style="display: none;">{{ availabilitydict }}</div>
 <div id="loadedUnits" style="display: none;">{{ SP_dict }}</div>
 
+{% block javascript %}
+    <script src="{{ url_for('static', filename='javascript/testing.js') }}"></script>
+{% endblock %}
+
 <!--Scripts to support PDF conversion-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
 <script>
-
 // Save button function
 
 function SaveSP(){
@@ -307,6 +310,15 @@ var unitoutcomes = document.getElementById("unitoutcomes").innerHTML;
 var content = document.getElementById("content").innerHTML;
 var creditpoints = document.getElementById("structurecredits").innerHTML;
 var availabilityofunits = document.getElementById("availabilityofunits").innerHTML;
+
+// Needs to be parsed for functionality for clicking on units
+content = JSON.parse(content);
+unitoutcomes = JSON.parse(unitoutcomes);
+prereq = JSON.parse(prereq);
+corereq = JSON.parse(corereq);
+incompatibilities = JSON.parse(incompatibilities);
+creditpoints = JSON.parse(creditpoints);
+availabilityofunits = JSON.parse(availabilityofunits);
 
 // Remove major information from frontend if doesn't contain anything valuable
 if (document.getElementById("course-major").innerHTML == "No major or specialisation available"){
@@ -471,8 +483,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     item.addEventListener('dragstart', (event) => {
       target = event.target;
       sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
-
-      item.style.opacity = '0.3';
+      item.style.opacity = '0.3'; // set opacity of initial element during dragstart
+      checkPrerequisites(item, sourceInfo); // prerequisite constraint
       })
 
     item.addEventListener('dragend', (event) => {
@@ -512,7 +524,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     // event listener for dragover events 
     item.addEventListener('dragover', (event) => {
-
       //Unit availability constraint on grid/unit divs
       targetID = event.target.id; // grabs id from target div
       if (startSemester.includes("Semester 1")) { // if semester heading containes 'Semester 1'
@@ -587,6 +598,35 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 }); // EVENT LISTENER ON WINDOW DOM ENDS HERE
+
+
+function checkPrerequisites(targetdiv, sourceInfo) {
+  //console.log(targetdiv.id);
+  getunitgrid();
+  unitselected = sourceInfo.id // User selects CITS4401 Software Requirements and Design
+    for (var key in prereq){if (key == unitselected) {unitprereq = prereq[key];}} // get prereq of selected unit, save into variable called unitprereq
+    prerequisiteunitlist = [] 
+    for (var unit in prereq){if (unitprereq.includes(unit)) {prerequisiteunitlist.push(unit)}} // if a selected a.k.a triggering unit has been selected, push its prerequisite units into prerequisiteunitlist
+
+    console.log(prerequisiteunitlist);
+
+    //check if prerequisite unit on grid
+    unitdiv = document.querySelectorAll('.target')
+    count = 0;
+
+
+    if (units.includes(unitselected)) {
+      // console.log(prereq);
+    }
+}
+
+// gets the state of the grid, i.e., what units in what divs, in a dictionary
+function getunitgrid() {
+  stateofGrid = {}
+  divs = document.querySelectorAll('.target');
+  for (i = 0; i < divs.length; i++) {stateofGrid[divs[i].id] = divs[i].childNodes[0]?.innerHTML;}
+  console.log(stateofGrid)
+}
 
 
 // when li elements are created, they will get an 'ondragstart = drag(event)' attribute dynamically
@@ -715,15 +755,6 @@ window.onclick = function(event) {
     unitmodal.style.display = "none";
   }
 }
-
-// Functionality for clicking on units
-content = JSON.parse(content);
-unitoutcomes = JSON.parse(unitoutcomes);
-prereq = JSON.parse(prereq);
-corereq = JSON.parse(corereq);
-incompatibilities = JSON.parse(incompatibilities);
-creditpoints = JSON.parse(creditpoints);
-availabilityofunits = JSON.parse(availabilityofunits);
 
 // Click event - modal opens and populates on unit click
 document.addEventListener('click',function(e){
