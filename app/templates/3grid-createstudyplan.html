@@ -258,12 +258,15 @@
 <div id="availabilityofunits" style="display: none;">{{ availabilitydict }}</div>
 <div id="loadedUnits" style="display: none;">{{ SP_dict }}</div>
 
+{% block javascript %}
+    <script src="{{ url_for('static', filename='javascript/testing.js') }}"></script>
+{% endblock %}
+
 <!--Scripts to support PDF conversion-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
 <script>
-
 // Save button function
 
 function SaveSP(){
@@ -307,6 +310,15 @@ var unitoutcomes = document.getElementById("unitoutcomes").innerHTML;
 var content = document.getElementById("content").innerHTML;
 var creditpoints = document.getElementById("structurecredits").innerHTML;
 var availabilityofunits = document.getElementById("availabilityofunits").innerHTML;
+
+// Needs to be parsed for functionality for clicking on units
+content = JSON.parse(content);
+unitoutcomes = JSON.parse(unitoutcomes);
+prereq = JSON.parse(prereq);
+corereq = JSON.parse(corereq);
+incompatibilities = JSON.parse(incompatibilities);
+creditpoints = JSON.parse(creditpoints);
+availabilityofunits = JSON.parse(availabilityofunits);
 
 // Remove major information from frontend if doesn't contain anything valuable
 if (document.getElementById("course-major").innerHTML == "No major or specialisation available"){
@@ -471,8 +483,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     item.addEventListener('dragstart', (event) => {
       target = event.target;
       sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
-
-      item.style.opacity = '0.3';
+      item.style.opacity = '0.3'; // set opacity of initial element during dragstart
       })
 
     item.addEventListener('dragend', (event) => {
@@ -512,8 +523,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     })
 
     // event listener for dragover events 
-    item.addEventListener('dragover', (event) => {
-
+    item.addEventListener('dragover', (event) => {     
       //Unit availability constraint on grid/unit divs
       targetID = event.target.id; // grabs id from target div
       if (startSemester.includes("Semester 1")) { // if semester heading containes 'Semester 1'
@@ -542,7 +552,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         else {changeBorderGreen(targetID);}
       }
+     
+      // prerequisite constraint (user selects 1. prerequisite unit e.g., CITS1001, 2. triggering unit e.g., CITS4401)
+      invalid = checkPrerequisites1(sourceInfo); // run function and save result in variable: invalid. invalid will hold all id's of unit divs where unit cannot be placed
+      invalidDrops = invalid[0];
+      triggerunit = invalid[1];
+      preqrequnit = invalid[2];
+      check = invalid[3];
       
+      if (invalidDrops.toString().includes(targetID) || check == true) { // if the target div's ID is in invalidDrops, do not allow drop of unit
+        alert("You must take " + preqrequnit + " before you can take " + triggerunit);
+        changeBorderRed(targetID);
+        return false;
+      } else {changeBorderGreen(targetID); }
+
       // the below adds an event listener for dragover events on target divs - if a target div already holds a unit, 
       // the below will prevent a user from populating it with a second unit
       var t = event.target;
@@ -563,8 +586,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById(nodeID).addEventListener('click', function handleClick(event) {
       //remove remove unit x upon lift of unit
       unit = document.getElementById(sourceInfo.id) // get unit info from the unit/li's ID
-      //console.log(nodeID);
-      //console.log(sourceInfo.id);
       ul_of_unit = unit.getAttribute('tag'); // get tag value from unit, which will be its initial 
       ul = document.getElementById(ul_of_unit); // get the ul
 
@@ -589,7 +610,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 }); // EVENT LISTENER ON WINDOW DOM ENDS HERE
 
-
 // when li elements are created, they will get an 'ondragstart = drag(event)' attribute dynamically
 function drag(event) {
   sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
@@ -607,6 +627,45 @@ function drop(event) {
   const data = event.dataTransfer.getData('dragID');
   event.target.appendChild(document.getElementById(data));
 }
+
+// function for getting the state of the grid, i.e., what units in what divs, in a dictionary where key == id of target div, and value == id of any li element that is potentially in there. will return undefined as value if empty.
+function getunitgrid() {
+  stateofGrid = {}
+  divs = document.querySelectorAll('.target');
+  for (i = 0; i < divs.length; i++) {stateofGrid[divs[i].id] = divs[i].childNodes[0]?.innerHTML;}
+  return(stateofGrid);
+}
+
+function checkPrerequisites1(sourceInfo) {
+  gridstate = getunitgrid(); // get the current state of the grid as of dragstart of li/unit
+  unitselected = sourceInfo.id // User selects CITS4401 Software Requirements and Design
+  invalidfordrop = [];
+  for (var key in prereq){if (key == unitselected) {unitprereq = prereq[key];}} // get prereq of selected unit, save into variable called unitprereq
+  prerequisiteunitlist = [] 
+  for (var unit in prereq){if (unitprereq.includes(unit)) {prerequisiteunitlist.push(unit)}} // if a selected a.k.a triggering unit has been selected, push its prerequisite units into prerequisiteunitlist
+  check = ""; // initialise
+  if (prerequisiteunitlist.length != 0) {check = true;}// unit does not have prerequisite
+  if (prerequisiteunitlist.length > 0) { // unit has prerequisite
+    for (const [key, value] of Object.entries(gridstate)) { // key == id of target div and value == id of potential unit (undefined if empty)
+    // NEED TO CHECK FOR  MORE THAN ONE ELEMENT IN prerequisiteunitlist, CURRENTLY ONLY CHECKING INDEX 0
+    if (value !== undefined && value == prerequisiteunitlist[0]) { // returns position in grid of prerequisite unit
+      prereqPositionOnGrid = key
+      var index = Object.keys(gridstate).indexOf(prereqPositionOnGrid) // index will hold length of unit divs up until the occurrence of the prerequisite unit
+      divs = document.querySelectorAll('.target');
+      for (i = 0; i < index; i++) {invalidfordrop.push(divs[i].id);} // push all div ids up to length of target div into invalid for drop list
+      lastOccurringDiv = divs[index].id; // we need to make sure the whole row gets added to the invalidfordrop list. find the index of the target div
+      parentrow = document.getElementById(lastOccurringDiv).parentNode.id; // find the parent, i.e., the row id of the parent div that surrounds the unit row
+      childdivs = document.getElementById(parentrow).querySelectorAll("div"); // find all children, a.k.a divs on that row
+      for (i = 0; i < 5; i++) {invalidfordrop.push(childdivs[i].id);}
+      check = false;
+      }
+    }
+  }
+  invalidfordrop = [...new Set(invalidfordrop)]; // remove duplicates from array
+  return [invalidfordrop, unitselected, prerequisiteunitlist[0], check];
+}
+
+
 
 // reset button for clearing screen
 const reset = document.getElementById("reset");
@@ -716,15 +775,6 @@ window.onclick = function(event) {
     unitmodal.style.display = "none";
   }
 }
-
-// Functionality for clicking on units
-content = JSON.parse(content);
-unitoutcomes = JSON.parse(unitoutcomes);
-prereq = JSON.parse(prereq);
-corereq = JSON.parse(corereq);
-incompatibilities = JSON.parse(incompatibilities);
-creditpoints = JSON.parse(creditpoints);
-availabilityofunits = JSON.parse(availabilityofunits);
 
 // Click event - modal opens and populates on unit click
 document.addEventListener('click',function(e){
