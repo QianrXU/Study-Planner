@@ -500,14 +500,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
       node.setAttribute("id", nodeID);
       node.setAttribute("class", "removeunitbutton");
       document.getElementById(item.id).appendChild(node);
-      closebutton = document.getElementById(nodeID);
+      var closebutton = document.getElementById(nodeID);
       closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
       removeUnit(nodeID, sourceInfo, item, closebutton);
     })
 
     item.addEventListener('dragstart', (event) => { 
       //remove remove unit x upon lift of unit
-      closebutton.remove();      
+      x = document.getElementById(item.id).querySelectorAll('span');
+      x[0].parentNode.removeChild(x[0]);
     })
 
     // event listener for dragover events 
