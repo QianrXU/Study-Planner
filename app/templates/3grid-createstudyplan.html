@@ -611,6 +611,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 }); // EVENT LISTENER ON WINDOW DOM ENDS HERE
 
+// when li elements are created, they will get an 'ondragstart = drag(event)' attribute dynamically
+function drag(event) {
+  sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
+  event.dataTransfer.setData('dragID', sourceInfo.id)
+
+  // Set drag image (what the browser sets as the drag image on dragstart)
+  ghostEle = document.createElement('div');
+  ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element
+  event.dataTransfer.setDragImage(ghostEle, 0, 0); // Customize the drag image to be the sourceInfo variable's id - this overrides the browser's innate drag image
+}
+
+// drop makes sure that the id of the dropped element gets appended to the div, so when there's a drop, the unit's ID will appear in the div
+function drop(event) {
+  event.preventDefault();
+  const data = event.dataTransfer.getData('dragID');
+  event.target.appendChild(document.getElementById(data));
+}
+
 // function for getting the state of the grid, i.e., what units in what divs, in a dictionary where key == id of target div, and value == id of any li element that is potentially in there. will return undefined as value if empty.
 function getunitgrid() {
   stateofGrid = {}
@@ -631,32 +649,17 @@ function checkPrerequisites(sourceInfo) {
       // NEED TO CHECK FOR  more than one element in prerequisiteunitlist
       if (value !== undefined && value == prerequisiteunitlist[0]) { // returns position in grid of prerequisite unit
         prereqPositionOnGrid = key
-        index = Object.keys(gridstate).indexOf(prereqPositionOnGrid) // index will hold length of below
+        index = Object.keys(gridstate).indexOf(prereqPositionOnGrid) // index will hold length of unit divs up until the occurrence of the prerequisite unit
         divs = document.querySelectorAll('.target');
-        for (i = 0; i < index; i++) {
-          invalidfordrop.push(divs[i].id);
-        }
+        for (i = 0; i < index; i++) {invalidfordrop.push(divs[i].id);} // push all div ids up to length of target div into invalid for drop list
+        lastOccurringDiv = divs[index].id; // we need to make sure the whole row gets added to the invalidfordrop list. find the index of the target div
+        parentrow = document.getElementById(lastOccurringDiv).parentNode.id; // find the parent, i.e., the row id of the parent div that surrounds the unit row
+        childdivs = document.getElementById(parentrow).querySelectorAll("div"); // find all children, a.k.a divs on that row
+        for (i = 0; i < 5; i++) {invalidfordrop.push(childdivs[i].id);}
       }
     }
+    invalidfordrop = [...new Set(invalidfordrop)]; // remove duplicates from array
     return [invalidfordrop, unitselected, prerequisiteunitlist[0]];
-}
-
-// when li elements are created, they will get an 'ondragstart = drag(event)' attribute dynamically
-function drag(event) {
-  sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
-  event.dataTransfer.setData('dragID', sourceInfo.id)
-
-  // Set drag image (what the browser sets as the drag image on dragstart)
-  ghostEle = document.createElement('div');
-  ghostEle.innerHTML = sourceInfo.id; // add the id of the item ghost element
-  event.dataTransfer.setDragImage(ghostEle, 0, 0); // Customize the drag image to be the sourceInfo variable's id - this overrides the browser's innate drag image
-}
-
-// drop makes sure that the id of the dropped element gets appended to the div, so when there's a drop, the unit's ID will appear in the div
-function drop(event) {
-  event.preventDefault();
-  const data = event.dataTransfer.getData('dragID');
-  event.target.appendChild(document.getElementById(data));
 }
 
 // reset button for clearing screen
