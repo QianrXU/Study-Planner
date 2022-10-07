@@ -94,9 +94,9 @@
             <!--  Start semester/year determined by what user selects in dropdown in previous window -->
             {% if SP_dict['Y1S1_5']|length <1 %}
             <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> 
-            <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+            <button style="float:right;" onclick="OverLoad(this,'year1sem1_5','show_hide_bt1');" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
           {% else %}
-            <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+            <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> <button style="float:right;" onclick="OverLoad(this,'year1sem1_5','show_hide_bt1');" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
           {% endif %}
           <div class="semester-row" id="row1"> <!--  Add/delete row button to add/delete. -->
             <div class="target" id="year1sem1_1" ondrop="drop(event)">{{ SP_dict['Y1S1_1'] }}</div>
@@ -117,7 +117,7 @@
                 {% else %} 
                   1, {{ startYear + 1 }}
                 {% endif %}
-              </p> <button style="float:right;" onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+              </p> <button style="float:right;" onclick="OverLoad(this,'year1sem2_5','show_hide_bt2');" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
             {% else %}
               <p class="semester-paragraph" id="year1semester2" style="float:left;">Semester 
                 {% if startSem == 1 %} 
@@ -125,7 +125,7 @@
                 {% else %} 
                   1, {{ startYear + 1 }}
                 {% endif %}
-              </p> <button style="float:right;" onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+              </p> <button style="float:right;" onclick="OverLoad(this,'year1sem2_5','show_hide_bt2');" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
             <div class="semester-row" id="row2">
               <div class="target" id="year1sem2_1" ondrop="drop(event)">{{ SP_dict['Y1S2_1'] }}</div>
@@ -146,7 +146,7 @@
                 {% else %} 
                   2, {{ startYear + 1 }}
                 {% endif %}
-              </p> <button style="float:right;" onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
+              </p> <button style="float:right;" onclick="OverLoad(this,'year2sem1_5','show_hide_bt3');" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>
             {% else %}
               <p class="semester-paragraph" id="year2semester1" style="float:left;">Semester 
                 {% if startSem == 1 %} 
@@ -154,7 +154,7 @@
                 {% else %} 
                   2, {{ startYear + 1 }}
                 {% endif %}
-              </p> <button style="float:right;" onclick="addSem21OverLoad(this);" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+              </p> <button style="float:right;" onclick="OverLoad(this,'year2sem1_5','show_hide_bt3');" class="btn-ol" id="show_hide_bt3" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
 
             <div class="semester-row" id="row3">
@@ -176,7 +176,7 @@
                 {% else %} 
                   1, {{ startYear + 2 }}
                 {% endif %}
-              </p> <button style="float:right;" onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>            
+              </p> <button style="float:right;" onclick="OverLoad(this,'year2sem2_5','show_hide_bt4');" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-plus-circle"></i> Add overload </button>            
             {% else %}
               <p class="semester-paragraph" id="year2semester2" style="float:left;">Semester 
                 {% if startSem == 1 %} 
@@ -184,7 +184,7 @@
                 {% else %} 
                   1, {{ startYear + 2 }}
                 {% endif %}
-              </p> <button style="float:right;" onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
+              </p> <button style="float:right;" onclick="OverLoad(this,'year2sem2_5','show_hide_bt4');" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
             <div class="semester-row" id="row4">
               <div class="target" id="year2sem2_1" ondrop="drop(event)">{{ SP_dict['Y2S2_1'] }}</div>
@@ -854,122 +854,17 @@ function CreatePDFfromHTML() {
 //Function that will display the fifth unit if user click '+' button and remove that grid when click '-' icon
 // https://github.com/QianrXU/Study-Planner/issues/85
 // https://github.com/QianrXU/Study-Planner/issues/79
-function addSem11OverLoad(button) {
-  var x = document.getElementById("year1sem1_5");
-   $(button).find('i').remove();
-   if ($(button).text().trim() == 'Add overload') {
-     $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-     x.style.display = "block";
-      document.getElementById("show_hide_bt1").addEventListener('click', function handleClick(event) {
-      unit = document.getElementById(sourceInfo.id) 
-      ul_of_unit = unit.getAttribute('tag');
-      
- 
-      ul = document.getElementById(ul_of_unit); 
-      div = document.getElementById(x.id);
-      if (div.hasChildNodes()){
-         var closebutton = document.getElementById(nodeID);
-         closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
-          div.childNodes[0].remove();
-          closebutton.remove();
-          var new_li = document.createElement("li");
-          new_li.appendChild(document.createTextNode(unit.id));
-          new_li.setAttribute("id", unit.id);
-          new_li.setAttribute("tag", (ul_of_unit));
-          new_li.setAttribute("draggable", "true");
-          new_li.setAttribute("ondragstart", "drag(event)");
-          new_li.setAttribute("class", unit.className);
-          ul.append(new_li);
-      }
 
-      })}
-    else {
-        $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
-        x.style.display = "none"
-        }
-    }
-  
 
-//Function that will display the fifth unit if user click '+' button and remove that grid when click '-' icon
-function addSem12OverLoad(button) {
-  var x = document.getElementById("year1sem2_5");
-   $(button).find('i').remove();
-   if ($(button).text().trim() == 'Add overload') {
-     $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-     x.style.display = "block";
-      document.getElementById("show_hide_bt2").addEventListener('click', function handleClick(event) {
-      unit = document.getElementById(sourceInfo.id) 
-      ul_of_unit = unit.getAttribute('tag');
-      
-      ul = document.getElementById(ul_of_unit); 
-      div = document.getElementById(x.id); 
-      if (div.hasChildNodes()){
-         var closebutton = document.getElementById(nodeID);
-         closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
-          div.childNodes[0].remove();
-          closebutton.remove();
-          var new_li = document.createElement("li");
-          new_li.appendChild(document.createTextNode(unit.id));
-          new_li.setAttribute("id", unit.id);
-          new_li.setAttribute("tag", (ul_of_unit));
-          new_li.setAttribute("draggable", "true");
-          new_li.setAttribute("ondragstart", "drag(event)");
-          new_li.setAttribute("class", unit.className);
-          ul.append(new_li);
-      }
-
-      })}
-    else {
-      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
-      x.style.display = "none"
-    }
-  
-}
-//Function that will display the fifth unit if user click '+' button and remove that grid when click '-' icon
-function addSem21OverLoad(button) {
-  var x = document.getElementById("year2sem1_5");
-   $(button).find('i').remove();
-    if ($(button).text().trim() == 'Add overload') {
-      $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
-      x.style.display = "block";
-      document.getElementById("show_hide_bt3").addEventListener('click', function handleClick(event) {
-      unit = document.getElementById(sourceInfo.id) 
-      ul_of_unit = unit.getAttribute('tag'); 
-   
-      ul = document.getElementById(ul_of_unit);
-      div = document.getElementById(x.id); 
-      if (div.hasChildNodes()){
-         var closebutton = document.getElementById(nodeID);
-         closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
-          div.childNodes[0].remove();
-          closebutton.remove();
-          var new_li = document.createElement("li");
-          new_li.appendChild(document.createTextNode(unit.id));
-          new_li.setAttribute("id", unit.id);
-          new_li.setAttribute("tag", (ul_of_unit));
-          new_li.setAttribute("draggable", "true");
-          new_li.setAttribute("ondragstart", "drag(event)");
-          new_li.setAttribute("class", unit.className);
-          ul.append(new_li);
-      }
-
-      })}
-      else {
-      $(button).html($('<i/>',{class:'fa fa-plus-circle'})).append('Add overload');
-      x.style.display = "none"
-    }
-  
-}
-//Function that will display the fifth unit if user click '+' button and remove that grid when click '-' icon
-function addSem22OverLoad(button) {
-   var x = document.getElementById("year2sem2_5");
+function OverLoad(button,gridId,btnId) {
+   var x = document.getElementById(gridId);
    $(button).find('i').remove();
     if ($(button).text().trim() == 'Add overload') {
       $(button).html($('<i/>',{class:'fa fa-minus-circle'})).append('Remove overload');
       x.style.display = "block";
       
-      document.getElementById("show_hide_bt4").addEventListener('click', function handleClick(event) {
-        var element =  document.getElementById('year2sem2_5');
+      document.getElementById(btnId).addEventListener('click', function handleClick(event) {
+        var element =  document.getElementById(gridId);
         if (typeof(element) != 'undefined' && element != null)
         {
           unit = document.getElementById(sourceInfo.id) 
