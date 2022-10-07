@@ -99,14 +99,14 @@
             <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> <button style="float:right;" onclick="addSem11OverLoad(this);" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
           {% endif %}
           <div class="semester-row" id="row1"> <!--  Add/delete row button to add/delete. -->
-            <div class="target" id="year1sem1_1" ondrop="drop(event)">{{ SP_dict['Y1S1_1'] }}</div>
-            <div class="target" id="year1sem1_2" ondrop="drop(event)">{{ SP_dict['Y1S1_2'] }}</div>
-            <div class="target" id="year1sem1_3" ondrop="drop(event)">{{ SP_dict['Y1S1_3'] }}</div>
-            <div class="target" id="year1sem1_4" ondrop="drop(event)">{{ SP_dict['Y1S1_4'] }}</div> 
+            <div class="target" id="year1sem1_1" ondrop="drop(event)">{% if SP_dict['Y1S1_1'] | length %}<li id="{{ SP_dict['Y1S1_1'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y1S1_1'] }}</li>{% else %}{% endif %}</div>
+            <div class="target" id="year1sem1_2" ondrop="drop(event)">{% if SP_dict['Y1S1_2'] | length %}<li id="{{ SP_dict['Y1S1_2'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y1S1_2'] }}</li>{% else %}{% endif %}</div>
+            <div class="target" id="year1sem1_3" ondrop="drop(event)">{% if SP_dict['Y1S1_3'] | length %}<li id="{{ SP_dict['Y1S1_3'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y1S1_3'] }}</li>{% else %}{% endif %}</div>
+            <div class="target" id="year1sem1_4" ondrop="drop(event)">{% if SP_dict['Y1S1_4'] | length %}<li id="{{ SP_dict['Y1S1_4'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y1S1_4'] }}</li>{% else %}{% endif %}</div>
             {% if SP_dict['Y1S1_5']|length <1 %}
               <div class="target" id="year1sem1_5" ondrop="drop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
             {% else %}
-              <div class="target" id="year1sem1_5" ondrop="drop(event)" style="display: block;">{{ SP_dict['Y1S1_5'] }}</div>  <!-- if overloading, unhide -->
+              <div class="target" id="year1sem1_5" ondrop="drop(event)">{% if SP_dict['Y1S1_5'] | length %}<li id="{{ SP_dict['Y1S1_5'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y1S1_5'] }}</li>{% else %}{% endif %}</div>
             {% endif %}
           </div>
 
@@ -128,14 +128,14 @@
               </p> <button style="float:right;" onclick="addSem12OverLoad(this);" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
             <div class="semester-row" id="row2">
-              <div class="target" id="year1sem2_1" ondrop="drop(event)">{{ SP_dict['Y1S2_1'] }}</div>
-              <div class="target" id="year1sem2_2" ondrop="drop(event)">{{ SP_dict['Y1S2_2'] }}</div>
-              <div class="target" id="year1sem2_3" ondrop="drop(event)">{{ SP_dict['Y1S2_3'] }}</div>
-              <div class="target" id="year1sem2_4" ondrop="drop(event)">{{ SP_dict['Y1S2_4'] }}</div>
+              <div class="target" id="year1sem2_1" ondrop="drop(event)">{% if SP_dict['Y1S2_1'] | length %}<li id="{{ SP_dict['Y1S2_1'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y1S2_1'] }}</li>{% else %}{% endif %}</div>
+              <div class="target" id="year1sem2_2" ondrop="drop(event)">{% if SP_dict['Y1S2_2'] | length %}<li id="{{ SP_dict['Y1S2_2'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y1S2_2'] }}</li>{% else %}{% endif %}</div>
+              <div class="target" id="year1sem2_3" ondrop="drop(event)">{% if SP_dict['Y1S2_3'] | length %}<li id="{{ SP_dict['Y1S2_3'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y1S2_3'] }}</li>{% else %}{% endif %}</div>
+              <div class="target" id="year1sem2_4" ondrop="drop(event)">{% if SP_dict['Y1S2_4'] | length %}<li id="{{ SP_dict['Y1S2_4'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y1S2_4'] }}</li>{% else %}{% endif %}</div>
               {% if SP_dict['Y1S2_5']|length <1 %}
                 <div class="target" id="year1sem2_5" ondrop="drop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
               {% else %}
-                <div class="target" id="year1sem2_5" ondrop="drop(event)" style="display: block;">{{ SP_dict['Y1S2_5'] }}</div>  <!-- if overloading, unhide -->
+                <div class="target" id="year1sem2_5" ondrop="drop(event)">{% if SP_dict['Y1S2_5'] | length %}<li id="{{ SP_dict['Y1S2_5'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y1S2_5'] }}</li>{% else %}{% endif %}</div>
               {% endif %}
             </div>
 
@@ -158,14 +158,14 @@
             {% endif %}
 
             <div class="semester-row" id="row3">
-              <div class="target" id="year2sem1_1" ondrop="drop(event)">{{ SP_dict['Y2S1_1'] }}</div>
-              <div class="target" id="year2sem1_2" ondrop="drop(event)">{{ SP_dict['Y2S1_2'] }}</div>
-              <div class="target" id="year2sem1_3" ondrop="drop(event)">{{ SP_dict['Y2S1_3'] }}</div>
-              <div class="target" id="year2sem1_4" ondrop="drop(event)">{{ SP_dict['Y2S1_4'] }}</div>
+              <div class="target" id="year2sem1_1" ondrop="drop(event)">{% if SP_dict['Y2S1_1'] | length %}<li id="{{ SP_dict['Y2S1_1'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y2S1_1'] }}</li>{% else %}{% endif %}</div>
+              <div class="target" id="year2sem1_2" ondrop="drop(event)">{% if SP_dict['Y2S1_2'] | length %}<li id="{{ SP_dict['Y2S1_2'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y2S1_2'] }}</li>{% else %}{% endif %}</div>
+              <div class="target" id="year2sem1_3" ondrop="drop(event)">{% if SP_dict['Y2S1_3'] | length %}<li id="{{ SP_dict['Y2S1_3'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y2S1_3'] }}</li>{% else %}{% endif %}</div>
+              <div class="target" id="year2sem1_4" ondrop="drop(event)">{% if SP_dict['Y2S1_4'] | length %}<li id="{{ SP_dict['Y2S1_4'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y2S1_4'] }}</li>{% else %}{% endif %}</div>
               {% if SP_dict['Y1S2_5']|length <1 %}
                 <div class="target" id="year2sem1_5" ondrop="drop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
               {% else %}
-                <div class="target" id="year2sem1_5" ondrop="drop(event)" style="display: block;">{{ SP_dict['Y2S1_5'] }}</div>  <!-- if overloading, unhide -->
+                <div class="target" id="year2sem1_5" ondrop="drop(event)">{% if SP_dict['Y2S1_5'] | length %}<li id="{{ SP_dict['Y2S1_5'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y2S1_5'] }}</li>{% else %}{% endif %}</div>
               {% endif %}
             </div>
 
@@ -187,14 +187,14 @@
               </p> <button style="float:right;" onclick="addSem22OverLoad(this);" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
             <div class="semester-row" id="row4">
-              <div class="target" id="year2sem2_1" ondrop="drop(event)">{{ SP_dict['Y2S2_1'] }}</div>
-              <div class="target" id="year2sem2_2" ondrop="drop(event)">{{ SP_dict['Y2S2_2'] }}</div>
-              <div class="target" id="year2sem2_3" ondrop="drop(event)">{{ SP_dict['Y2S2_3'] }}</div>
-              <div class="target" id="year2sem2_4" ondrop="drop(event)">{{ SP_dict['Y2S2_4'] }}</div>
+              <div class="target" id="year2sem2_1" ondrop="drop(event)">{% if SP_dict['Y2S2_1'] | length %}<li id="{{ SP_dict['Y2S2_1'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y2S2_1'] }}</li>{% else %}{% endif %}</div>
+              <div class="target" id="year2sem2_2" ondrop="drop(event)">{% if SP_dict['Y2S2_2'] | length %}<li id="{{ SP_dict['Y2S2_2'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y2S2_2'] }}</li>{% else %}{% endif %}</div>
+              <div class="target" id="year2sem2_3" ondrop="drop(event)">{% if SP_dict['Y2S2_3'] | length %}<li id="{{ SP_dict['Y2S2_3'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y2S2_3'] }}</li>{% else %}{% endif %}</div>
+              <div class="target" id="year2sem2_4" ondrop="drop(event)">{% if SP_dict['Y2S2_4'] | length %}<li id="{{ SP_dict['Y2S2_4'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y2S2_4'] }}</li>{% else %}{% endif %}</div>
               {% if SP_dict['Y1S2_5']|length <1 %}
                 <div class="target" id="year2sem2_5" ondrop="drop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
               {% else %}
-                <div class="target" id="year2sem2_5" ondrop="drop(event)" style="display: block;">{{ SP_dict['Y2S2_5'] }}</div>  <!-- if overloading, unhide -->
+                <div class="target" id="year2sem2_5" ondrop="drop(event)">{% if SP_dict['Y2S2_5'] | length %}<li id="{{ SP_dict['Y2S2_5'] }}" ondragstart="drag(event)" draggable="true">{{ SP_dict['Y2S2_5'] }}</li>{% else %}{% endif %}</div>
               {% endif %}
             </div>
           </div>
@@ -263,7 +263,6 @@
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
 <script>
-
 // Save button function
 
 function SaveSP(){
@@ -329,6 +328,8 @@ unitInformation = unitInformation.split('***')
 unitInformation = unitInformation.map(elem => elem.replace(", ", "")); 
 unitInformation = unitInformation.map(elem => elem.replace(": ", "")); 
 
+
+// ON DOM LOAD EVENTLISTENER STARTS HERE
 window.addEventListener('DOMContentLoaded', (event) => {
   //Creates array to check for loaded units and omit them from select units sidebar.
   var loadedUnits = document.getElementById("loadedUnits").innerHTML;
@@ -584,7 +585,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
       })
     }
-
 
 }); // EVENT LISTENER ON WINDOW DOM ENDS HERE
 
