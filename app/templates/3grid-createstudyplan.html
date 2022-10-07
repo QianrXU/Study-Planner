@@ -553,18 +553,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
         else {changeBorderGreen(targetID);}
       }
      
-      // prerequisite constraint
-      invalid = checkPrerequisites(sourceInfo); // run function and save result in variable: invalid. invalid will hold all id's of unit divs where unit cannot be placed
+      // prerequisite constraint (user selects 1. prerequisite unit e.g., CITS1001, 2. triggering unit e.g., CITS4401)
+      invalid = checkPrerequisites1(sourceInfo); // run function and save result in variable: invalid. invalid will hold all id's of unit divs where unit cannot be placed
       invalidDrops = invalid[0];
       triggerunit = invalid[1];
-      preqrequnit = invalid[2]
-      if (invalidDrops.toString().includes(targetID)) {
+      preqrequnit = invalid[2];
+      check = invalid[3];
+      
+      if (invalidDrops.toString().includes(targetID) || check == true) { // if the target div's ID is in invalidDrops, do not allow drop of unit
         alert("You must take " + preqrequnit + " before you can take " + triggerunit);
         changeBorderRed(targetID);
         return false;
-      }
-        else {changeBorderGreen(targetID);
-      }
+      } else {changeBorderGreen(targetID); }
 
       // the below adds an event listener for dragover events on target divs - if a target div already holds a unit, 
       // the below will prevent a user from populating it with a second unit
@@ -586,8 +586,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById(nodeID).addEventListener('click', function handleClick(event) {
       //remove remove unit x upon lift of unit
       unit = document.getElementById(sourceInfo.id) // get unit info from the unit/li's ID
-      //console.log(nodeID);
-      //console.log(sourceInfo.id);
       ul_of_unit = unit.getAttribute('tag'); // get tag value from unit, which will be its initial 
       ul = document.getElementById(ul_of_unit); // get the ul
 
@@ -638,30 +636,36 @@ function getunitgrid() {
   return(stateofGrid);
 }
 
-function checkPrerequisites(sourceInfo) {
+function checkPrerequisites1(sourceInfo) {
   gridstate = getunitgrid(); // get the current state of the grid as of dragstart of li/unit
   unitselected = sourceInfo.id // User selects CITS4401 Software Requirements and Design
   invalidfordrop = [];
-    for (var key in prereq){if (key == unitselected) {unitprereq = prereq[key];}} // get prereq of selected unit, save into variable called unitprereq
-    prerequisiteunitlist = [] 
-    for (var unit in prereq){if (unitprereq.includes(unit)) {prerequisiteunitlist.push(unit)}} // if a selected a.k.a triggering unit has been selected, push its prerequisite units into prerequisiteunitlist
-    // check if prerequisite unit on grid
+  for (var key in prereq){if (key == unitselected) {unitprereq = prereq[key];}} // get prereq of selected unit, save into variable called unitprereq
+  prerequisiteunitlist = [] 
+  for (var unit in prereq){if (unitprereq.includes(unit)) {prerequisiteunitlist.push(unit)}} // if a selected a.k.a triggering unit has been selected, push its prerequisite units into prerequisiteunitlist
+  check = ""; // initialise
+  if (prerequisiteunitlist.length != 0) {check = true;}// unit does not have prerequisite
+  if (prerequisiteunitlist.length > 0) { // unit has prerequisite
     for (const [key, value] of Object.entries(gridstate)) { // key == id of target div and value == id of potential unit (undefined if empty)
-      // NEED TO CHECK FOR  more than one element in prerequisiteunitlist
-      if (value !== undefined && value == prerequisiteunitlist[0]) { // returns position in grid of prerequisite unit
-        prereqPositionOnGrid = key
-        index = Object.keys(gridstate).indexOf(prereqPositionOnGrid) // index will hold length of unit divs up until the occurrence of the prerequisite unit
-        divs = document.querySelectorAll('.target');
-        for (i = 0; i < index; i++) {invalidfordrop.push(divs[i].id);} // push all div ids up to length of target div into invalid for drop list
-        lastOccurringDiv = divs[index].id; // we need to make sure the whole row gets added to the invalidfordrop list. find the index of the target div
-        parentrow = document.getElementById(lastOccurringDiv).parentNode.id; // find the parent, i.e., the row id of the parent div that surrounds the unit row
-        childdivs = document.getElementById(parentrow).querySelectorAll("div"); // find all children, a.k.a divs on that row
-        for (i = 0; i < 5; i++) {invalidfordrop.push(childdivs[i].id);}
+    // NEED TO CHECK FOR  MORE THAN ONE ELEMENT IN prerequisiteunitlist, CURRENTLY ONLY CHECKING INDEX 0
+    if (value !== undefined && value == prerequisiteunitlist[0]) { // returns position in grid of prerequisite unit
+      prereqPositionOnGrid = key
+      var index = Object.keys(gridstate).indexOf(prereqPositionOnGrid) // index will hold length of unit divs up until the occurrence of the prerequisite unit
+      divs = document.querySelectorAll('.target');
+      for (i = 0; i < index; i++) {invalidfordrop.push(divs[i].id);} // push all div ids up to length of target div into invalid for drop list
+      lastOccurringDiv = divs[index].id; // we need to make sure the whole row gets added to the invalidfordrop list. find the index of the target div
+      parentrow = document.getElementById(lastOccurringDiv).parentNode.id; // find the parent, i.e., the row id of the parent div that surrounds the unit row
+      childdivs = document.getElementById(parentrow).querySelectorAll("div"); // find all children, a.k.a divs on that row
+      for (i = 0; i < 5; i++) {invalidfordrop.push(childdivs[i].id);}
+      check = false;
       }
     }
-    invalidfordrop = [...new Set(invalidfordrop)]; // remove duplicates from array
-    return [invalidfordrop, unitselected, prerequisiteunitlist[0]];
+  }
+  invalidfordrop = [...new Set(invalidfordrop)]; // remove duplicates from array
+  return [invalidfordrop, unitselected, prerequisiteunitlist[0], check];
 }
+
+
 
 // reset button for clearing screen
 const reset = document.getElementById("reset");
