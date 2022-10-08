@@ -702,17 +702,54 @@ window.addEventListener('DOMContentLoaded', (event) => {
       }
      
       // prerequisite constraint (user selects 1. prerequisite unit e.g., CITS1001, 2. triggering unit e.g., CITS4401)
-      invalid = checkPrerequisites1(sourceInfo); // run function and save result in variable: invalid. invalid will hold all id's of unit divs where unit cannot be placed
-      invalidDrops = invalid[0];
-      triggerunit = invalid[1];
-      preqrequnit = invalid[2];
-      check = invalid[3];
-      
-      if (invalidDrops.toString().includes(targetID) || check == true) { // if the target div's ID is in invalidDrops, do not allow drop of unit
-        alert("You must take " + preqrequnit + " before you can take " + triggerunit);
+      pre_invalid = checkPrerequisites(sourceInfo); // run function and save result in variable: co_invalid. invalid will hold all id's of unit divs where unit cannot be placed
+      pre_validdropzone = pre_invalid[0];
+      triggerunit = pre_invalid[1];
+      preqrequnit = pre_invalid[2];
+      if (pre_validdropzone.length != 0 && !pre_validdropzone.includes(targetID)) { // if the target div's ID is in pre_invalid, do not allow drop of unit
+      alert("You must take " + preqrequnit + " before taking " + triggerunit);
+        changeBorderRed(targetID);
+        return false;
+      }
+      else if (check == true) { // if the target div's ID is in pre_invalid, do not allow drop of unit
+      alert("You must select the prerequisite unit, " + preqrequnit + ", before you select " + triggerunit);
         changeBorderRed(targetID);
         return false;
       } else {changeBorderGreen(targetID); }
+
+      // incompatibilities constraint
+      incomp_invalid = checkIncompatibilities(sourceInfo);
+      incomp_triggerunit = incomp_invalid[0];
+      incomp_incompunit = incomp_invalid[1];
+      incomp_PositionOnGrid = incomp_invalid[2]; // if unit is not present on grid, this var will hold index -1
+      incomp_check = incomp_invalid[3];
+      if (incomp_PositionOnGrid !== -1) {
+        alert(incomp_triggerunit + " is incompatible with a unit, " + incomp_incompunit + ", you have on the grid.");
+        changeBorderRed(targetID);
+        return false;
+      } else if (incomp_check == true) {
+        alert(incomp_triggerunit + " is incompatible with a unit, " + incomp_incompunit + ", you have on the grid.");
+        changeBorderRed(targetID);
+        return false;
+      }
+      else {changeBorderGreen(targetID); }
+      
+      // corequisite constraint
+      co_invalid = checkCorequisites(sourceInfo); // run function and save result in variable: co_invalid. invalid will hold all id's of unit divs where unit cannot be placed
+      validdropzone = co_invalid[0];
+      co_triggerunit = co_invalid[1];
+      co_coreunit = co_invalid[2];
+      if (validdropzone.length != 0 && !validdropzone.includes(targetID)) { // if the target div's ID is in pre_invalid, do not allow drop of unit
+      alert("You must take " + co_coreunit + " before, or while, taking " + co_triggerunit);
+        changeBorderRed(targetID);
+        return false;
+      }
+      else if (check == true) { // if the target div's ID is in pre_invalid, do not allow drop of unit
+      alert("You must select the corequisite unit, " + co_coreunit + ", before you select " + co_triggerunit);
+        changeBorderRed(targetID);
+        return false;
+      } else {changeBorderGreen(targetID); }
+
 
       // the below adds an event listener for dragover events on target divs - if a target div already holds a unit, 
       // the below will prevent a user from populating it with a second unit
@@ -783,35 +820,88 @@ function getunitgrid() {
   return(stateofGrid);
 }
 
-function checkPrerequisites1(sourceInfo) {
+
+function checkIncompatibilities(sourceInfo) {
   gridstate = getunitgrid(); // get the current state of the grid as of dragstart of li/unit
-  unitselected = sourceInfo.id // User selects CITS4401 Software Requirements and Design
-  invalidfordrop = [];
-  for (var key in prereq){if (key == unitselected) {unitprereq = prereq[key];}} // get prereq of selected unit, save into variable called unitprereq
+  triggerunit = sourceInfo.id // User selects e.g., OCEN4007 Renewable Ocean Energy
+  for (var key in incompatibilities){if (key == triggerunit) {incompatible_unit = incompatibilities[key];}} // get incompatibilities of selected unit, save into variable
+  incompatible_unitlist = []
+  for (var unit in incompatibilities){if (incompatible_unit.includes(unit)) {incompatible_unitlist.push(unit)}}
+  index = -1;
+  check = false;
+  for (const [key, value] of Object.entries(gridstate)) { // key == id of target div and value == id of potential unit (undefined if empty)
+    // NEED TO CHECK FOR  MORE THAN ONE ELEMENT IN incompatible_unitlist, CURRENTLY ONLY CHECKING INDEX 0
+    if (value !== undefined && value == incompatible_unitlist[0]) { // returns position in grid of incompatible unit
+      incomp = incompatible_unitlist[0];
+      incompPositionOnGrid = key
+      var index = Object.keys(gridstate).indexOf(incompPositionOnGrid) // index = the index of the unit div where the unit is on the grid
+    }
+    if (value !== undefined) {
+      for (var unit in incompatibilities){if (unit == value) {incompatible_unit = incompatibilities[unit];}}
+      if (incompatible_unit.includes(triggerunit)){incomp = value; check = true;}
+    }
+  }
+  return [triggerunit, incomp, index, check];
+}
+
+// function for checking prerequisites
+function checkPrerequisites(sourceInfo) {
+  gridstate = getunitgrid(); // get the current state of the grid as of dragstart of li/unit
+  triggerunit = sourceInfo.id // User selects e.g., ENVE5551 Environmental Engineering Design Solutions Part 1, this is now the triggering unit
+  for (var key in prereq){if (key == triggerunit) {unitprereq = prereq[key];}} // get corequisite information of selected unit and save into variable called unitprereq
   prerequisiteunitlist = [] 
   for (var unit in prereq){if (unitprereq.includes(unit)) {prerequisiteunitlist.push(unit)}} // if a selected a.k.a triggering unit has been selected, push its prerequisite units into prerequisiteunitlist
+  invalidfordrop = [];
+  validfordrop = []
   check = ""; // initialise
-  if (prerequisiteunitlist.length != 0) {check = true;}// unit does not have prerequisite
-  if (prerequisiteunitlist.length > 0) { // unit has prerequisite
-    for (const [key, value] of Object.entries(gridstate)) { // key == id of target div and value == id of potential unit (undefined if empty)
-    // NEED TO CHECK FOR  MORE THAN ONE ELEMENT IN prerequisiteunitlist, CURRENTLY ONLY CHECKING INDEX 0
-    if (value !== undefined && value == prerequisiteunitlist[0]) { // returns position in grid of prerequisite unit
+  if (prerequisiteunitlist.length != 0) {check = true;}
+  for (const [key, value] of Object.entries(gridstate)) { // key == id of target div and value == id of potential unit (undefined if empty)
+    validfordrop.push(key);
+    if (value !== undefined && value == prerequisiteunitlist[0]) { // checks if unit is one of the values in the grid
       prereqPositionOnGrid = key
-      var index = Object.keys(gridstate).indexOf(prereqPositionOnGrid) // index will hold length of unit divs up until the occurrence of the prerequisite unit
+      var index = Object.keys(gridstate).indexOf(prereqPositionOnGrid) // index will hold the index position of the coreq unit, length of unit divs up until the occurrence of the prerequisite unit
       divs = document.querySelectorAll('.target');
-      for (i = 0; i < index; i++) {invalidfordrop.push(divs[i].id);} // push all div ids up to length of target div into invalid for drop list
-      lastOccurringDiv = divs[index].id; // we need to make sure the whole row gets added to the invalidfordrop list. find the index of the target div
+      for (i = 0; i < index; i++) {invalidfordrop.push(divs[i].id);} // push all div ids up to length of target div into valid for drop list
+      lastOccurringDiv = divs[index].id; // we need to make sure the whole row gets added to the validfordrop list. find the index of the target div
       parentrow = document.getElementById(lastOccurringDiv).parentNode.id; // find the parent, i.e., the row id of the parent div that surrounds the unit row
       childdivs = document.getElementById(parentrow).querySelectorAll("div"); // find all children, a.k.a divs on that row
       for (i = 0; i < 5; i++) {invalidfordrop.push(childdivs[i].id);}
       check = false;
-      }
     }
   }
   invalidfordrop = [...new Set(invalidfordrop)]; // remove duplicates from array
-  return [invalidfordrop, unitselected, prerequisiteunitlist[0], check];
+  validfordrop = validfordrop.filter(n => !invalidfordrop.includes(n))
+
+  return [validfordrop, triggerunit, prerequisiteunitlist[0], check];
 }
 
+// function for checking corequisites
+function checkCorequisites(sourceInfo) {
+  gridstate = getunitgrid(); // get the current state of the grid as of dragstart of li/unit
+  triggerunit = sourceInfo.id // User selects e.g., ENVE5551 Environmental Engineering Design Solutions Part 1, this is now the triggering unit
+  for (var key in corereq){if (key == triggerunit) {unitcoreq = corereq[key];}} // get corequisite information of selected unit and save into variable called unitcoreq
+  corequnitlist = [] 
+  for (var unit in corereq){if (unitcoreq.includes(unit)) {corequnitlist.push(unit)}} // if a selected a.k.a triggering unit has been selected, push its prerequisite units into prerequisiteunitlist
+  validfordrop = [];
+  corequnit = " ";
+  check = ""; // initialise
+  if (corequnitlist.length != 0) {check = true;}
+  for (const [key, value] of Object.entries(gridstate)) { // key == id of target div and value == id of potential unit (undefined if empty)
+    if (value !== undefined && value == corequnitlist[0]) { // checks if unit is one of the values in the grid
+      corereqPositionOnGrid = key
+      var index = Object.keys(gridstate).indexOf(corereqPositionOnGrid) // index will hold the index position of the coreq unit, length of unit divs up until the occurrence of the prerequisite unit
+      divs = document.querySelectorAll('.target');
+      for (i = 0; i < index; i++) {validfordrop.push(divs[i].id);} // push all div ids up to length of target div into valid for drop list
+      lastOccurringDiv = divs[index].id; // we need to make sure the whole row gets added to the validfordrop list. find the index of the target div
+      parentrow = document.getElementById(lastOccurringDiv).parentNode.id; // find the parent, i.e., the row id of the parent div that surrounds the unit row
+      childdivs = document.getElementById(parentrow).querySelectorAll("div"); // find all children, a.k.a divs on that row
+      for (i = 0; i < 5; i++) {validfordrop.push(childdivs[i].id);}
+      check = false;
+    }
+  }
+  validfordrop = [...new Set(validfordrop)]; // remove duplicates from array
+  return [validfordrop, triggerunit, corequnitlist[0], check];
+}
 
 
 // reset button for clearing screen
