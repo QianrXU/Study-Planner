@@ -564,6 +564,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
         return false;
       } else {changeBorderGreen(targetID); }
 
+      // incompatibilities constraint
+      incomp_invalid = checkIncompatibilities(sourceInfo);
+      incomp_triggerunit = incomp_invalid[0];
+      incomp_incompunit = incomp_invalid[1];
+      incomp_PositionOnGrid = incomp_invalid[2]; // if unit is not present on grid, this var will hold index -1
+      incomp_check = incomp_invalid[3];
+      if (incomp_PositionOnGrid !== -1) {
+        alert(incomp_triggerunit + " is incompatible with a unit, " + incomp_incompunit + ", you have on the grid.");
+        changeBorderRed(targetID);
+        return false;
+      } else if (incomp_check == true) {
+        alert(incomp_triggerunit + " is incompatible with a unit, " + incomp_incompunit + ", you have on the grid.");
+        changeBorderRed(targetID);
+        return false;
+      }
+      else {changeBorderGreen(targetID); }
+      
       // corequisite constraint
       co_invalid = checkCorequisites(sourceInfo); // run function and save result in variable: co_invalid. invalid will hold all id's of unit divs where unit cannot be placed
       validdropzone = co_invalid[0];
@@ -579,11 +596,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
         changeBorderRed(targetID);
         return false;
       } else {changeBorderGreen(targetID); }
-
-
-
-
-
 
 
       // the below adds an event listener for dragover events on target divs - if a target div already holds a unit, 
@@ -655,6 +667,30 @@ function getunitgrid() {
   divs = document.querySelectorAll('.target');
   for (i = 0; i < divs.length; i++) {stateofGrid[divs[i].id] = divs[i].childNodes[0]?.innerHTML;}
   return(stateofGrid);
+}
+
+
+function checkIncompatibilities(sourceInfo) {
+  gridstate = getunitgrid(); // get the current state of the grid as of dragstart of li/unit
+  triggerunit = sourceInfo.id // User selects e.g., OCEN4007 Renewable Ocean Energy
+  for (var key in incompatibilities){if (key == triggerunit) {incompatible_unit = incompatibilities[key];}} // get incompatibilities of selected unit, save into variable
+  incompatible_unitlist = []
+  for (var unit in incompatibilities){if (incompatible_unit.includes(unit)) {incompatible_unitlist.push(unit)}}
+  index = -1;
+  check = false;
+  for (const [key, value] of Object.entries(gridstate)) { // key == id of target div and value == id of potential unit (undefined if empty)
+    // NEED TO CHECK FOR  MORE THAN ONE ELEMENT IN incompatible_unitlist, CURRENTLY ONLY CHECKING INDEX 0
+    if (value !== undefined && value == incompatible_unitlist[0]) { // returns position in grid of incompatible unit
+      incomp = incompatible_unitlist[0];
+      incompPositionOnGrid = key
+      var index = Object.keys(gridstate).indexOf(incompPositionOnGrid) // index = the index of the unit div where the unit is on the grid
+    }
+    if (value !== undefined) {
+      for (var unit in incompatibilities){if (unit == value) {incompatible_unit = incompatibilities[unit];}}
+      if (incompatible_unit.includes(triggerunit)){incomp = value; check = true;}
+    }
+  }
+  return [triggerunit, incomp, index, check];
 }
 
 // function for checking prerequisites (situation where you have to select a unit prior to another)
