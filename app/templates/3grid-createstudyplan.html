@@ -518,10 +518,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
           var currentCredits=parseInt(unitsTaken[x][0]) + parseInt(unitCredits);
           unitsTaken[x][0]=currentCredits;          
           if(unitsTaken[x][0]>unitsTaken[x][1]){
-            groupPoints='<span id="group'+ x +'"style="color:orange"> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>'
+            groupID='group'+ x;
+            groupPoints='<span id='+ groupID + ' style="color:orange"> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>'
           }
           else{
-            groupPoints='<span id="group"'+ x +'> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>';
+            groupID='group'+ x;
+            groupPoints='<span id='+ groupID +'> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>';
           }
           
           //create loaded units in grid
