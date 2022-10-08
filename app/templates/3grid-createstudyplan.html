@@ -319,6 +319,9 @@ incompatibilities = JSON.parse(incompatibilities);
 creditpoints = JSON.parse(creditpoints);
 availabilityofunits = JSON.parse(availabilityofunits);
 
+var unitsTaken = []; //This array tracks how many units are in the study plan grid from each group.	
+var unitlists1= {}; //Global units list.
+
 // Remove major information from frontend if doesn't contain anything valuable
 if (document.getElementById("course-major").innerHTML == "No major or specialisation available"){
   document.getElementById("course-major").style.display = "none";
@@ -364,7 +367,6 @@ function removeUnit(nodeID, sourceInfo, item, closebutton) {
       new_li.setAttribute("ondragstart", "drag(event)");
       new_li.setAttribute("class", unit.className);
       ul.append(new_li);
-
       })
     }
 
@@ -402,6 +404,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
   }
 
+  //index for unitsTaken array
+  var x=0
+
   unitsArray.forEach(element => {
     unitRole = element.split(", ***, "); // This split stirng is decided in routes.py
     unitRole = unitRole.map(elem => elem.replace(", ***", "")); // if there would be any erronous split symbols (&amp;*:,) that have come across despite the split, clean those up
@@ -413,9 +418,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
     unitRoleUnits = "No information to be displayed. Check with faculty.";
     }
     unitlists[unitRole[0]] = unitRoleUnits; // place in unitlists dictionary: key is index 0 (unit code) and value is index 2 (units belonging to this unit role) from unitRole list
+    unitlists1[unitRole[0]] = unitRoleUnits; // place in global unitlists1 dictionary.
 
     // Extract information about unit roles
     var unitInfo = unitRole[1] 
+
+    //Extracts the points needed for the unit group.
+    var groupPoints = unitInfo.replace(/[^0-9.]/g, ''); //removes all non-numeric characters.	
+    groupPoints = groupPoints.slice(0,2); 	
+    unitsTaken[x]= ['M1', 0, parseInt(groupPoints)];	
+    groupPoints = '<span id="group'+ x +'"> ' + unitsTaken[x][1] + '/' + unitsTaken[x][2] + '  </span>';
 
     // Process key-value pairs in unitlists dictionary
     for (const [key, value] of Object.entries(unitlists)) {
@@ -436,6 +448,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
       unitRoleHeader.appendChild(infoDiv);
       infoDiv.setAttribute('class', 'tooltipinfo');
       infoDiv.insertAdjacentHTML("afterbegin", '<i class="fa-solid fa-circle-info"></i>');
+      
+
 
       // appends unit info to tooltip icon
       const infotext = document.createElement("span");
@@ -449,7 +463,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
       var unitArrLength = unitArr.length // grab length of each unit role list
       for (i = 0; i < unitArrLength; i++) {
-        if(!(loadedArray.includes(unitArr[i].trim()))){ 
+        //If unit is already in the study plan do not load it into the sidebar and check how many credit points it is worth. Add that to the credit point total.
+        if(loadedArray.includes(unitArr[i].trim())){
+          var unitCredits=creditpoints[unitArr[i].trim()];
+          var currentCredits=parseInt(unitsTaken[x][1]) + parseInt(unitCredits);
+          unitsTaken[x][1]=currentCredits;          
+          if(unitsTaken[i][1]>unitsTaken[i][2]){
+            groupPoints='<span id="group'+ x +'"style="color:orange"> ' + unitsTaken[x][1] + '/' + unitsTaken[x][2] + '  </span>'
+          }
+          else{
+            groupPoints='<span id="group"'+ x +'> ' + unitsTaken[x][1] + '/' + unitsTaken[x][2] + '  </span>';
+          }
+        }
+        else{
           var lielement = document.createElement("li"); // create list item
           lielement.appendChild(document.createTextNode(unitArr[i].trim())); // create and append content of list item (i.e., unit)
           lielement.setAttribute("id", unitArr[i].trim()); // set ID of new list item to 'Unit Code Unit Name'
@@ -486,6 +512,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                   lielement.setAttribute("draggable", "false"); // prevent dragging of units with class non_standard
                   lielement.style.cursor = "pointer"; // change cursor of units with class non_standard to pointer, rather than 'grabbing'
               }
+
             }
             else {lielement.setAttribute("class", "element")}
             
@@ -493,7 +520,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
           }
         }
       }
+        // appends unit group points to header
+        infoDiv.insertAdjacentHTML("afterbegin", groupPoints);
     }
+    x+=1;
   });
 
   // This function needs to start after the page is loaded
@@ -659,7 +689,29 @@ function drop(event) {
   event.preventDefault();
   const data = event.dataTransfer.getData('dragID');
   event.target.appendChild(document.getElementById(data));
+  
+  //Get point value of dropped unit.
+  var unit=document.getElementById(data).innerHTML;	
+  var points=creditpoints[unit];	
+  
+  //Loops through unitlists1 to get unit's group, then updates the unit point tracker in that group.
+  var i=0;	
+  for (const [key, value] of Object.entries(unitlists1)) {
+    var unitArr = (`${value}`).split('***, '); 	
+    unitArr = unitArr.map(elem => elem.replace("***", ""));
+    if(unitArr.includes(unit)){
+      counter=unitsTaken[i][1];	
+      counter+= parseInt(points);	
+      unitsTaken[i][1]=counter;
+      groupId='group'+i;
+      groupPoints=unitsTaken[i][1] + '/' + unitsTaken[i][2];
+      document.getElementById(groupId).innerHTML=groupPoints;
+      if(unitsTaken[i][1]>unitsTaken[i][2]){document.getElementById(groupId).setAttribute("style","color:orange");}
+    }
+    i+=1;
+  }
 }
+
 
 // function for getting the state of the grid, i.e., what units in what divs, in a dictionary where key == id of target div, and value == id of any li element that is potentially in there. will return undefined as value if empty.
 function getunitgrid() {
