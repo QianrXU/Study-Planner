@@ -398,8 +398,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     //Extracts the points needed for the unit group.
     var groupPoints = unitInfo.replace(/[^0-9.]/g, ''); //removes all non-numeric characters.	
     groupPoints = groupPoints.slice(0,2); 	
-    unitsTaken[x]= ['M1', 0, parseInt(groupPoints)];	
-    groupPoints = '<span id="group'+ x +'"> ' + unitsTaken[x][1] + '/' + unitsTaken[x][2] + '  </span>';
+    unitsTaken[x]= [0, parseInt(groupPoints)];
+    groupID='group'+ x;
+    groupPoints='<span id='+ groupID +'> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>';
 
     // Process key-value pairs in unitlists dictionary
     for (const [key, value] of Object.entries(unitlists)) {
@@ -438,13 +439,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
         //If unit is already in the study plan do not load it into the sidebar and check how many credit points it is worth. Add that to the credit point total.
         if(loadedArray.includes(unitArr[i].trim())){
           var unitCredits=creditpoints[unitArr[i].trim()];
-          var currentCredits=parseInt(unitsTaken[x][1]) + parseInt(unitCredits);
-          unitsTaken[x][1]=currentCredits;          
-          if(unitsTaken[x][1]>unitsTaken[x][2]){
-            groupPoints='<span id="group'+ x +'"style="color:orange"> ' + unitsTaken[x][1] + '/' + unitsTaken[x][2] + '  </span>'
+          var currentCredits=parseInt(unitsTaken[x][0]) + parseInt(unitCredits);
+          unitsTaken[x][0]=currentCredits;          
+          if(unitsTaken[x][0]>unitsTaken[x][1]){
+            groupID='group'+ x;
+            groupPoints='<span id='+ groupID + ' style="color:orange"> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>'
           }
           else{
-            groupPoints='<span id="group"'+ x +'> ' + unitsTaken[x][1] + '/' + unitsTaken[x][2] + '  </span>';
+            groupID='group'+ x;
+            groupPoints='<span id='+ groupID +'> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>';
           }
         }
         else{
@@ -674,13 +677,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         unitArr = unitArr.map(elem => elem.replace("***", ""));
         if(unitArr.includes(unitName)){
           console.log(unitName)
-          counter=unitsTaken[i][1];	
+          counter=unitsTaken[i][0];	
           counter-= parseInt(points);	
-          unitsTaken[i][1]=counter;
+          unitsTaken[i][0]=counter;
           groupId='group'+i;
-          groupPoints=unitsTaken[i][1] + '/' + unitsTaken[i][2];
+          groupPoints=unitsTaken[i][0] + '/' + unitsTaken[i][1];
           document.getElementById(groupId).innerHTML=groupPoints;
-          if(unitsTaken[i][1]<=unitsTaken[i][2]){document.getElementById(groupId).setAttribute("style","color:black");}
+          if(unitsTaken[i][0]<=unitsTaken[i][1]){document.getElementById(groupId).setAttribute("style","color:black");}
         }
         i+=1;
       }
@@ -729,13 +732,13 @@ function drop(event) {
     var unitArr = (`${value}`).split('***, '); 	
     unitArr = unitArr.map(elem => elem.replace("***", ""));
     if(unitArr.includes(unit)){
-      counter=unitsTaken[i][1];	
+      counter=unitsTaken[i][0];	
       counter+= parseInt(points);	
-      unitsTaken[i][1]=counter;
+      unitsTaken[i][0]=counter;
       groupId='group'+i;
-      groupPoints=unitsTaken[i][1] + '/' + unitsTaken[i][2];
+      groupPoints=unitsTaken[i][0] + '/' + unitsTaken[i][1];
       document.getElementById(groupId).innerHTML=groupPoints;
-      if(unitsTaken[i][1]>unitsTaken[i][2]){document.getElementById(groupId).setAttribute("style","color:orange");}
+      if(unitsTaken[i][0]>unitsTaken[i][1]){document.getElementById(groupId).setAttribute("style","color:orange");}
     }
     i+=1;
   }
