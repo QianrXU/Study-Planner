@@ -340,6 +340,34 @@ unitInformation = unitInformation.split('***')
 unitInformation = unitInformation.map(elem => elem.replace(", ", "")); 
 unitInformation = unitInformation.map(elem => elem.replace(": ", "")); 
 
+// function for removing a unit
+function removeUnit(nodeID, sourceInfo, item, closebutton) {
+    // add eventlistener on the nodeID, i.e., the ID of the removal unit button
+    document.getElementById(nodeID).addEventListener('click', function handleClick(event) {
+      //remove remove unit x upon lift of unit
+      unit = document.getElementById(sourceInfo.id) // get unit info from the unit/li's ID
+      ul_of_unit = unit.getAttribute('tag'); // get tag value from unit, which will be its initial 
+      console.log(ul_of_unit);
+      ul = document.getElementById(ul_of_unit); // get the ul
+
+      // remove old elements
+      div = document.getElementById(item.id); // get old li, i.e., li that is in the unitdiv
+      div.childNodes[0].remove();
+      closebutton.remove();
+
+      // recreate element item and append to initial ul
+      var new_li = document.createElement("li");
+      new_li.appendChild(document.createTextNode(unit.id));
+      new_li.setAttribute("id", unit.id);
+      new_li.setAttribute("tag", ul_of_unit);
+      new_li.setAttribute("draggable", "true");
+      new_li.setAttribute("ondragstart", "drag(event)");
+      new_li.setAttribute("class", unit.className);
+      ul.append(new_li);
+
+      })
+    }
+
 
 // ON DOM LOAD EVENTLISTENER STARTS HERE
 window.addEventListener('DOMContentLoaded', (event) => {
@@ -514,7 +542,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
       document.getElementById(item.id).appendChild(node);
       var closebutton = document.getElementById(nodeID);
       closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
-      removeUnit(nodeID, sourceInfo, item, closebutton);
+      console.log(item);
+      console.log(closebutton);
+      removeUnit(nodeID, sourceInfo, item, closebutton); 
     })
 
     item.addEventListener('dragstart', (event) => { 
@@ -581,33 +611,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   })
   
-  // function for removing a unit
-  function removeUnit(nodeID, sourceInfo, item, closebutton) {
-    // add eventlistener on the nodeID, i.e., the ID of the removal unit button
-    document.getElementById(nodeID).addEventListener('click', function handleClick(event) {
-      //remove remove unit x upon lift of unit
-      unit = document.getElementById(sourceInfo.id) // get unit info from the unit/li's ID
-      ul_of_unit = unit.getAttribute('tag'); // get tag value from unit, which will be its initial 
-      ul = document.getElementById(ul_of_unit); // get the ul
-
-      // remove old elements
-      div = document.getElementById(item.id); // get old li, i.e., li that is in the unitdiv
-      div.childNodes[0].remove();
-      closebutton.remove();
-
-      // recreate element item and append to initial ul
-      var new_li = document.createElement("li");
-      new_li.appendChild(document.createTextNode(unit.id));
-      new_li.setAttribute("id", unit.id);
-      new_li.setAttribute("tag", ul_of_unit);
-      new_li.setAttribute("draggable", "true");
-      new_li.setAttribute("ondragstart", "drag(event)");
-      new_li.setAttribute("class", unit.className);
-      ul.append(new_li);
-
-      })
-    }
-
+  
 }); // EVENT LISTENER ON WINDOW DOM ENDS HERE
 
 // handling of loaded units
@@ -615,13 +619,27 @@ var targetdiv = document.querySelectorAll('.target'); // get all divs on grid
 for (var i = 0; i < targetdiv.length; i++) {
   if (targetdiv[i].innerHTML.length > 0) { // if element not empty, perform the below steps. if element is empty, it shouldn't do the below as it's a new grid. the question mark checks if childnode is undefined and makes sure the loop doesnt stop if it is.
     unitcode = targetdiv[i].innerHTML;
+    ul_of_unit = 'unit-ul';
     while (targetdiv[i].firstChild) {targetdiv[i].removeChild(targetdiv[i].firstChild);} // have to remove the loaded unit (jinja variable), but the value within it is stored in the new unitcode variable which is recreated in the li below
     var new_li = document.createElement("li");
     new_li.appendChild(document.createTextNode(unitcode));
     new_li.setAttribute("id", unitcode); // set id of loaded li to innerHTML of element
+    new_li.setAttribute("tag", ul_of_unit);
     new_li.setAttribute("draggable", "true"); 
     new_li.setAttribute("ondragstart", "drag(event)"); 
     targetdiv[i].append(new_li);
+
+    // create remove unit x dynamically
+    const node = document.createElement('span');
+    nodeID = unitcode + " node";
+    node.setAttribute("id", nodeID);
+    node.setAttribute("class", "removeunitbutton");
+    targetdiv[i].appendChild(node);
+    var sourceInfo=targetdiv[i].innerHTML;
+    var closebutton = document.getElementById(nodeID);
+    closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
+    console.log(closebutton);
+    removeUnit(nodeID, sourceInfo, targetdiv[i], closebutton);
   }
 }
 
