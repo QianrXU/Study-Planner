@@ -664,17 +664,16 @@ function checkIncompatibilities(sourceInfo) {
   for (const [key, value] of Object.entries(gridstate)) { // key == id of target div and value == id of potential unit (undefined if empty)
     // NEED TO CHECK FOR  MORE THAN ONE ELEMENT IN incompatible_unitlist, CURRENTLY ONLY CHECKING INDEX 0
     if (value !== undefined && value == incompatible_unitlist[0]) { // returns position in grid of incompatible unit
+      incomp = incompatible_unitlist[0];
       incompPositionOnGrid = key
-      console.log("thisone")
       var index = Object.keys(gridstate).indexOf(incompPositionOnGrid) // index = the index of the unit div where the unit is on the grid
     }
     if (value !== undefined) {
       for (var unit in incompatibilities){if (unit == value) {incompatible_unit = incompatibilities[unit];}}
-      if (incompatible_unit.includes(triggerunit)){check = true;}
+      if (incompatible_unit.includes(triggerunit)){incomp = value; check = true;}
     }
   }
-
-  return [triggerunit, incompatible_unitlist[0], index, check];
+  return [triggerunit, incomp, index, check];
 }
 
 
