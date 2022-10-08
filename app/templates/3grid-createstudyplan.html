@@ -322,7 +322,6 @@ availabilityofunits = JSON.parse(availabilityofunits);
 
 var unitsTaken = []; //This array tracks how many units are in the study plan grid from each group.	
 var unitlists1= {}; //Global units list.
-var coreComplete = false; //Boolean to track if core units are completed.
 
 // Remove major information from frontend if doesn't contain anything valuable
 if (document.getElementById("course-major").innerHTML == "No major or specialisation available"){
@@ -436,7 +435,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
       var unitArrLength = unitArr.length // grab length of each unit role list
       for (i = 0; i < unitArrLength; i++) {
-        //TODO: For each element not in unitArr, add point value to unitsTaken[x][1] Then reassign innerhtml after loop finishes.
+        //If unit is already in the study plan do not load it into the sidebar and check how many credit points it is worth. Add that to the credit point total.
         if(loadedArray.includes(unitArr[i].trim())){
           var unitCredits=creditpoints[unitArr[i].trim()];
           var currentCredits=parseInt(unitsTaken[x][1]) + parseInt(unitCredits);
@@ -480,16 +479,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                   lielement.setAttribute("draggable", "false"); // prevent dragging of units with class non_standard
                   lielement.style.cursor = "pointer"; // change cursor of units with class non_standard to pointer, rather than 'grabbing'
               }
-              //TODO: Figure out how to handle loaded study plans where all core units have been assigned.	
-              //alert(unitsTaken);
-              if (key!='Core'){ //&& unitsTaken[1][1] != unitsTaken[1][2]) {	
-                //lielement.setAttribute("class", "non_core"); //set this to apply element warning.	
-                lielement.setAttribute("draggable", "false"); // prevent dragging of units with class non_standard	
-                lielement.style.cursor = "pointer";	
-              }
-              if (key=='Core' && parseInt(unitsTaken[x][1]) == parseInt(unitsTaken[x][2])){ 	
-                coreComplete = true;
-              }
+
             }
             else {lielement.setAttribute("class", "element")}
             
@@ -662,19 +652,28 @@ function drop(event) {
   event.preventDefault();
   const data = event.dataTransfer.getData('dragID');
   event.target.appendChild(document.getElementById(data));
-  //Code to track credit points	
+  
+  //Get point value of dropped unit.
   var unit=document.getElementById(data).innerHTML;	
   var points=creditpoints[unit];	
+  
+  //Loops through unitlists1 to get unit's group, then updates the unit point tracker in that group.
   var i=0;	
-  //for (const [key, value] of Object.entries(unitlists1)) {	
-    //var unitArr = (`${value}`).split('***, '); 	
-    //unitArr = unitArr.map(elem => elem.replace("***", "")); 	
-    //if(unitArr.includes(unit)){	
-    //  console.log(unitsTaken);	
-    //  counter=unitsTaken[i][1];	
-    //  counter+= parseInt(points);	
-    //  console.log(counter);
+  for (const [key, value] of Object.entries(unitlists1)) {
+    var unitArr = (`${value}`).split('***, '); 	
+    unitArr = unitArr.map(elem => elem.replace("***", ""));
+    if(unitArr.includes(unit)){
+      counter=unitsTaken[i][1];	
+      counter+= parseInt(points);	
+      unitsTaken[i][1]=counter;
+      groupId='group'+i;
+      groupPoints=unitsTaken[i][1] + '/' + unitsTaken[i][2];
+      document.getElementById(groupId).innerHTML=groupPoints;
+    }
+    i+=1;
+  }
 }
+
 
 // function for getting the state of the grid, i.e., what units in what divs, in a dictionary where key == id of target div, and value == id of any li element that is potentially in there. will return undefined as value if empty.
 function getunitgrid() {
