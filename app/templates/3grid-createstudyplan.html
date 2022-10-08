@@ -586,23 +586,28 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         else {changeBorderGreen(targetID);}
       }
+
+      //       //x = document.querySelectorAll('.target > li');
+      //       alert = document.getElementById('warning')
+      // alert.style.display = 'none';
      
       // prerequisite constraint (user selects 1. prerequisite unit e.g., CITS1001, 2. triggering unit e.g., CITS4401)
       pre_invalid = checkPrerequisites(sourceInfo); // run function and save result in variable: co_invalid. invalid will hold all id's of unit divs where unit cannot be placed
       pre_validdropzone = pre_invalid[0];
       triggerunit = pre_invalid[1];
       preqrequnit = pre_invalid[2];
-      if (pre_validdropzone.length != 0 && !pre_validdropzone.includes(targetID)) { // if the target div's ID is in pre_invalid, do not allow drop of unit
+      if (pre_validdropzone.length != 0 && !pre_validdropzone.includes(targetID) && preqrequnit != undefined) { // if the target div's ID is in pre_invalid, do not allow drop of unit
       alert("You must take " + preqrequnit + " before taking " + triggerunit);
         changeBorderRed(targetID);
         return false;
-      }
+      } 
       else if (check == true) { // if the target div's ID is in pre_invalid, do not allow drop of unit
       alert("You must select the prerequisite unit, " + preqrequnit + ", before you select " + triggerunit);
         changeBorderRed(targetID);
         return false;
       } else {changeBorderGreen(targetID); }
 
+      
       // incompatibilities constraint
       incomp_invalid = checkIncompatibilities(sourceInfo);
       incomp_triggerunit = incomp_invalid[0];
@@ -814,7 +819,7 @@ function checkCorequisites(sourceInfo) {
   triggerunit = sourceInfo.id // User selects e.g., ENVE5551 Environmental Engineering Design Solutions Part 1, this is now the triggering unit
   for (var key in corereq){if (key == triggerunit) {unitcoreq = corereq[key];}} // get corequisite information of selected unit and save into variable called unitcoreq
   corequnitlist = [] 
-  for (var unit in corereq){if (unitcoreq.includes(unit)) {corequnitlist.push(unit)}} // if a selected a.k.a triggering unit has been selected, push its prerequisite units into prerequisiteunitlist
+  for (var unit in corereq){if (unitcoreq.includes(unit)) {corequnitlist.push(unit)}} // if a selected a.k.a triggering unit has been selected, push its corequisite units into corequisitenitlist
   validfordrop = [];
   corequnit = " ";
   check = ""; // initialise
@@ -822,7 +827,7 @@ function checkCorequisites(sourceInfo) {
   for (const [key, value] of Object.entries(gridstate)) { // key == id of target div and value == id of potential unit (undefined if empty)
     if (value !== undefined && value == corequnitlist[0]) { // checks if unit is one of the values in the grid
       corereqPositionOnGrid = key
-      var index = Object.keys(gridstate).indexOf(corereqPositionOnGrid) // index will hold the index position of the coreq unit, length of unit divs up until the occurrence of the prerequisite unit
+      var index = Object.keys(gridstate).indexOf(corereqPositionOnGrid) // index will hold the index position of the coreq unit, length of unit divs up until the occurrence of the corequisite unit
       divs = document.querySelectorAll('.target');
       for (i = 0; i < index; i++) {validfordrop.push(divs[i].id);} // push all div ids up to length of target div into valid for drop list
       lastOccurringDiv = divs[index].id; // we need to make sure the whole row gets added to the validfordrop list. find the index of the target div
