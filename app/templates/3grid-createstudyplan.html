@@ -440,7 +440,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
           var unitCredits=creditpoints[unitArr[i].trim()];
           var currentCredits=parseInt(unitsTaken[x][1]) + parseInt(unitCredits);
           unitsTaken[x][1]=currentCredits;          
-          if(unitsTaken[i][1]>unitsTaken[i][2]){
+          if(unitsTaken[x][1]>unitsTaken[x][2]){
             groupPoints='<span id="group'+ x +'"style="color:orange"> ' + unitsTaken[x][1] + '/' + unitsTaken[x][2] + '  </span>'
           }
           else{
