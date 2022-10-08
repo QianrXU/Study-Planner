@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <!--https://github.com/QianrXU/Study-Planner/issues/13-->     
-<div>
+  
   <div class = "signup_div">
       <h3 class="signup_h3">Sign up</h3>
    </div>
@@ -22,7 +21,6 @@
                 {% endfor %}</td>              
             </tr>
             <tr>
-              <!--https://github.com/QianrXU/Study-Planner/issues/66-->
               <td class="loginsignup-td">{{ form.password.label }}</td>
               <td>{{ form.password(size=64) }}<br>
                 {% for error in form.password.errors %}
