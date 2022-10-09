@@ -496,8 +496,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
       infoDiv.setAttribute('class', 'tooltipinfo');
       infoDiv.insertAdjacentHTML("afterbegin", '<i class="fa-solid fa-circle-info"></i>');
       
-
-
       // appends unit info to tooltip icon
       const infotext = document.createElement("span");
       infotext.setAttribute('class', 'tooltiptextinfo');
@@ -533,7 +531,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
           new_li.appendChild(document.createTextNode(unitcode));
           new_li.setAttribute("id", unitcode); 
           new_li.setAttribute("tag", ulClass); 
-          new_li.setAttribute("draggable", "true"); 
+          new_li.setAttribute("draggable", "false"); 
           new_li.setAttribute("ondragstart", "drag(event)"); 
           var availabilityinfo = unitInformation.indexOf(unitcode)
 
@@ -663,7 +661,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
       removeUnit(nodeID, sourceInfo, item, closebutton); 
 
       document.getElementById(sourceInfo.id).setAttribute("draggable", "false"); // when unit is dropped on grid, set draggable to false 
-      document.getElementById(sourceInfo.id).style.cursor = "pointer"; // change cursor from grab to pointer
     })
 
     item.addEventListener('dragstart', (event) => { 

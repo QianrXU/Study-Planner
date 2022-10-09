@@ -488,7 +488,7 @@ li {
 }
 
 #grid-content li {
-  cursor: grab;
+  cursor: pointer;
 }
 
 .semester-paragraph {
