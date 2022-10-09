@@ -368,7 +368,6 @@ function removeUnit(nodeID, sourceInfo, item, closebutton) {
       var unitArr = (`${value}`).split('***, '); 	
       unitArr = unitArr.map(elem => elem.replace("***", ""));
       if(unitArr.includes(unitName)){
-        console.log(unitName)
         counter=unitsTaken[i][0];	
         counter-= parseInt(points);	
         unitsTaken[i][0]=counter;
@@ -809,30 +808,34 @@ function drag(event) {
 
 // drop makes sure that the id of the dropped element gets appended to the div, so when there's a drop, the unit's ID will appear in the div
 function drop(event) {
+  var parentId = sourceInfo.parentNode.id;
   event.preventDefault();
   const data = event.dataTransfer.getData('dragID');
   event.target.appendChild(document.getElementById(data));
   
-  //Get point value of dropped unit.
-  var unit=document.getElementById(data).innerHTML;	
-  var points=creditpoints[unit];	
-  
-  //Loops through unitlists1 to get unit's group, then updates the unit point tracker in that group.
-  var i=0;	
-  for (const [key, value] of Object.entries(unitlists1)) {
-    var unitArr = (`${value}`).split('***, '); 	
-    unitArr = unitArr.map(elem => elem.replace("***", ""));
-    if(unitArr.includes(unit)){
-      counter=unitsTaken[i][0];	
-      counter+= parseInt(points);	
-      unitsTaken[i][0]=counter;
-      groupId='group'+i;
-      pointTracker=unitsTaken[i][0] + '/' + unitsTaken[i][1];
-      document.getElementById(groupId).innerHTML= pointTracker;
-      if(unitsTaken[i][0]>unitsTaken[i][1]){document.getElementById(groupId).setAttribute("style","color:orange");}
-      break;
+  //Checks if unit is already in grid
+  if(parentId.includes('unit-ul')){
+    //Get point value of dropped unit.
+    var unit=document.getElementById(data).innerHTML;	
+    var points=creditpoints[unit];	
+    
+    //Loops through unitlists1 to get unit's group, then updates the unit point tracker in that group.
+    var i=0;	
+    for (const [key, value] of Object.entries(unitlists1)) {
+      var unitArr = (`${value}`).split('***, '); 	
+      unitArr = unitArr.map(elem => elem.replace("***", ""));
+      if(unitArr.includes(unit)){
+        counter=unitsTaken[i][0];	
+        counter+= parseInt(points);	
+        unitsTaken[i][0]=counter;
+        groupId='group'+i;
+        pointTracker=unitsTaken[i][0] + '/' + unitsTaken[i][1];
+        document.getElementById(groupId).innerHTML= pointTracker;
+        if(unitsTaken[i][0]>unitsTaken[i][1]){document.getElementById(groupId).setAttribute("style","color:orange");}
+        break;
+      }
+      i+=1;
     }
-    i+=1;
   }
 }
 
