@@ -99,14 +99,14 @@
             <p class="semester-paragraph" id="year1semester1" style="float:left;">Semester {{ startSem }}, {{ startYear }}</p> <button style="float:right;" onclick="OverLoad(this,'year1sem1_5','show_hide_bt1');" class="btn-ol" id="show_hide_bt1" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
           {% endif %}
           <div class="semester-row" id="row1"> <!--  Add/delete row button to add/delete. -->
-            <div class="target" id="year1sem1_1" ondrop="drop(event)">{{ SP_dict['Y1S1_1'] }}</div>
-            <div class="target" id="year1sem1_2" ondrop="drop(event)">{{ SP_dict['Y1S1_2'] }}</div>
-            <div class="target" id="year1sem1_3" ondrop="drop(event)">{{ SP_dict['Y1S1_3'] }}</div>
-            <div class="target" id="year1sem1_4" ondrop="drop(event)">{{ SP_dict['Y1S1_4'] }}</div> 
+            <div class="target" id="year1sem1_1" ondrop="drop(event)"></div>
+            <div class="target" id="year1sem1_2" ondrop="drop(event)"></div>
+            <div class="target" id="year1sem1_3" ondrop="drop(event)"></div>
+            <div class="target" id="year1sem1_4" ondrop="drop(event)"></div> 
             {% if SP_dict['Y1S1_5']|length <1 %}
               <div class="target" id="year1sem1_5" ondrop="drop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
             {% else %}
-              <div class="target" id="year1sem1_5" ondrop="drop(event)" style="display: block;">{{ SP_dict['Y1S1_5'] }}</div>  <!-- if overloading, unhide -->
+              <div class="target" id="year1sem1_5" ondrop="drop(event)" style="display: block;"></div> 
             {% endif %}
           </div>
 
@@ -128,14 +128,14 @@
               </p> <button style="float:right;" onclick="OverLoad(this,'year1sem2_5','show_hide_bt2');" class="btn-ol" id="show_hide_bt2" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
             <div class="semester-row" id="row2">
-              <div class="target" id="year1sem2_1" ondrop="drop(event)">{{ SP_dict['Y1S2_1'] }}</div>
-              <div class="target" id="year1sem2_2" ondrop="drop(event)">{{ SP_dict['Y1S2_2'] }}</div>
-              <div class="target" id="year1sem2_3" ondrop="drop(event)">{{ SP_dict['Y1S2_3'] }}</div>
-              <div class="target" id="year1sem2_4" ondrop="drop(event)">{{ SP_dict['Y1S2_4'] }}</div>
+              <div class="target" id="year1sem2_1" ondrop="drop(event)"></div>
+              <div class="target" id="year1sem2_2" ondrop="drop(event)"></div>
+              <div class="target" id="year1sem2_3" ondrop="drop(event)"></div>
+              <div class="target" id="year1sem2_4" ondrop="drop(event)"></div> 
               {% if SP_dict['Y1S2_5']|length <1 %}
                 <div class="target" id="year1sem2_5" ondrop="drop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
               {% else %}
-                <div class="target" id="year1sem2_5" ondrop="drop(event)" style="display: block;">{{ SP_dict['Y1S2_5'] }}</div>  <!-- if overloading, unhide -->
+              <div class="target" id="year1sem2_5" ondrop="drop(event)" style="display: block;"></div> <!-- if overloading, unhide -->
               {% endif %}
             </div>
 
@@ -158,14 +158,14 @@
             {% endif %}
 
             <div class="semester-row" id="row3">
-              <div class="target" id="year2sem1_1" ondrop="drop(event)">{{ SP_dict['Y2S1_1'] }}</div>
-              <div class="target" id="year2sem1_2" ondrop="drop(event)">{{ SP_dict['Y2S1_2'] }}</div>
-              <div class="target" id="year2sem1_3" ondrop="drop(event)">{{ SP_dict['Y2S1_3'] }}</div>
-              <div class="target" id="year2sem1_4" ondrop="drop(event)">{{ SP_dict['Y2S1_4'] }}</div>
+              <div class="target" id="year2sem1_1" ondrop="drop(event)"></div>
+              <div class="target" id="year2sem1_2" ondrop="drop(event)"></div>
+              <div class="target" id="year2sem1_3" ondrop="drop(event)"></div>
+              <div class="target" id="year2sem1_4" ondrop="drop(event)"></div> 
               {% if SP_dict['Y1S2_5']|length <1 %}
                 <div class="target" id="year2sem1_5" ondrop="drop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
               {% else %}
-                <div class="target" id="year2sem1_5" ondrop="drop(event)" style="display: block;">{{ SP_dict['Y2S1_5'] }}</div>  <!-- if overloading, unhide -->
+              <div class="target" id="year2sem1_5" ondrop="drop(event)" style="display: block;"></div> <!-- if overloading, unhide -->
               {% endif %}
             </div>
 
@@ -187,14 +187,14 @@
               </p> <button style="float:right;" onclick="OverLoad(this,'year2sem2_5','show_hide_bt4');" class="btn-ol" id="show_hide_bt4" data-html2canvas-ignore="true"><i class="fa fa-minus-circle"></i> Remove overload </button>
             {% endif %}
             <div class="semester-row" id="row4">
-              <div class="target" id="year2sem2_1" ondrop="drop(event)">{{ SP_dict['Y2S2_1'] }}</div>
-              <div class="target" id="year2sem2_2" ondrop="drop(event)">{{ SP_dict['Y2S2_2'] }}</div>
-              <div class="target" id="year2sem2_3" ondrop="drop(event)">{{ SP_dict['Y2S2_3'] }}</div>
-              <div class="target" id="year2sem2_4" ondrop="drop(event)">{{ SP_dict['Y2S2_4'] }}</div>
+              <div class="target" id="year2sem2_1" ondrop="drop(event)"></div>
+              <div class="target" id="year2sem2_2" ondrop="drop(event)"></div>
+              <div class="target" id="year2sem2_3" ondrop="drop(event)"></div>
+              <div class="target" id="year2sem2_4" ondrop="drop(event)"></div> 
               {% if SP_dict['Y1S2_5']|length <1 %}
                 <div class="target" id="year2sem2_5" ondrop="drop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
               {% else %}
-                <div class="target" id="year2sem2_5" ondrop="drop(event)" style="display: block;">{{ SP_dict['Y2S2_5'] }}</div>  <!-- if overloading, unhide -->
+              <div class="target" id="year2sem2_5" ondrop="drop(event)" style="display: block;"></div> <!-- if overloading, unhide -->
               {% endif %}
             </div>
           </div>
@@ -268,33 +268,32 @@
 
 <script>
 // Save button function
-
 function SaveSP(){
 // if button pressed, it sends all the Study Plan values to the backend.
 $.ajax({
   type: "POST",
   url: "{{ url_for('saveSP') }}",
   data: {
-    "year1sem1_1":document.getElementById("year1sem1_1").textContent,
-    "year1sem1_2":document.getElementById("year1sem1_2").textContent,
-    "year1sem1_3":document.getElementById("year1sem1_3").textContent,
-    "year1sem1_4":document.getElementById("year1sem1_4").textContent,
-    "year1sem1_5":document.getElementById("year1sem1_5").textContent,
-    "year1sem2_1":document.getElementById("year1sem2_1").textContent,
-    "year1sem2_2":document.getElementById("year1sem2_2").textContent,
-    "year1sem2_3":document.getElementById("year1sem2_3").textContent,
-    "year1sem2_4":document.getElementById("year1sem2_4").textContent,
-    "year1sem2_5":document.getElementById("year1sem2_5").textContent,
-    "year2sem1_1":document.getElementById("year2sem1_1").textContent,
-    "year2sem1_2":document.getElementById("year2sem1_2").textContent,
-    "year2sem1_3":document.getElementById("year2sem1_3").textContent,
-    "year2sem1_4":document.getElementById("year2sem1_4").textContent,
-    "year2sem1_5":document.getElementById("year2sem1_5").textContent,
-    "year2sem2_1":document.getElementById("year2sem2_1").textContent,
-    "year2sem2_2":document.getElementById("year2sem2_2").textContent,
-    "year2sem2_3":document.getElementById("year2sem2_3").textContent,
-    "year2sem2_4":document.getElementById("year2sem2_4").textContent,
-    "year2sem2_5":document.getElementById("year2sem2_5").textContent
+    "year1sem1_1":document.getElementById("year1sem1_1").innerText,
+    "year1sem1_2":document.getElementById("year1sem1_2").innerText,
+    "year1sem1_3":document.getElementById("year1sem1_3").innerText,
+    "year1sem1_4":document.getElementById("year1sem1_4").innerText,
+    "year1sem1_5":document.getElementById("year1sem1_5").innerText,
+    "year1sem2_1":document.getElementById("year1sem2_1").innerText,
+    "year1sem2_2":document.getElementById("year1sem2_2").innerText,
+    "year1sem2_3":document.getElementById("year1sem2_3").innerText,
+    "year1sem2_4":document.getElementById("year1sem2_4").innerText,
+    "year1sem2_5":document.getElementById("year1sem2_5").innerText,
+    "year2sem1_1":document.getElementById("year2sem1_1").innerText,
+    "year2sem1_2":document.getElementById("year2sem1_2").innerText,
+    "year2sem1_3":document.getElementById("year2sem1_3").innerText,
+    "year2sem1_4":document.getElementById("year2sem1_4").innerText,
+    "year2sem1_5":document.getElementById("year2sem1_5").innerText,
+    "year2sem2_1":document.getElementById("year2sem2_1").innerText,
+    "year2sem2_2":document.getElementById("year2sem2_2").innerText,
+    "year2sem2_3":document.getElementById("year2sem2_3").innerText,
+    "year2sem2_4":document.getElementById("year2sem2_4").innerText,
+    "year2sem2_5":document.getElementById("year2sem2_5").innerText
   },
   success: function( data ) {response=data;},
   error: function(xhr, status, error) {response = status;}
@@ -344,35 +343,110 @@ unitInformation = unitInformation.split('***')
 unitInformation = unitInformation.map(elem => elem.replace(", ", "")); 
 unitInformation = unitInformation.map(elem => elem.replace(": ", "")); 
 
+// function for removing a unit
+function removeUnit(nodeID, sourceInfo, item, closebutton) {
+  // add eventlistener on the nodeID, i.e., the ID of the removal unit button
+  document.getElementById(nodeID).addEventListener('click', function handleClick(event) {
+    //remove remove unit x upon lift of unit
+    unit = document.getElementById(sourceInfo.id) // get unit info from the unit/li's ID
+    ul_of_unit = unit.getAttribute('tag'); // get tag value from unit, which will be its initial
+    ul = document.getElementById(ul_of_unit); // get the ul
+
+
+    // remove old elements
+    div = document.getElementById(item.id); // get old li, i.e., li that is in the unitdiv
+    div.childNodes[0].remove();
+    closebutton.remove();
+
+    //remove unit points from the tracker
+    var unitName=unit.innerHTML;
+    var points=creditpoints[unitName];
+
+    //Loops through unitlists1 to get unit's group, then updates the unit point tracker in that group.
+    var i=0;	
+    for (const [key, value] of Object.entries(unitlists1)) {
+      var unitArr = (`${value}`).split('***, '); 	
+      unitArr = unitArr.map(elem => elem.replace("***", ""));
+      if(unitArr.includes(unitName)){
+        counter=unitsTaken[i][0];	
+        counter-= parseInt(points);	
+        unitsTaken[i][0]=counter;
+        groupId='group'+i;
+        groupPoints=unitsTaken[i][0] + '/' + unitsTaken[i][1];
+        document.getElementById(groupId).innerHTML=groupPoints;
+        if(unitsTaken[i][0]<=unitsTaken[i][1]){document.getElementById(groupId).setAttribute("style","color:black");}
+      }
+      i+=1;
+    }
+
+    // recreate element item and append to initial ul
+    var new_li = document.createElement("li");
+    new_li.appendChild(document.createTextNode(unit.id));
+    new_li.setAttribute("id", unit.id);
+    new_li.setAttribute("tag", ul_of_unit);
+    new_li.setAttribute("draggable", "true");
+    new_li.setAttribute("ondragstart", "drag(event)");
+    new_li.setAttribute("class", unit.className);
+    ul.append(new_li);
+  })
+}
+
+
+// ON DOM LOAD EVENTLISTENER STARTS HERE
 window.addEventListener('DOMContentLoaded', (event) => {
   //Creates array to check for loaded units and omit them from select units sidebar.
   var loadedUnits = document.getElementById("loadedUnits").innerHTML;
   loadedUnits = loadedUnits.split(",");
   var loadedArray = [];
+  var divArray= [];
   var unit = '';
+  
   //Loop through to process the string and remove unneccessary characters before adding them to the array.
   for(i = 0; i < loadedUnits.length; i++) {
     if(i==0){
       unit=loadedUnits[i].slice(1);
       unit=unit.split(":");
-      unit=unit[1].slice(2);
-      unit=unit.slice(0,-1);
-      unit=unit.trim();
-      loadedArray.push(unit);
+      
+      if(unit[1].length>2){
+        div=unit[0].substring(1,(unit[0].length-1))
+        div=div.replace('Y','year');
+        div=div.replace('S','sem');
+        divArray.push(div);
+      
+        unit=unit[1].slice(2);
+        unit=unit.slice(0,-1);
+        unit=unit.trim();
+        loadedArray.push(unit);
+      }
     }
     if(i==loadedUnits.length-1){
       unit=loadedUnits[i].split(":");
-      unit=unit[1].slice(2);
-      unit=unit[1].slice(0,-2);
-      unit=unit.trim();
-      loadedArray.push(unit);
+      
+      if(unit[1].length>2){
+        div=unit[0].substring(2,(unit[0].length-1));
+        div=div.replace('Y','year');
+        div=div.replace('S','sem');
+        divArray.push(div);
+
+        unit=unit[1].slice(2);
+        unit=unit[1].slice(0,-2);
+        unit=unit.trim();
+        loadedArray.push(unit);
+      }
     }
     else{
       unit=loadedUnits[i].split(":");
-      unit=unit[1].slice(2);
-      unit=unit.slice(0,-1);
-      unit=unit.trim();
-      loadedArray.push(unit);
+      if(unit[1].length>2){
+        div=unit[0].substring(2,(unit[0].length-1));
+        div=div.replace('Y','year');
+        div=div.replace('S','sem');
+        divArray.push(div);
+
+        unit=unit[1].slice(2);
+        unit=unit.slice(0,-1);
+        unit=unit.trim();
+        loadedArray.push(unit);
+      }
     }
   }
 
@@ -437,8 +511,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
       var unitArrLength = unitArr.length // grab length of each unit role list
       for (i = 0; i < unitArrLength; i++) {
         //If unit is already in the study plan do not load it into the sidebar and check how many credit points it is worth. Add that to the credit point total.
-        if(loadedArray.includes(unitArr[i].trim())){
-          var unitCredits=creditpoints[unitArr[i].trim()];
+        var unitcode= unitArr[i].trim();
+        if(loadedArray.includes(unitcode)){
+          var unitCredits=creditpoints[unitcode];
           var currentCredits=parseInt(unitsTaken[x][0]) + parseInt(unitCredits);
           unitsTaken[x][0]=currentCredits;          
           if(unitsTaken[x][0]>unitsTaken[x][1]){
@@ -449,13 +524,51 @@ window.addEventListener('DOMContentLoaded', (event) => {
             groupID='group'+ x;
             groupPoints='<span id='+ groupID +'> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>';
           }
+          
+          //create loaded units in grid
+          divID=loadedArray.indexOf(unitcode);
+          targetdiv=document.getElementById(divArray[divID]);
+
+          var new_li = document.createElement("li");
+          new_li.appendChild(document.createTextNode(unitcode));
+          new_li.setAttribute("id", unitcode); 
+          new_li.setAttribute("tag", ulClass); 
+          new_li.setAttribute("draggable", "true"); 
+          new_li.setAttribute("ondragstart", "drag(event)"); 
+          var availabilityinfo = unitInformation.indexOf(unitcode)
+
+          availability = unitInformation[availabilityinfo+1]
+
+          if (availability.includes("Semester 1")) {
+            new_li.setAttribute("class", "sem1");
+          }
+          if (availability.includes("Semester 2")) {
+            new_li.setAttribute("class", "sem2");
+          }
+          if (availability.includes("Semester 1") && availability.includes("Semester 2")) {
+            new_li.setAttribute("class", "sem1and2");
+          }
+          new_li.setAttribute("style", "opacity: 1;");
+          targetdiv.append(new_li);
+
+          // create remove unit button
+          const node = document.createElement('span');
+          nodeID = divArray[divID] + " node";
+          node.setAttribute("id", nodeID);
+          node.setAttribute("class", "removeunitbutton");
+          targetdiv.appendChild(node);
+          var sourceInfo=document.getElementById(unitcode);
+          var closebutton = document.getElementById(nodeID);
+          closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
+          removeUnit(nodeID, sourceInfo, targetdiv, closebutton);
+
         }
         else{
           var lielement = document.createElement("li"); // create list item
-          lielement.appendChild(document.createTextNode(unitArr[i].trim())); // create and append content of list item (i.e., unit)
-          lielement.setAttribute("id", unitArr[i].trim()); // set ID of new list item to 'Unit Code Unit Name'
+          lielement.appendChild(document.createTextNode(unitcode)); // create and append content of list item (i.e., unit)
+          lielement.setAttribute("id", unitcode); // set ID of new list item to 'Unit Code Unit Name'
           lielement.setAttribute("tag", ulClass); // set tag of each list item to their original ul element
-          if (unitArr[i].trim() == "No information to be displayed. Check with faculty.") {
+          if (unitcode == "No information to be displayed. Check with faculty.") {
             unitRoleUl.appendChild(lielement);
             lielement.setAttribute("class", "no_marker");
           }
@@ -464,7 +577,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             lielement.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
 
             // Find availability of units and attach the class (sem1, sem2 or sem1and2, to each li element)
-            var availabilityinfo = unitInformation.indexOf(unitArr[i].trim())
+            var availabilityinfo = unitInformation.indexOf(unitcode)
             if (availabilityinfo != -1) { // if unit was found in unitInformation array, i.e., does not return -1
               availability = unitInformation[availabilityinfo+1]
 
@@ -547,7 +660,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       document.getElementById(item.id).appendChild(node);
       var closebutton = document.getElementById(nodeID);
       closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
-      removeUnit(nodeID, sourceInfo, item, closebutton);
+      removeUnit(nodeID, sourceInfo, item, closebutton); 
     })
 
     item.addEventListener('dragstart', (event) => { 
@@ -656,57 +769,34 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   })
   
-  // function for removing a unit
-  function removeUnit(nodeID, sourceInfo, item, closebutton) {
-    // add eventlistener on the nodeID, i.e., the ID of the removal unit button
-    document.getElementById(nodeID).addEventListener('click', function handleClick(event) {
-      //remove remove unit x upon lift of unit
-      unit = document.getElementById(sourceInfo.id) // get unit info from the unit/li's ID
-      ul_of_unit = unit.getAttribute('tag'); // get tag value from unit, which will be its initial 
-      ul = document.getElementById(ul_of_unit); // get the ul
-
-      // remove old elements
-      div = document.getElementById(item.id); // get old li, i.e., li that is in the unitdiv
-      div.childNodes[0].remove();
-      closebutton.remove();
-
-      //remove unit points from the tracker
-      //Get point value of dropped unit.
-      var unitName=unit.innerHTML;
-      var points=creditpoints[unitName];
   
-      //Loops through unitlists1 to get unit's group, then updates the unit point tracker in that group.
-      var i=0;	
-      for (const [key, value] of Object.entries(unitlists1)) {
-        var unitArr = (`${value}`).split('***, '); 	
-        unitArr = unitArr.map(elem => elem.replace("***", ""));
-        if(unitArr.includes(unitName)){
-          console.log(unitName)
-          counter=unitsTaken[i][0];	
-          counter-= parseInt(points);	
-          unitsTaken[i][0]=counter;
-          groupId='group'+i;
-          groupPoints=unitsTaken[i][0] + '/' + unitsTaken[i][1];
-          document.getElementById(groupId).innerHTML=groupPoints;
-          if(unitsTaken[i][0]<=unitsTaken[i][1]){document.getElementById(groupId).setAttribute("style","color:black");}
-        }
-        i+=1;
-      }
-
-      // recreate element item and append to initial ul
-      var new_li = document.createElement("li");
-      new_li.appendChild(document.createTextNode(unit.id));
-      new_li.setAttribute("id", unit.id);
-      new_li.setAttribute("tag", (ul_of_unit));
-      new_li.setAttribute("draggable", "true");
-      new_li.setAttribute("ondragstart", "drag(event)");
-      new_li.setAttribute("class", unit.className);
-      ul.append(new_li);
-
-      })
+  //Loops through unitlists1 to get unit's group, then updates the unit point tracker in that group.
+  var i=0;	
+  for (const [key, value] of Object.entries(unitlists1)) {
+    var unitArr = (`${value}`).split('***, '); 	
+    unitArr = unitArr.map(elem => elem.replace("***", ""));
+    if(unitArr.includes(unitName)){
+      console.log(unitName)
+      counter=unitsTaken[i][0];	
+      counter-= parseInt(points);	
+      unitsTaken[i][0]=counter;
+      groupId='group'+i;
+      groupPoints=unitsTaken[i][0] + '/' + unitsTaken[i][1];
+      document.getElementById(groupId).innerHTML=groupPoints;
+      if(unitsTaken[i][0]<=unitsTaken[i][1]){document.getElementById(groupId).setAttribute("style","color:black");}
     }
+    i+=1;
+  }
 
-
+  // recreate element item and append to initial ul
+  var new_li = document.createElement("li");
+  new_li.appendChild(document.createTextNode(unit.id));
+  new_li.setAttribute("id", unit.id);
+  new_li.setAttribute("tag", (ul_of_unit));
+  new_li.setAttribute("draggable", "true");
+  new_li.setAttribute("ondragstart", "drag(event)");
+  new_li.setAttribute("class", unit.className);
+  ul.append(new_li);
 }); // EVENT LISTENER ON WINDOW DOM ENDS HERE
 
 
@@ -723,29 +813,34 @@ function drag(event) {
 
 // drop makes sure that the id of the dropped element gets appended to the div, so when there's a drop, the unit's ID will appear in the div
 function drop(event) {
+  var parentId = sourceInfo.parentNode.id;
   event.preventDefault();
   const data = event.dataTransfer.getData('dragID');
   event.target.appendChild(document.getElementById(data));
   
-  //Get point value of dropped unit.
-  var unit=document.getElementById(data).innerHTML;	
-  var points=creditpoints[unit];	
-  
-  //Loops through unitlists1 to get unit's group, then updates the unit point tracker in that group.
-  var i=0;	
-  for (const [key, value] of Object.entries(unitlists1)) {
-    var unitArr = (`${value}`).split('***, '); 	
-    unitArr = unitArr.map(elem => elem.replace("***", ""));
-    if(unitArr.includes(unit)){
-      counter=unitsTaken[i][0];	
-      counter+= parseInt(points);	
-      unitsTaken[i][0]=counter;
-      groupId='group'+i;
-      groupPoints=unitsTaken[i][0] + '/' + unitsTaken[i][1];
-      document.getElementById(groupId).innerHTML=groupPoints;
-      if(unitsTaken[i][0]>unitsTaken[i][1]){document.getElementById(groupId).setAttribute("style","color:orange");}
+  //Checks if unit is already in grid
+  if(parentId.includes('unit-ul')){
+    //Get point value of dropped unit.
+    var unit=document.getElementById(data).innerHTML;	
+    var points=creditpoints[unit];	
+    
+    //Loops through unitlists1 to get unit's group, then updates the unit point tracker in that group.
+    var i=0;	
+    for (const [key, value] of Object.entries(unitlists1)) {
+      var unitArr = (`${value}`).split('***, '); 	
+      unitArr = unitArr.map(elem => elem.replace("***", ""));
+      if(unitArr.includes(unit)){
+        counter=unitsTaken[i][0];	
+        counter+= parseInt(points);	
+        unitsTaken[i][0]=counter;
+        groupId='group'+i;
+        pointTracker=unitsTaken[i][0] + '/' + unitsTaken[i][1];
+        document.getElementById(groupId).innerHTML= pointTracker;
+        if(unitsTaken[i][0]>unitsTaken[i][1]){document.getElementById(groupId).setAttribute("style","color:orange");}
+        break;
+      }
+      i+=1;
     }
-    i+=1;
   }
 }
 
