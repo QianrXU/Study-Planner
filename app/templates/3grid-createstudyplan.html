@@ -473,9 +473,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     //Extracts the points needed for the unit group.
     var groupPoints = unitInfo.replace(/[^0-9.]/g, ''); //removes all non-numeric characters.	
     groupPoints = groupPoints.slice(0,2); 	
-    unitsTaken[x]= [0, parseInt(groupPoints)];	
+    unitsTaken[x]= [0, parseInt(groupPoints)];
     groupID='group'+ x;
-    groupPoints = '<span id='+ groupID +'> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>';
+    groupPoints='<span id='+ groupID +'> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>';
 
     // Process key-value pairs in unitlists dictionary
     for (const [key, value] of Object.entries(unitlists)) {
@@ -766,6 +766,33 @@ window.addEventListener('DOMContentLoaded', (event) => {
   })
   
   
+  //Loops through unitlists1 to get unit's group, then updates the unit point tracker in that group.
+  var i=0;	
+  for (const [key, value] of Object.entries(unitlists1)) {
+    var unitArr = (`${value}`).split('***, '); 	
+    unitArr = unitArr.map(elem => elem.replace("***", ""));
+    if(unitArr.includes(unitName)){
+      console.log(unitName)
+      counter=unitsTaken[i][0];	
+      counter-= parseInt(points);	
+      unitsTaken[i][0]=counter;
+      groupId='group'+i;
+      groupPoints=unitsTaken[i][0] + '/' + unitsTaken[i][1];
+      document.getElementById(groupId).innerHTML=groupPoints;
+      if(unitsTaken[i][0]<=unitsTaken[i][1]){document.getElementById(groupId).setAttribute("style","color:black");}
+    }
+    i+=1;
+  }
+
+  // recreate element item and append to initial ul
+  var new_li = document.createElement("li");
+  new_li.appendChild(document.createTextNode(unit.id));
+  new_li.setAttribute("id", unit.id);
+  new_li.setAttribute("tag", (ul_of_unit));
+  new_li.setAttribute("draggable", "true");
+  new_li.setAttribute("ondragstart", "drag(event)");
+  new_li.setAttribute("class", unit.className);
+  ul.append(new_li);
 }); // EVENT LISTENER ON WINDOW DOM ENDS HERE
 
 
@@ -801,8 +828,6 @@ function drop(event) {
       unitsTaken[i][0]=counter;
       groupId='group'+i;
       pointTracker=unitsTaken[i][0] + '/' + unitsTaken[i][1];
-      console.log(pointTracker);
-      console.log(groupId);
       document.getElementById(groupId).innerHTML= pointTracker;
       if(unitsTaken[i][0]>unitsTaken[i][1]){document.getElementById(groupId).setAttribute("style","color:orange");}
       break;
