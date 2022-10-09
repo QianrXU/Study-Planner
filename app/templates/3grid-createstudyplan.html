@@ -661,6 +661,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
       var closebutton = document.getElementById(nodeID);
       closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
       removeUnit(nodeID, sourceInfo, item, closebutton); 
+
+      document.getElementById(sourceInfo.id).setAttribute("draggable", "false"); // when unit is dropped on grid, set draggable to false 
+      document.getElementById(sourceInfo.id).style.cursor = "pointer"; // change cursor from grab to pointer
     })
 
     item.addEventListener('dragstart', (event) => { 
@@ -700,10 +703,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
         else {changeBorderGreen(targetID);}
       }
 
-      //       //x = document.querySelectorAll('.target > li');
-      //       alert = document.getElementById('warning')
-      // alert.style.display = 'none';
-     
       // prerequisite constraint (user selects 1. prerequisite unit e.g., CITS1001, 2. triggering unit e.g., CITS4401)
       pre_invalid = checkPrerequisites(sourceInfo); // run function and save result in variable: co_invalid. invalid will hold all id's of unit divs where unit cannot be placed
       pre_validdropzone = pre_invalid[0];
