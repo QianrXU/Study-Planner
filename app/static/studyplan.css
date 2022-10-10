@@ -108,7 +108,7 @@
 }
 
 #warning-course, #warning-major {
-  color: red;
+  color: #fb8585e3;
   margin-top: 15px;
 }
 
@@ -587,8 +587,18 @@ li {
   margin-bottom: 0px;
 }
 
+/* fontawesome */
+.fa-circle-minus:hover {
+  color: red;
+}
+
+.fa-rectangle-xmark {
+  cursor: pointer;
+}
+
 /* Remove unit */
 .removeunitbutton {
   color: #999999;
   cursor: pointer;
 }
+

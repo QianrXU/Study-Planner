@@ -60,7 +60,7 @@
                     </ul>
                   </p>
                   <H5>Broadening units</H5>
-                  <p>All students towards a Bachelor's Degree at UWA are required to broaden their studies by completing a minimum of four units (24 points) of study outside their degree specific major.</p>
+                  <p>All students studying towards a Bachelor's Degree at UWA are required to broaden their studies by completing a minimum of four units (24 points) of study outside their degree specific major.</p>
                   <H5>Bridging units</H5>
                   <p>Bridging units are designed for students who have not met the relevant ATAR level (or equivalent qualification) required as prerequisites for their major. Bridging units must be successfully completed within the first 48 points of study.</p>
                   <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
@@ -629,6 +629,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
       target = event.target;
       sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
       item.style.opacity = '0.3'; // set opacity of initial element during dragstart
+
+      warning = document.getElementById("warning"); // remove alert bar when user starts a new drag
+      warning.style.display = "none";
       })
 
     item.addEventListener('dragend', (event) => {
