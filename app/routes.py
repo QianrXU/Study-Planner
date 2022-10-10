@@ -217,9 +217,7 @@ def account():
                 SP_name = SP_time + ' ' + SP_course
                 # Add to the study plan array so it can easily be sent to the web page.
                 SP_array.append( (SP_key, SP_name) )
-            return SP_array
-            
-        #return render_template('account.html', title="My Account", SP_array=SP_array, results=results)
+            return render_template('account.html', title="My Account", SP_array=SP_array, results=results)
     return render_template('account.html', title="My Account", SP_array=SP_array, results=results)
 
 
