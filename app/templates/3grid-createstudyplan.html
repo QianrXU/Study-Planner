@@ -240,6 +240,7 @@
         <p class="unitrules"><span class="unitsrulesheader">Prerequisites:</span> <span id="prereqs"></span></p>
         <p class="unitrules"><span class="unitsrulesheader">Co-requisites:</span> <span id="coreqs"></span></p> 
         <p class="unitrules"><span class="unitsrulesheader">Incompatibilities</span> <span id="incomp"></span></p>
+        <h3 style="margin-top: 20px;"><a id="handbookurl" style="color:#003087">View unit in UWA Handbook <i class="fa-sharp fa-solid fa-angles-right"></i></a></h3>
       </div>
     </div>
   </div>
@@ -256,6 +257,7 @@
 <div id="content" style="display: none;">{{ content }}</div>
 <div id="structurecredits" style="display: none;">{{ credits }}</div>
 <div id="availabilityofunits" style="display: none;">{{ availabilitydict }}</div>
+<div id="handbook" style="display: none;">{{ unitURL }}</div>
 <div id="loadedUnits" style="display: none;">{{ SP_dict }}</div>
 
 {% block javascript %}
@@ -309,6 +311,7 @@ var unitoutcomes = document.getElementById("unitoutcomes").innerHTML;
 var content = document.getElementById("content").innerHTML;
 var creditpoints = document.getElementById("structurecredits").innerHTML;
 var availabilityofunits = document.getElementById("availabilityofunits").innerHTML;
+var unitURL = document.getElementById("handbook").textContent;
 
 // Needs to be parsed for functionality for clicking on units
 content = JSON.parse(content);
@@ -318,6 +321,7 @@ corereq = JSON.parse(corereq);
 incompatibilities = JSON.parse(incompatibilities);
 creditpoints = JSON.parse(creditpoints);
 availabilityofunits = JSON.parse(availabilityofunits);
+unitURL = JSON.parse(unitURL);
 
 var unitsTaken = []; //This array tracks how many units are in the study plan grid from each group.	
 var unitlists1= {}; //Global units list.
@@ -1090,7 +1094,7 @@ document.addEventListener('click',function(e){
           document.getElementById("notavailablediv").style.display = "none";
         }
       }} 
-
+      for (var key in unitURL){if (key == id) {document.getElementById("handbookurl").setAttribute("href", unitURL[key]);}} // change innerhtml to unit description
       for (var key in content){if (key == id) {document.getElementById("description").innerHTML = content[key];}} // change innerhtml to unit description
       for (var key in unitoutcomes){if (key == id) {document.getElementById("outcomes").innerHTML = unitoutcomes[key];}} // change innerhtml to unit outcome
       for (var key in prereq){if (key == id) {document.getElementById("prereqs").innerHTML = prereq[key];}} // change innerhtml to prereq
