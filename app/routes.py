@@ -636,79 +636,72 @@ def saveSP():
     user=current_user.id
 
     if request.method == 'POST':
-        #Get current study plan's id
-        SP_id = request.form.get('SP_id')
-        if SP_id is None:
+        SP_id = request.form.get('StudyP_id')
+        if SP_id == 'None':
+            # Create a new SP
             new_study_plan=Four_Sem_SP(
-                user_id = user,
-                Y1S1_1=request.form.get('year1sem1_1'),
-                Y1S1_2=request.form.get('year1sem1_2'),
-                Y1S1_3=request.form.get('year1sem1_3'),
-                Y1S1_4=request.form.get('year1sem1_4'),
-                Y1S1_5=request.form.get('year1sem1_5'),
+            user_id = user,
+            Y1S1_1=request.form.get('year1sem1_1'),
+            Y1S1_2=request.form.get('year1sem1_2'),
+            Y1S1_3=request.form.get('year1sem1_3'),
+            Y1S1_4=request.form.get('year1sem1_4'),
+            Y1S1_5=request.form.get('year1sem1_5'),
 
-                Y1S2_1=request.form.get('year1sem2_1'),
-                Y1S2_2=request.form.get('year1sem2_2'),
-                Y1S2_3=request.form.get('year1sem2_3'),
-                Y1S2_4=request.form.get('year1sem2_4'),
-                Y1S2_5=request.form.get('year1sem2_5'),
+            Y1S2_1=request.form.get('year1sem2_1'),
+            Y1S2_2=request.form.get('year1sem2_2'),
+            Y1S2_3=request.form.get('year1sem2_3'),
+            Y1S2_4=request.form.get('year1sem2_4'),
+            Y1S2_5=request.form.get('year1sem2_5'),
 
-                Y2S1_1=request.form.get('year2sem1_1'),
-                Y2S1_2=request.form.get('year2sem1_2'),
-                Y2S1_3=request.form.get('year2sem1_3'),
-                Y2S1_4=request.form.get('year2sem1_4'),
-                Y2S1_5=request.form.get('year2sem1_5'),
+            Y2S1_1=request.form.get('year2sem1_1'),
+            Y2S1_2=request.form.get('year2sem1_2'),
+            Y2S1_3=request.form.get('year2sem1_3'),
+            Y2S1_4=request.form.get('year2sem1_4'),
+            Y2S1_5=request.form.get('year2sem1_5'),
 
-                Y2S2_1=request.form.get('year2sem2_1'),
-                Y2S2_2=request.form.get('year2sem2_2'),
-                Y2S2_3=request.form.get('year2sem2_3'),
-                Y2S2_4=request.form.get('year2sem2_4'),
-                Y2S2_5=request.form.get('year2sem2_5'),
-                startYearSem = selectedStart,
-                selectedCourse=selectedCourse,
-                selectedMajor=selectedMajor,
-                faculty=faculty,
-                coursecode=coursecode
-            )
+            Y2S2_1=request.form.get('year2sem2_1'),
+            Y2S2_2=request.form.get('year2sem2_2'),
+            Y2S2_3=request.form.get('year2sem2_3'),
+            Y2S2_4=request.form.get('year2sem2_4'),
+            Y2S2_5=request.form.get('year2sem2_5'),
+            startYearSem = selectedStart,
+            selectedCourse=selectedCourse,
+            selectedMajor=selectedMajor,
+            faculty=faculty,
+            coursecode=coursecode)
 
             db.session.add(new_study_plan) # Add new study plan into the database model
             db.session.commit()
-            return render_template('account.html')
-
-        # Else update the existing study plan   
-        existed_study_plan = Four_Sem_SP.query.get(SP_id)
-        existed_study_plan.Y1S1_1=request.form.get('year1sem1_1'),
-        existed_study_plan.Y1S1_2=request.form.get('year1sem1_2'),
-        existed_study_plan.Y1S1_3=request.form.get('year1sem1_3'),
-        existed_study_plan.Y1S1_4=request.form.get('year1sem1_4'),
-        existed_study_plan.Y1S1_5=request.form.get('year1sem1_5'),
-
-        existed_study_plan.Y1S2_1=request.form.get('year1sem2_1'),
-        existed_study_plan.Y1S2_2=request.form.get('year1sem2_2'),
-        existed_study_plan.Y1S2_3=request.form.get('year1sem2_3'),
-        existed_study_plan.Y1S2_4=request.form.get('year1sem2_4'),
-        existed_study_plan.Y1S2_5=request.form.get('year1sem2_5'),
-
-        existed_study_plan.Y2S1_1=request.form.get('year2sem1_1'),
-        existed_study_plan.Y2S1_2=request.form.get('year2sem1_2'),
-        existed_study_plan.Y2S1_3=request.form.get('year2sem1_3'),
-        existed_study_plan.Y2S1_4=request.form.get('year2sem1_4'),
-        existed_study_plan.Y2S1_5=request.form.get('year2sem1_5'),
-
-        existed_study_plan.Y2S2_1=request.form.get('year2sem2_1'),
-        existed_study_plan.Y2S2_2=request.form.get('year2sem2_2'),
-        existed_study_plan.Y2S2_3=request.form.get('year2sem2_3'),
-        existed_study_plan.Y2S2_4=request.form.get('year2sem2_4'),
-        existed_study_plan.Y2S2_5=request.form.get('year2sem2_5'),
-        existed_study_plan.startYearSem = selectedStart,
-        existed_study_plan.selectedCourse=selectedCourse,
-        existed_study_plan.selectedMajor=selectedMajor,
-        existed_study_plan.faculty=faculty,
-        existed_study_plan.coursecode=coursecode
-
-        db.session.commit()
-        return render_template('account.html')
             
+        db.session.query(Four_Sem_SP).filter(Four_Sem_SP.study_plan_id==SP_id).update(
+            {"Y1S1_1":request.form.get('year1sem1_1'),
+            "Y1S1_2":request.form.get('year1sem1_2'),
+            "Y1S1_3":request.form.get('year1sem1_3'),
+            "Y1S1_4":request.form.get('year1sem1_4'),
+            "Y1S1_5":request.form.get('year1sem1_5'),
+
+            "Y1S2_1":request.form.get('year1sem2_1'),
+            "Y1S2_2":request.form.get('year1sem2_2'),
+            "Y1S2_3":request.form.get('year1sem2_3'),
+            "Y1S2_4":request.form.get('year1sem2_4'),
+            "Y1S2_5":request.form.get('year1sem2_5'),
+
+            "Y2S1_1":request.form.get('year2sem1_1'),
+            "Y2S1_2":request.form.get('year2sem1_2'),
+            "Y2S1_3":request.form.get('year2sem1_3'),
+            "Y2S1_4":request.form.get('year2sem1_4'),
+            "Y2S1_5":request.form.get('year2sem1_5'),
+
+            "Y2S2_1":request.form.get('year2sem2_1'),
+            "Y2S2_2":request.form.get('year2sem2_2'),
+            "Y2S2_3":request.form.get('year2sem2_3'),
+            "Y2S2_4":request.form.get('year2sem2_4'),
+            "Y2S2_5":request.form.get('year2sem2_5'),
+            }, synchronize_session="fetch"
+    )
+        db.session.commit()
+
+        return render_template('account.html')
     return render_template('account.html')
 # FAQ Page 
 @app.route('/faq', methods=['GET', 'POST'])

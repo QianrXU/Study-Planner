@@ -26,7 +26,7 @@
         </div>
     </div>
     <br>
-    <a href="{{ url_for('createstudyplanSelectCourse') }}" class ="button_general" id="createSPbutton">Create Study Plan <span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></a>
+    <a href="{{ url_for('createstudyplanSelectCourse') }}" class ="button_general" onclick="new_SP()" id="createSPbutton">Create Study Plan <span class="arrow"><i class="fa-sharp fa-solid fa-angles-right" id="buttonarrow"></i></span></a>
 </div>
 
 
@@ -68,15 +68,20 @@ function open_SP(SP_id){
     var redir="True"
     var SP=String(SP_id).slice(0, -1)
     var SP_button=SP + 'b'
+    var new_sp = "False"
     send_data(redir, SP)
     show(SP_button)
 
     if (lastSelected.length > 0) { hide(lastSelected);}       
     lastSelected = SP_button;
-    
+    localStorage.setItem("studyplan_id",SP);
+    localStorage.setItem("new_sp",new_sp);
 }
 
-
+function new_SP(){
+    var new_sp = "True"
+    localStorage.setItem("new_sp",new_sp);
+}
 </script>
 
 

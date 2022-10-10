@@ -268,14 +268,22 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
+
 <script>
+  var new_sp = localStorage.getItem("new_sp");
+  var SP_id=localStorage.getItem("studyplan_id");
 // Save button function
+if(new_sp == 'True'){
+    SP_id = 'None'
+  }
+
 function SaveSP(){
-// if button pressed, it sends all the Study Plan values to the backend.
-$.ajax({
+  // if button pressed, it sends all the Study Plan values to the backend.
+  $.ajax({
   type: "POST",
   url: "{{ url_for('saveSP') }}",
   data: {
+    "StudyP_id": SP_id,
     "year1sem1_1":document.getElementById("year1sem1_1").innerText,
     "year1sem1_2":document.getElementById("year1sem1_2").innerText,
     "year1sem1_3":document.getElementById("year1sem1_3").innerText,
@@ -299,7 +307,8 @@ $.ajax({
   },
   success: function( data ) {response=data;},
   error: function(xhr, status, error) {response = status;}
-})}
+})
+}
 
 
 // end of save func

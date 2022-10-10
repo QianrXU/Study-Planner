@@ -7,9 +7,15 @@
     <p class="para3">future at UWA?</p>
    <!--Button than links to course selection page-->
 
-    <a href="{{ url_for('createstudyplanSelectCourse') }}" class="button_general" id="mainbutton">Create Study Plan<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right"></i></span></a>
+    <a href="{{ url_for('createstudyplanSelectCourse') }}" class="button_general" onclick="new_SP()" id="mainbutton">Create Study Plan<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right"></i></span></a>
   
 </div>
 
+<script>
+    function new_SP(){
+    var new_sp = "True"
+    localStorage.setItem("new_sp",new_sp);
+}
+</script>
 
 {% endblock %}
