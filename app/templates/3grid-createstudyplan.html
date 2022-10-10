@@ -704,55 +704,70 @@ window.addEventListener('DOMContentLoaded', (event) => {
       }
 
       // prerequisite constraint (user selects 1. prerequisite unit e.g., CITS1001, 2. triggering unit e.g., CITS4401)
-      pre_invalid = checkPrerequisites(sourceInfo); // run function and save result in variable: co_invalid. invalid will hold all id's of unit divs where unit cannot be placed
-      pre_validdropzone = pre_invalid[0];
-      triggerunit = pre_invalid[1];
-      preqrequnit = pre_invalid[2];
-      if (pre_validdropzone.length != 0 && !pre_validdropzone.includes(targetID) && preqrequnit != undefined) { // if the target div's ID is in pre_invalid, do not allow drop of unit
-      alert("You must take " + preqrequnit + " before taking " + triggerunit);
-        changeBorderRed(targetID);
-        return false;
-      } 
-      else if (check == true) { // if the target div's ID is in pre_invalid, do not allow drop of unit
-      alert("You must select the prerequisite unit, " + preqrequnit + ", before you select " + triggerunit);
-        changeBorderRed(targetID);
-        return false;
-      } else {changeBorderGreen(targetID); }
 
-      
+      try {
+        pre_invalid = checkPrerequisites(sourceInfo); // run function and save result in variable: co_invalid. invalid will hold all id's of unit divs where unit cannot be placed
+        pre_validdropzone = pre_invalid[0];
+        triggerunit = pre_invalid[1];
+        preqrequnit = pre_invalid[2];
+        if (pre_validdropzone.length != 0 && !pre_validdropzone.includes(targetID) && preqrequnit != undefined) { // if the target div's ID is in pre_invalid, do not allow drop of unit
+        alert("You must take " + preqrequnit + " before taking " + triggerunit);
+          changeBorderRed(targetID);
+          return false;
+        } 
+        else if (check == true) { // if the target div's ID is in pre_invalid, do not allow drop of unit
+        alert("You must select the prerequisite unit, " + preqrequnit + ", before you select " + triggerunit);
+          changeBorderRed(targetID);
+          return false;
+        } else {changeBorderGreen(targetID); }
+      }
+      catch(err) {
+        alert("Please check the UWA handbook for unit rules.");
+      }
+
       // incompatibilities constraint
-      incomp_invalid = checkIncompatibilities(sourceInfo);
-      incomp_triggerunit = incomp_invalid[0];
-      incomp_incompunit = incomp_invalid[1];
-      incomp_PositionOnGrid = incomp_invalid[2]; // if unit is not present on grid, this var will hold index -1
-      incomp_check = incomp_invalid[3];
-      if (incomp_PositionOnGrid !== -1) {
-        alert(incomp_triggerunit + " is incompatible with a unit, " + incomp_incompunit + ", you have on the grid.");
-        changeBorderRed(targetID);
-        return false;
-      } else if (incomp_check == true) {
-        alert(incomp_triggerunit + " is incompatible with a unit, " + incomp_incompunit + ", you have on the grid.");
-        changeBorderRed(targetID);
-        return false;
+      try {
+        incomp_invalid = checkIncompatibilities(sourceInfo);
+        incomp_triggerunit = incomp_invalid[0];
+        incomp_incompunit = incomp_invalid[1];
+        incomp_PositionOnGrid = incomp_invalid[2]; // if unit is not present on grid, this var will hold index -1
+        incomp_check = incomp_invalid[3];
+        if (incomp_PositionOnGrid !== -1) {
+          alert(incomp_triggerunit + " is incompatible with a unit, " + incomp_incompunit + ", you have on the grid.");
+          changeBorderRed(targetID);
+          return false;
+        } else if (incomp_check == true) {
+          alert(incomp_triggerunit + " is incompatible with a unit, " + incomp_incompunit + ", you have on the grid.");
+          changeBorderRed(targetID);
+          return false;
+        }
+        else {changeBorderGreen(targetID); }
       }
-      else {changeBorderGreen(targetID); }
-      
-      // corequisite constraint
-      co_invalid = checkCorequisites(sourceInfo); // run function and save result in variable: co_invalid. invalid will hold all id's of unit divs where unit cannot be placed
-      validdropzone = co_invalid[0];
-      co_triggerunit = co_invalid[1];
-      co_coreunit = co_invalid[2];
-      if (validdropzone.length != 0 && !validdropzone.includes(targetID)) { // if the target div's ID is in pre_invalid, do not allow drop of unit
-      alert("You must take " + co_coreunit + " before, or while, taking " + co_triggerunit);
-        changeBorderRed(targetID);
-        return false;
+      catch(err) {
+        alert("Please check the UWA handbook for unit rules.");
       }
-      else if (check == true) { // if the target div's ID is in pre_invalid, do not allow drop of unit
-      alert("You must select the corequisite unit, " + co_coreunit + ", before you select " + co_triggerunit);
-        changeBorderRed(targetID);
-        return false;
-      } else {changeBorderGreen(targetID); }
 
+  
+      // corequisite constraint
+      try {
+        co_invalid = checkCorequisites(sourceInfo); // run function and save result in variable: co_invalid. invalid will hold all id's of unit divs where unit cannot be placed
+        validdropzone = co_invalid[0];
+        co_triggerunit = co_invalid[1];
+        co_coreunit = co_invalid[2];
+        if (validdropzone.length != 0 && !validdropzone.includes(targetID)) { // if the target div's ID is in pre_invalid, do not allow drop of unit
+        alert("You must take " + co_coreunit + " before, or while, taking " + co_triggerunit);
+          changeBorderRed(targetID);
+          return false;
+        }
+        else if (check == true) { // if the target div's ID is in pre_invalid, do not allow drop of unit
+        alert("You must select the corequisite unit, " + co_coreunit + ", before you select " + co_triggerunit);
+          changeBorderRed(targetID);
+          return false;
+        } else {changeBorderGreen(targetID); }
+      }
+      catch(err) {
+        alert("Please check the UWA handbook for unit rules.");
+      }
 
       // the below adds an event listener for dragover events on target divs - if a target div already holds a unit, 
       // the below will prevent a user from populating it with a second unit
