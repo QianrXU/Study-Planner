@@ -672,7 +672,8 @@ def saveSP():
 
             db.session.add(new_study_plan) # Add new study plan into the database model
             db.session.commit()
-            
+            return redirect(url_for('account'))
+
         db.session.query(Four_Sem_SP).filter(Four_Sem_SP.study_plan_id==SP_id).update(
             {"Y1S1_1":request.form.get('year1sem1_1'),
             "Y1S1_2":request.form.get('year1sem1_2'),
@@ -700,9 +701,8 @@ def saveSP():
             }, synchronize_session="fetch"
     )
         db.session.commit()
-
-        return render_template('account.html')
-    return render_template('account.html')
+        return redirect(url_for('account'))
+    return redirect(url_for('account'))
 # FAQ Page 
 @app.route('/faq', methods=['GET', 'POST'])
 def faq():

@@ -308,6 +308,7 @@ function SaveSP(){
   success: function( data ) {response=data;},
   error: function(xhr, status, error) {response = status;}
 })
+  window.location.href="{{ url_for('account') }}";
 }
 
 
