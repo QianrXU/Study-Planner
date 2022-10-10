@@ -60,7 +60,7 @@
                     </ul>
                   </p>
                   <H5>Broadening units</H5>
-                  <p>All students towards a Bachelor's Degree at UWA are required to broaden their studies by completing a minimum of four units (24 points) of study outside their degree specific major.</p>
+                  <p>All students studying towards a Bachelor's Degree at UWA are required to broaden their studies by completing a minimum of four units (24 points) of study outside their degree specific major.</p>
                   <H5>Bridging units</H5>
                   <p>Bridging units are designed for students who have not met the relevant ATAR level (or equivalent qualification) required as prerequisites for their major. Bridging units must be successfully completed within the first 48 points of study.</p>
                   <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
@@ -200,12 +200,12 @@
           </div>
       </div>
       
-      <a onClick="CreatePDFfromHTML()" class="button_general" id="selectmajorbutton">Download<span class="arrow"><i class="fa-sharp fa-solid fa-angles-down"></i></span></a>
+      <a onClick="CreatePDFfromHTML()" class="button_general" id="selectmajorbutton">Download<span class="arrow"><i class="fa-solid fa-file-arrow-down"></i></span></a>
       <a id="reset" style="float:right;" class="button_general">Reset<span class="close"><i class="fa-solid fa-circle-xmark"></i></span></a>
       {% if loggedin %}
-      <a onClick="SaveSP()" class ="button_general" id="selectmajorbutton">Save<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right"></i></span></a>
+      <a onClick="SaveSP()" class ="button_general" id="selectmajorbutton">Save<span class="arrow"><i class="fa-solid fa-cloud-arrow-down"></i></span></a>
       {% else %}
-      <a onClick="SaveSP()" class ="button_general" style="display:none;"  id="selectmajorbutton">Save<span class="arrow"><i class="fa-sharp fa-solid fa-angles-right"></i></span></a>
+      <a onClick="SaveSP()" class ="button_general" style="display:none;"  id="selectmajorbutton">Save<span class="arrow"><i class="fa-solid fa-cloud-arrow-down"></i></span></a>
       {% endif %}
       <br><br>
     </div>
@@ -240,6 +240,7 @@
         <p class="unitrules"><span class="unitsrulesheader">Prerequisites:</span> <span id="prereqs"></span></p>
         <p class="unitrules"><span class="unitsrulesheader">Co-requisites:</span> <span id="coreqs"></span></p> 
         <p class="unitrules"><span class="unitsrulesheader">Incompatibilities</span> <span id="incomp"></span></p>
+        <h3 style="margin-top: 20px;"><a id="handbookurl" style="color:#003087">View unit in UWA Handbook <i class="fa-sharp fa-solid fa-angles-right"></i></a></h3>
       </div>
     </div>
   </div>
@@ -256,6 +257,7 @@
 <div id="content" style="display: none;">{{ content }}</div>
 <div id="structurecredits" style="display: none;">{{ credits }}</div>
 <div id="availabilityofunits" style="display: none;">{{ availabilitydict }}</div>
+<div id="handbook" style="display: none;">{{ unitURL }}</div>
 <div id="loadedUnits" style="display: none;">{{ SP_dict }}</div>
 
 {% block javascript %}
@@ -309,6 +311,7 @@ var unitoutcomes = document.getElementById("unitoutcomes").innerHTML;
 var content = document.getElementById("content").innerHTML;
 var creditpoints = document.getElementById("structurecredits").innerHTML;
 var availabilityofunits = document.getElementById("availabilityofunits").innerHTML;
+var unitURL = document.getElementById("handbook").textContent;
 
 // Needs to be parsed for functionality for clicking on units
 content = JSON.parse(content);
@@ -318,6 +321,7 @@ corereq = JSON.parse(corereq);
 incompatibilities = JSON.parse(incompatibilities);
 creditpoints = JSON.parse(creditpoints);
 availabilityofunits = JSON.parse(availabilityofunits);
+unitURL = JSON.parse(unitURL);
 
 var unitsTaken = []; //This array tracks how many units are in the study plan grid from each group.	
 var unitlists1= {}; //Global units list.
@@ -496,8 +500,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
       infoDiv.setAttribute('class', 'tooltipinfo');
       infoDiv.insertAdjacentHTML("afterbegin", '<i class="fa-solid fa-circle-info"></i>');
       
-
-
       // appends unit info to tooltip icon
       const infotext = document.createElement("span");
       infotext.setAttribute('class', 'tooltiptextinfo');
@@ -533,7 +535,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
           new_li.appendChild(document.createTextNode(unitcode));
           new_li.setAttribute("id", unitcode); 
           new_li.setAttribute("tag", ulClass); 
-          new_li.setAttribute("draggable", "true"); 
+          new_li.setAttribute("draggable", "false"); 
           new_li.setAttribute("ondragstart", "drag(event)"); 
           var availabilityinfo = unitInformation.indexOf(unitcode)
 
@@ -631,6 +633,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
       target = event.target;
       sourceInfo = event.target; // sourceInfo will hold info about the list element, e.g., what id it has, etc.
       item.style.opacity = '0.3'; // set opacity of initial element during dragstart
+
+      warning = document.getElementById("warning"); // remove alert bar when user starts a new drag
+      warning.style.display = "none";
       })
 
     item.addEventListener('dragend', (event) => {
@@ -661,6 +666,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
       var closebutton = document.getElementById(nodeID);
       closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
       removeUnit(nodeID, sourceInfo, item, closebutton); 
+
+      document.getElementById(sourceInfo.id).setAttribute("draggable", "false"); // when unit is dropped on grid, set draggable to false 
     })
 
     item.addEventListener('dragstart', (event) => { 
@@ -699,56 +706,72 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
         else {changeBorderGreen(targetID);}
       }
-     
+
       // prerequisite constraint (user selects 1. prerequisite unit e.g., CITS1001, 2. triggering unit e.g., CITS4401)
-      pre_invalid = checkPrerequisites(sourceInfo); // run function and save result in variable: co_invalid. invalid will hold all id's of unit divs where unit cannot be placed
-      pre_validdropzone = pre_invalid[0];
-      triggerunit = pre_invalid[1];
-      preqrequnit = pre_invalid[2];
-      if (pre_validdropzone.length != 0 && !pre_validdropzone.includes(targetID)) { // if the target div's ID is in pre_invalid, do not allow drop of unit
-      alert("You must take " + preqrequnit + " before taking " + triggerunit);
-        changeBorderRed(targetID);
-        return false;
+
+      try {
+        pre_invalid = checkPrerequisites(sourceInfo); // run function and save result in variable: co_invalid. invalid will hold all id's of unit divs where unit cannot be placed
+        pre_validdropzone = pre_invalid[0];
+        triggerunit = pre_invalid[1];
+        preqrequnit = pre_invalid[2];
+        if (pre_validdropzone.length != 0 && !pre_validdropzone.includes(targetID) && preqrequnit != undefined) { // if the target div's ID is in pre_invalid, do not allow drop of unit
+        alert("You must take " + preqrequnit + " before taking " + triggerunit);
+          changeBorderRed(targetID);
+          return false;
+        } 
+        else if (check == true) { // if the target div's ID is in pre_invalid, do not allow drop of unit
+        alert("You must select the prerequisite unit, " + preqrequnit + ", before you select " + triggerunit);
+          changeBorderRed(targetID);
+          return false;
+        } else {changeBorderGreen(targetID); }
       }
-      else if (check == true) { // if the target div's ID is in pre_invalid, do not allow drop of unit
-      alert("You must select the prerequisite unit, " + preqrequnit + ", before you select " + triggerunit);
-        changeBorderRed(targetID);
-        return false;
-      } else {changeBorderGreen(targetID); }
+      catch(err) {
+        alert("Please check the UWA handbook for unit rules.");
+      }
 
       // incompatibilities constraint
-      incomp_invalid = checkIncompatibilities(sourceInfo);
-      incomp_triggerunit = incomp_invalid[0];
-      incomp_incompunit = incomp_invalid[1];
-      incomp_PositionOnGrid = incomp_invalid[2]; // if unit is not present on grid, this var will hold index -1
-      incomp_check = incomp_invalid[3];
-      if (incomp_PositionOnGrid !== -1) {
-        alert(incomp_triggerunit + " is incompatible with a unit, " + incomp_incompunit + ", you have on the grid.");
-        changeBorderRed(targetID);
-        return false;
-      } else if (incomp_check == true) {
-        alert(incomp_triggerunit + " is incompatible with a unit, " + incomp_incompunit + ", you have on the grid.");
-        changeBorderRed(targetID);
-        return false;
+      try {
+        incomp_invalid = checkIncompatibilities(sourceInfo);
+        incomp_triggerunit = incomp_invalid[0];
+        incomp_incompunit = incomp_invalid[1];
+        incomp_PositionOnGrid = incomp_invalid[2]; // if unit is not present on grid, this var will hold index -1
+        incomp_check = incomp_invalid[3];
+        if (incomp_PositionOnGrid !== -1) {
+          alert(incomp_triggerunit + " is incompatible with a unit, " + incomp_incompunit + ", you have on the grid.");
+          changeBorderRed(targetID);
+          return false;
+        } else if (incomp_check == true) {
+          alert(incomp_triggerunit + " is incompatible with a unit, " + incomp_incompunit + ", you have on the grid.");
+          changeBorderRed(targetID);
+          return false;
+        }
+        else {changeBorderGreen(targetID); }
       }
-      else {changeBorderGreen(targetID); }
-      
-      // corequisite constraint
-      co_invalid = checkCorequisites(sourceInfo); // run function and save result in variable: co_invalid. invalid will hold all id's of unit divs where unit cannot be placed
-      validdropzone = co_invalid[0];
-      co_triggerunit = co_invalid[1];
-      co_coreunit = co_invalid[2];
-      if (validdropzone.length != 0 && !validdropzone.includes(targetID)) { // if the target div's ID is in pre_invalid, do not allow drop of unit
-      alert("You must take " + co_coreunit + " before, or while, taking " + co_triggerunit);
-        changeBorderRed(targetID);
-        return false;
+      catch(err) {
+        alert("Please check the UWA handbook for unit rules.");
       }
-      else if (check == true) { // if the target div's ID is in pre_invalid, do not allow drop of unit
-      alert("You must select the corequisite unit, " + co_coreunit + ", before you select " + co_triggerunit);
-        changeBorderRed(targetID);
-        return false;
-      } else {changeBorderGreen(targetID); }
 
+  
+      // corequisite constraint
+      try {
+        co_invalid = checkCorequisites(sourceInfo); // run function and save result in variable: co_invalid. invalid will hold all id's of unit divs where unit cannot be placed
+        validdropzone = co_invalid[0];
+        co_triggerunit = co_invalid[1];
+        co_coreunit = co_invalid[2];
+        if (validdropzone.length != 0 && !validdropzone.includes(targetID)) { // if the target div's ID is in pre_invalid, do not allow drop of unit
+        alert("You must take " + co_coreunit + " before, or while, taking " + co_triggerunit);
+          changeBorderRed(targetID);
+          return false;
+        }
+        else if (check == true) { // if the target div's ID is in pre_invalid, do not allow drop of unit
+        alert("You must select the corequisite unit, " + co_coreunit + ", before you select " + co_triggerunit);
+          changeBorderRed(targetID);
+          return false;
+        } else {changeBorderGreen(targetID); }
+      }
+      catch(err) {
+        alert("Please check the UWA handbook for unit rules.");
+      }
 
       // the below adds an event listener for dragover events on target divs - if a target div already holds a unit, 
       // the below will prevent a user from populating it with a second unit
@@ -909,7 +932,7 @@ function checkCorequisites(sourceInfo) {
   triggerunit = sourceInfo.id // User selects e.g., ENVE5551 Environmental Engineering Design Solutions Part 1, this is now the triggering unit
   for (var key in corereq){if (key == triggerunit) {unitcoreq = corereq[key];}} // get corequisite information of selected unit and save into variable called unitcoreq
   corequnitlist = [] 
-  for (var unit in corereq){if (unitcoreq.includes(unit)) {corequnitlist.push(unit)}} // if a selected a.k.a triggering unit has been selected, push its prerequisite units into prerequisiteunitlist
+  for (var unit in corereq){if (unitcoreq.includes(unit)) {corequnitlist.push(unit)}} // if a selected a.k.a triggering unit has been selected, push its corequisite units into corequisitenitlist
   validfordrop = [];
   corequnit = " ";
   check = ""; // initialise
@@ -917,7 +940,7 @@ function checkCorequisites(sourceInfo) {
   for (const [key, value] of Object.entries(gridstate)) { // key == id of target div and value == id of potential unit (undefined if empty)
     if (value !== undefined && value == corequnitlist[0]) { // checks if unit is one of the values in the grid
       corereqPositionOnGrid = key
-      var index = Object.keys(gridstate).indexOf(corereqPositionOnGrid) // index will hold the index position of the coreq unit, length of unit divs up until the occurrence of the prerequisite unit
+      var index = Object.keys(gridstate).indexOf(corereqPositionOnGrid) // index will hold the index position of the coreq unit, length of unit divs up until the occurrence of the corequisite unit
       divs = document.querySelectorAll('.target');
       for (i = 0; i < index; i++) {validfordrop.push(divs[i].id);} // push all div ids up to length of target div into valid for drop list
       lastOccurringDiv = divs[index].id; // we need to make sure the whole row gets added to the validfordrop list. find the index of the target div
@@ -1071,7 +1094,7 @@ document.addEventListener('click',function(e){
           document.getElementById("notavailablediv").style.display = "none";
         }
       }} 
-
+      for (var key in unitURL){if (key == id) {document.getElementById("handbookurl").setAttribute("href", unitURL[key]);}} // change innerhtml to unit description
       for (var key in content){if (key == id) {document.getElementById("description").innerHTML = content[key];}} // change innerhtml to unit description
       for (var key in unitoutcomes){if (key == id) {document.getElementById("outcomes").innerHTML = unitoutcomes[key];}} // change innerhtml to unit outcome
       for (var key in prereq){if (key == id) {document.getElementById("prereqs").innerHTML = prereq[key];}} // change innerhtml to prereq

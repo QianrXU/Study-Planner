@@ -108,7 +108,7 @@
 }
 
 #warning-course, #warning-major {
-  color: red;
+  color: #fb8585e3;
   margin-top: 15px;
 }
 
@@ -281,6 +281,11 @@ li {
   padding-right: 20px;
 }
 
+#grid {
+  overflow-y: scroll;
+  max-height: 1005px;
+}
+
 #units-content {
   background: #F2F2F2;
   width: 400px;
@@ -299,6 +304,7 @@ li {
 
 #units-bottom {
   width: 400px;
+  height: 290px;
 }
 
 #units-bottom p {
@@ -482,7 +488,7 @@ li {
 }
 
 #grid-content li {
-  cursor: grab;
+  cursor: pointer;
 }
 
 .semester-paragraph {
@@ -581,8 +587,18 @@ li {
   margin-bottom: 0px;
 }
 
+/* fontawesome */
+.fa-circle-minus:hover {
+  color: red;
+}
+
+.fa-rectangle-xmark {
+  cursor: pointer;
+}
+
 /* Remove unit */
 .removeunitbutton {
   color: #999999;
   cursor: pointer;
 }
+
