@@ -605,6 +605,7 @@ def createstudyplanSelectUnits():
         return render_template('404.html'), 404
 
     return render_template('3grid-createstudyplan.html', 
+        unitURL=unitURL,
         startSem=startSem,
         startYear=startYear,
         getUnitValues=getUnitValues,
