@@ -86,11 +86,6 @@ class FlaskTestCase(unittest.TestCase):
     def test_loading_major_selection(self):
         tester = app.test_client(self)
         tester.post(
-            '/createstudyplan-courses', 
-            data=dict(selectedCourse='master of IT', selectedStart='semester 2, 2023'), 
-            follow_redirects=True
-        )
-        tester.post(
             '/createstudyplan-majors', 
             data=dict(selectedMajor='software engineering specialisation'), 
             follow_redirects=True
