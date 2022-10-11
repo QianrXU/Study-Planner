@@ -93,6 +93,7 @@ def logout():
 
 # Account Page for logged in users.  
 ### Python for account page written by Georgia Jefferson ###
+@login_required
 @app.route('/account', methods=['GET', 'POST'])
 def account():
     #Adapted code from https://python-adv-web-apps.readthedocs.io/en/latest/flask_db2.html
@@ -105,113 +106,119 @@ def account():
     global coursecode
     global getUnitValues
     global SP_dict
+    global SP_array
+    global results
 
-    #Get user account
-    user=current_user.id
-    #check if user has saved study plans. Saves query to variable name.
-    saved_study_plans=Four_Sem_SP.query.filter_by(user_id=user).order_by(Four_Sem_SP.date_updated).all()
     #initialize number of results gotten from query and study plan array. 
     results=0
     SP_array = []
-    
-    #if study plan found in database, then set results value to the number of rows the query returns.
-    if  saved_study_plans:
-        results= len(saved_study_plans)
 
-    #If post request then the delete or load function has been called.
-    if request.method == 'POST':
-        #Identifies study plan user is interacting with.
-        SP_id = request.form.get('SP_id')
-        #Identifies if they want to load a study plan or not.
-        redir = request.form.get('redir')
+    #Get user account
+    if current_user.is_authenticated:
+        user=current_user.id
+        #check if user has saved study plans. Saves query to variable name.
+        saved_study_plans=Four_Sem_SP.query.filter_by(user_id=user).order_by(Four_Sem_SP.date_updated).all()
+        
+        
+        #if study plan found in database, then set results value to the number of rows the query returns.
+        if  saved_study_plans:
+            results= len(saved_study_plans)
 
-        #If redir is false, then delete study plan.
-        if redir=='False':
-            #SQLAlchemy for deleting a row.
-            Four_Sem_SP.query.filter_by(study_plan_id=SP_id).delete()
-            db.session.commit()
+        #If post request then the delete or load function has been called.
+        if request.method == 'POST':
+            #Identifies study plan user is interacting with.
+            SP_id = request.form.get('SP_id')
+            #Identifies if they want to load a study plan or not.
+            redir = request.form.get('redir')
 
-            return ('', 204) # indicates post response has been done successfully
+            #If redir is false, then delete study plan.
+            if redir=='False':
+                #SQLAlchemy for deleting a row.
+                Four_Sem_SP.query.filter_by(study_plan_id=SP_id).delete()
+                db.session.commit()
 
-        #If redir is true, then load study plan information
-        else:
-            #Get study plan values
-            study_plan=Four_Sem_SP.query.filter_by(study_plan_id=SP_id).one()
-            
-            SP_dict['Y1S1_1']=study_plan.Y1S1_1
-            SP_dict['Y1S1_2']=study_plan.Y1S1_2
-            SP_dict['Y1S1_3']=study_plan.Y1S1_3
-            SP_dict['Y1S1_4']=study_plan.Y1S1_4
-            SP_dict['Y1S1_5']=study_plan.Y1S1_5
+                return ('', 204) # indicates post response has been done successfully
 
-            SP_dict['Y1S2_1']=study_plan.Y1S2_1
-            SP_dict['Y1S2_2']=study_plan.Y1S2_2
-            SP_dict['Y1S2_3']=study_plan.Y1S2_3
-            SP_dict['Y1S2_4']=study_plan.Y1S2_4
-            SP_dict['Y1S2_5']=study_plan.Y1S2_5
+            #If redir is true, then load study plan information
+            else:
+                #Get study plan values
+                study_plan=Four_Sem_SP.query.filter_by(study_plan_id=SP_id).one()
+                
+                SP_dict['Y1S1_1']=study_plan.Y1S1_1
+                SP_dict['Y1S1_2']=study_plan.Y1S1_2
+                SP_dict['Y1S1_3']=study_plan.Y1S1_3
+                SP_dict['Y1S1_4']=study_plan.Y1S1_4
+                SP_dict['Y1S1_5']=study_plan.Y1S1_5
 
-            SP_dict['Y2S1_1']=study_plan.Y2S1_1
-            SP_dict['Y2S1_2']=study_plan.Y2S1_2
-            SP_dict['Y2S1_3']=study_plan.Y2S1_3
-            SP_dict['Y2S1_4']=study_plan.Y2S1_4
-            SP_dict['Y2S1_5']=study_plan.Y2S1_5
+                SP_dict['Y1S2_1']=study_plan.Y1S2_1
+                SP_dict['Y1S2_2']=study_plan.Y1S2_2
+                SP_dict['Y1S2_3']=study_plan.Y1S2_3
+                SP_dict['Y1S2_4']=study_plan.Y1S2_4
+                SP_dict['Y1S2_5']=study_plan.Y1S2_5
 
-            SP_dict['Y2S2_1']=study_plan.Y2S2_1
-            SP_dict['Y2S2_2']=study_plan.Y2S2_2
-            SP_dict['Y2S2_3']=study_plan.Y2S2_3
-            SP_dict['Y2S2_4']=study_plan.Y2S2_4
-            SP_dict['Y2S2_5']=study_plan.Y2S2_5 
+                SP_dict['Y2S1_1']=study_plan.Y2S1_1
+                SP_dict['Y2S1_2']=study_plan.Y2S1_2
+                SP_dict['Y2S1_3']=study_plan.Y2S1_3
+                SP_dict['Y2S1_4']=study_plan.Y2S1_4
+                SP_dict['Y2S1_5']=study_plan.Y2S1_5
 
-            #Assign values from study plan to global variables.
-            selectedCourse=study_plan.selectedCourse
-            selectedMajor=study_plan.selectedMajor
-            faculty=study_plan.faculty
-            coursecode=study_plan.coursecode
-            selectedStart=study_plan.startYearSem
+                SP_dict['Y2S2_1']=study_plan.Y2S2_1
+                SP_dict['Y2S2_2']=study_plan.Y2S2_2
+                SP_dict['Y2S2_3']=study_plan.Y2S2_3
+                SP_dict['Y2S2_4']=study_plan.Y2S2_4
+                SP_dict['Y2S2_5']=study_plan.Y2S2_5 
 
-            if len(selectedMajor)<1:
-                selectedMajor="No major or specialisation available"
-            
-            #create df
-            targetcsv = os.path.join(app.static_folder, 'Json-export.csv')
-            df = pd.read_csv(targetcsv, sep=",")
-            # Process data
-            selectedYear = 2022 # Filters courses by year determined on the left. Change value to other year if wanted/needed.
-            df = df[df.Year.eq(selectedYear)]
-            df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
-            df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
+                #Assign values from study plan to global variables.
+                selectedCourse=study_plan.selectedCourse
+                selectedMajor=study_plan.selectedMajor
+                faculty=study_plan.faculty
+                coursecode=study_plan.coursecode
+                selectedStart=study_plan.startYearSem
 
-            getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
+                if len(selectedMajor)<1:
+                    selectedMajor="No major or specialisation available"
+                
+                #create df
+                targetcsv = os.path.join(app.static_folder, 'Json-export.csv')
+                df = pd.read_csv(targetcsv, sep=",")
+                # Process data
+                selectedYear = 2022 # Filters courses by year determined on the left. Change value to other year if wanted/needed.
+                df = df[df.Year.eq(selectedYear)]
+                df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
+                df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
 
-            #create df
-            targetcsv = os.path.join(app.static_folder, 'Json-export.csv')
-            df = pd.read_csv(targetcsv, sep=",")
-            # Process data
-            selectedYear = 2022 # Filters courses by year determined on the left. Change value to other year if wanted/needed.
-            df = df[df.Year.eq(selectedYear)]
-            df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
-            df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
+                getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course, to be used in Units
 
-            getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course
+                #create df
+                targetcsv = os.path.join(app.static_folder, 'Json-export.csv')
+                df = pd.read_csv(targetcsv, sep=",")
+                # Process data
+                selectedYear = 2022 # Filters courses by year determined on the left. Change value to other year if wanted/needed.
+                df = df[df.Year.eq(selectedYear)]
+                df = df[df.Availability.str.contains("current / "+str(selectedYear))] # Filter courses that are available in the given year (year provided in selectedYear variable)
+                df = df[df['Structure'].notna()] # Removes all options from dataframe where Structure cell is empty
 
-            getMasterDegrees(df, selectedCourse) # assigns spec and core values
+                getUnitValues = df[df.Title.eq(selectedCourse)] # get dataframe for selected course
 
-            return ('', 204) # indicates post response has been done successfully
+                getMasterDegrees(df, selectedCourse) # assigns spec and core values
 
-    #If not post method and when saved_study_plans returns at least 1 row.
-    if results>0:
-        #loop through rows from query.
-        for SP in saved_study_plans:
-            #Save study plan id so that it can be identified in the webpage.
-            SP_key=SP.study_plan_id
-            #Save data so that it can be named in the study plan list.
-            SP_time= SP.date_updated.strftime( "%d/%m/%Y" )
-            # Save selected course name so it can be seen in the study plan list
-            SP_course= SP.selectedCourse
-            #SP_spec= SP.selectedMajor 
-            SP_name = SP_time + ' ' + SP_course
-            # Add to the study plan array so it can easily be sent to the web page.
-            SP_array.append( (SP_key, SP_name) )
+                return ('', 204) # indicates post response has been done successfully
+
+        #If not post method and when saved_study_plans returns at least 1 row.
+        if results>0:
+            #loop through rows from query.
+            for SP in saved_study_plans:
+                #Save study plan id so that it can be identified in the webpage.
+                SP_key=SP.study_plan_id
+                #Save data so that it can be named in the study plan list.
+                SP_time= SP.date_updated.strftime( "%d/%m/%Y" )
+                # Save selected course name so it can be seen in the study plan list
+                SP_course= SP.selectedCourse
+                #SP_spec= SP.selectedMajor 
+                SP_name = SP_time + ' ' + SP_course
+                # Add to the study plan array so it can easily be sent to the web page.
+                SP_array.append( (SP_key, SP_name) )
+        return render_template('account.html', title="My Account", SP_array=SP_array, results=results)
         
     return render_template('account.html', title="My Account", SP_array=SP_array, results=results)
 
