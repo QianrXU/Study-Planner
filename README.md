@@ -318,4 +318,4 @@ Additionally, this page includes functionality like saving a study plan to a use
 ___
 
 ## Testing
-- Testing guide related to user interface can be referred [here](https://github.com/QianrXU/Study-Planner/blob/main/manual_tests/routes_testing.md)
+- Testing guide related to user interface can be referred [here](https://github.com/QianrXU/Study-Planner/blob/main/manual_tests/user_interface_testing.md)
