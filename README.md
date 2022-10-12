@@ -15,6 +15,7 @@ ___
    3. [My Account](#my-account)
    4. [Create a study plan](#creating-a-study-plan)
    5. [Save study plan](#save-study-plan)
+7. [Testing](#testing)
 
 ___
 
@@ -314,3 +315,7 @@ Additionally, this page includes functionality like saving a study plan to a use
 |:--:|
 | <b> Figure 7</b>|
 
+___
+
+## Testing
+- Testing guide related to user interface can be referred [here](https://github.com/QianrXU/Study-Planner/blob/main/manual_tests/routes_testing.md)
