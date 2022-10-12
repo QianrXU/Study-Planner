@@ -11,7 +11,6 @@ The tests related to routes can be found on this file: [test_routes.py](https://
 The result of running the tests in the file should be:
 ```
 test_faq (test_routes.FlaskTestCase) ... ok
-
 test_account (test_routes.FlaskTestCase) ... ok
 test_index (test_routes.FlaskTestCase) ... ok
 test_loading_course_selection (test_routes.FlaskTestCase) ... ok
