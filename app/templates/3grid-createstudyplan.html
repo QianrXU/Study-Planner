@@ -273,6 +273,13 @@
 <script>
   var new_sp = localStorage.getItem("new_sp");
   var SP_id=localStorage.getItem("studyplan_id");
+  
+  //Storing these variables globally to prevent Uncaught Reference Error on load. All values are dumby values which will be replaced in a function
+  //All variables pertain to adding a remove unit button to loaded units in the grid.
+  var unitName='';
+  var ul_of_unit = '';
+  var ul=document.getElementById('loadedUnits'); // This is a 
+  
 // Save button function
 if(new_sp == 'True'){
     SP_id = 'None'
@@ -374,9 +381,9 @@ function removeUnit(nodeID, sourceInfo, item, closebutton) {
     closebutton.remove();
 
     //remove unit points from the tracker
-    var unitName=unit.innerHTML;
+    unitName=unit.innerHTML;
     var points=creditpoints[unitName];
-
+    
     //Loops through unitlists1 to get unit's group, then updates the unit point tracker in that group.
     var i=0;	
     for (const [key, value] of Object.entries(unitlists1)) {
@@ -504,7 +511,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
         var specialisationName=document.getElementById("course-major").innerHTML;
         specialisationName=specialisationName.substring(0, (specialisationName.search(/specialisation/i)-1));
         var groupName=unitRole[0].substring(8); // I have assumed that all unit groups of this type will include 'Option - ' in their name.
-        console.log(intro[int]);
         if (intro[int].includes(specialisationName)){
           if (intro[int].includes(groupName)){
             var expression = new RegExp(groupName, 'i');
@@ -837,7 +843,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var unitArr = (`${value}`).split('***, '); 	
     unitArr = unitArr.map(elem => elem.replace("***", ""));
     if(unitArr.includes(unitName)){
-      console.log(unitName)
       counter=unitsTaken[i][0];	
       counter-= parseInt(points);	
       unitsTaken[i][0]=counter;
