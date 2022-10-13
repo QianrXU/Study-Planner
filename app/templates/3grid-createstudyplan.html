@@ -484,11 +484,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var unitInfo = unitRole[1] 
 
     //Extracts the points needed for the unit group.
-    var groupPoints = unitInfo.replace(/[^0-9.]/g, ''); //removes all non-numeric characters.	
-    groupPoints = groupPoints.slice(0,2); 	
-    unitsTaken[x]= [0, parseInt(groupPoints)];
-    groupID='group'+ x;
-    groupPoints='<span id='+ groupID +'> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>';
+    var pointsLoc1 = (unitInfo.search(/points/i))-3; //Searches for keyword to identify if integer is a unit point value and where that point value is in the string.
+    var groupPoints = unitInfo.substring(pointsLoc1,(pointsLoc1+2)); //Grab point value. Points are always less than 3 digits.
+    groupPoints = groupPoints.replace(/[^0-9.]/g, ''); //removes additional spaces if point value is single digit.
+    //Checks if point value is found before assigning a point tracker
+    if (groupPoints.length > 0) {	
+      groupPoints = groupPoints.slice(0,2); 	
+      unitsTaken[x]= [0, parseInt(groupPoints)];
+      groupID='group'+ x;
+      groupPoints='<span id='+ groupID +'> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>';
+    }
 
     // Process key-value pairs in unitlists dictionary
     for (const [key, value] of Object.entries(unitlists)) {
