@@ -12,6 +12,7 @@ import numpy as np
 import os
 import re
 import json
+from datetime import datetime, timezone
 
 #There might be a tidier way to do this if I can figure out how to get the column names.
 #This sets up the dictionary in which study plan units can be stored.
@@ -211,7 +212,7 @@ def account():
                 #Save study plan id so that it can be identified in the webpage.
                 SP_key=SP.study_plan_id
                 #Save data so that it can be named in the study plan list.
-                SP_time= SP.date_updated.strftime( "%d/%m/%Y" )
+                SP_time=SP.date_updated.replace(tzinfo=timezone.utc).astimezone(tz=None).strftime( "%d/%m/%Y" )
                 # Save selected course name so it can be seen in the study plan list
                 SP_course= SP.selectedCourse
                 #SP_spec= SP.selectedMajor 
@@ -724,3 +725,4 @@ def page_not_found(e):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
