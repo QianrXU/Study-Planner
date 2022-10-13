@@ -511,6 +511,11 @@ def createstudyplanSelectUnits():
 
     #except:
         #return render_template('404.html'), 404
+    unitValues = getUnitValues['Structure'] # create dataframe of listmajors column
+    unitValues = [str(x) for x in unitValues][0] # convert to string
+    unitValues = unitValues[1:-1]
+    unitValues = json.loads(unitValues) # json file
+    introduction = unitValues['introduction']
 
     units = [] # all unit codes + unit titles to be saved into this list 
     unitCodeList = [] # all unit codes to be saved into this list (for connecting with unit list.csv on frontend)
@@ -562,6 +567,7 @@ def createstudyplanSelectUnits():
     unitInfoCsv.fillna('No information to be displayed. Find unit in the UWA handbook at https://handbooks.uwa.edu.au.', inplace = True) # if there are null or empty cells, fill these with specified string
     availability = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title + "***", unitInfoCsv.Availabilities + "***"))
     
+    
     # variables for unit information modal (click on modal)
     prereq = dict(zip(unitInfoCsv.Code + " " + unitInfoCsv.Title, unitInfoCsv.Prerequisites)) #Add Code and Prerequisites from unit list.csv to dictionary
     prereq = json.dumps(prereq)
@@ -608,6 +614,7 @@ def createstudyplanSelectUnits():
         credits=credits,
         availabilitydict=availabilitydict,
         SP_dict=SP_dict,
+        introduction = introduction,
         loggedin=True,
         title="Create study plan")
     #except:
@@ -634,6 +641,7 @@ def createstudyplanSelectUnits():
             credits=credits,
             availabilitydict=availabilitydict,
             SP_dict=SP_dict,
+            introduction = introduction,
             loggedin=False,
             title="Create study plan")
 

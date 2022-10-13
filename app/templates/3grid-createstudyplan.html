@@ -259,6 +259,7 @@
 <div id="availabilityofunits" style="display: none;">{{ availabilitydict }}</div>
 <div id="handbook" style="display: none;">{{ unitURL }}</div>
 <div id="loadedUnits" style="display: none;">{{ SP_dict }}</div>
+<div id="intro" style="display: none;">{{ introduction }}</div>
 
 {% block javascript %}
     <script src="{{ url_for('static', filename='javascript/testing.js') }}"></script>
@@ -414,6 +415,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   var loadedArray = [];
   var divArray= [];
   var unit = '';
+  var intro = document.getElementById("intro").innerHTML.split("&lt;");  // Create introduction element in case unit points aren't in expected field. 
   
   //Loop through to process the string and remove unneccessary characters before adding them to the array.
   for(i = 0; i < loadedUnits.length; i++) {
@@ -464,9 +466,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
   }
 
-  //index for unitsTaken array
-  var x=0
-
+  
+  var x=0 //index for unitsTaken array
+  var lastGroupPos=0; //index for group names in introduction string
+  
   unitsArray.forEach(element => {
     unitRole = element.split(", ***, "); // This split stirng is decided in routes.py
     unitRole = unitRole.map(elem => elem.replace(", ***", "")); // if there would be any erronous split symbols (&amp;*:,) that have come across despite the split, clean those up
@@ -493,6 +496,31 @@ window.addEventListener('DOMContentLoaded', (event) => {
       unitsTaken[x]= [0, parseInt(groupPoints)];
       groupID='group'+ x;
       groupPoints='<span id='+ groupID +'> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>';
+    }
+    else{
+      //Due to delimter, only every second value may hold point values and element at 0 does not hold point values.
+      var int=2;
+      while (int< intro.length){
+        var specialisationName=document.getElementById("course-major").innerHTML;
+        specialisationName=specialisationName.substring(0, (specialisationName.search(/specialisation/i)-1));
+        var groupName=unitRole[0].substring(8); // I have assumed that all unit groups of this type will include 'Option - ' in their name.
+        console.log(intro[int]);
+        if (intro[int].includes(specialisationName)){
+          if (intro[int].includes(groupName)){
+            var expression = new RegExp(groupName, 'i');
+            currentPos=(intro[int].search(expression));
+            groupPoints=intro[int].substring(lastGroupPos,currentPos);
+            pointsLoc1 = (groupPoints.search(/points/i))-3;
+            groupPoints = groupPoints.substring(pointsLoc1,(pointsLoc1+2));
+            groupPoints = groupPoints.replace(/[^0-9.]/g, '');
+            unitsTaken[x]= [0, parseInt(groupPoints)];
+            groupPoints='<span id='+ groupID +'> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>';
+            lastGroupPos=currentPos;
+          }
+          else{groupName='';}
+        } 
+        int+=2;
+      } 
     }
 
     // Process key-value pairs in unitlists dictionary
