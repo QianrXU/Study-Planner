@@ -228,17 +228,19 @@
       <div class="modal-body">
         <h3 id="title"></h3>
         <p class="creditpoints">Credit points: <span id="creditpoints"></span></p>
-        <div id="nonstandardteachingperioddiv"><div><i class="fa-solid fa-circle-info"  style="font-size: 25px; margin-right: 15px; float: left;"></i><p id="nonstandardteachingperiod"></p></div></div>
-        <div id="notavailablediv"><div><i class="fa-solid fa-circle-info" style="font-size: 25px; margin-right: 15px;"></i><p id="notavailabledivtext"></p></div></div>
-        <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
-        <h3>Decription</h3>
-        <p id="description"></p>
-        <h3>Outcomes</h3>
-        <p id="outcomes"></p>
-        <h3>Unit rules</h3>
-        <p class="unitrules"><span class="unitsrulesheader">Prerequisites:</span> <span id="prereqs"></span></p>
-        <p class="unitrules"><span class="unitsrulesheader">Co-requisites:</span> <span id="coreqs"></span></p> 
-        <p class="unitrules"><span class="unitsrulesheader">Incompatibilities</span> <span id="incomp"></span></p>
+        <div id="emptyunitmodal">
+          <div id="nonstandardteachingperioddiv"><div><i class="fa-solid fa-circle-info"  style="font-size: 25px; margin-right: 15px; float: left;"></i><p id="nonstandardteachingperiod"></p></div></div>
+          <div id="notavailablediv"><div><i class="fa-solid fa-circle-info" style="font-size: 25px; margin-right: 15px;"></i><p id="notavailabledivtext"></p></div></div>
+          <hr style="border-top: 3px solid #505050; margin: 20px 0px; width: 60%;">
+          <h3>Decription</h3>
+          <p id="description"></p>
+          <h3>Outcomes</h3>
+          <p id="outcomes"></p>
+          <h3>Unit rules</h3>
+          <p class="unitrules"><span class="unitsrulesheader">Prerequisites:</span> <span id="prereqs"></span></p>
+          <p class="unitrules"><span class="unitsrulesheader">Co-requisites:</span> <span id="coreqs"></span></p> 
+          <p class="unitrules"><span class="unitsrulesheader">Incompatibilities</span> <span id="incomp"></span></p>
+        </div>
         <h3 style="margin-top: 20px;"><a id="handbookurl" style="color:#003087">View unit in UWA Handbook <i class="fa-sharp fa-solid fa-angles-right"></i></a></h3>
       </div>
     </div>
@@ -699,6 +701,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
       liID.style.border = "";
     });
 
+    // unitmodal - on click of list element, show modal
+    // item.addEventListener('click', function(e){
+    //   unitClick(item);
+    // })
+
   });
 
   var startSemester = document.getElementById('year1semester1').innerHTML;
@@ -1067,7 +1074,7 @@ function alert(alerttext){
   warningtext.appendChild(txt);
 }
 
-// Functions to show and close the general-info modal - Done by Valerie
+// Functions to show and close the general-info modal
 //Modal - open general-info modal
 const modal = document.getElementById('my-modal'); 
 
@@ -1089,16 +1096,6 @@ function closeWarningModal(){
 // unit modal
 var unitmodal = document.getElementById('unit-modal'); 
 
-function openUnitModal(){
-  unitmodal.style.display = 'block'; //show the modal after click action
-}
-
-function closeUnitModal(){
-  const warningicon = document.getElementById("warning");
-  unitmodal.style.display = 'none'; //hide the modal after clicking the close button
-  warningicon.style.display = 'none';
-}
-
 // when user clicks anywhere outside of a modal window when a modal window is open, close the modal
 window.onclick = function(event) {
   if (event.target == modal) {
@@ -1106,48 +1103,66 @@ window.onclick = function(event) {
   }
   if (event.target == unitmodal) {
     unitmodal.style.display = "none";
+    closeUnitModal()
   }
 }
 
-// Click event - modal opens and populates on unit click
-document.addEventListener('click',function(e){
-    if(e.target && 
-        e.target.classList == 'element' | 
-        e.target.classList == 'sem1' | 
-        e.target.classList == 'sem2' |
-        e.target.classList == 'sem1and2' |
-        e.target.classList == 'not_available' |
-        e.target.classList == 'non_standard'        
-        ){
-      id = event.target.id;
+function closeUnitModal(){
+  const warningicon = document.getElementById("warning");
+  unitmodal.style.display = 'none'; //hide the modal after clicking the close button
+  warningicon.style.display = 'none';
 
-      document.getElementById("title").innerHTML = id; // change innerhtml of id to unit code + title
-      for (var key in creditpoints){if (key == id) {document.getElementById("creditpoints").innerHTML = creditpoints[key];}} // change innerhtml to credit points
-      for (var key in availabilityofunits){if (key == id) {
-        if (availabilityofunits[key].includes("Non-standard")) {
-          document.getElementById("nonstandardteachingperioddiv").style.display = "flex";
-          document.getElementById("nonstandardteachingperiod").innerHTML = availabilityofunits[key];
-        }
-        else {
-          document.getElementById("nonstandardteachingperioddiv").style.display = "none";
-        }
-        if (availabilityofunits[key].includes("Not available")) {
-          document.getElementById("notavailablediv").style.display = "flex";
-          document.getElementById("notavailabledivtext").innerHTML = availabilityofunits[key];
-        }
-        else {
-          document.getElementById("notavailablediv").style.display = "none";
-        }
-      }} 
-      for (var key in unitURL){if (key == id) {document.getElementById("handbookurl").setAttribute("href", unitURL[key]);}} // change innerhtml to unit description
-      for (var key in content){if (key == id) {document.getElementById("description").innerHTML = content[key];}} // change innerhtml to unit description
-      for (var key in unitoutcomes){if (key == id) {document.getElementById("outcomes").innerHTML = unitoutcomes[key];}} // change innerhtml to unit outcome
-      for (var key in prereq){if (key == id) {document.getElementById("prereqs").innerHTML = prereq[key];}} // change innerhtml to prereq
-      for (var key in corereq){if (key == id) {document.getElementById("coreqs").innerHTML = corereq[key];}} // change innerhtml to corereq
-      for (var key in incompatibilities){if (key == id) {document.getElementById("incomp").innerHTML = incompatibilities[key];}} // change innerhtml to incompatibility
-      openUnitModal();
-     }
- });
+  // reset all fields upon close
+  document.getElementById("handbookurl").setAttribute("href", "");
+  document.getElementById("description").innerHTML = "";
+  document.getElementById("outcomes").innerHTML = "";
+  document.getElementById("prereqs").innerHTML = "";
+  document.getElementById("coreqs").innerHTML = "";
+  document.getElementById("incomp").innerHTML = "";
+}
+
+document.addEventListener('click', function docClick(event) {
+  const span = document.getElementById(event.path[0].id);
+  if (span == null) {return false};
+  if (span.tagName == "LI") {unitClick(event.path[0])};
+})
+
+function unitClick(item) {
+  id = item.id; // save the id of the unit that was clicked on in the variable 'id'
+
+  // check if unit is in the unit list.csv file by testing a random object from this file
+  let existsInUnitlistcsv = Object.keys(availabilityofunits).includes(id);
+  if (existsInUnitlistcsv == false) {
+    document.getElementById("emptyunitmodal").style.display = "none";
+  } else {document.getElementById("emptyunitmodal").style.display = "block";}
+
+  document.getElementById("title").innerHTML = id; // change innerhtml of id to unit code + title
+  for (var key in creditpoints){if (key == id) {document.getElementById("creditpoints").innerHTML = creditpoints[key];}} // change innerhtml to credit points
+  for (var key in availabilityofunits){if (key == id) {          
+    if (availabilityofunits[key].includes("Non-standard")) {
+      document.getElementById("nonstandardteachingperioddiv").style.display = "flex";
+      document.getElementById("nonstandardteachingperiod").innerHTML = availabilityofunits[key];
+    }
+    else {
+      document.getElementById("nonstandardteachingperioddiv").style.display = "none";
+    }
+    if (availabilityofunits[key].includes("Not available")) {
+      document.getElementById("notavailablediv").style.display = "flex";
+      document.getElementById("notavailabledivtext").innerHTML = availabilityofunits[key];
+    }
+    else {
+      document.getElementById("notavailablediv").style.display = "none";
+    }
+  }} 
+  for (var key in unitURL){if (key == id) {document.getElementById("handbookurl").setAttribute("href", unitURL[key]);}} // change innerhtml to unit description
+  for (var key in content){if (key == id) {document.getElementById("description").innerHTML = content[key];}} // change innerhtml to unit description
+  for (var key in unitoutcomes){if (key == id) {document.getElementById("outcomes").innerHTML = unitoutcomes[key];}} // change innerhtml to unit outcome
+  for (var key in prereq){if (key == id) {document.getElementById("prereqs").innerHTML = prereq[key];}} // change innerhtml to prereq
+  for (var key in corereq){if (key == id) {document.getElementById("coreqs").innerHTML = corereq[key];}} // change innerhtml to corereq
+  for (var key in incompatibilities){if (key == id) {document.getElementById("incomp").innerHTML = incompatibilities[key];}} // change innerhtml to incompatibility
+
+  unitmodal.style.display = 'block'; //show the modal after click action
+}
 
 // function for downloading a pdf (whole page)
 // code based on the second answer from this page: https://stackoverflow.com/questions/17293135/download-a-div-in-a-html-page-as-pdf-using-javascript
