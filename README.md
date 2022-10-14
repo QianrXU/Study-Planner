@@ -16,6 +16,7 @@ ___
    4. [Create a study plan](#creating-a-study-plan)
    5. [Save study plan](#save-study-plan)
 7. [Testing](#testing)
+8. [Remaining issues](#remaining-issues)
 
 ___
 
@@ -344,3 +345,10 @@ ___
 
 ## Testing
 - Testing guide related to user interface can be referred [here](https://github.com/QianrXU/Study-Planner/blob/main/tests/user_interface_testing.md).
+
+___
+
+## Remaining Issues
+- multiple major/specialisation
+- application not supported on Safari
+
