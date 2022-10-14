@@ -191,7 +191,7 @@ Type ***python*** in Terminal to start a Python interactive session, then follow
 ___
 
 ## Data
-All course and unit data used in the Study Planner project has been exported from the UWA CAIDi system and provided to the team by UWA's Curriculum Office. Two files have been key in generating the functionality of the Study Planner tool (both to be found in the *static* subfolder), 1. Json-export.csv, and 2. Unit list.csv. Both these files are processed in *routes.py*, but also in the relevant .html pages using JavaScript (*1course-createstudyplan.html*, *2major-createstudyplan.html* and *3grid-createstudyplan.html*).
+All course and unit data used in the Study Planner project has been exported from the UWA CAIDi system. Two files have been key in generating the functionality of the Study Planner tool (both to be found in the *static* subfolder), 1. Json-export.csv, and 2. Unit list.csv. Both these files are processed in *routes.py*, but also in the relevant .html pages using JavaScript (*1course-createstudyplan.html*, *2major-createstudyplan.html* and *3grid-createstudyplan.html*).
 
 ### Json-export.csv
 The *Json-export.csv* file contains information on all courses at UWA between the years of 2018 and 2022.
@@ -203,22 +203,16 @@ Attributes used includes:
 * ListMajors
 * Title
 * Faculty
-* Availability (describes the availability of the course - e.g., may not be available in 2022)
-
-Attributes we wish to incorporate in Sprint 3 includes:
-* IntakePeriods - this attribute describes whether a course is available at the beginning of a year, mid-year, or both (to filter the 'select starting year/semester' dropdown)
-* StandardFullTimeCompletion - this attribute desribes the standard in years of how long a course is to take to a student to be completed (will determine which grid/database is used on the 'select units' page)
+* Availability (describes the availability of the course - e.g., a course may not be available in 2022)
+* IntakePeriods describes whether a course is available at the beginning of a year, mid-year, or both - these values are used to filter the 'Select starting year/semester' dropdown)
 
 ### Unit list.csv
-The *Unit list.csv* file is an amalgamation of three active unit sequence csv files for three Master degrees (12520 Master of Translation Studies, 62510 Master of Information Technology and 62550 Master of Professional Engineering). These three files were processed by *join_individual_unit_lists.py* - a program which concatenates and groups units by unit code and exports the result to a new .csv file, *Unit list.csv*. All four files are found in the subfolder *static* > *unit data files*.
+The *Unit list.csv* file is an amalgamation of eight active unit sequence csv files for various degrees. These files were processed by *join_individual_unit_lists.py* - a program which concatenates and groups units by unit code and exports the result to a new .csv file, *Unit list.csv*. All files are found in the subfolder *static* > *unit data files*.
 
-Attributes used up to the end of Sprint 2 includes:
+Attributes used includes:
 * Code
 * Title
 * Availabilities (describes the availability of the unit, e.g., Semester 1 only)
-
-Attributes we wish to incorporate in Sprint 3 includes:
-* Status (whether the unit is available in 2022 or not)
 * Content (short description of the unit)
 * Outcomes (short description of the outcomes of the unit)
 * Corequisites (describes if there are any co-requisites to the unit)
@@ -228,9 +222,10 @@ Attributes we wish to incorporate in Sprint 3 includes:
 ### Making updates to or exchanging the .csv files
 Any changes that are made to the .csv files must follow a certain ruleset. If exchanging any of the .csv files, it is important they are exported from CAIDi the same way as they were when we were initially handed the data.
 
-**Changing the year that courses are filtered by**
+**Changing the year from 2022**
 
-In the *routes.py* file, there is a line that reads: `selectedYear = 2022`. Changing the year and saving the file will filter the data in *Json-export.csv*, i.e., course data, to only hold data for the selected year.
+* In the *routes.py* file, there is a line that reads: `selectedYear = 2022`. Changing the year and saving the file will filter the data in *Json-export.csv*, i.e., course data, to only hold data for the selected year.
+* In *3grid-createstudyplan.html*, there is a variable: `notavailableinyear`, that contains the content `Not available 2022`. This variable is used to provide the correct class names to units in the 'select units' pane. Change the year to correspond with the year in the `selectedYear` variable.
 
 **Other reflections**
 
@@ -242,7 +237,7 @@ ___
 ### Sign up
 > signup.html
 
-This is the signup page((**Figure 1**)) for new users to register an account to create the study plan. User can enter email address and password, The password should not be less than 6 characters long. Enter the same password you have entered for password in confirm password field. Only registered user will have the access to Myaccount page that will allow user to see his/her saved study plans. Registered user can save the plans for later reference and can be deleted if not needed
+This is the signup page((**Figure 1**)) for new users to register an account to create the study plan. Users can enter email address and password, The password should not be less than 6 characters long. Enter the same password you have entered for password in confirm password field. Only registered user will have the access to Myaccount page that will allow user to see his/her saved study plans. Registered user can save the plans for later reference and can be deleted if not needed
 
 |![Sign up](./readmeImages/register.PNG)|
 |:--:|
@@ -290,8 +285,8 @@ The following steps outline how a user goes about the process of creating a stud
 #### Selecting a course
 > 1grid-createstudyplan.html
 
-1. Users start by selecting the course they are interested in from the first dropdown on this page. This should (Sprint 3 pending) filter the second dropdown, where users select what semester and year they wish to start studying, based on the availability of the course.
-2. The semester/year start dropdown determines what the grid page (Sprint 3 pending) looks like. If a user selects a Semester 2 start, this will be reflected in the grid system. Currently, the Study Planner supports only a Semester 1, 2023 start.
+1. Users start by selecting the course they are interested in from the first dropdown on this page. This filters the second dropdown, where users select what semester and year they wish to start studying, based on the availability of the course.
+2. The semester/year start dropdown determines what the grid page looks like. If a user selects a Semester 2 start, this will be reflected on the grid. Currently, the Study Planner supports only a Semester 1, 2023 or Semester 2, 2023 start.
 
 The selected course and beginning year/semester gets sent via AJAX post() to *routes.py* where it is processed to determine what the next page will look like to the user (upon pressing the 'Continue' button).
 
@@ -313,29 +308,33 @@ On the left hand pane under the 'Select units' heading, the selected course or m
 
 Each unit has a color. This color explains when it is available to study (pulls from the *Availabilities* attribute contained in *Unit list.csv*). At the bottom of the left hand pane, each key is described to the user (Semester 1 only, Semester 2 only, etc.). The color palette that is used, 'Wong', has been developed with the intention of being accessible to people who are colorblind (source: https://bit.ly/3r4aukN).
 
-Upon click of a unit, the user currently gets an alert that says what unit they have clicked on. In Sprint 3, we wish to see how we can incorporate the *Content* and *Outcomes* attributes here. This would allow the user to read about individual units.
+Upon click of a unit, a modal appears. This modal contains information about the unit and pulls data from *Content*, *Outcomes*, *Prerequisites*, *Corequisites*, *Incompatibilities* and *Incompatibilities* attributes (*Unit list.csv*). The credit points and handbook URL are both pulled from the *Structure* attribute in *Json-export.csv*. This allows the user to read about individual units. If a unit clicked on does not exist within *Unit list.csv*, it will only show information pulled from the *Json-export.csv* file.
 
-Drag a unit onto the grid, a floater with prerequisites for the course appears at the bottom of the page. This is to remind the user of the prerequisites that need to be fulfilled when selecting a unit.
+**Grid system**
+
+The grid system is made up of two parts. The top part provides details to the user in regard to their selected course. The second part which fills the majority of the page consists of the grid system. A layout made up of rows where each row is a semester made up of a total of 5 boxes (one box for each unit). A normal full time study load at UWA is 3-4 units, but students are allowed to overload semesters by taking a maximum of 5 units per semester. Clicking on the 'Add' button for a Semester row adds overloading functionality, and if the 'Add' button has been clicked, a 'Remove' button will appear to remove overloading.
+
+The grid system is currently based on the HTML Drag and Drop API. This allows for units to be dragged from the unit selection pane onto a box in the grid. Unfortunately it is an API that is not supported in Safari, and is not supported via touch.
+
+**Grid constraints**
+Many units have constraining features, for example, prerequisites, co-requisites and incompatibilities. The Study Planner tool is able to handle constraints based on the following rules:
+* Unit availability
+* Unit co-requisites
+* Unit incompatibilities
+* Unit prerequisites*
+
+If a conflict has occurred on the grid, a floater (alert) will appear at the bottom of the page with a message describing the conflict.
+
+\* Unit prerequisites at UWA are extremely complex. Currently, the system manages only one - situations where a prerequisite unit must be taken prior to a triggering unit (see below for example). The prerequisite unit must be in the list of units for the conflict alert to show. 
+
 |![Prerequisites](./readmeImages/prerequisites.png)|
 |:--:|
 | <b> Figure 6</b>|
 
-**Grid system**
-
-The grid system is made up of two parts. The top part provides details to the user in regard to their selected course. The second part which fills the majority of the page consists of the grid system. A layout made up of rows where each row is a semester made up of a total of 5 boxes (one box for each unit). A normal full time study load at UWA is 3-4 units, but students are allowed to overload semesters by taking a maximum of 5 units per semester.
-
-The grid system is currently (at the end of Sprint 2) based on the HTML Drag and Drop API. This allows for units to be dragged from the unit selection pane onto a box in the grid. Clicking on the 'Add' button for a Semester row adds overloading functionality, and if the 'Add' button has been clicked, a 'Remove' button will appear to remove overloading.
-
-Functionality on this page will (Sprint 3 pending) constrain a user's ability to drag units onto the grid based on the following rules:
-* Unit group requirements
-* Unit availability
-* Unit co-requisites
-* Unit incompatibilities
-* Unit prerequisites
 
 ### Save study plan
 
-Additionally, this page includes functionality like saving a study plan to a user account (Sprint 3 pending) for logged in users, and downloading a study plan as a PDF for all users. The format of a downloaded study plan can be seen below in **Figure 6**.
+This page also includes functionality like saving a study plan to a user account (exclusively for logged in users), and downloading a study plan as a PDF. The format of a downloaded study plan can be seen below.
 
 |![PDF](./readmeImages/studyplanPDF.PNG)|
 |:--:|
