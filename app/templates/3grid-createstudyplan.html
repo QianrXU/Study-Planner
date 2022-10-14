@@ -201,7 +201,6 @@
       </div>
       
       <a onClick="CreatePDFfromHTML()" class="button_general" id="selectmajorbutton">Download<span class="arrow"><i class="fa-solid fa-file-arrow-down"></i></span></a>
-      <a id="reset" style="float:right;" class="button_general">Reset<span class="close"><i class="fa-solid fa-circle-xmark"></i></span></a>
       {% if loggedin %}
       <a onClick="SaveSP()" class ="button_general" id="selectmajorbutton">Save<span class="arrow"><i class="fa-solid fa-cloud-arrow-down"></i></span></a>
       {% else %}
@@ -1004,10 +1003,6 @@ function checkCorequisites(sourceInfo) {
   return [validfordrop, triggerunit, corequnitlist[0], check];
 }
 
-
-// reset button for clearing screen
-const reset = document.getElementById("reset");
-reset.addEventListener("click", () => window.location.reload());
 
 // this function changes the background of target zones where a unit is not permitted
 function changeBorderRed(targetid){
