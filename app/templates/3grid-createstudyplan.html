@@ -532,6 +532,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // Process key-value pairs in unitlists dictionary
     for (const [key, value] of Object.entries(unitlists)) {
       const unitRoleHeader = document.createElement("p"); // create unit headers for each unit role
+      const unitSpan = document.createElement("span"); // to contain info
+      unitRoleHeader.appendChild(unitSpan);
       const keyNode = document.createTextNode(key + " ");
       unitRoleHeader.appendChild(keyNode);
       unitRoleHeader.setAttribute("class", "unit-heading");
@@ -545,15 +547,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
       
       // appends tooltip icon to header
       const infoDiv = document.createElement("div");
-      unitRoleHeader.appendChild(infoDiv);
+      unitSpan.appendChild(infoDiv);
       infoDiv.setAttribute('class', 'tooltipinfo');
-      infoDiv.insertAdjacentHTML("afterbegin", '<i class="fa-solid fa-circle-info"></i>');
+      infoDiv.insertAdjacentHTML("beforeend", '<i class="fa-solid fa-circle-info"></i>');
       
       // appends unit info to tooltip icon
       const infotext = document.createElement("span");
       infotext.setAttribute('class', 'tooltiptextinfo');
       infoDiv.appendChild(infotext);
-      infotext.insertAdjacentHTML("afterbegin", unitInfo);
+      infotext.insertAdjacentHTML("beforeend", unitInfo);
 
       // The below splits each unit role list and dynamically creates li's under the correct heading (key)
       var unitArr = (`${value}`).split('***, '); // split conversion units into list (split by comma)
@@ -660,7 +662,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
       }
         // appends unit group points to header
-        infoDiv.insertAdjacentHTML("afterbegin", groupPoints);
+        unitRoleHeader.insertAdjacentHTML("beforeend", groupPoints);
     }
     x+=1;
   });

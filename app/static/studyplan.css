@@ -116,19 +116,16 @@
 .tooltipinfo {
   position: relative;
   display: inline-block;
+  z-index: 55;
+  margin-right: 6px;
 }
 
 /* Tooltip text */
 .tooltipinfo .tooltiptextinfo {
-  visibility: hidden;
+  display:none;
   background-color: #555;
   padding: 15px;
   position: absolute;
-  z-index: 9999;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -60px;
-  display: block;
   top: 2em;
   width: 270px;
   height: max-content;
@@ -143,7 +140,7 @@
 
 /* Show the tooltip text when you mouse over the tooltip container */
 .tooltipinfo:hover .tooltiptextinfo {
-  visibility: visible;
+  display:inline-block;
   opacity: 1;
 }
 
@@ -283,23 +280,25 @@ li {
 
 #grid {
   overflow-y: scroll;
-  max-height: 1005px;
+  max-height: 1025px;
 }
 
 #units-content {
   background: #F2F2F2;
   width: 400px;
-  padding: 30px;
   overflow-y: scroll;
   overflow-x: clip;
-  max-height: 700px;
+  padding: 30px;
+  max-height: 720px;
 }
+
 
 /* This needs to be updated to reflect the different colors of different unit availability */
 #units-content ul {
   font-family: 'TTNorms', "Trebuchet MS", Helvetica, sans-serif;
   font-size: 14px;
   padding-left: 22px;
+  margin-left: -2px;
 }
 
 #units-bottom {
