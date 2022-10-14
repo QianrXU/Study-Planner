@@ -612,6 +612,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
           nodeID = divArray[divID] + " node";
           node.setAttribute("id", nodeID);
           node.setAttribute("class", "removeunitbutton");
+          node.setAttribute("data-html2canvas-ignore", "true"); // hide remove unit button from pdf download
           targetdiv.appendChild(node);
           var sourceInfo=document.getElementById(unitcode);
           var closebutton = document.getElementById(nodeID);
