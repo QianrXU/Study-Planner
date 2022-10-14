@@ -70,18 +70,18 @@ Can refer to the files `__init__.py`, `routes.py`, `models.py`, and `app/forms.p
 
 #### /app/__init__.py
 Understand the working of the codes:  
-`from flask import Flask` Import the Flask class.
+```from flask import Flask``` Import the Flask class.
 
-`app = Flask(__name__)` This creates an instance of the class.
+```app = Flask(__name__)``` This creates an instance of the class.
 
-`from app import routes, models, forms` This connects the instance of the class to the routes, models, and forms. 
+```from app import routes, models, forms``` This connects the instance of the class to the routes, models, and forms. 
 
-`if __name__ == '__main__'` `__name__` is a special variable in Python which takes the value of the script name. This line ensures that our Flask app runs only when it is executed in the main file and not when it is imported in some other file.
+```if __name__ == '__main__'``` `__name__` is a special variable in Python which takes the value of the script name. This line ensures that our Flask app runs only when it is executed in the main file and not when it is imported in some other file.
 
-`app.run(debug=True)` Run the Flask application with enabling the debug mode. Whenever code changes, the server will automatically reload and will show an interactive debugger in the browser with occurrences of errors during a request.
+```app.run(debug=True)``` Run the Flask application with enabling the debug mode. Whenever code changes, the server will automatically reload and will show an interactive debugger in the browser with occurrences of errors during a request.
 
 #### /app/routes.py
-Several routes have been included in the file: /index, /signup, /login, /logout, /account, /createstudyplan-courses, /createstudyplan-majors, /createstudyplan-units, /faq and a page_not_found(e) function has been set up to deal with invalid routes.
+Several routes have been included in the file: /index, /signup, /login, /logout, /account, /createstudyplan-courses, /createstudyplan-majors, /createstudyplan-units, /saveStudyPlan, /faq and a page_not_found(e) function has been set up to deal with invalid routes.
 
 - The /index route renders index.html.
 - The /signup route renders signup.html.
@@ -91,11 +91,12 @@ Several routes have been included in the file: /index, /signup, /login, /logout,
 - The /createstudyplay-course route renders 1grid-createstudyplan.html.
 - The /createstudyplay-course route renders 2grid-createstudyplan.html.
 - The /createstudyplay-course route renders 3grid-createstudyplan.html.
+- The /saveStudyPlan route triggers a save function for a study plan.
 - The page_not_found(e) function renders 404.html.
 
-`from flask import render_template` Import the method render_template() to render templates.
+```from flask import render_template``` Import the method render_template() to render templates.
 
-`@app.route(‘/index’, methods=['GET', 'POST'])` We use the route() decorator to tell Flask what URL should trigger the function. Methods specify which HTTP methods are allowed. The default is ['GET’].
+```@app.route(‘/index’, methods=['GET', 'POST'])``` We use the route() decorator to tell Flask what URL should trigger the function. Methods specify which HTTP methods are allowed. The default is ['GET’].
 
 ```
 def index():
