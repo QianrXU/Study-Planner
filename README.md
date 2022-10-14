@@ -170,6 +170,11 @@ There is no interface presented for users to interact with the tables in the dat
 - Users can insert values into the User table through Sign Up.
 - Users can insert values into the Four_Sem_SP table through save button.
 
+Allowance for dateTime field in Four_Sem_SP table:
+
+- All dateTimes are generated in UTC time zone when they are stored in the database.
+- To ensure an accurate dateTime for the end user we convert dateTime field into the relevant local time zone in Routes.py.
+
 #### Python Script
 SQLAlchemy is a Python SQL toolkit and Object Relational Mapper. Users may write SQL queries in python file to create, read, update and delete data in the database.
 
@@ -275,9 +280,12 @@ Frequently asked questions can be found at this page(**Figure 4**). We are still
 
 All logged in users are able to access this page (**Figure 5**). The account page displays the user's saved study plans and allows them to load or delete them. The user may also create a new study plan which will navigate them to the 1grid-createstudyplan.html page.
 
-|![Account](./readmeImages/account.PNG)|
-|:--:|
-| <b> Figure 5</b>|
+This page will render a list of study plans dynamically based on the number of rows returned when querying the Four_Sem_SP table by the user's unique id. If no rows are returned then a default message is displayed. 
+
+The load study plan function uses AJAX to send a study plan id to the backend. The id is used to query the Four_Sem_SP table and reassigns the value of the global variables needed to generate a study plan based on the values stored in the Four_Sem_SP table. The user is then redirected to the select units page with their information loaded into the grid. 
+
+The delete study plan function uses AJAX to send a study plan id to the backend. The id is used to query the Four_Sem_SP table and the returned row is then removed and the table is updated. Upon the clicking the delete button the page reloads, generating the study plan list based on the new state of the Four_Sem_SP table.
+
 
 ### Creating a study plan
 The following steps outline how a user goes about the process of creating a study plan, as well as how data is processed in the background to generate the view that users end up with. 
@@ -304,7 +312,7 @@ This page consists of two windows. One where the user finds all unit groups and 
 
 **Unit groups and units**
 
-On the left hand pane under the 'Select units' heading, the selected course or major/specialisation's unit group(s) (e.g., Core, Option, Conversion, etc.) and their associated units will appear. Each unit group has an information tooltip to the right of its header which, upon hover, describes the unit group based on information deducted from the *typeInto* field contained within the *Structure* attribute in *Json-export.csv*.
+On the left hand pane under the 'Select units' heading, the selected course or major/specialisation's unit group(s) (e.g., Core, Option, Conversion, etc.) and their associated units will appear. The unit groups have point trackers to the right of the header which track how many unit points are required from each group based upon a numerical value found in the *typeInto* field contained within the *Structure* attribute in *Json-export.csv* (in the event that this field has no point requirement data the *introduction* field may be used). The number of points taken from that group in the study grid is tracked based on the *unitPoints* field, also within the *Structure* attribute. If the user exceeds the required amount the point trakcer will turn orange to signify that the user has surplus unit points in that unit group. Each unit group has an information tooltip to the right of its point tracker which, upon hover, describes the unit group based on information deducted from the *typeInto* field contained within the *Structure* attribute in *Json-export.csv*.
 
 Each unit has a color. This color explains when it is available to study (pulls from the *Availabilities* attribute contained in *Unit list.csv*). At the bottom of the left hand pane, each key is described to the user (Semester 1 only, Semester 2 only, etc.). The color palette that is used, 'Wong', has been developed with the intention of being accessible to people who are colorblind (source: https://bit.ly/3r4aukN).
 
@@ -331,15 +339,14 @@ If a conflict has occurred on the grid, a floater (alert) will appear at the bot
 |:--:|
 | <b> Figure 6</b>|
 
+**Save Study Plan**
 
-### Save study plan
+This page also includes functionality like saving a study plan to a user account, for logged in users, and downloading a study plan as a PDF. The PDF function takes the dimensions and content of the grid as saves it as a PDF. 
 
-This page also includes functionality like saving a study plan to a user account (exclusively for logged in users), and downloading a study plan as a PDF. The format of a downloaded study plan can be seen below.
+**Loaded Study Plan**
+If a study plan is loaded then a dictionary is created based on the values stored in the Four_Sem_SP table. The values in the headings of the page are loaded via jinina, however units in the study plan are generated via javascript and a number of child elements need to be created and appended to the grid divs. Loaded units need to be tracked in the point trackers of the unit groups, unit points are not stored in the Four_Sem_SP table therefore the *unitPoints* field contained within the *Structure* attribute in *Json-export.csv* is referenced to provide the value. 
 
-|![PDF](./readmeImages/studyplanPDF.PNG)|
-|:--:|
-| <b> Figure 7</b>|
-
+If a unit is loaded into the study grid then it is not rendered in the select units panel, but the user has the ability to return it there through the use of the remove button. 
 ___
 
 ## Testing
@@ -350,4 +357,5 @@ ___
 ## Remaining Issues
 - multiple major/specialisation
 - application not supported on Safari
+- edge cases point trackers (point requirements not contained in unit group *typeInto* or course *introduction*)
 
