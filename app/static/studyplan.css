@@ -547,6 +547,7 @@ li {
 /*the floating box*/
 #warning{
   position:fixed; 
+  z-index: 500;
   bottom:0; 
   width: 100%; 
   background-color: rgb(246, 212, 212);
