@@ -3,7 +3,7 @@
 ## Routes Testing
 
 ### Introduction 
-Unit tests on the routes have been written on this file: [test_routes.py](https://github.com/QianrXU/Study-Planner/blob/main/test_routes.py). In order to run the test scripts, the file needs to be moved outside of the current repository, and data processing codes in the file routes.py will be commented out and run the command `python test_routes.py -v`.
+Unit tests on the routes have been written on this file: [test_routes.py](https://github.com/QianrXU/Study-Planner/blob/main/tests/test_routes.py). In order to run the test scripts, the file needs to be moved outside of the current repository, and data processing codes in the file routes.py will be commented out and run the command `python test_routes.py -v`.
 Routes that have been tested are as follows:
 - / (index) 
 - /signup
@@ -43,8 +43,8 @@ OK
 ## Load Testing
 
 ### Introduction 
-The loading tests are done on Locust.io, which is a scriptable and scalable performance testing tool. The loading tests can be found on this file: [locust_load_testing.py](https://github.com/QianrXU/Study-Planner/blob/main/locust_load_testing.py). 
-In order to run the loading tests, the file will need to be moved outside the current repository, and data processing codes in the file routes.py will be commented out and run the command `locust locust_load_testing.py` in a new terminal when the application has been running.
+The loading tests are done on Locust.io, which is a scriptable and scalable performance testing tool. The loading tests can be found on this file: [locust_load_testing.py](https://github.com/QianrXU/Study-Planner/blob/main/tests/locust_load_testing.py). 
+In order to run the loading tests, the file will need to be moved outside the current repository, and data processing codes in the file routes.py will be commented out and run the command `locust -f locust_load_testing.py` in a new terminal when the application has been running.
 
 POST requests and GET requests have been tested on the following routes:
 - / (index)
