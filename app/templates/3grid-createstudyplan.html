@@ -724,6 +724,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       const node = document.createElement('span');
       nodeID = item.id + " node";
       node.setAttribute("id", nodeID);
+      node.setAttribute("data-html2canvas-ignore", "true"); // hide remove button from pdf printout
       node.setAttribute("class", "removeunitbutton");
       document.getElementById(item.id).appendChild(node);
       var closebutton = document.getElementById(nodeID);
