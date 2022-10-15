@@ -1,3 +1,5 @@
+# Adapted codes based on: https://github.com/nicolaigram/loadtesting_locustio/blob/main/basic_load_testing/locust.py
+
 import time
 from locust import HttpUser, between, task
 

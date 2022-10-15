@@ -1,3 +1,5 @@
+# Adapted codes based on: https://github.com/realpython/discover-flask/blob/master/tests/test_basic.py
+
 import unittest
 from app import app
 

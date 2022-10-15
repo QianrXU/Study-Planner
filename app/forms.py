@@ -1,3 +1,5 @@
+# Adapted codes based on: https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
