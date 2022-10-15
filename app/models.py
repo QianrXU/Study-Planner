@@ -1,3 +1,5 @@
+# Adapted codes based on: https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iv-database
+
 from app import db
 from sqlalchemy.sql import func
 from app import login

@@ -1,3 +1,5 @@
+# Adapted codes based on: https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iv-database
+
 from distutils.log import debug
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
