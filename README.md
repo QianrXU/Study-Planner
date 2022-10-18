@@ -351,6 +351,7 @@ ___
 
 ## Testing
 - Testing guide related to user interface can be referred [here](https://github.com/QianrXU/Study-Planner/blob/main/tests/user_interface_testing.md).
+- Testing guide related to database can be referred [here](https://github.com/QianrXU/Study-Planner/blob/main/tests/database_test_result.md).
 
 ___
 
