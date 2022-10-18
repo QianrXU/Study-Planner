@@ -569,16 +569,11 @@ li {
   display: inline-block;
 }
 
-#nonstandardteachingperioddiv {
+#notavailablediv, #nonstandardteachingperioddiv {
   background-color: #FFF3CD;
   padding: 15px;
   border-radius: 10px;
-}
-
-#notavailablediv {
-  background-color: #FFF3CD;
-  padding: 15px;
-  border-radius: 10px;
+  margin-bottom: 15px;
 }
 
 #notavailabledivtext {
