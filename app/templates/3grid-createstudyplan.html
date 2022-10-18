@@ -633,9 +633,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
             lielement.setAttribute("draggable", "true"); // set draggable of new list item to 'true'
             lielement.setAttribute("ondragstart", "drag(event)");// set ondragstart event of new list item to 'drag(event)'
             
-            //Find availability of units and attach the class (sem1, sem2 or sem1and2, to each li element)
+            //Find availability of units and attach the class (sem1, sem2 or sem1and2, etc. to each li element)
             for (var k in availabilityofunits){
               if (k == unitcode) {
+                if (availabilityofunits[k].includes("Not available")) {
+                  lielement.setAttribute("class", "not_available");
+                  lielement.setAttribute("draggable", "false"); // prevent dragging of units with class non_standard
+                  lielement.style.cursor = "pointer"; // change cursor of units with class non_standard to pointer, rather than 'grabbing'
+                }
                 if (availabilityofunits[k].includes("Semester 1")) {lielement.setAttribute("class", "sem1")};
                 if (availabilityofunits[k].includes("Semester 2")) {lielement.setAttribute("class", "sem2")};
                 if (availabilityofunits[k].includes("Semester 1") && availabilityofunits[k].includes("Semester 2")) {
