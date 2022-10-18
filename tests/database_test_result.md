@@ -1,6 +1,6 @@
-# Tests Related to User Interface
+# Tests Related to Database
 
-## Routes Testing
+## Databse Testing
 
 ### Introduction 
 Database tests have been written on this file:[database_test.py](https://github.com/QianrXU/Study-Planner/blob/main/tests/database_test.py) that can be found in the same folder.
