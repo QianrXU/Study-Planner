@@ -249,8 +249,6 @@
 
 <!-- Units variable from back end -->
 <div id="unitList" style="display: none;">{{ units }}</div>
-<div id="unitCodeList" style="display: none;">{{ availability }}</div>
-
 <div id="prereq" style="display: none;">{{ prereq }}</div>
 <div id="corereq" style="display: none;">{{ corereq }}</div>
 <div id="incompatibilities" style="display: none;">{{ incomp }}</div>
@@ -354,15 +352,6 @@ var units = units.slice(1, -23); // slice off back of string and do some further
 var units = units.replace(/'/g, '');
 var units = units.replace(/"/g, '');
 var unitsArray = units.split(", NEXT_UNIT_ROLE, ") // Split into array when this test occurs
-
-// Process unitInformation variable to retrieve availability
-var unitInformation = document.getElementById("unitCodeList").innerHTML;
-var unitInformation = unitInformation.slice(1, -2); // slice off back of string and do some further processing below
-var unitInformation = unitInformation.replace(/'/g, '');
-var unitInformation = unitInformation.replace(/"/g, '');
-unitInformation = unitInformation.split('***')
-unitInformation = unitInformation.map(elem => elem.replace(", ", "")); 
-unitInformation = unitInformation.map(elem => elem.replace(": ", "")); 
 
 // function for removing a unit
 function removeUnit(nodeID, sourceInfo, item, closebutton) {
@@ -588,44 +577,26 @@ window.addEventListener('DOMContentLoaded', (event) => {
           new_li.setAttribute("draggable", "false"); 
           new_li.setAttribute("ondragstart", "drag(event)"); 
 
-
           for (var k in availabilityofunits){
-              if (k == unitcode) {
-                if (availabilityofunits[k].includes("Semester 1")) {
-                  new_li.setAttribute("class", "sem1");
-                  new_li.setAttribute("draggable", "true");
-                  new_li.style.cursor = "grab";
-                };
-                if (availabilityofunits[k].includes("Semester 2")) {
-                  new_li.setAttribute("class", "sem2");
-                  new_li.setAttribute("draggable", "true");
-                  new_li.style.cursor = "grab";
-                };
-                if (availabilityofunits[k].includes("Semester 1") && availabilityofunits[k].includes("Semester 2")) {
-                  new_li.setAttribute("class", "sem1and2");
-                  new_li.setAttribute("draggable", "true");
-                  new_li.style.cursor = "grab";
-                }
+            if (k == unitcode) {
+              if (availabilityofunits[k].includes("Semester 1")) {
+                new_li.setAttribute("class", "sem1");
+                new_li.setAttribute("draggable", "true");
+                new_li.style.cursor = "grab";
+              };
+              if (availabilityofunits[k].includes("Semester 2")) {
+                new_li.setAttribute("class", "sem2");
+                new_li.setAttribute("draggable", "true");
+                new_li.style.cursor = "grab";
+              };
+              if (availabilityofunits[k].includes("Semester 1") && availabilityofunits[k].includes("Semester 2")) {
+                new_li.setAttribute("class", "sem1and2");
+                new_li.setAttribute("draggable", "true");
+                new_li.style.cursor = "grab";
               }
             }
-            if (unitcode in availabilityofunits == false) {new_li.setAttribute("class", "element")}
-
-
-
-
-          // var availabilityinfo = unitInformation.indexOf(unitcode)
-
-          // availability = unitInformation[availabilityinfo+1]
-
-          // if (availability.includes("Semester 1")) {
-          //   new_li.setAttribute("class", "sem1");
-          // }
-          // if (availability.includes("Semester 2")) {
-          //   new_li.setAttribute("class", "sem2");
-          // }
-          // if (availability.includes("Semester 1") && availability.includes("Semester 2")) {
-          //   new_li.setAttribute("class", "sem1and2");
-          // }
+          }
+          if (unitcode in availabilityofunits == false) {new_li.setAttribute("class", "element")}
 
           new_li.setAttribute("style", "opacity: 1;");
           targetdiv.append(new_li);
