@@ -586,6 +586,12 @@ li {
   margin-bottom: 0px;
 }
 
+.dragtext {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+
 /* fontawesome */
 .fa-circle-minus:hover {
   color: red;
