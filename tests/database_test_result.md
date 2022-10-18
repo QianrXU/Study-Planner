@@ -27,17 +27,23 @@ The feature that has been tested are:
 ### Results
 
 #### Creation of Tables
+```
 user table has been created   
 studyplan table has been created
+```
 
 #### Schema of Tables
+```
 Schema of User Table is correct   
 Schema of Four Semester Study Plan Table is correct
+```
 
 #### Transaction Testing
+```
 Unable to add data to User table   
 Able to delete data from User table :)   
 Able to add data to Four Semester Study Plan table :)   
 Able to delete data from Four Semester Study Plan table :)
+```
 
 The reason that it is not able to add data through database to the user table is because that all the password are encrypted and recorded in the table as password_hash instead of password.
