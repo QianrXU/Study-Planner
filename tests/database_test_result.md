@@ -3,8 +3,8 @@
 ## Routes Testing
 
 ### Introduction 
-Database tests have been written on this file:[database_test.py] that can be found in the same folder.
-More information regarding to database can be found in [README.md]
+Database tests have been written on this file:[database_test.py](https://github.com/QianrXU/Study-Planner/blob/main/tests/database_test.py) that can be found in the same folder.
+More information regarding to database can be found in [README.md](https://github.com/QianrXU/Study-Planner/blob/main/README.md)
 
 ### Content
 The feature that has been tested are:
