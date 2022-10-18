@@ -81,7 +81,12 @@ function open_SP(SP_id){
 function new_SP(){
     var new_sp = "True"
     localStorage.setItem("new_sp",new_sp);
+    setTimeout(function(){ 
+    location.reload()
+    },
+    6000)
 }
+
 </script>
 
 
