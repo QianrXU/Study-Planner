@@ -36,9 +36,9 @@ class UserModelCase(unittest.TestCase):
 
 ##### UNIT TESTS FOR REGISTRATION - Fangting ####
 
-  def register(self,username,email,password,confirm):
+  def register(self,email,password,confirm):
     return self.app.post('signup/', 
-    data=dict(username=username,email=email, password=password, confirm=confirm),
+    data=dict(email=email, password=password, confirm=confirm),
     follow_redirects=True)
 
   def test_user_registration_form_displays(self):
@@ -61,9 +61,9 @@ class UserModelCase(unittest.TestCase):
     response = self.register('test2@mail.com', 'IHateTeamwork', 'IHateTeamwork')
     self.assertIn(b'This email has already registered, please pick a different one', response.data)
     
-  def login(self, username, password):
+  def login(self, password):
     return self.app.post('/login',
-    data=dict(username=username, password=password),
+    data=dict(password=password),
     follow_redirects=True)
 
 ##### UNIT TESTS FOR LOGIN ####
