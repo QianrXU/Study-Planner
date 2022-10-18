@@ -17,7 +17,7 @@
                     <div class="plans">
                         <button id="{{ SP[0] }}a" onClick="open_SP(this.id)" style="border: none; text-decoration: underline;" > {{ SP[1] }}</button> 
                         <div style="display:none" id="{{ SP[0] }}b"><a href="{{ url_for('createstudyplanSelectUnits') }}"><i class="fa-solid fa-up-right-from-square" id="buttonarrow"></i></a></div>
-                        <button id="{{ SP[0] }}" onClick="delete_SP(this.id)" style="border: none;"><a style="color: black;" href="{{ url_for('account') }}"><i class="fas fa-trash"></i></a> </button>
+                        <button id="{{ SP[0] }}" onClick="delete_SP(this.id)" style="border: none;"><a style="color: black;" onClick="delay_reload()"><i class="fas fa-trash"></i></a> </button>
                         <br>
                     </div>
                 {% endfor %}
@@ -81,10 +81,13 @@ function open_SP(SP_id){
 function new_SP(){
     var new_sp = "True"
     localStorage.setItem("new_sp",new_sp);
+}
+
+function delay_reload(){
     setTimeout(function(){ 
     location.reload()
     },
-    6000)
+    1)
 }
 
 </script>
