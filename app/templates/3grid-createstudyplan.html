@@ -1118,9 +1118,9 @@ function closeUnitModal(){
 }
 
 document.addEventListener('click', function docClick(event) {
-  const span = document.getElementById(event.composedPath[0].id);
+  const span = document.getElementById(event.path[0].id);
   if (span == null) {return false};
-  if (span.tagName == "LI") {unitClick(event.composedPath[0])};
+  if (span.tagName == "LI") {unitClick(event.path[0])};
 })
 
 function unitClick(item) {
