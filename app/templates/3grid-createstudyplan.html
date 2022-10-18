@@ -194,7 +194,7 @@
               {% if SP_dict['Y1S2_5']|length <1 %}
                 <div class="target" id="year2sem2_5" ondrop="drop(event)" style="display: none;"></div>  <!-- if overloading, unhide -->
               {% else %}
-              <div class="target" id="year2sem2_5" ondrop="drop(event)" style="display: block;"></div> <!-- if overloading, unhide -->
+                <div class="target" id="year2sem2_5" ondrop="drop(event)" style="display: block;"></div> <!-- if overloading, unhide -->
               {% endif %}
             </div>
           </div>
@@ -432,7 +432,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     if(i==0){
       unit=loadedUnits[i].slice(1);
       unit=unit.split(":");
-      
+
       if(unit[1].length>2){
         div=unit[0].substring(1,(unit[0].length-1))
         div=div.replace('Y','year');
@@ -618,7 +618,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
           var closebutton = document.getElementById(nodeID);
           closebutton.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
           removeUnit(nodeID, sourceInfo, targetdiv, closebutton);
-
         }
         else{
           var lielement = document.createElement("li"); // create list item
@@ -1130,9 +1129,9 @@ function closeUnitModal(){
 }
 
 document.addEventListener('click', function docClick(event) {
-  const span = document.getElementById(event.path[0].id);
+  const span = document.getElementById(event.composedPath[0].id);
   if (span == null) {return false};
-  if (span.tagName == "LI") {unitClick(event.path[0])};
+  if (span.tagName == "LI") {unitClick(event.composedPath[0])};
 })
 
 function unitClick(item) {
