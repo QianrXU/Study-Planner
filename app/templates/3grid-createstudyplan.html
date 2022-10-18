@@ -262,10 +262,6 @@
 <div id="loadedUnits" style="display: none;">{{ SP_dict }}</div>
 <div id="intro" style="display: none;">{{ introduction }}</div>
 
-{% block javascript %}
-    <script src="{{ url_for('static', filename='javascript/testing.js') }}"></script>
-{% endblock %}
-
 <!--Scripts to support PDF conversion-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
@@ -591,19 +587,46 @@ window.addEventListener('DOMContentLoaded', (event) => {
           new_li.setAttribute("tag", ulClass); 
           new_li.setAttribute("draggable", "false"); 
           new_li.setAttribute("ondragstart", "drag(event)"); 
-          var availabilityinfo = unitInformation.indexOf(unitcode)
 
-          availability = unitInformation[availabilityinfo+1]
 
-          if (availability.includes("Semester 1")) {
-            new_li.setAttribute("class", "sem1");
-          }
-          if (availability.includes("Semester 2")) {
-            new_li.setAttribute("class", "sem2");
-          }
-          if (availability.includes("Semester 1") && availability.includes("Semester 2")) {
-            new_li.setAttribute("class", "sem1and2");
-          }
+          for (var k in availabilityofunits){
+              if (k == unitcode) {
+                if (availabilityofunits[k].includes("Semester 1")) {
+                  new_li.setAttribute("class", "sem1");
+                  new_li.setAttribute("draggable", "true");
+                  new_li.style.cursor = "grab";
+                };
+                if (availabilityofunits[k].includes("Semester 2")) {
+                  new_li.setAttribute("class", "sem2");
+                  new_li.setAttribute("draggable", "true");
+                  new_li.style.cursor = "grab";
+                };
+                if (availabilityofunits[k].includes("Semester 1") && availabilityofunits[k].includes("Semester 2")) {
+                  new_li.setAttribute("class", "sem1and2");
+                  new_li.setAttribute("draggable", "true");
+                  new_li.style.cursor = "grab";
+                }
+              }
+            }
+            if (unitcode in availabilityofunits == false) {new_li.setAttribute("class", "element")}
+
+
+
+
+          // var availabilityinfo = unitInformation.indexOf(unitcode)
+
+          // availability = unitInformation[availabilityinfo+1]
+
+          // if (availability.includes("Semester 1")) {
+          //   new_li.setAttribute("class", "sem1");
+          // }
+          // if (availability.includes("Semester 2")) {
+          //   new_li.setAttribute("class", "sem2");
+          // }
+          // if (availability.includes("Semester 1") && availability.includes("Semester 2")) {
+          //   new_li.setAttribute("class", "sem1and2");
+          // }
+
           new_li.setAttribute("style", "opacity: 1;");
           targetdiv.append(new_li);
 
@@ -641,10 +664,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
                   lielement.setAttribute("draggable", "false"); // prevent dragging of units with class non_standard
                   lielement.style.cursor = "pointer"; // change cursor of units with class non_standard to pointer, rather than 'grabbing'
                 }
-                if (availabilityofunits[k].includes("Semester 1")) {lielement.setAttribute("class", "sem1")};
-                if (availabilityofunits[k].includes("Semester 2")) {lielement.setAttribute("class", "sem2")};
+                if (availabilityofunits[k].includes("Semester 1")) {
+                  lielement.setAttribute("class", "sem1");
+                  lielement.setAttribute("draggable", "true");
+                  lielement.style.cursor = "grab";
+                };
+                if (availabilityofunits[k].includes("Semester 2")) {
+                  lielement.setAttribute("class", "sem2");
+                  lielement.setAttribute("draggable", "true");
+                  lielement.style.cursor = "grab";
+                };
                 if (availabilityofunits[k].includes("Semester 1") && availabilityofunits[k].includes("Semester 2")) {
                   lielement.setAttribute("class", "sem1and2");
+                  lielement.setAttribute("draggable", "true");
+                  lielement.style.cursor = "grab";
                 }
                 if (availabilityofunits[k].includes("Non-standard")) {
                   lielement.setAttribute("class", "non_standard");
@@ -652,9 +685,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                   lielement.style.cursor = "pointer"; // change cursor of units with class non_standard to pointer, rather than 'grabbing'
                 }
               }
-              if (unitcode in availabilityofunits == false) {lielement.setAttribute("class", "element")}
             }
-
+            if (unitcode in availabilityofunits == false) {lielement.setAttribute("class", "element")} // if unit code is not in the availabilityofunits array, set class to 'element'
             unitRoleUl.appendChild(lielement); // append li element/unit
           }
         }
@@ -697,11 +729,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
       liID = document.getElementById(itemID);
       liID.style.border = "";
     });
-
-    // unitmodal - on click of list element, show modal
-    // item.addEventListener('click', function(e){
-    //   unitClick(item);
-    // })
 
   });
 
