@@ -1,4 +1,4 @@
-{% extends "base.html" %}
++{% extends "base.html" %}
 {% block content %}
         
 <!--FAQ-->
@@ -16,18 +16,41 @@
 
       <button class="accordion-faq"><p>How do I use the Study Planner tool?</p></button>
       <div class="panel-faq">
-        <p>The Study Planner tool is a two or three step process depending on whether the course you are interested in planning has majors or specialisations.</p>
-        <p>On the first page, you will be asked to select a course. The course you select may have different availability, this will be reflected in the dropdown for selecting your beginning year and semester.</p>
-        <p>If the course you have selected has the option of selecting a major or specialisation, you will be asked to select one once you click continue.</p>
-        <p>When you have arrived to the Study Planner page, units will appear on the left and a grid will appear on the right (if you are on a desktop - the layout may look different if you are using your mobile).</p>
-        <p>Drag units from the left and pull them out to the grid on the right. Watch out for potential conflicts on the grid. If there are any constraints related to the units you select, a text explaining what has gone wrong will appear in the alert bar at the bottom of the page.</p>
-        <p>Click <a class="regularlink" href="{{ url_for('createstudyplanSelectCourse') }}">here</a> to create a study plan.</p>
+        <p>The Study Planner tool is a two or three step process, depending on whether your chosen course has majors or specialisations.</p>
+        <p>On the first page, you will select a course from the drop down menu. The course you select may have different availability, this will be reflected in the dropdown for selecting your commencement year and semester. Click continue once you are happy with your selection.</p>
+        <p>If the course you have selected has a major or specialisation, you will be directed to a new dropdown menu to specify your choice.</p>
+        <p>When you have arrived to the Study Planner page, units will appear on the left and a grid will appear on the right.</p>
+        <p>Drag units from the left and pull them out to the grid on the right. Watch out for potential conflicts on the grid. If there are any constraints related to the units you select, text explaining what has gone wrong will appear in the alert bar at the bottom of your screen.</p>
+        <p>Once you are happy with your study plan you can save it to your computer by clicking the download button. This will generate a PDF file which will save to the default download location on computer.</p>
+        <p>If you are a registered user with us you can also save a study plan to your account, which will allow you to come back later and change it.</p>
+        <p>Ready to get started? Click <a class="regularlink" href="{{ url_for('createstudyplanSelectCourse') }}">here</a> to create a study plan.</p>
+      </div>
+
+      <button class="accordion-faq"><p>Where do my downloaded study plans save?</p></button>
+      <div class="panel-faq">
+        <p>Your downloaded study plan is a PDF file which will save to the default download location on computer. It will be named after the course you chose so if you're having trouble locating it, please try using the course name as a search term in your file explorer.</p>
+      </div>
+
+      <button class="accordion-faq"><p>Why can't I place my unit?</p></button>
+      <div class="panel-faq">
+        <p>Your units are constrained by availability, pre-requisites, co-requisites and conflicts. In order to make sure you don't accidentally join a class while breaking the unit rules we have limited where units can be placed. A warning message should appear at the bottom of the screen if your unit selection is constrained. Try placing your unit in a different semester or check if you need to take other units first.</p>
+      </div>
+
+      <button class="accordion-faq"><p>The pre-requisite is in the study plan, why can't I place my unit?</p></button>
+      <div class="panel-faq">
+        <p>Pre-requisites need to be completed before you take the unit requiring a pre-requisite. That means pre-requisites and the unit requiring them cannot be taken in the same semester. Please try placing your unit in a later semester.</p>
       </div>
 
       <button class="accordion-faq"><p>Why do I need to sign up?</p></button>
       <div class="panel-faq">
         <p>Signing up comes with benefits like being able to save study plans to your user's dashboard for review at a later point.</p>
       </div>
+
+      <button class="accordion-faq"><p>I need more help, who can I go to for support?</p></button>
+      <div class="panel-faq">
+        <p>If you need enrolment or academic advice about your course, majors, units or study plan, please contact your Student Advising Office. </p>
+      </div>
+
     </div>
  
     </div>
