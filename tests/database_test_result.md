@@ -5,18 +5,19 @@
 ### Introduction 
 Database tests have been written on this file:[database_test.py] that can be found in the same folder.
 More information regarding to database can be found in [README.md]
+
 ### Content
 The feature that has been tested are:
 
-## Creation of Tables
+#### Creation of Tables
 (1) User Table creation
 (2) Four__Sem_SP Table creation
 
-## Schema of Tables
+#### Schema of Tables
 (1) User Table Schema
 (2) Four__Sem_SP Table Schema
 
-## Transaction Testing
+#### Transaction Testing
 (1) Addition for User table
 (2) Deletion for User Table
 (3) Addition for Four__Sem_SP table
@@ -25,15 +26,15 @@ The feature that has been tested are:
 
 ### Results
 
-## Creation of Tables
+#### Creation of Tables
 user table has been created
 studyplan table has been created
 
-## Schema of Tables
+#### Schema of Tables
 Schema of User Table is correct
 Schema of Four Semester Study Plan Table is correct
 
-## Transaction Testing
+#### Transaction Testing
 Unable to add data to User table
 Able to delete data from User table :)
 Able to add data to Four Semester Study Plan table :)
