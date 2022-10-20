@@ -16,7 +16,7 @@ ___
    4. [Create a study plan](#creating-a-study-plan)
    5. [Save study plan](#save-study-plan)
 7. [Testing](#testing)
-8. [Remaining issues](#remaining-issues)
+8. [Remaining issues](https://github.com/QianrXU/Study-Planner/blob/main/opportunities.md)
 
 ___
 
@@ -353,10 +353,6 @@ ___
 - Testing guide related to user interface can be referred [here](https://github.com/QianrXU/Study-Planner/blob/main/tests/user_interface_testing.md).
 - Testing guide related to database can be referred [here](https://github.com/QianrXU/Study-Planner/blob/main/tests/database_test_result.md).
 
-___
 
-## Remaining Issues
-- multiple major/specialisation
-- application not supported on Safari
-- edge cases point trackers (point requirements not contained in unit group *typeInto* or course *introduction*)
+
 
