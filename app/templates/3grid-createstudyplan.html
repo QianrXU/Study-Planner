@@ -314,7 +314,11 @@ function SaveSP(){
   success: function( data ) {response=data;},
   error: function(xhr, status, error) {response = status;}
 })
-  window.location.href="{{ url_for('account') }}";
+  setTimeout(function(){ 
+    window.location.href="{{ url_for('account') }}";
+    },
+    1)
+  
 }
 
 
@@ -339,7 +343,7 @@ creditpoints = JSON.parse(creditpoints);
 availabilityofunits = JSON.parse(availabilityofunits);
 unitURL = JSON.parse(unitURL);
 
-var unitsTaken = []; //This array tracks how many units are in the study plan grid from each group.	
+var unitsTaken = {}; //This array tracks how many units are in the study plan grid from each group.	
 var unitlists1= {}; //Global units list.
 
 // Remove major information from frontend if doesn't contain anything valuable
@@ -373,22 +377,19 @@ function removeUnit(nodeID, sourceInfo, item, closebutton) {
     unitName=unit.innerHTML;
     var points=creditpoints[unitName];
     
-    //Loops through unitlists1 to get unit's group, then updates the unit point tracker in that group.
-    var i=0;	
-    for (const [key, value] of Object.entries(unitlists1)) {
-      var unitArr = (`${value}`).split('***, '); 	
-      unitArr = unitArr.map(elem => elem.replace("***", ""));
-      if(unitArr.includes(unitName)){
-        counter=unitsTaken[i][0];	
-        counter-= parseInt(points);	
-        unitsTaken[i][0]=counter;
-        groupId='group'+i;
-        groupPoints=unitsTaken[i][0] + '/' + unitsTaken[i][1];
-        document.getElementById(groupId).innerHTML=groupPoints;
-        if(unitsTaken[i][0]<=unitsTaken[i][1]){document.getElementById(groupId).setAttribute("style","color:black");}
-      }
-      i+=1;
-    }
+    //Unit tracker update
+    counter=unitsTaken[ul_of_unit][0];	
+    counter-= parseInt(points);	
+    unitsTaken[ul_of_unit][0]=counter;
+    groupId=ul_of_unit.replace(/\s/g,"");
+    groupId=groupId+"Track";
+    groupPoints=unitsTaken[ul_of_unit][0] + '/' + unitsTaken[ul_of_unit][1];
+    document.getElementById(groupId).innerHTML=groupPoints;
+    if(unitsTaken[ul_of_unit][0]==unitsTaken[ul_of_unit][1]){document.getElementById(groupId).setAttribute("style","color:black");}
+    if(ul_of_unit.includes('Core')){
+      if(unitsTaken[ul_of_unit][0]<unitsTaken[ul_of_unit][1]){document.getElementById(groupId).setAttribute("style","color:red");}
+    }  
+
 
     // recreate element item and append to initial ul
     var new_li = document.createElement("li");
@@ -463,7 +464,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
   }
 
   
-  var x=0 //index for unitsTaken array
   var lastGroupPos=0; //index for group names in introduction string
   
   unitsArray.forEach(element => {
@@ -486,37 +486,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var pointsLoc1 = (unitInfo.search(/points/i))-3; //Searches for keyword to identify if integer is a unit point value and where that point value is in the string.
     var groupPoints = unitInfo.substring(pointsLoc1,(pointsLoc1+2)); //Grab point value. Points are always less than 3 digits.
     groupPoints = groupPoints.replace(/[^0-9.]/g, ''); //removes additional spaces if point value is single digit.
-    //Checks if point value is found before assigning a point tracker
-    if (groupPoints.length > 0) {	
-      groupPoints = groupPoints.slice(0,2); 	
-      unitsTaken[x]= [0, parseInt(groupPoints)];
-      groupID='group'+ x;
-      groupPoints='<span id='+ groupID +'> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>';
-    }
-    else{
-      //Due to delimter, only every second value may hold point values and element at 0 does not hold point values.
-      var int=2;
-      while (int< intro.length){
-        var specialisationName=document.getElementById("course-major").innerHTML;
-        specialisationName=specialisationName.substring(0, (specialisationName.search(/specialisation/i)-1));
-        var groupName=unitRole[0].substring(8); // I have assumed that all unit groups of this type will include 'Option - ' in their name.
-        if (intro[int].includes(specialisationName)){
-          if (intro[int].includes(groupName)){
-            var expression = new RegExp(groupName, 'i');
-            currentPos=(intro[int].search(expression));
-            groupPoints=intro[int].substring(lastGroupPos,currentPos);
-            pointsLoc1 = (groupPoints.search(/points/i))-3;
-            groupPoints = groupPoints.substring(pointsLoc1,(pointsLoc1+2));
-            groupPoints = groupPoints.replace(/[^0-9.]/g, '');
-            unitsTaken[x]= [0, parseInt(groupPoints)];
-            groupPoints='<span id='+ groupID +'> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>';
-            lastGroupPos=currentPos;
-          }
-          else{groupName='';}
-        } 
-        int+=2;
-      } 
-    }
+    
 
     // Process key-value pairs in unitlists dictionary
     for (const [key, value] of Object.entries(unitlists)) {
@@ -533,6 +503,44 @@ window.addEventListener('DOMContentLoaded', (event) => {
       unitRoleUl.setAttribute("class", 'unit-ul');
       var ulClass = "unit-ul " + key + " " + $('.unit-ul').length // create string for class of unit-ul's. the unit-ul length variable adds the index of each ul
       unitRoleUl.setAttribute("id", ulClass);
+      //Checks if point value is found before assigning a point tracker;
+      if (groupPoints.length > 0) {	
+        groupPoints = groupPoints.slice(0,2); 	
+        unitsTaken[ulClass]= [0, parseInt(groupPoints)];
+       groupID=ulClass.replace(/\s/g,"")
+                groupID=groupID+"Track";
+        groupPoints='<span id='+ groupID +'> ' + unitsTaken[ulClass][0] + '/' + unitsTaken[ulClass][1] + '  </span>';
+        console.log(groupPoints);
+      }
+      else{
+        //Due to delimter, only every second value may hold point values and element at 0 does not hold point values.
+        var int=2;
+        while (int< intro.length){
+          var specialisationName=document.getElementById("course-major").innerHTML;
+          specialisationName=specialisationName.substring(0, (specialisationName.search(/specialisation/i)-1));
+          var groupName=unitRole[0].substring(8); // I have assumed that all unit groups of this type will include 'Option - ' in their name.
+          if (intro[int].includes(specialisationName)){
+            if (intro[int].includes(groupName)){
+              var expression = new RegExp(groupName, 'i');
+              currentPos=(intro[int].search(expression));
+              groupPoints=intro[int].substring(lastGroupPos,currentPos);
+              pointsLoc1 = (groupPoints.search(/points/i))-3;
+              groupPoints = groupPoints.substring(pointsLoc1,(pointsLoc1+2));
+              groupPoints = groupPoints.replace(/[^0-9.]/g, '');
+              if (groupPoints.length > 0) {	
+                groupPoints = groupPoints.slice(0,2); 	
+                unitsTaken[ulClass]= [0, parseInt(groupPoints)];
+                groupID=ulClass.replace(/\s/g,"")
+                groupID=groupID+"Track";
+                groupPoints='<span id='+ groupID +'> ' + unitsTaken[ulClass][0] + '/' + unitsTaken[ulClass][1] + '  </span>';
+              }
+              lastGroupPos=currentPos;
+            }
+            else{groupName='';}
+          } 
+          int+=2;
+        } 
+      }
       
       // appends tooltip icon to header
       const infoDiv = document.createElement("div");
@@ -551,20 +559,27 @@ window.addEventListener('DOMContentLoaded', (event) => {
       unitArr = unitArr.map(elem => elem.replace("***", "")); 
 
       var unitArrLength = unitArr.length // grab length of each unit role list
+      var groupID=ulClass.replace(/\s/g,"")
+      groupID=groupID+"Track";
       for (i = 0; i < unitArrLength; i++) {
         //If unit is already in the study plan do not load it into the sidebar and check how many credit points it is worth. Add that to the credit point total.
         var unitcode= unitArr[i].trim();
         if(loadedArray.includes(unitcode)){
           var unitCredits=creditpoints[unitcode];
-          var currentCredits=parseInt(unitsTaken[x][0]) + parseInt(unitCredits);
-          unitsTaken[x][0]=currentCredits;          
-          if(unitsTaken[x][0]>unitsTaken[x][1]){
-            groupID='group'+ x;
-            groupPoints='<span id='+ groupID + ' style="color:orange"> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>'
+          var currentCredits=parseInt(unitsTaken[ulClass][0]) + parseInt(unitCredits);
+          unitsTaken[ulClass][0]=currentCredits;       
+          if(unitsTaken[ulClass][0]>unitsTaken[ulClass][1]){
+            groupPoints='<span id="'+ groupID + '" style="color:orange"> ' + unitsTaken[ulClass][0] + '/' + unitsTaken[ulClass][1] + '  </span>'
           }
           else{
-            groupID='group'+ x;
-            groupPoints='<span id='+ groupID +'> ' + unitsTaken[x][0] + '/' + unitsTaken[x][1] + '  </span>';
+            if(ulClass.includes('Core')){
+              if(unitsTaken[ulClass][0]<unitsTaken[ulClass][1]){
+                groupPoints='<span id="'+ groupID + '" style="color:red"> ' + unitsTaken[ulClass][0] + '/' + unitsTaken[ulClass][1] + '  </span>'
+              }
+            }
+            else{
+              groupPoints='<span id="'+ groupID + '"> ' + unitsTaken[ulClass][0] + '/' + unitsTaken[ulClass][1] + '  </span>';
+            }
           }
           
           //create loaded units in grid
@@ -660,12 +675,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (unitcode in availabilityofunits == false) {lielement.setAttribute("class", "element")} // if unit code is not in the availabilityofunits array, set class to 'element'
             unitRoleUl.appendChild(lielement); // append li element/unit
           }
+          if(ulClass.includes('Core')){
+            if(unitsTaken[ulClass][0]<unitsTaken[ulClass][1]){
+              groupPoints='<span id="'+ groupID + '" style="color:red"> ' + unitsTaken[ulClass][0] + '/' + unitsTaken[ulClass][1] + '  </span>'
+            }
+          }
         }
       }
         // appends unit group points to header
         unitRoleHeader.insertAdjacentHTML("beforeend", groupPoints);
+
     }
-    x+=1;
   });
 
   // This function needs to start after the page is loaded
@@ -837,26 +857,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       }
       event.preventDefault();
     })
-
   })
-  
-  
-  //Loops through unitlists1 to get unit's group, then updates the unit point tracker in that group.
-  var i=0;	
-  for (const [key, value] of Object.entries(unitlists1)) {
-    var unitArr = (`${value}`).split('***, '); 	
-    unitArr = unitArr.map(elem => elem.replace("***", ""));
-    if(unitArr.includes(unitName)){
-      counter=unitsTaken[i][0];	
-      counter-= parseInt(points);	
-      unitsTaken[i][0]=counter;
-      groupId='group'+i;
-      groupPoints=unitsTaken[i][0] + '/' + unitsTaken[i][1];
-      document.getElementById(groupId).innerHTML=groupPoints;
-      if(unitsTaken[i][0]<=unitsTaken[i][1]){document.getElementById(groupId).setAttribute("style","color:black");}
-    }
-    i+=1;
-  }
 
   // recreate element item and append to initial ul
   var new_li = document.createElement("li");
@@ -883,35 +884,30 @@ function drag(event) {
 
 // drop makes sure that the id of the dropped element gets appended to the div, so when there's a drop, the unit's ID will appear in the div
 function drop(event) {
+  var pointTracker='';
   var parentId = sourceInfo.parentNode.id;
   event.preventDefault();
   const data = event.dataTransfer.getData('dragID');
   event.target.appendChild(document.getElementById(data));
   
-  //Checks if unit is already in grid
-  if(parentId.includes('unit-ul')){
-    //Get point value of dropped unit.
-    var unit=document.getElementById(data).innerHTML;	
-    var points=creditpoints[unit];	
-    
-    //Loops through unitlists1 to get unit's group, then updates the unit point tracker in that group.
-    var i=0;	
-    for (const [key, value] of Object.entries(unitlists1)) {
-      var unitArr = (`${value}`).split('***, '); 	
-      unitArr = unitArr.map(elem => elem.replace("***", ""));
-      if(unitArr.includes(unit)){
-        counter=unitsTaken[i][0];	
-        counter+= parseInt(points);	
-        unitsTaken[i][0]=counter;
-        groupId='group'+i;
-        pointTracker=unitsTaken[i][0] + '/' + unitsTaken[i][1];
-        document.getElementById(groupId).innerHTML= pointTracker;
-        if(unitsTaken[i][0]>unitsTaken[i][1]){document.getElementById(groupId).setAttribute("style","color:orange");}
-        break;
-      }
-      i+=1;
-    }
+  var unit=document.getElementById(data).innerHTML;	
+  var points=creditpoints[unit];
+
+
+  counter=unitsTaken[parentId][0];
+  counter+= parseInt(points);	
+  console.log(counter);
+  unitsTaken[parentId][0]=counter;
+  groupId=parentId.replace(/\s/g,"")
+  groupId=groupId+"Track";
+  pointTracker=unitsTaken[parentId][0] + '/' + unitsTaken[parentId][1];
+  document.getElementById(groupId).innerHTML= pointTracker;
+  if(unitsTaken[parentId][0]>unitsTaken[parentId][1]){document.getElementById(groupId).setAttribute("style","color:orange");}
+  if(parentId.includes('Core')){
+    if(unitsTaken[parentId][0]<unitsTaken[parentId][1]){document.getElementById(groupId).setAttribute("style","color:red");}
   }
+  if(unitsTaken[parentId][0]==unitsTaken[parentId][1]){document.getElementById(groupId).setAttribute("style","color:black");}
+
 }
 
 
