@@ -116,3 +116,5 @@ class Three_year_SP(db.Model):
   Y3S2_3 = db.Column(db.String(200))
   Y3S2_4 = db.Column(db.String(200))
   Y3S2_5 = db.Column(db.String(200))
+
+db.create_all()
