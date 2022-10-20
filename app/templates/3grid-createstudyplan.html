@@ -356,6 +356,7 @@ var unitsArray = units.split(", NEXT_UNIT_ROLE, ") // Split into array when this
 
 // function for removing a unit
 function removeUnit(nodeID, sourceInfo, item, closebutton) {
+
   // add eventlistener on the nodeID, i.e., the ID of the removal unit button
   document.getElementById(nodeID).addEventListener('click', function handleClick(event) {
     //remove remove unit x upon lift of unit
@@ -363,6 +364,10 @@ function removeUnit(nodeID, sourceInfo, item, closebutton) {
     ul_of_unit = unit.getAttribute('tag'); // get tag value from unit, which will be its initial
     ul = document.getElementById(ul_of_unit); // get the ul
 
+    // If the UL of a unit contains the word 'core', alert the user upon removal that they must take the unit
+    if (ul_of_unit.includes("Core")) { 
+      alert("Please note, " + unit.innerHTML + " is a core unit, which means it must be taken to complete the degree.");
+    }
 
     // remove old elements
     div = document.getElementById(item.id); // get old li, i.e., li that is in the unitdiv
