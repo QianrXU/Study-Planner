@@ -3,7 +3,7 @@ This is the main repository and project planning page of Study Planner Team 1 (C
 
 ___
 
-## User manual
+## Documentation
 1. [Project details](#project-details)
 2. [How to run the Study Planner project](#how-to-run-the-project)
 3. [Flask API](#flask-api)
