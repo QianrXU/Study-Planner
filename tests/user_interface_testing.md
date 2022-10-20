@@ -54,7 +54,7 @@ POST requests and GET requests have been tested on the following routes:
 - /createstudyplan-units
 - /faq
 - /login
-- /singup	
+- /signup	
 
 
 ### Results
