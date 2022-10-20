@@ -229,8 +229,107 @@
   background-size: 13px 13px;
 }
 
+/* 
+This is for setting the before the before bullet for core units
+Needs several of these as does not work if not direct match 
+*/
+li[tag="unit-ul Core 1"]::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 3px;
+  left: -35px;
+  background-image: url('pictures/bullets/triangle.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
+}
+
+li[tag="unit-ul Core 2"]::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 3px;
+  left: -35px;
+  background-image: url('pictures/bullets/triangle.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
+}
+
+li[tag="unit-ul Core 3"]::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 3px;
+  left: -35px;
+  background-image: url('pictures/bullets/triangle.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
+}
+
+li[tag="unit-ul Core 4"]::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 3px;
+  left: -35px;
+  background-image: url('pictures/bullets/triangle.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
+}
+
+li[tag="unit-ul Core 5"]::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 3px;
+  left: -35px;
+  background-image: url('pictures/bullets/triangle.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
+}
+
+li[tag="unit-ul Core 6"]::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 3px;
+  left: -35px;
+  background-image: url('pictures/bullets/triangle.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
+}
+
+li[tag="unit-ul Core 7"]::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 3px;
+  left: -35px;
+  background-image: url('pictures/bullets/triangle.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
+}
+
 .no_marker::marker {
   content: "";
+}
+
+#keys {
+  max-width: 80%;
 }
 
 /* If element has no_marker class there will only be text in the element list.
@@ -239,8 +338,6 @@ This needs to not have indent. */
   margin-left: -22px !important;
   cursor: auto !important;
 }
-
-
 
 /* Change cursor and allow for text highlighting/copying */
 li {
